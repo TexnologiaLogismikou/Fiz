@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Log in</title>
+            <script type="text/javascript" src="scripts/loginScript.js"> </script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="body-wrapper">
+            <form id="form" name="form" method="post" action="log-in.html">
+                <table id="table">
+                    <tr>
+                        <td>Username: </td>
+                        <td><input type="text" name="username" id="username" required/></td>
+                    </tr>
+                    <tr>
+                        <td>Password: </td>
+                        <td><input type="password" name="password" id="password" required/></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><button type="button" onclick="initializeLogin()">Log in</button></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>

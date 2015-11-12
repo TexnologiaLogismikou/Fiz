@@ -1,0 +1,30 @@
+## Http Mappers
+#http:
+#    mappers:
+#        json-pretty-print: true
+
+# Spring Configuration
+spring:
+    # IDENTITY (ContextIdApplicationContextInitializer)
+    application:
+        name: Fiz
+
+    # HTTP Encoding (HttpEncodingProperties)
+    http:
+        encoding:
+            charset: UTF-8
+            enabled: true
+            force: true
+
+    # DataSource (DataSourceAutoConfiguration & DataSourceProperties)
+    datasource:
+        driverClassName: org.postgresql.Driver
+        url: jdbc:postgresql://shinigami.ddns.net:5432/fiz
+        username: admin
+        password: Tech2015
+
+        initialize: false
+
+# Embedded Server Configuration (ServerProperties)
+server:
+    port: 8080
