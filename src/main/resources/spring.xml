@@ -6,6 +6,7 @@
         <property name="annotatedClasses">
             <list>
                 <value>com.tech.Mmodel.User</value>
+                <value>com.tech.Mmodel.Message</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -17,9 +18,9 @@
         </property>
     </bean>
      
-    <!--<bean id="messageDAO" class="com.tech.Models.MessageDAOImpl">-->
-        <!--<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />-->
-    <!--</bean>-->
+    <bean id="messageDAO" class="com.tech.Models.MessageDAOImpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
 
     <bean id="userDAO" class="com.tech.Models.UserDAOImpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
