@@ -10,7 +10,7 @@ function initializeRegister() {
     
     $.ajax({//jQuery with Ajax template
         type : "post", //send type is "POST"
-        url  : "/register/rd",//the url the data will be posted
+        url  : "/register",//the url the data will be posted
         data : 
            { "username": username, //the parameters the values will be stored
              "password": password
