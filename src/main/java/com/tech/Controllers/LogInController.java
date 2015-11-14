@@ -1,7 +1,5 @@
 package com.tech.Controllers;
 
-import com.tech.Models.User;
-import com.tech.Repositories.IUserRepository;
 import com.tech.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
