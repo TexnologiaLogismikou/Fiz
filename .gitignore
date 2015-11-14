@@ -412,3 +412,4 @@ tmp/
 # TeXlipse plugin
 .texlipse
 
+/nbproject/
