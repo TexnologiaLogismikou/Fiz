@@ -6,16 +6,12 @@
 package com.tech.Controllers;
 
 import com.tech.Models.User;
-import com.tech.Repositories.IUserRepository;
 import com.tech.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * handles ALL the requests in the /register/rd url 
@@ -32,16 +28,13 @@ public class RegistrationController {
 
     /**
      * Handles the POST method on the "/register" url and returns an answer 
-     * @param username
-     * @param password
+     * @param user user object to register
      * @return 
      */
-    @RequestMapping(method = RequestMethod.POST) //TODO controllers need to be more general and will require JSON , Command as parameters -> not fields
-    public HttpEntity<String> saveUser(@RequestParam("username") String username, /* requires a parameter "username" and stores the data in the String username*/
-                                                @RequestParam("password") String password) { /* requires a parameter "password" and stores the data in the String password*/
-        if (service.checkUsername(username)) { //checks from the service if the username exists
-            //calls a service function "getNextID()" for the next in the row available ID to assing to the user
-            service.addUser(new User(service.getNextID(),username,password)); //if the username doesnt exist it adds it in the database with an incementable number
+    @RequestMapping(method = RequestMethod.POST)
+    public HttpEntity<String> saveUser(@RequestBody User user) {
+        if (service.checkUsername(user.getUsername())) {
+            service.addUser(new User(service.getNextID(),user.getUsername(),user.getPassword())); //if the username doesnt exist it adds it in the database with an incementable number
             return new ResponseEntity<>("complete", null, HttpStatus.OK); //returns to the site an OK enum           
         } else {
             return new ResponseEntity<>("already exists", null,HttpStatus.FOUND); // if the username exists it returns the FOUND enum to inticate its existance

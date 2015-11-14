@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * handles ALL the requests in the /log-in/rd url 
@@ -27,15 +24,12 @@ public class LogInController {
 
     /**
      * Handles the POST method on the "/log-in" url and returns an answer 
-     * @param username
-     * @param password
+     * @param user User data
      * @return string in HttpEntity
      */
     @RequestMapping(method = RequestMethod.POST) //TODO controllers need to be more general and will require JSON , Command as parameters -> not fields
-    public HttpEntity<String> loadUser(@RequestParam("username") String username,/* requires a parameter "username" and stores the data in the String username*/
-            @RequestParam("password") String password){
-        //cals a service method for user validation
-        if (service.validateUser(username,password)) {
+    public HttpEntity<String> loadUser(@RequestBody User user){
+        if (service.validateUser(user.getUsername(),user.getPassword())) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>("Error", null, HttpStatus.NOT_FOUND); //on username failure (to find it) it will return a NOT_FOUND enum      
