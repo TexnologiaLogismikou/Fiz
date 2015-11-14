@@ -26,7 +26,7 @@ public class LogInController {
     IUserService service;
 
     /**
-     * Handles the POST method on the "/log-in/rd " url and returns an answer 
+     * Handles the POST method on the "/log-in" url and returns an answer 
      * @param username
      * @param password
      * @return string in HttpEntity
@@ -34,7 +34,7 @@ public class LogInController {
     @RequestMapping(method = RequestMethod.POST) //TODO controllers need to be more general and will require JSON , Command as parameters -> not fields
     public HttpEntity<String> loadUser(@RequestParam("username") String username,/* requires a parameter "username" and stores the data in the String username*/
             @RequestParam("password") String password){
-        
+        //cals a service method for user validation
         if (service.validateUser(username,password)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }

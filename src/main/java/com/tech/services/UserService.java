@@ -85,12 +85,23 @@ public class UserService implements IUserService {
         return true;
     }
 
+    /**
+     * calls the overloaded function
+     * @param user
+     * @return 
+     */
     @Override
     @Transactional
     public boolean validateUser(User user) {
         return validateUser(user.getUsername(),user.getPassword());
     }
 
+    /**
+     * validates the users existance with a query on the repository
+     * @param username
+     * @param password
+     * @return 
+     */
     @Override
     @Transactional
     public boolean validateUser(String username, String password) {
@@ -98,14 +109,23 @@ public class UserService implements IUserService {
         return u != null;
     }
 
+    /**
+     * counts the records in the repository and returns the exact number
+     * @return 
+     */
     @Override
     public long getCount() {
         return repository.count();
     }
 
+    /**
+     * counts the records in the repository and returns the number increased by 1 . 
+     * that number is a "free slot" for a new user
+     * @return 
+     */
     @Override
     public long getNextID() {
-        return repository.count() + 1L ;
+        return getCount() + 1L ;
     }
     
     

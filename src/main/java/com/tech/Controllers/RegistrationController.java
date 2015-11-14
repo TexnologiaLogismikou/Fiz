@@ -31,7 +31,7 @@ public class RegistrationController {
     IUserService service;
 
     /**
-     * Handles the POST method on the "/register/rd" url and returns an answer 
+     * Handles the POST method on the "/register" url and returns an answer 
      * @param username
      * @param password
      * @return 
@@ -40,6 +40,7 @@ public class RegistrationController {
     public HttpEntity<String> saveUser(@RequestParam("username") String username, /* requires a parameter "username" and stores the data in the String username*/
                                                 @RequestParam("password") String password) { /* requires a parameter "password" and stores the data in the String password*/
         if (service.checkUsername(username)) { //checks from the service if the username exists
+            //calls a service function "getNextID()" for the next in the row available ID to assing to the user
             service.addUser(new User(service.getNextID(),username,password)); //if the username doesnt exist it adds it in the database with an incementable number
             return new ResponseEntity<>("complete", null, HttpStatus.OK); //returns to the site an OK enum           
         } else {
