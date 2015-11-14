@@ -35,4 +35,7 @@ public interface IUserService {
     
     @Transactional
     long getNextID();
+    
+    @Transactional
+    User getLastRecord();
 }
