@@ -84,4 +84,29 @@ public class UserService implements IUserService {
         }
         return true;
     }
+
+    @Override
+    @Transactional
+    public boolean validateUser(User user) {
+        return validateUser(user.getUsername(),user.getPassword());
+    }
+
+    @Override
+    @Transactional
+    public boolean validateUser(String username, String password) {
+        User u = repository.findByUsernameAndPassword(username, password);
+        return u != null;
+    }
+
+    @Override
+    public long getCount() {
+        return repository.count();
+    }
+
+    @Override
+    public long getNextID() {
+        return repository.count() + 1L ;
+    }
+    
+    
 }

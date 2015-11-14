@@ -29,14 +29,6 @@ public class RegistrationController {
      */
     @Autowired
     IUserService service;
-    
-    /**
-     * automatically connects the repository with the controller
-     * TODO repository will be removed from this place.. every transaction with the database
-     * will be made with the service. We need more service methods to support those commands
-     */
-    @Autowired
-    IUserRepository repository;
 
     /**
      * Handles the POST method on the "/register/rd" url and returns an answer 
@@ -48,7 +40,7 @@ public class RegistrationController {
     public HttpEntity<String> saveUser(@RequestParam("username") String username, /* requires a parameter "username" and stores the data in the String username*/
                                                 @RequestParam("password") String password) { /* requires a parameter "password" and stores the data in the String password*/
         if (service.checkUsername(username)) { //checks from the service if the username exists
-            service.addUser(new User(repository.count()+1,username,password)); //if the username doesnt exist it adds it in the database with an incementable number
+            service.addUser(new User(service.getNextID(),username,password)); //if the username doesnt exist it adds it in the database with an incementable number
             return new ResponseEntity<>("complete", null, HttpStatus.OK); //returns to the site an OK enum           
         } else {
             return new ResponseEntity<>("already exists", null,HttpStatus.FOUND); // if the username exists it returns the FOUND enum to inticate its existance
