@@ -7,14 +7,13 @@
 function initializeLogin() {
     var username = document.getElementById("username").value; //takes the value from the username field
     var password = document.getElementById("password").value; //takes the value from the password field
+    var user = JSON.stringify({username: username, password: password});
     
     $.ajax({//jQuery with Ajax template
         type : "post", //send type is "POST"
         url  : "/log-in", //the url the data will be posted
-        data : 
-            { "username": username, //the parameters the values will be stored
-              "password": password
-            },
+        contentType: "application/json",
+        data : user,
               
         success : function() { //if the program responde with success this part of the code will run
             document.getElementById("username").value = null;//clears the input field "username"
@@ -31,7 +30,5 @@ function initializeLogin() {
                     break;
             }
         }
-               
     });
-    
 }
