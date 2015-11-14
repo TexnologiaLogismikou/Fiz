@@ -23,4 +23,16 @@ public interface IUserService {
     
     @Transactional
     boolean checkUsername(String username);
+    
+    @Transactional
+    boolean validateUser(User user);
+    
+    @Transactional
+    boolean validateUser(String username,String password);
+    
+    @Transactional
+    long getCount();
+    
+    @Transactional
+    long getNextID();
 }

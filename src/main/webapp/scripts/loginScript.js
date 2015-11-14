@@ -26,9 +26,6 @@ function initializeLogin() {
                 case "Not Found" ://posts a specified alert on the problem
                     alert("Username/password where wrong");
                     break;
-                case "Unauthorized" ://posts a specified alert on the problem
-                    alert("Password was wrong");
-                    break;
                 default://posts a general alert 
                     alert("Unexpected Error" + data.toString());
                     break;
