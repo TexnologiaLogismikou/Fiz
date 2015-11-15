@@ -33,7 +33,7 @@ public class RegistrationController {
      */
     @RequestMapping(method = RequestMethod.POST)
     public HttpEntity<String> saveUser(@RequestBody User user) {
-        if (service.checkUsername(user.getUsername())) {
+        if (!(service.checkUsername(user.getUsername()))) {
             service.addUser(new User(service.getNextID(),user.getUsername(),user.getPassword())); //if the username doesnt exist it adds it in the database with an incementable number
             return new ResponseEntity<>("complete", null, HttpStatus.OK); //returns to the site an OK enum           
         } else {

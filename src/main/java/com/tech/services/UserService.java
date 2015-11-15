@@ -78,10 +78,10 @@ public class UserService implements IUserService {
     public boolean checkUsername(String username) {
         for(User vLookUp:repository.findAll()) {
             if(vLookUp.getUsername().equalsIgnoreCase(username)){
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**
