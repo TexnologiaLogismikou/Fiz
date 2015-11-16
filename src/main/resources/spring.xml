@@ -5,8 +5,8 @@
         <property name="dataSource" ref="dataSource" />
         <property name="annotatedClasses">
             <list>
-                <value>com.tech.Mmodel.User</value>
-                <value>com.tech.Mmodel.Message</value>
+                <value>com.tech.Mmodels.Message</value>
+                <value>com.tech.Models.User</value>
             </list>
         </property>
         <property name="hibernateProperties">

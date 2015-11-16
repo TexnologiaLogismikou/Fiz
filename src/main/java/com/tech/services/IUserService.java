@@ -10,6 +10,9 @@ public interface IUserService {
     User getUserById(Long id);
 
     @Transactional
+    User getUserByUsername(String username);
+
+    @Transactional
     void addUser(User user);
 
     @Transactional
@@ -23,4 +26,19 @@ public interface IUserService {
     
     @Transactional
     boolean checkUsername(String username);
+    
+    @Transactional
+    boolean validateUser(User user);
+    
+    @Transactional
+    boolean validateUser(String username,String password);
+    
+    @Transactional
+    long getCount();
+    
+    @Transactional
+    long getNextID();
+    
+    @Transactional
+    User getLastRecord();
 }
