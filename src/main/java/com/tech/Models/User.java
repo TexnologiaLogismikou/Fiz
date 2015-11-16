@@ -1,5 +1,8 @@
 package com.tech.Models;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 /**
@@ -21,7 +24,7 @@ public class User {
     @Column(name = "password") //column that the variable belongs
     private String password;
 
-    protected User() {}
+    public User() {}
 
     public User(Long id, String username, String password) {
 
@@ -30,6 +33,7 @@ public class User {
         this.password = password;
     }
 
+    @JsonProperty
     public Long getId() {
         return id;
     }
@@ -38,6 +42,7 @@ public class User {
         this.id = id;
     }
 
+    @JsonProperty
     public String getUsername() {
         return username;
     }
@@ -46,11 +51,17 @@ public class User {
         this.username = username;
     }
 
+    @JsonProperty
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString(){
+        return " id : " + this.id + " username : " + this.username + " password : " + this.password;
     }
 }

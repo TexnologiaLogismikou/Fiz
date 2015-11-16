@@ -28,6 +28,19 @@ public class UserService implements IUserService {
     }
 
     /**
+     * initialize a transaction with the repository - database to get an element
+     * with its username
+     * @param username
+     * @return
+     */
+    @Override
+    @Transactional
+    public User getUserByUsername(String username)
+    {
+        return repository.findByUsername(username);
+    }
+
+    /**
      * initialize a transaction with the repository - database to add an element to the database
      * @param user 
      */
@@ -78,10 +91,10 @@ public class UserService implements IUserService {
     public boolean checkUsername(String username) {
         for(User vLookUp:repository.findAll()) {
             if(vLookUp.getUsername().equalsIgnoreCase(username)){
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**
