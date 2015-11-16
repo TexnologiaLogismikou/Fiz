@@ -126,6 +126,7 @@ public class UserService implements IUserService {
      * @return 
      */
     @Override
+    @Transactional
     public long getCount() {
         return repository.count();
     }
@@ -136,9 +137,15 @@ public class UserService implements IUserService {
      * @return 
      */
     @Override
+    @Transactional
     public long getNextID() {
         return getCount() + 1L ;
     }
     
+    @Override    
+    @Transactional
+    public User getLastRecord(){
+        throw new UnsupportedOperationException("Not working yet");
+    }
     
 }
