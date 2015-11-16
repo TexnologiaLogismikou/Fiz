@@ -10,6 +10,6 @@
 
 delete from usersdata;
 
-INSERT INTO usersdata  values (1,'milena','milena');
+insert into usersdata  values (1,'milena','milena');
 insert into usersdata values (2,'iwanna','iwanna');
 insert into usersdata values (3,'mixalis','mixalis');

@@ -32,6 +32,7 @@ public class UserServiceTest extends AbstractTest {
 //    private IUserService service = Mockito.mock(IUserService.class);
     private List<User> list = null;    
     User user = null;
+    
     @Before
     public void setUp() {
         list = new ArrayList();

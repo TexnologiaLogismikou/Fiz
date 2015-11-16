@@ -72,7 +72,7 @@ public class UserService implements IUserService {
     
     /**
      * initialize a transaction with the repository - database to get all the elements from the database 
-     * @return 
+     * @return List\<Use\>
      */
     @Override
     @Transactional
