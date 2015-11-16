@@ -10,6 +10,9 @@ public interface IUserService {
     User getUserById(Long id);
 
     @Transactional
+    User getUserByUsername(String username);
+
+    @Transactional
     void addUser(User user);
 
     @Transactional

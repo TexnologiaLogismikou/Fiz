@@ -12,15 +12,16 @@ function initializeLogin() {
     $.ajax({//jQuery with Ajax template
         type : "post", //send type is "POST"
         url  : "/log-in", //the url the data will be posted
+        accept: "application/json",
         contentType: "application/json",
         data : user,
-              
-        success : function() { //if the program responde with success this part of the code will run
+
+        success : function() { //if the program responds with success this part of the code will run
             document.getElementById("username").value = null;//clears the input field "username"
             document.getElementById("password").value = null;//clears the input field "password"
             window.location.href = "/lcomplete.html";//moves to the next page
         },
-        error : function(response,e,data) { //if the program responde with fail-error this part of the code will run
+        error : function(response,e,data) { //if the program responds with fail-error this part of the code will run
             switch(data.toString()){
                 case "Not Found" ://posts a specified alert on the problem
                     alert("Username/password where wrong");

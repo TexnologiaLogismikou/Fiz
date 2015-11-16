@@ -23,9 +23,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author KuroiTenshi
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "src/main/resources/application.yml",
-                                    "src/main/resources/hibernate.properties",
-                                    "src/main/resources/spring.xml"})
+@ContextConfiguration(locations = { "/../../../src/main/resources/application.yml",
+                                    "/../../../src/main/resources/hibernate.properties",
+                                    "/../../../src/main/resources/spring.xml"})
 public class RegistrationControllerTest {
     private User user;
     public RegistrationControllerTest() {
@@ -58,7 +58,7 @@ public class RegistrationControllerTest {
         String password = "";
         RegistrationController instance = new RegistrationController();
         HttpEntity<String> expResult = null;
-        HttpEntity<String> result = instance.saveUser(username, password);
+        HttpEntity<String> result = instance.saveUser(user);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

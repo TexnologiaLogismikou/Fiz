@@ -12,18 +12,23 @@ function initializeRegister() {
     $.ajax({//jQuery with Ajax template
         type : "post", //send type is "POST"
         url  : "/register",//the url the data will be posted
+        accept: "application/json",
         contentType: "application/json",
         data : user,
+
         success : function(response) {  //if the program responds with success this part of the code will run
            document.getElementById("username").value=null; //clears the input field "username"
            document.getElementById("password").value=null; //clears the input field "password"
            window.location.href = "/complete.html"; //moves to the next page
         },  
         error : function(respone,e,data) { //if the program responds with fail-error this part of the code will run
-            if(data.toString() === "Found") {
-                alert("The username already exists"); //posts a specified alert on the problem
-            } else {
-                alert("Unsupported exception"); //posts a general alert that a problem occurred
+            switch(data.toString()){
+                case "Found" ://posts a specified alert on the problem
+                    alert("The username already exists");
+                    break;
+                default://posts a general alert
+                    alert("Unexpected Error: " + data.toString());
+                    break;
             }
        }
     });
