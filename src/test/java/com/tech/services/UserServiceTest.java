@@ -54,10 +54,10 @@ public class UserServiceTest extends AbstractTest {
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testFindAll() {
-        Collection<User> list = service.getAllUsers();
+        Collection<User> list2 = service.getAllUsers();
         
-        Assert.assertNotNull("Failure - expected not null",list);
-        Assert.assertEquals("Failure - expected size",3,list.size());
+        Assert.assertNotNull("Failure - expected not null",list2);
+        Assert.assertEquals("Failure - expected size",3,list2.size());
 //        when(service.getAllUsers()).thenReturn(list);    
 //        Assert.assertEquals("Failure - expected same size",3, service.getAllUsers().size());
     }
@@ -161,6 +161,12 @@ public class UserServiceTest extends AbstractTest {
     @Sql(scripts = "classpath:populateDB.sql")
     public void testGetNextID(){
         Assert.assertEquals("Counting was wrong",4,service.getNextID());        
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetUserByUsername(){
+        Assert.assertEquals("User wasnt found",user.getUsername(),service.getUserByUsername(user.getUsername()).getUsername());
     }
     
 }

@@ -22,6 +22,7 @@ public class UserController {
 
     /**
      * Handles the GET method in /user/{username}
+     * @param username
      * @return ModelAndView object to the view resolver
      */
     @RequestMapping(value = "/{username}",method = RequestMethod.GET)
