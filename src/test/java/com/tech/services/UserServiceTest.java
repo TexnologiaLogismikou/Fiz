@@ -34,6 +34,7 @@ public class UserServiceTest extends AbstractTest {
     User user = null;
     
     @Before
+    @Sql(scripts = "classpath:populateDB.sql")
     public void setUp() {
         list = new ArrayList();
 //        list.add(new User(1L,"mixalis","mixalis"));
@@ -64,7 +65,6 @@ public class UserServiceTest extends AbstractTest {
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
     public void testGetUserByID(){
 //        when(service.getUserById(2L)).thenReturn(user);
         
@@ -74,7 +74,6 @@ public class UserServiceTest extends AbstractTest {
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
     public void testAddUser(){
         User user = new User(4L,"basilis","basilis");
         service.addUser(user);
@@ -82,7 +81,6 @@ public class UserServiceTest extends AbstractTest {
     } 
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
     public void testAddUsers(){
         service.addUsers(list);
         Assert.assertEquals("Failure - user 4 wasnt added",list.get(0).getId(),service.getUserById(list.get(0).getId()).getId());
@@ -92,14 +90,12 @@ public class UserServiceTest extends AbstractTest {
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
     public void testDeleteUser(){
         service.deleteUser(user);
         Assert.assertFalse("Failure - user wasnt deleted",service.checkUsername(user.getUsername()));
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
     public void testGetAllUsers(){
         list = new ArrayList();
         list.add(new User(1L,"mixalis","mixalis"));
@@ -114,58 +110,49 @@ public class UserServiceTest extends AbstractTest {
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
     public void testCheckUsernameTrue(){ 
         Assert.assertTrue("Username wasnt found", service.checkUsername(user.getUsername()));
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
     public void testCheckUsernameFail(){
         Assert.assertFalse("Username was found", service.checkUsername("UserDoesntExist"));
         
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
     public void testValidateUser(){        
         Assert.assertTrue("User wasnt validated",service.validateUser(user));
         
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
     public void testValidateUserFromStrings(){
         Assert.assertTrue("User wasnt validated",service.validateUser(user.getUsername(),user.getPassword()));
         
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
     public void testValidateUserFailPassword(){
         Assert.assertFalse("User wasnt validated",service.validateUser(list.get(2).getUsername(),"Wrong password"));        
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
     public void testValidateUserFail(){
         Assert.assertFalse("User wasnt validated",service.validateUser("Wrong username",list.get(2).getPassword()));        
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
     public void testGetCount(){
         Assert.assertEquals("Counting was wrong",3,service.getCount());        
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
     public void testGetNextID(){
         Assert.assertEquals("Counting was wrong",4,service.getNextID());        
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
     public void testGetUserByUsername(){
         Assert.assertEquals("User wasnt found",user.getUsername(),service.getUserByUsername(user.getUsername()).getUsername());
     }
