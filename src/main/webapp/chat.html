@@ -6,6 +6,7 @@
     <script src="//cdn.jsdelivr.net/sockjs/1.0.0/sockjs.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="scripts/chat.js"></script>
+    <link rel="stylesheet" type="text/css" href="/Styles/chat.css">
 </head>
 <body onload="connect()"  onclose="disconnect()">
 <noscript>
@@ -17,7 +18,7 @@
 </noscript>
 <div id="body-wrapper">
     <textarea id="text-area"></textarea><br/>
-    <input id="message" type="text"/><button id="submit" onclick="sendMessage()">SEND</button>
+    <input id="message" type="text" onkeypress="enterFunction(event)"/><button id="submit" onclick="sendMessage()">SEND</button>
 </div>
 </body>
 </html>

@@ -1,7 +1,5 @@
 var stompClient = null;
 
-
-
 function connect() {
     var socket = new SockJS('/chat');
     stompClient = Stomp.over(socket);
@@ -31,10 +29,18 @@ function sendMessage() {
             'user': userid
         }));
     document.getElementById('message').value = " ";
+    var textarea = document.getElementById('text-area');
+    textarea.scrollTop = textarea.scrollHeight;
 }
 
 function showGreeting(message, user) {
 
     message = message.trim();
     document.getElementById('text-area').value += user + ": " + message + "\n";
+}
+
+function enterFunction(e) {
+    if (e.keyCode == 13) {
+        sendMessage();
+    }
 }
