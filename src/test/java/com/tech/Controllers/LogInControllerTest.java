@@ -17,11 +17,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author KuroiTenshi
  */
+@Transactional
 public class LogInControllerTest extends AbstractControllerTest{
     private String url;
     
