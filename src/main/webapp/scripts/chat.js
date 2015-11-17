@@ -1,46 +1,40 @@
-//window.onload = function() {
-//    $.ajax({
-//        type: "post",
-//        url: "/chat",
-//        data: {
-//            "username": "null",
-//            "message": "null"
-//        },
-//
-//        success: function () {
-//
-//        },
-//        error: function () {
-//            alert("something went wrong");
-//        }
-//    });
-//};
+var stompClient = null;
 
-function chat() {
-    var username = "andrew";
-    var message = document.getElementById("message").value;
-    document.getElementById("header").innerHTML = "Welcome " + username;
-    $.ajax({
-        type: "post",
-        url: "/chat",
-        data: {
-            "username": username,
-            "message": message
-        },
 
-        success: function (response, e, data) {
 
-            document.getElementById("message").value = null;
-            document.getElementById("textare").value = response.toString();
-            document.getElementById("header").innerHTML =
-                "Response = " + response +
-                "\nValue = " + response.value +
-                "\nToString = " + response.toString() +
-                "\nLocaleString = " + response.toLocaleString() +
-                "\nresponseText = " + response.responseText;
-        },
-        error: function () {
-            alert("something went wrong");
-        }
+function connect() {
+    var socket = new SockJS('/chat');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function(frame) {
+
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/chat', function(chat){
+            showGreeting(JSON.parse(chat.body).message, JSON.parse(chat.body).user);
+        });
     });
+}
+
+function disconnect() {
+    if (stompClient != null) {
+        stompClient.disconnect();
+    }
+    setConnected(false);
+    console.log("Disconnected");
+}
+
+function sendMessage() {
+    var message = document.getElementById('message').value;
+    var userid = "Andreas";
+    stompClient.send("/app/chat", {}, JSON.stringify(
+        {
+            'message': message ,
+            'user': userid
+        }));
+    document.getElementById('message').value = " ";
+}
+
+function showGreeting(message, user) {
+
+    message = message.trim();
+    document.getElementById('text-area').value += user + ": " + message + "\n";
 }

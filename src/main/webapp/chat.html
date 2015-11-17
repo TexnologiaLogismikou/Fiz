@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fiz Chat</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/sockjs/1.0.0/sockjs.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="scripts/chat.js"></script>
+</head>
+<body onload="connect()"  onclose="disconnect()">
+<noscript>
+    <h1>
+        Seems your browser doesn't support Javascript!
+        Websocket relies on Javascript being enabled.
+        Please enable Javascript and reload this page!
+    </h1>
+</noscript>
+<div id="body-wrapper">
+    <textarea id="text-area"></textarea><br/>
+    <input id="message" type="text"/><button id="submit" onclick="sendMessage()">SEND</button>
+</div>
+</body>
+</html>
