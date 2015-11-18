@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tech.Controllers;
+package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
-import com.tech.Models.User;
-import com.tech.services.IUserService;
+import com.tech.models.entities.User;
+import com.tech.services.interfaces.IUserService;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;

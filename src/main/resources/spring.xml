@@ -5,8 +5,9 @@
         <property name="dataSource" ref="dataSource" />
         <property name="annotatedClasses">
             <list>
-                <value>com.tech.Models.User</value>
-                <value>com.tech.Models.ImagesMod</value>
+                <value>com.tech.models.entities.Message</value>
+                <value>com.tech.models.entities.User</value>
+                <value>com.tech.models.ImagesMod</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -18,15 +19,15 @@
         </property>
     </bean>
      
-    <!--<bean id="messageDAO" class="com.tech.Models.MessageDAOImpl">-->
-        <!--<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />-->
-    <!--</bean>-->
-
-    <bean id="userDAO" class="com.tech.Models.UserDAOImpl">
+    <bean id="messageDAO" class="com.tech.models.daos.MessageDAOImpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
-    
-    <bean id="imagesDAO" class="com.tech.Models.ImagesDAOImpl">
+
+    <bean id="userDAO" class="com.tech.models.UserDAOImpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
+
+    <bean id="imagesDAO" class="com.tech.models.ImagesDAOImpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
 </beans>
