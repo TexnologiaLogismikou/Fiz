@@ -40,6 +40,7 @@ public class LogInControllerTest extends AbstractControllerTest{
     
     @Before
     @Override
+    @Sql(scripts = "classpath:populateDB.sql")
     public void setUp() {
         super.setUp();
         url = "/log-in";
@@ -50,7 +51,6 @@ public class LogInControllerTest extends AbstractControllerTest{
     }
    
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
     public void testLoadUser() throws Exception{
         User user = new User(2L,"iwanna","iwanna");
         String inputInJSON = super.mapToJson(user);
@@ -69,7 +69,6 @@ public class LogInControllerTest extends AbstractControllerTest{
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
     public void testLoadUserFailBoth() throws Exception {
         User user = new User(2L,"giorgos","giorgos");
         String inputInJSON = super.mapToJson(user);
@@ -88,7 +87,6 @@ public class LogInControllerTest extends AbstractControllerTest{
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
     public void testLoadUserFailUsername() throws Exception {
         User user = new User(2L,"giorgos","iwanna");
         String inputInJSON = super.mapToJson(user);
@@ -107,7 +105,6 @@ public class LogInControllerTest extends AbstractControllerTest{
     }
     
      @Test
-    @Sql(scripts = "classpath:populateDB.sql")
     public void testLoadUserFailPassword() throws Exception {
         User user = new User(2L,"iwanna","giorgos");
         String inputInJSON = super.mapToJson(user);
