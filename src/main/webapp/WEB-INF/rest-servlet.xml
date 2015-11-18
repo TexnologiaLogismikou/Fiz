@@ -15,10 +15,10 @@
         <mvc:annotation-driven />
         
         <mvc:resources location="./resources" mapping="/resources/**"/>
-        <bean class="com.tech.Controllers.RegistrationController" />
-        <bean class="com.tech.Controllers.UserController" />
-        <bean class="com.tech.Controllers.UserDataController" />
-        <bean class="com.tech.Controllers.LogInController" />
+        <bean class="com.tech.controllers.RegistrationController" />
+        <bean class="com.tech.controllers.UserController" />
+        <bean class="com.tech.controllers.UserDataController" />
+        <bean class="com.tech.controllers.LogInController" />
 
 <!--        <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
             <property name="viewClass"  value="org.springframework.web.servlet.view.JstlView" />
