@@ -10,6 +10,7 @@ import com.tech.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,9 +36,9 @@ public class RegistrationController {
     public HttpEntity<String> saveUser(@RequestBody User user) {
         if (!service.checkUsername(user.getUsername())) {
             service.addUser(new User(service.getNextID(),user.getUsername(),user.getPassword())); //if the username doesn't exist it adds it in the database with an incementable number
-            return new ResponseEntity<>("complete", null, HttpStatus.OK); //returns to the site an OK enum           
+            return new ResponseEntity<>("complete", HttpStatus.OK); //returns to the site an OK enum           
         } else {
-            return new ResponseEntity<>("already exists", null,HttpStatus.FOUND); // if the username exists it returns the FOUND enum to indicate its existence
+            return new ResponseEntity<>("already exists",HttpStatus.FOUND); // if the username exists it returns the FOUND enum to indicate its existence
         }
     }
 

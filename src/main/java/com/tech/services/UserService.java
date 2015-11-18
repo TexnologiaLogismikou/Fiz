@@ -1,8 +1,8 @@
 package com.tech.services;
 
+import com.tech.services.interfaces.IUserService;
 import com.tech.models.entities.User;
 import com.tech.repositories.IUserRepository;
-import com.tech.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -73,7 +73,7 @@ public class UserService implements IUserService {
     
     /**
      * initialize a transaction with the repository - database to get all the elements from the database 
-     * @return 
+     * @return List\<Use\>
      */
     @Override
     @Transactional

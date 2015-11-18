@@ -5,6 +5,7 @@
  */
 package com.tech.services;
 
+import com.tech.services.interfaces.IUserService;
 import com.tech.AbstractTest;
 import com.tech.models.entities.User;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class UserServiceTest extends AbstractTest {
 //    private IUserService service = Mockito.mock(IUserService.class);
     private List<User> list = null;    
     User user = null;
+    
     @Before
     public void setUp() {
         list = new ArrayList();
