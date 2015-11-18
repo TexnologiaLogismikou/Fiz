@@ -1,9 +1,7 @@
-package com.tech.Repositories;
+package com.tech.repositories;
 
-import com.tech.Models.User;
+import com.tech.models.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**

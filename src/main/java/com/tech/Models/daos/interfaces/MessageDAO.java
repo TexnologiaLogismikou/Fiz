@@ -1,4 +1,4 @@
-package com.tech.Models;
+package com.tech.models.daos.interfaces;
 
 import java.util.List;
 

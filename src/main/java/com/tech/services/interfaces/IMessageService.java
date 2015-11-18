@@ -1,6 +1,6 @@
-package com.tech.services;
+package com.tech.services.interfaces;
 
-import com.tech.Models.Message;
+import com.tech.models.entities.Message;
 
 import javax.transaction.Transactional;
 import java.util.List;

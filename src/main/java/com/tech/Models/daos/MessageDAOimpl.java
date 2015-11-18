@@ -1,12 +1,13 @@
-package com.tech.Models;
+package com.tech.models.daos;
 
+import com.tech.models.daos.interfaces.MessageDAO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class MessageDAOimpl implements MessageDAO{
+public class MessageDAOimpl implements MessageDAO {
     private SessionFactory sessionFactory;
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;

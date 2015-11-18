@@ -1,10 +1,7 @@
-package com.tech.Controllers;
+package com.tech.controllers;
 
-import com.tech.Models.ChatMessage;
-import com.tech.Models.Message;
-import com.tech.Models.User;
-import com.tech.services.IMessageService;
-import com.tech.services.IUserService;
+import com.tech.models.dtos.ChatMessage;
+import com.tech.services.interfaces.IUserService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;

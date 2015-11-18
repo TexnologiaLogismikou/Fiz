@@ -6,16 +6,16 @@
 package com.tech.services;
 
 import com.tech.AbstractTest;
-import com.tech.Models.User;
+import com.tech.models.entities.User;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import com.tech.services.interfaces.IUserService;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.*;
-import static org.mockito.Mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,7 +1,8 @@
 package com.tech.services;
 
-import com.tech.Models.Message;
-import com.tech.Repositories.IMessageRepository;
+import com.tech.models.entities.Message;
+import com.tech.repositories.IMessageRepository;
+import com.tech.services.interfaces.IMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

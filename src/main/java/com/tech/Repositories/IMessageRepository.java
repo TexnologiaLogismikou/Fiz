@@ -1,6 +1,6 @@
-package com.tech.Repositories;
+package com.tech.repositories;
 
-import com.tech.Models.Message;
+import com.tech.models.entities.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

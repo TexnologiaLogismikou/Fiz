@@ -1,4 +1,4 @@
-package com.tech.Models;
+package com.tech.models.dtos;
 
 
 public class ChatMessage {
