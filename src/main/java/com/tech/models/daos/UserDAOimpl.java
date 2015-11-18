@@ -1,5 +1,6 @@
-package com.tech.Models;
+package com.tech.models.daos;
 
+import com.tech.models.daos.interfaces.UserDAO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

@@ -6,8 +6,8 @@
 package com.tech.Controllers;
 
 import com.tech.AbstractControllerTest;
-import com.tech.Models.User;
-import com.tech.services.IUserService;
+import com.tech.models.entities.User;
+import com.tech.services.interfaces.IUserService;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
