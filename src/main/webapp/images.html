@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>images</title>
+        <script type="text/javascript"  src="scripts/ImgScript.js"></script>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>         
+    </head>
+    <body>
+         <div id="body-wrapper">
+<!--             <table>
+                <tr>
+
+                    <td>images: </td>
+                    <td>
+                        <input type="file" name="file" id="images">
+                    </td>   
+                <input type="" name="images2" id="images2" required>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button type="button" onclick="uploadFile()">upload image</button></td>
+                    </tr>
+             </table> <br /> <br /> <br />-->
+             MORE
+             
+           <form method="POST" enctype="multipart/form-data"
+		action="/upload/c">
+		File to upload: <input type="file" name="file"><br /> Name: <input type="text" name="name"><br /> <br />
+               <input type="submit" value="Upload"> Press here to upload the file!
+            </form>
+            <br /><br />
+            
+            <input type="text" name="imgID" id="imgID" required >
+             <button type="button" onclick="downloadImageWithPost()">download With Post</button><br/>
+             <img id="ItemPreview" height="900" width="900" src="" alt="" />
+         </div>
+    </body>
+</html>

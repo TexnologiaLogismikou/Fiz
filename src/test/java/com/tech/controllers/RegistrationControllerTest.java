@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class RegistrationControllerTest extends AbstractControllerTest{
     private String uri;
+    
     public RegistrationControllerTest() {
     }
     
@@ -66,7 +67,11 @@ public class RegistrationControllerTest extends AbstractControllerTest{
         Assert.assertEquals("failure - expected HTTP status 200",200, status);
         Assert.assertTrue("Failure - expected HTTP response body to have a value",content.trim().length() > 0);
     }   
-    
+    /**
+     * an kanoume mia "test basi einai kali idea? "
+     * 
+     * @throws Exception 
+     */
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testSaveUserSucceed() throws Exception {
