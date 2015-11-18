@@ -6,6 +6,7 @@
 package com.tech.services;
 
 import com.tech.Models.ImagesMod;
+import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -21,5 +22,17 @@ public interface IImagesService {
     public ImagesMod getImageByID(long id);
     
     @Transactional
+    public ImagesMod getImageByName(String name);
+    
+    @Transactional
     long getNextID();
+    
+    @Transactional
+    public List<ImagesMod> getAllUsers();
+    
+    @Transactional
+    public List<ImagesMod> getAllUsers(Long id);
+    
+    @Transactional
+    public void deleteImage(ImagesMod images);
 }

@@ -6,6 +6,7 @@
 package com.tech.Repositories;
 
 import com.tech.Models.ImagesMod;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +17,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IImagesRepository extends JpaRepository<ImagesMod,Long>{
     ImagesMod findByName(String name);
+    List<ImagesMod> findById(Long id);
 }

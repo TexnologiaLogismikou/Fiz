@@ -6,6 +6,7 @@
         <property name="annotatedClasses">
             <list>
                 <value>com.tech.Models.User</value>
+                <value>com.tech.Models.ImagesMod</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -22,6 +23,10 @@
     <!--</bean>-->
 
     <bean id="userDAO" class="com.tech.Models.UserDAOImpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
+    
+    <bean id="imagesDAO" class="com.tech.Models.ImagesDAOImpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
 </beans>
