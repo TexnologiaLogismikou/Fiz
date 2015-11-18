@@ -1,9 +1,11 @@
 package com.tech.services;
 
 import com.tech.AbstractTest;
-import com.tech.Models.ImagesMod;
-import com.tech.Models.User;
+import com.tech.models.entities.ImagesMod;
+import com.tech.models.entities.User;
 import java.util.List;
+
+import com.tech.services.interfaces.IImagesService;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

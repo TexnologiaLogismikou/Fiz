@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tech.Repositories;
+package com.tech.repositories;
 
-import com.tech.Models.ImagesMod;
+import com.tech.models.entities.ImagesMod;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

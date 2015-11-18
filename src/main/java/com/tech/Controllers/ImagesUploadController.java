@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tech.Controllers;
+package com.tech.controllers;
 
-import com.tech.Models.ImagesMod;
-import com.tech.services.IImagesService;
+import com.tech.models.entities.ImagesMod;
+import com.tech.services.interfaces.IImagesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;

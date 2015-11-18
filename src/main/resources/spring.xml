@@ -7,7 +7,7 @@
             <list>
                 <value>com.tech.models.entities.Message</value>
                 <value>com.tech.models.entities.User</value>
-                <value>com.tech.models.ImagesMod</value>
+                <value>com.tech.models.entities.ImagesMod</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -23,11 +23,11 @@
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
 
-    <bean id="userDAO" class="com.tech.models.UserDAOImpl">
+    <bean id="userDAO" class="com.tech.models.daos.UserDAOImpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
 
-    <bean id="imagesDAO" class="com.tech.models.ImagesDAOImpl">
+    <bean id="imagesDAO" class="com.tech.models.daos.ImagesDAOImpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
 </beans>
