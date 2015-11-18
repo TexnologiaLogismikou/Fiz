@@ -32,7 +32,7 @@ public class ImagesUploadController {
     @RequestMapping(value = "/a",method = RequestMethod.POST,produces = "image/jpg")//value = "/a",
     public HttpEntity<String> loadImages(@RequestParam("name") String name, @RequestParam("file") byte[] file){
         for (byte vLookUp:file) {
-            System.err.println(vLookUp);
+            System.out.println(vLookUp);
         }
         ImagesMod img = new ImagesMod(service.getNextID(),name,file);
         service.addImage(img);
@@ -67,15 +67,14 @@ public class ImagesUploadController {
             produces = "image/jpg")
     public @ResponseBody byte[]  downloadImages(@RequestParam("id") Long id) {
         ImagesMod img = service.getImageByID(id);
-       // return img.getName();
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return img.getImages();
     }
     
     @RequestMapping(method = RequestMethod.POST, 
             produces = "image/jpg")
     public @ResponseBody byte[]  downloadImagesWithPost(@RequestParam("id") Long id) {
         ImagesMod img = service.getImageByID(id);//kanei return men .. alla sto script kanw get apo tin alli sinartisi. dn douleuei 
-       // return img.getName();
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return img.getImages();
+       
     }
 }

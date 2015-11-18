@@ -42,7 +42,7 @@
         data: {"id" : imgID},
         success : function(data) {
             document.getElementById("ItemPreview").src = "/upload/b?id=" + imgID;
-            document.getElementById("ItemPreview").alt = "bla";
+            document.getElementById("ItemPreview").alt = "NO image";
         },
         error : function () {
             alert("all bad");
