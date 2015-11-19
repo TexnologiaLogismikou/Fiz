@@ -90,7 +90,7 @@ public class ImagesServiceTest extends AbstractTest{
         
         ImagesMod imagemode = new ImagesMod(3L,"Fiz",fileContent);  //etoimazei mia eikona
         service.addImage(imagemode); //pairnei tin kainourgia egkrafi
-        Assert.assertEquals("Fail add images",imagemode.getImages(),service.getImageByID(imagemode.getID()));
+        Assert.assertEquals("Fail add images",imagemode.getID(),service.getImageByID(imagemode.getID()).getID());
     }
     
       
