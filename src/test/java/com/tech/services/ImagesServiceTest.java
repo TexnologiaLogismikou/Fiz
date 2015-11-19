@@ -1,32 +1,30 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.tech.services;
 
 import com.tech.AbstractTest;
 import com.tech.models.entities.ImagesMod;
-import com.tech.models.entities.User;
-import java.util.List;
-
 import com.tech.services.interfaces.IImagesService;
 import org.junit.After;
+import org.junit.Test;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
- * @author KuroiTenshi
+ * @author ΙΩΑΝΝΑ
  */
 @Transactional
 public class ImagesServiceTest extends AbstractTest{
-    
     @Autowired
     private IImagesService service;
-    
-    private List<User> list = null;    
-    ImagesMod images = null;
     
     public ImagesServiceTest() {
     }
@@ -41,17 +39,12 @@ public class ImagesServiceTest extends AbstractTest{
     
     @Before
     public void setUp() {
-       
     }
     
     @After
     public void tearDown() {
-        images = null;
     }
 
-    /**
-     * Test of getImageByID method, of class ImagesService.
-     */
     @Test
     public void testGetImageByID() {
         long id = 0L;
@@ -76,5 +69,6 @@ public class ImagesServiceTest extends AbstractTest{
     public void testAddImage(){
         Assert.fail("cant upload image yet");
     }
+    
     
 }
