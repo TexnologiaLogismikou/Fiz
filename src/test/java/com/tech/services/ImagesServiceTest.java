@@ -7,7 +7,13 @@ package com.tech.services;
 
 import com.tech.AbstractTest;
 import com.tech.models.entities.ImagesMod;
+import com.tech.models.entities.User;
 import com.tech.services.interfaces.IImagesService;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
+import java.util.logging.Level;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.AfterClass;
@@ -25,6 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class ImagesServiceTest extends AbstractTest{
     @Autowired
     private IImagesService service;
+    private List<User> list = null;    
+    ImagesMod images = null;
     
     public ImagesServiceTest() {
     }
@@ -43,6 +51,7 @@ public class ImagesServiceTest extends AbstractTest{
     
     @After
     public void tearDown() {
+         //images = null;
     }
 
     @Test
@@ -67,8 +76,22 @@ public class ImagesServiceTest extends AbstractTest{
     
     @Test
     public void testAddImage(){
-        Assert.fail("cant upload image yet");
+        
+        ClassLoader cl = getClass().getClassLoader();
+        
+        File fi = new File(cl.getResource("testImg.jpg").getFile());
+        byte[] fileContent = null;
+        System.out.println(fi.toPath());
+        try {
+            fileContent = Files.readAllBytes(fi.toPath());
+        } catch (IOException ex) {
+           Assert.fail("file not found");
+        }
+        
+        ImagesMod imagemode = new ImagesMod(3L,"Fiz",fileContent);  //etoimazei mia eikona
+        service.addImage(imagemode); //pairnei tin kainourgia egkrafi
+        Assert.assertEquals("Fail add images",imagemode.getImages(),service.getImageByID(imagemode.getID()));
     }
     
-    
+      
 }
