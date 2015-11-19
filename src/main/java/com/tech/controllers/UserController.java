@@ -3,8 +3,10 @@ package com.tech.controllers;
 import com.tech.models.entities.User;
 import com.tech.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -27,9 +29,7 @@ public class UserController {
      */
     @RequestMapping(value = "/{username}",method = RequestMethod.GET)
     public ModelAndView loadUserProfile(@PathVariable String username){
-        RestTemplate restTemplate = new RestTemplate();
-        String url="http://localhost:8080/userData/"+username;
-        User user = restTemplate.getForObject(url, User.class);
-        return new ModelAndView("/WEB-INF/jsp/userProfile.jsp", "user", user); //some bug and when using non-static path it bugs, so lets use static
+        User user = service.getUserByUsername(username.toLowerCase());
+        return new ModelAndView("/WEB-INF/views/userProfile.jsp","user", user);
     }
 }
