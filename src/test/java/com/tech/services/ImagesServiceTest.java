@@ -170,8 +170,8 @@ public class ImagesServiceTest extends AbstractTest{
     public void testGetCount(){
         Assert.assertEquals("Count was wrong. - expected 2",2,service.getCount());
     }
-}  
-       
-      
-        
-
+    }
+     
+    
+    
+    
