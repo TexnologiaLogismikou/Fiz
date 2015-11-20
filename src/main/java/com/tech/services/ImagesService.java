@@ -6,6 +6,7 @@
 package com.tech.services;
 
 import com.tech.models.entities.ImagesMod;
+import com.tech.models.entities.User;
 import com.tech.repositories.IImagesRepository;
 import java.util.List;
 
@@ -52,21 +53,29 @@ public class ImagesService implements IImagesService {
     
     @Override
     @Transactional
-    public List<ImagesMod> getAllUsers() {
+    public List<ImagesMod> getAllImages() {
         return repository.findAll();
     }
     
-    @Override
-    @Transactional
-    public List<ImagesMod> getAllUsers(Long id) {
-        return repository.findById(id);
-    }
-
-    
+       
     @Override
     @Transactional
     public void deleteImage(ImagesMod images) {
         repository.delete(images);
     }
     
+    @Override
+    public boolean checkImages(String name) {
+        for(ImagesMod vLookUp:repository.findAll()) {
+            if(vLookUp.getName().equalsIgnoreCase(name)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    @Override
+    public long getCount() {
+        return repository.count();
+    }
 }

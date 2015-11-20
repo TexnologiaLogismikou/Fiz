@@ -7,13 +7,12 @@ package com.tech.services;
 
 import com.tech.AbstractTest;
 import com.tech.models.entities.ImagesMod;
-import com.tech.models.entities.User;
 import com.tech.services.interfaces.IImagesService;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.AfterClass;
@@ -21,6 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -30,9 +30,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ImagesServiceTest extends AbstractTest{
     @Autowired
+   
     private IImagesService service;
-    private List<User> list = null;    
     ImagesMod images = null;
+    ImagesMod images2 = null;
     
     public ImagesServiceTest() {
     }
@@ -46,7 +47,31 @@ public class ImagesServiceTest extends AbstractTest{
     }
     
     @Before
+    @Sql(scripts = "classpath:clearImages.sql")
     public void setUp() {
+        ClassLoader cl = getClass().getClassLoader();
+        
+        File fi = new File(cl.getResource("testImg.jpg").getFile());
+        File fi2 = new File(cl.getResource("testImg2.jpg").getFile());
+                
+        byte[] fileContent = null;
+        byte[] fileContent2 = null;
+                
+        try {
+            fileContent = Files.readAllBytes(fi.toPath());
+            fileContent2 = Files.readAllBytes(fi2.toPath());
+            
+        } catch (IOException ex) {
+           Assert.fail("file not found - " + ex.getMessage());
+        }
+        
+        ImagesMod imagemode = new ImagesMod(0L,"Fiz",fileContent);  //etoimazei mia eikona
+        ImagesMod imagemode2 = new ImagesMod(1L,"Fiz2",fileContent2);
+                
+        service.addImage(imagemode); //pairnei tin kainourgia egkrafi
+        service.addImage(imagemode2); //pairnei tin kainourgia egkrafi
+        images = new ImagesMod (1L,"Fiz2",fileContent2);
+        images2 = new ImagesMod (0L,"Fiz",fileContent);
     }
     
     @After
@@ -56,22 +81,19 @@ public class ImagesServiceTest extends AbstractTest{
 
     @Test
     public void testGetImageByID() {
-        long id = 0L;
-        ImagesMod newImg = service.getImageByID(id);
-        Assert.assertTrue("Failure - expected image to have size",newImg.getImages().length >0);
-        Assert.assertEquals("Failure - expected image has wrong id",newImg.getID(),id);
-        Assert.assertEquals("Failure - expected image has wrong name","iwanna",newImg.getName());
-        // TODO review the generated test code and remove the default call to fail.
+//       
+        Assert.assertTrue("Failure - expected image to have size",service.getImageByID(1L).getImages().length>0 ); 
+        Assert.assertEquals("Failure - expected image has wrong id",1L,service.getImageByID(1L).getID());
+        Assert.assertEquals("Failure - expected image has wrong name","Fiz2",service.getImageByID(1L).getName());
+        
     }    
     
     @Test
     public void testGetImageByName() {
-        String name = "iwanna";
-        long id=0L;
-        ImagesMod newString = service.getImageByName(name);
-        Assert.assertEquals("Failure - expected images has wrong name","iwanna",newString.getName());
-        Assert.assertEquals("Failure - expected images has wrong name",newString.getID(),id);
-        Assert.assertTrue("Failure - expected image to have size",newString.getImages().length >0);
+      
+        Assert.assertEquals("Failure - expected images has wrong name","Fiz",service.getImageByName("Fiz").getName());
+        Assert.assertEquals("Failure - expected images has wrong name",0L,service.getImageByName("Fiz").getID());
+        Assert.assertTrue("Failure - expected image to have size",service.getImageByName("Fiz").getImages().length >0);
     }
     
     @Test
@@ -79,7 +101,7 @@ public class ImagesServiceTest extends AbstractTest{
         
         ClassLoader cl = getClass().getClassLoader();
         
-        File fi = new File(cl.getResource("testImg.jpg").getFile());
+        File fi = new File(cl.getResource("testImg3.jpg").getFile());
         byte[] fileContent = null;
         System.out.println(fi.toPath());
         try {
@@ -88,10 +110,68 @@ public class ImagesServiceTest extends AbstractTest{
            Assert.fail("file not found");
         }
         
-        ImagesMod imagemode = new ImagesMod(3L,"Fiz",fileContent);  //etoimazei mia eikona
+        ImagesMod imagemode = new ImagesMod(2L,"Fiz",fileContent);  //etoimazei mia eikona
         service.addImage(imagemode); //pairnei tin kainourgia egkrafi
         Assert.assertEquals("Fail add images",imagemode.getID(),service.getImageByID(imagemode.getID()).getID());
     }
     
+    @Test
+    public void testGetAllImages(){
+    ClassLoader cl = getClass().getClassLoader();
+        
+        File fi = new File(cl.getResource("testImg.jpg").getFile());
+        File fi2 = new File(cl.getResource("testImg2.jpg").getFile());
+        
+        byte[] fileContent = null;
+        byte[] fileContent2 = null;
+        
+        try {
+            fileContent = Files.readAllBytes(fi.toPath());
+            fileContent2 = Files.readAllBytes(fi2.toPath());
+        } catch (IOException ex) {
+           Assert.fail("file not found - " + ex.getMessage());
+        }
+        
+        List<ImagesMod> list = new ArrayList();
+    
+        list.add(new ImagesMod(0L,"Fiz",fileContent));
+        list.add(new ImagesMod(1L,"Fiz2",fileContent2));
+        
+        List<ImagesMod> list2 = service.getAllImages();
+        
+        Assert.assertEquals("Fail get all images",list.get(0).getID(),list2.get(0).getID());
+    }
+
+    @Test
+     public void testDeleteImage(){
+        service.deleteImage(images);
+        //Assert.assertNotEquals(service.getImageByID(0L),images);
+        //Assert.assertNull(service.getImageByID(1L));
+        Assert.assertFalse("NOT DELETE IMAGE", service.checkImages(images.getName()));
+    }
+     
+    
+    @Test
+    public void testCheckImagesTrue(){ 
+        Assert.assertTrue("Username wasnt found", service.checkImages(images.getName()));
+    }
+    
+    @Test
+    public void testCheckImagesFalse(){ 
+         Assert.assertFalse("Username was found", service.checkImages("UserDoesntExist"));
+    }
+    
+    @Test
+    public void testGetNextID(){
+        Assert.assertEquals("Wrong",2,service.getNextID());
+    }
+    
+    @Test
+    public void testGetCount(){
+        Assert.assertEquals("FAIL COUNT",2,service.getCount());
+    }
+}  
+       
       
-}
+        
+
