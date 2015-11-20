@@ -28,11 +28,14 @@ public interface IImagesService {
     long getNextID();
     
     @Transactional
-    public List<ImagesMod> getAllUsers();
-    
-    @Transactional
-    public List<ImagesMod> getAllUsers(Long id);
+    public List<ImagesMod> getAllImages();
     
     @Transactional
     public void deleteImage(ImagesMod images);
+    
+    @Transactional
+    public boolean checkImages(String name);
+    
+    @Transactional
+    public long getCount();
 }
