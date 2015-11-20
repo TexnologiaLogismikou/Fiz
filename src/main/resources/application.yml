@@ -5,6 +5,12 @@
 
 # Spring Configuration
 spring:
+    #View configuration
+    view:
+        prefix: /WEB-INF/jsp/
+        suffix: .jsp
+        viewClass: org.springframework.web.servlet.view.JstlView
+
     # IDENTITY (ContextIdApplicationContextInitializer)
     application:
         name: Fiz

@@ -22,14 +22,15 @@ public class UserController {
     @Autowired
     IUserService service;
 
+
     /**
      * Handles the GET method in /user/{username}
-     * @param username
+     *
      * @return ModelAndView object to the view resolver
      */
     @RequestMapping(value = "/{username}",method = RequestMethod.GET)
     public ModelAndView loadUserProfile(@PathVariable String username){
         User user = service.getUserByUsername(username.toLowerCase());
-        return new ModelAndView("/WEB-INF/views/userProfile.jsp","user", user);
+        return new ModelAndView("userProfile","user", user);
     }
 }
