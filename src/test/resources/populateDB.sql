@@ -7,7 +7,7 @@
  * Author:  KuroiTenshi
  * Created: Nov 15, 2015
  */
-
+delete from friendlist;
 delete from usersdata;
 
 insert into usersdata  values (1,'milena','milena');
