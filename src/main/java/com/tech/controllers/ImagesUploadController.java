@@ -7,6 +7,11 @@ package com.tech.controllers;
 
 import com.tech.models.entities.ImagesMod;
 import com.tech.services.interfaces.IImagesService;
+import com.tech.services.interfaces.IUserService;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -25,9 +30,13 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/upload")
 public class ImagesUploadController {
+    private Calendar calendar = Calendar.getInstance(Locale.getDefault());
     
     @Autowired
     IImagesService service;
+    
+    @Autowired
+    IUserService userService;
     
 //    @RequestMapping(value = "/a",method = RequestMethod.POST/*,produces = "image/jpg"*/ )//value = "/a",
 //    public HttpEntity<String> loadImages(@RequestParam("name") String name, @RequestParam("file") byte[] file){
@@ -41,11 +50,15 @@ public class ImagesUploadController {
 //    }
     
     @RequestMapping(value = "/c",method = RequestMethod.POST,produces = "image/jpg")//value = "/a",
-    public HttpEntity<String> loadImages(@RequestParam("userid") String name, @RequestParam("file") MultipartFile file){
-       if(!file.isEmpty()) {
+    public HttpEntity<String> loadImages(@RequestParam("userid") Long userid, @RequestParam("file") MultipartFile file){
+        if (userService.getUserById(userid) == null){
+            return new ResponseEntity<>("User doesnt exist",null,HttpStatus.NOT_FOUND);
+        }
+        
+        if(!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
-                ImagesMod img = new ImagesMod(service.getNextID(),name,bytes);
+                ImagesMod img = new ImagesMod(userid,new Timestamp(calendar.getTime().getTime()),bytes);
                 service.addImage(img);
                 return new ResponseEntity<>("G00D", null, HttpStatus.OK);
             }catch (Exception e) {
@@ -67,15 +80,16 @@ public class ImagesUploadController {
             method = RequestMethod.GET, 
             produces = "image/jpg")
     public @ResponseBody byte[]  downloadImages(@RequestParam("id") Long id) {
-        ImagesMod img = service.getImageByID(id);
-       return img.getImages();
+        List<ImagesMod> img = service.getImageByUserID(id);
+       return img.get(0).getImages();
     }
     
     @RequestMapping(method = RequestMethod.POST, 
             produces = "image/jpg")
     public @ResponseBody byte[]  downloadImagesWithPost(@RequestParam("id") Long id) {
-        ImagesMod img = service.getImageByID(id);//kanei return men .. alla sto script kanw get apo tin alli sinartisi. dn douleuei 
-        return img.getImages();
+        
+        List<ImagesMod> img = service.getImageByUserID(id);
+       return img.get(0).getImages();
        
     }
 }

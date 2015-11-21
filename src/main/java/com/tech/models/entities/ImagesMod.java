@@ -5,9 +5,13 @@
  */
 package com.tech.models.entities;
 
+import com.tech.models.entities.embeddedIds.ImageComposite;
+import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -15,15 +19,16 @@ import javax.persistence.Table;
  * @author KuroiTenshi
  */
 @Entity
+@IdClass(ImageComposite.class)
+@NamedQuery(name = "ImagesMod.findByUserid", query = "SELECT p FROM ImagesMod p WHERE p.userid = ?1")//edw vazw oti query thelw
 @Table(name = "images")
 public class ImagesMod {
     
-    @Id //id = primary key
-    @Column(name = "id") //column that the variable belongs
-    private Long id;
+    @Id 
+    private Long userid;
 
-    @Column(name = "name") //column that the variable belongs
-    private String name;
+    @Id
+    private Timestamp tmstamp;
        
     @Column(name = "images")
     private byte[] images;  
@@ -33,34 +38,34 @@ public class ImagesMod {
         
     }
     
-    public ImagesMod(Long id,String name,byte[] data) {
-        this.id = id;
-        this.name = name;
+    public ImagesMod(Long userid,Timestamp tmstamp,byte[] data) {
+        this.userid = userid;
+        this.tmstamp = tmstamp;
         this.images = data;
     }
     
-    public long getID(){
-        return id;
+    public long getUserID(){
+        return userid;
     }
     
-    public String getName(){
-        return name;
+    public Timestamp getTimestamp(){
+        return tmstamp;
     }
     
     public byte[] getImages(){
         return images;
     }
     
-    public void setID(long id){
-        this.id = id;
+    public void setUserid(long userid){
+        this.userid = userid;
     }
     
-    public void setName(String name){
-        this.name = name;
+    public void setName(Timestamp tmstamp){
+        this.tmstamp = tmstamp;
     }
     
-    public void setImages(byte[] name){
-        this.images = name;
+    public void setImages(byte[] data){
+        this.images = data;
     }
     
 }

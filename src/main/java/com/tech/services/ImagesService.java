@@ -6,7 +6,6 @@
 package com.tech.services;
 
 import com.tech.models.entities.ImagesMod;
-import com.tech.models.entities.User;
 import com.tech.repositories.IImagesRepository;
 import java.util.List;
 
@@ -27,14 +26,15 @@ public class ImagesService implements IImagesService {
     
     @Transactional
     @Override
-    public ImagesMod getImageByID(long id){
-        return repository.getOne(id);
+    public List<ImagesMod> getImageByUserID(long id){
+        return repository.findByUserid(id);
     }
     
     @Override
     @Transactional
     public ImagesMod getImageByName(String name){
-        return repository.findByName(name);
+        //return repository.findByName(name);
+        throw new UnsupportedOperationException("handler was changed");
     }
     
     @Transactional
@@ -71,8 +71,9 @@ public class ImagesService implements IImagesService {
      */
     @Override
     public boolean checkImagesByName(String name) {
-        ImagesMod tstImg = repository.findByName(name);
-        return tstImg!=null;
+//        ImagesMod tstImg = repository.findByName(name);
+//        return tstImg!=null;
+        throw new UnsupportedOperationException("handler was changed");
     }
     
     @Override

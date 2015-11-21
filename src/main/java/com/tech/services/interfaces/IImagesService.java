@@ -19,7 +19,7 @@ public interface IImagesService {
     public void addImage(ImagesMod newImg);
     
     @Transactional
-    public ImagesMod getImageByID(long id);
+    public List<ImagesMod> getImageByUserID(long id);
     
     @Transactional
     public ImagesMod getImageByName(String name);
