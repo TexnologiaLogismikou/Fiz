@@ -3,41 +3,41 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
-
-function uploadImage(){
-    document.getElementById("images").disabled = true;
-   var images = document.getElementById("images");
-   var imName = document.getElementById("filename").value;
-     
-    $.ajax({
-        type : "post", 
-        url  : "/upload/a", 
-        //accept: "application/json",
-        //contentType: "application/json",
-        data : {"name":imName
-               ,"file":images.src},
-                
-         success : function() { 
-            //document.getElementById("images").value = null;//clears the input field "images"
-            document.getElementById("images").value = "";
-            document.getElementById("filename").value = "";
-            alert("success");
-        },
-        
-         error : function(response,e,data) { //if the program responds with fail-error this part of the code will run
-            switch(data.toString()){
-                case "Not Found" ://posts a specified alert on the problem
-                    alert("images where wrong");
-                    break;
-                default://posts a general alert 
-                    alert("Unexpected Error \n" + data.toString());
-                    break;
-            }
-        }
-    });
-}
+//
+//
+//
+//function uploadImage(){
+//    document.getElementById("images").disabled = true;
+//   var images = document.getElementById("images");
+//   var imName = document.getElementById("filename").value;
+//     
+//    $.ajax({
+//        type : "post", 
+//        url  : "/upload/a", 
+//        //accept: "application/json",
+//        //contentType: "application/json",
+//        data : {"name":imName
+//               ,"file":images.src},
+//                
+//         success : function() { 
+//            //document.getElementById("images").value = null;//clears the input field "images"
+//            document.getElementById("images").value = "";
+//            document.getElementById("filename").value = "";
+//            alert("success");
+//        },
+//        
+//         error : function(response,e,data) { //if the program responds with fail-error this part of the code will run
+//            switch(data.toString()){
+//                case "Not Found" ://posts a specified alert on the problem
+//                    alert("images where wrong");
+//                    break;
+//                default://posts a general alert 
+//                    alert("Unexpected Error \n" + data.toString());
+//                    break;
+//            }
+//        }
+//    });
+//}
 
     function downloadImageWithPost(){
         var imgID = document.getElementById("imgID").value;
@@ -57,33 +57,3 @@ function uploadImage(){
         }
     });    
 }
-
-
-//    function b64toBlob(b64Data, contentType, sliceSize) {
-//        contentType = contentType || '';
-//        sliceSize = sliceSize || 1024;
-//       var byteCharacters = atob(b64Data);
-//        var byteArrays = [];
-//
-//        for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-//            var slice = byteCharacters.slice(offset, offset + sliceSize);
-//            var byteNumbers = Array.prototype.map.call(slice, charCodeFromCharacter);
-//            var byteArray = new Uint8Array(byteNumbers);
-//            byteArrays.push(byteArray);
-//        }
-//        for (var i = 0; i < byteArray.length; i++) {
-//            alert(byteArray[i]);
-//        }
-//
-//    }
-//     function uploadFile() {
-//        var input = document.getElementById('images');
-//        alert("input" + input.toString());
-//        // var file = $("#objFile")[0].files[0];
-//        var file = input.files[0];
-//        alert("file" + file.toString());
-//        fr = new FileReader();
-//        fr.onload = receivedText;
-//        //fr.readAsText(file);
-//        fr.readAsDataURL(file);
-//    }

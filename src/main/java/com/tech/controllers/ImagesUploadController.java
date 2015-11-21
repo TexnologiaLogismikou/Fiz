@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -28,33 +29,33 @@ public class ImagesUploadController {
     @Autowired
     IImagesService service;
     
-    @RequestMapping(value = "/a",method = RequestMethod.POST/*,produces = "image/jpg"*/ )//value = "/a",
-    public HttpEntity<String> loadImages(@RequestParam("name") String name, @RequestParam("file") byte[] file){
-        //TODO kapos 8a pei kai pios user anebase tin eikona stin kataxwrisi 
-        if (!service.checkImagesByName(name)) {
-            service.addImage(new ImagesMod(service.getNextID(),name,file));    
-            return new ResponseEntity<>("G00D", null, HttpStatus.OK);         
-        }
-        return new ResponseEntity<>("image name already exists", null, HttpStatus.FOUND); 
-                        
-    }
-    
-//    @RequestMapping(value = "/c",method = RequestMethod.POST,produces = "image/jpg")//value = "/a",
-//    public HttpEntity<String> loadImages(@RequestParam("name") String name, @RequestParam("file") MultipartFile file){
-//       if(!file.isEmpty()) {
-//            try {
-//                byte[] bytes = file.getBytes();
-//                ImagesMod img = new ImagesMod(service.getNextID(),name,bytes);
-//                service.addImage(img);
-//                return new ResponseEntity<>("G00D", null, HttpStatus.OK);
-//            }catch (Exception e) {
-//                return new ResponseEntity<>("bad", null, HttpStatus.NOT_FOUND);
-//            } 
-//        } else {
-//            return new ResponseEntity<>("empty", null, HttpStatus.NOT_FOUND);
+//    @RequestMapping(value = "/a",method = RequestMethod.POST/*,produces = "image/jpg"*/ )//value = "/a",
+//    public HttpEntity<String> loadImages(@RequestParam("name") String name, @RequestParam("file") byte[] file){
+//        //TODO kapos 8a pei kai pios user anebase tin eikona stin kataxwrisi 
+//        if (!service.checkImagesByName(name)) {
+//            service.addImage(new ImagesMod(service.getNextID(),name,file));    
+//            return new ResponseEntity<>("G00D", null, HttpStatus.OK);         
 //        }
-////        return new ResponseEntity<>("bad", null, HttpStatus.NOT_FOUND); //on username failure (to find it) it will return a NOT_FOUND enum      
+//        return new ResponseEntity<>("image name already exists", null, HttpStatus.FOUND); 
+//                        
 //    }
+    
+    @RequestMapping(value = "/c",method = RequestMethod.POST,produces = "image/jpg")//value = "/a",
+    public HttpEntity<String> loadImages(@RequestParam("userid") String name, @RequestParam("file") MultipartFile file){
+       if(!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+                ImagesMod img = new ImagesMod(service.getNextID(),name,bytes);
+                service.addImage(img);
+                return new ResponseEntity<>("G00D", null, HttpStatus.OK);
+            }catch (Exception e) {
+                return new ResponseEntity<>("bad", null, HttpStatus.NOT_FOUND);
+            } 
+        } else {
+            return new ResponseEntity<>("empty", null, HttpStatus.NOT_FOUND);
+        }
+//        return new ResponseEntity<>("bad", null, HttpStatus.NOT_FOUND); //on username failure (to find it) it will return a NOT_FOUND enum      
+    }
     
     
     /**

@@ -14,7 +14,7 @@ and open the template in the editor.
     </head>
     <body>
          <div id="body-wrapper">
-             <table>
+<!--             <table>
                 <tr>
 
                     <td>images: </td>
@@ -27,15 +27,16 @@ and open the template in the editor.
                     <td></td>
                     <td><button type="button" onclick="uploadImage()">upload image</button></td>
                     </tr>
-             </table> <br /> <br /> <br />
+             </table> <br /> <br /> <br />-->
 <!--             MORE
              
-           <form method="POST" enctype="multipart/form-data"
-		action="/upload/c">
-		File to upload: <input type="file" name="file"><br /> Name: <input type="text" name="name"><br /> <br />
-               <input type="submit" value="Upload"> Press here to upload the file!
+-->          <form method="POST" enctype="multipart/form-data" action="/upload/c">File to upload: 
+                <input type="file" name="file"><br /> Userid: 
+                <input type="text" name="userid"><br /> <br />
+                <input type="submit" value="Upload"> Press here to upload the file!
             </form>
-            <br /><br />-->
+
+            <br /><br />
             
             <input type="text" name="imgID" id="imgID" required >
              <button type="button" onclick="downloadImageWithPost()">download With Post</button><br/>
