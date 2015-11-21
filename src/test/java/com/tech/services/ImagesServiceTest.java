@@ -147,18 +147,18 @@ public class ImagesServiceTest extends AbstractTest{
         service.deleteImage(images);
         //Assert.assertNotEquals(service.getImageByID(0L),images);
         //Assert.assertNull(service.getImageByID(1L));
-        Assert.assertFalse("Image wasnt deleted", service.checkImages(images.getName()));
+        Assert.assertFalse("Image wasnt deleted", service.checkImagesByName(images.getName()));
     }
      
     
     @Test
     public void testCheckImagesTrue(){ 
-        Assert.assertTrue("Image wasnt found", service.checkImages(images.getName()));
+        Assert.assertTrue("Image wasnt found", service.checkImagesByName(images.getName()));
     }
     
     @Test
     public void testCheckImagesFalse(){ 
-         Assert.assertFalse("Image was found", service.checkImages("PictureDoesntExist"));
+         Assert.assertFalse("Image was found", service.checkImagesByName("PictureDoesntExist"));
     }
     
     @Test

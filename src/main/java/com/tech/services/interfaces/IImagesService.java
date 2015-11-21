@@ -34,7 +34,7 @@ public interface IImagesService {
     public void deleteImage(ImagesMod images);
     
     @Transactional
-    public boolean checkImages(String name);
+    public boolean checkImagesByName(String name);
     
     @Transactional
     public long getCount();

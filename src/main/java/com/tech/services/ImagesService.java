@@ -64,14 +64,15 @@ public class ImagesService implements IImagesService {
         repository.delete(images);
     }
     
+    /**
+     * 
+     * @param name
+     * @return true if the image exists else false
+     */
     @Override
-    public boolean checkImages(String name) {
-        for(ImagesMod vLookUp:repository.findAll()) {
-            if(vLookUp.getName().equalsIgnoreCase(name)){
-                return true;
-            }
-        }
-        return false;
+    public boolean checkImagesByName(String name) {
+        ImagesMod tstImg = repository.findByName(name);
+        return tstImg!=null;
     }
     
     @Override
