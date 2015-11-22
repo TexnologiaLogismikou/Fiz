@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -50,6 +51,7 @@ public class ImagesUploadController {
     @RequestMapping(method = RequestMethod.POST)
     public HttpEntity<String> loadImages(@RequestParam("userid") Long userid, @RequestParam("file") MultipartFile file){
         Timestamp tm = new Timestamp(Calendar.getInstance(Locale.getDefault()).getTime().getTime());
+ 
         if (userService.getUserById(userid) == null){
             return new ResponseEntity<>("User doesnt exist",null,HttpStatus.NOT_FOUND);
         }
@@ -57,7 +59,7 @@ public class ImagesUploadController {
             try {
                 byte[] bytes = file.getBytes();
                 ImagesMod img = new ImagesMod(userid,tm
-                        ,bytes,tm.hashCode());
+                        ,bytes,tm.hashCode()+userid.hashCode());//TODO
                 service.addImage(img);
                 return new ResponseEntity<>("G00D", null, HttpStatus.OK);
             }catch (Exception e) {
