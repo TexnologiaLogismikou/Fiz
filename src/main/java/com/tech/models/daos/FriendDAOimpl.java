@@ -31,13 +31,24 @@ public class FriendDAOimpl implements FriendDAO
     @Override
     public void save(FriendDAO friendDAO)
     {
+        friendDAO.toString();
         Session session = this.sessionFactory.openSession();//Initialize the Session 
         Transaction tx = session.beginTransaction();//Starts a transaction with the database to add data (using the Created Session)
         session.persist(friendDAO);//adds the DAO in the session
         tx.commit(); // Commits the changes with the Transaction in the database
         session.close(); //Close the session
     }
-    
+    /*
+    @Override
+    public void delete(FriendDAO friendDAO)
+    {
+        Session session = this.sessionFactory.openSession();//Initialize the Session 
+        Transaction tx = session.beginTransaction();//Starts a transaction with the database to add data (using the Created Session)
+        session.delete(friendDAO);
+        tx.commit();// Commits the changes with the Transaction in the database
+        session.close(); //Close the session
+    }
+    */
     @Override
     @SuppressWarnings("unchecked")
     public List<FriendDAO> list()

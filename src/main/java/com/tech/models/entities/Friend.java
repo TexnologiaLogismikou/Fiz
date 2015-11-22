@@ -59,5 +59,4 @@ public class Friend implements Serializable
     {
        this.friendid = friendid;
     }
-  
 }

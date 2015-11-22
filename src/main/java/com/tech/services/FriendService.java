@@ -31,6 +31,13 @@ public class FriendService implements IFriendService
         repository.save(friend);
     }
     
+    @Override
+    @Transactional
+    public void deleteFriend(Friend friend)
+    {
+        repository.delete(friend);
+    }
+    
     /**
      * 
      * @param userid
@@ -42,4 +49,20 @@ public class FriendService implements IFriendService
     {  
         return repository.findByUserid(userid);
     }  
+    
+    @Override
+    @Transactional
+    //Checking if the friend give as parameter, exists in the friendRepository
+    public boolean checkExistence(Friend someFriend)
+    {
+        boolean found = false;
+        for (Friend friend: repository.findAll())
+        {
+            if (someFriend.getUserid().compareTo(friend.getUserid())==0 && someFriend.getFriendid().compareTo(friend.getFriendid())==0)
+            {
+                found = true;
+            }   
+        }
+        return found;
+    }
 }

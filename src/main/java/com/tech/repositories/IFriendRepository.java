@@ -17,5 +17,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IFriendRepository extends JpaRepository<Friend, Long> 
 {
-      List<Friend> findByUserid(Long userid);
+    List<Friend> findByUserid(Long userid);
 }
