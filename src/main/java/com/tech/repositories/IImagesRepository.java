@@ -18,5 +18,6 @@ import org.springframework.stereotype.Repository;
 public interface IImagesRepository extends JpaRepository<ImagesMod,Long>{
     //ImagesMod findByName(String name);
     List<ImagesMod> findByUserid(Long id);
+    ImagesMod findByHashtag(Long hashtag);
     
 }

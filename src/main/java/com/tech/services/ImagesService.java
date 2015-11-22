@@ -32,9 +32,8 @@ public class ImagesService implements IImagesService {
     
     @Override
     @Transactional
-    public ImagesMod getImageByName(String name){
-        //return repository.findByName(name);
-        throw new UnsupportedOperationException("handler was changed");
+    public ImagesMod getImageByHashtag(Long tag){
+        return repository.findByHashtag(tag);
     }
     
     @Transactional
@@ -47,7 +46,7 @@ public class ImagesService implements IImagesService {
     @Override
     @Transactional
     public long getNextID() {
-        return repository.count();
+        return repository.count();//TODO toDelete
         
     }
     
@@ -70,10 +69,9 @@ public class ImagesService implements IImagesService {
      * @return true if the image exists else false
      */
     @Override
-    public boolean checkImagesByName(String name) {
-//        ImagesMod tstImg = repository.findByName(name);
-//        return tstImg!=null;
-        throw new UnsupportedOperationException("handler was changed");
+    public boolean checkImagesByHashtag(Long hashtag) {
+        ImagesMod tstImg = repository.findByHashtag(hashtag);
+        return tstImg!=null;
     }
     
     @Override

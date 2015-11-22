@@ -36,11 +36,7 @@ public class ImageComposite implements Serializable{
                 return false;
             }
  
-            if(!friendPK.tmstamp.equals(tmstamp)){
-                return false;
-            }
- 
-            return true;
+            return friendPK.tmstamp.equals(tmstamp);
         }
  
         return false;

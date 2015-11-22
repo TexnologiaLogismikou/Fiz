@@ -22,7 +22,7 @@ public interface IImagesService {
     public List<ImagesMod> getImageByUserID(long id);
     
     @Transactional
-    public ImagesMod getImageByName(String name);
+    public ImagesMod getImageByHashtag(Long tag);
     
     @Transactional
     long getNextID();
@@ -34,7 +34,7 @@ public interface IImagesService {
     public void deleteImage(ImagesMod images);
     
     @Transactional
-    public boolean checkImagesByName(String name);
+    public boolean checkImagesByHashtag(Long hashtag);
     
     @Transactional
     public long getCount();

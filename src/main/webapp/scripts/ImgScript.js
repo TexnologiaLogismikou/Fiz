@@ -41,19 +41,20 @@
 
     function downloadImageWithPost(){
         var imgID = document.getElementById("imgID").value;
-            document.getElementById("ItemPreview").src= null;
-            document.getElementById("ItemPreview").alt = null;
-    $.ajax({
-        type : "post",
-        url  : "/upload",
-        accept: "image/jpg",
-        data: {"id" : imgID},
-        success : function(data) {
-            document.getElementById("ItemPreview").src = "/upload/b?id=" + imgID;
-            document.getElementById("ItemPreview").alt = "NO image";
-        },
-        error : function () {
-            alert("all bad");
+            var doc = "upload/get/" + imgID + ".jpg";
+            $.ajax({
+                type:"post",
+                url:"/upload/get/" + imgID + ".jpg",
+                accept: "image/jpg",
+                success : function(data) {
+                    document.getElementById("ItemPreview").src = "/upload/get/" + imgID + ".jpg";
+                    document.getElementById("ItemPreview").alt = "title"; 
+                    
+                },
+                error : function(data) {
+                    document.getElementById("ItemPreview").src = null;
+                    document.getElementById("ItemPreview").alt = "error";
+                }
+            });
         }
-    });    
-}
+        
