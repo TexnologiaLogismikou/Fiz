@@ -10,9 +10,13 @@ import com.tech.services.interfaces.IImagesService;
 import com.tech.services.interfaces.IUserService;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -31,9 +35,10 @@ import org.springframework.web.multipart.MultipartFile;
  * @author KuroiTenshi
  */
 @RestController
-@RequestMapping("/upload")
-public class ImagesUploadController {
+@RequestMapping("/images")
+public class ImagesController {
     ClassLoader cl = getClass().getClassLoader();
+    String fixedData = "C:\\vol\\images";
     
     @Autowired
     IImagesService service;
@@ -47,17 +52,25 @@ public class ImagesUploadController {
      * @param file
      * @return http status depending on the validations
      */
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/upload",method = RequestMethod.POST)
     public HttpEntity<String> loadImages(@RequestParam("userid") Long userid, @RequestParam("file") MultipartFile file){
-        Timestamp tm = new Timestamp(Calendar.getInstance(Locale.getDefault()).getTime().getTime());
+//        Timestamp tm = new Timestamp(Calendar.getInstance(Locale.getDefault()).getTime().getTime());
+        Date tm = new Date();
         if (userService.getUserById(userid) == null){
             return new ResponseEntity<>("User doesnt exist",null,HttpStatus.NOT_FOUND);
         }
         if(!file.isEmpty()) {
+            Long imgPath = tm.hashCode() + userid.hashCode() + 0L;
             try {
                 byte[] bytes = file.getBytes();
+
+                Path pt = FileSystems.getDefault().getPath(fixedData + "\\" + imgPath + ".jpg");
+                Files.write(pt,bytes ,StandardOpenOption.CREATE);
+            
                 ImagesMod img = new ImagesMod(userid,tm
-                        ,bytes,tm.hashCode());
+                        ,fixedData + "\\" + imgPath + ".jpg"
+                        ,imgPath);
+                
                 service.addImage(img);
                 return new ResponseEntity<>("G00D", null, HttpStatus.OK);
             }catch (Exception e) {
@@ -80,12 +93,12 @@ public class ImagesUploadController {
         if (extension.equalsIgnoreCase("jpg")){
             Long num = Long.parseLong(arithName.substring(0,arithName.length()-1));
             if (service.checkImagesByHashtag(num)){
-                return service.getImageByHashtag(num).getImages();                
+                String path = service.getImageByHashtag(num).getImages();
+                return Files.readAllBytes(new File(path).toPath()); //added
             } else {
                 return Files.readAllBytes(new File(cl.getResource("images/ntf.jpg").getFile()).toPath());
             }
         } 
         return null;
     }
-
 }

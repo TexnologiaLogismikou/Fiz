@@ -6,7 +6,8 @@
 package com.tech.models.entities;
 
 import com.tech.models.entities.embeddedIds.ImageComposite;
-import java.sql.Timestamp;
+import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -27,8 +28,8 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "ImagesMod.findByUserid", query = "SELECT p FROM ImagesMod p WHERE p.userid = ?1"),
     @NamedQuery(name = "ImagesMod.findByHashtag",query = "SELECT p FROM ImagesMod p WHERE p.hashtag = ?1")
 })
-@Table(name = "images")
-public class ImagesMod {
+@Table(name = "images2")
+public class ImagesMod implements Serializable {
     
     @Id 
     @NotNull
@@ -37,11 +38,11 @@ public class ImagesMod {
 
     @Id
     @NotNull
-    private Timestamp tmstamp;
+    private Date tmstamp;
        
     @Column(name = "images")
     @NotNull
-    private byte[] images;  
+    private String images;  
    
     @Column(name = "hashtag")
     @NotNull
@@ -51,7 +52,7 @@ public class ImagesMod {
         
     }
     
-    public ImagesMod(Long userid,Timestamp tmstamp,byte[] data,int hashtag) {
+    public ImagesMod(Long userid,Date tmstamp,String data,long hashtag) {
         this.userid = userid;
         this.tmstamp = tmstamp;
         this.images = data;
@@ -62,11 +63,11 @@ public class ImagesMod {
         return userid;
     }
     
-    public Timestamp getTimestamp(){
+    public Date getTimestamp(){
         return tmstamp;
     }
     
-    public byte[] getImages(){
+    public String getImages(){
         return images;
     }
     
@@ -78,11 +79,11 @@ public class ImagesMod {
         this.userid = userid;
     }
     
-    public void setName(Timestamp tmstamp){
+    public void setName(Date tmstamp){
         this.tmstamp = tmstamp;
     }
     
-    public void setImages(byte[] data){
+    public void setImages(String data){
         this.images = data;
     }
     

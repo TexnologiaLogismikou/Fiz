@@ -41,13 +41,12 @@
 
     function downloadImageWithPost(){
         var imgID = document.getElementById("imgID").value;
-            var doc = "upload/get/" + imgID + ".jpg";
-            $.ajax({
+            $.ajax({ 
                 type:"post",
-                url:"/upload/get/" + imgID + ".jpg",
+                url:"images/get/" + imgID + ".jpg",
                 accept: "image/jpg",
                 success : function(data) {
-                    document.getElementById("ItemPreview").src = "/upload/get/" + imgID + ".jpg";
+                    document.getElementById("ItemPreview").src = "images/get/" + imgID + ".jpg";
                     document.getElementById("ItemPreview").alt = "title"; 
                     
                 },
