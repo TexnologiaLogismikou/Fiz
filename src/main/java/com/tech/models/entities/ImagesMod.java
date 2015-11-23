@@ -28,7 +28,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "ImagesMod.findByUserid", query = "SELECT p FROM ImagesMod p WHERE p.userid = ?1"),
     @NamedQuery(name = "ImagesMod.findByHashtag",query = "SELECT p FROM ImagesMod p WHERE p.hashtag = ?1")
 })
-@Table(name = "images2")
+@Table(name = "images")
 public class ImagesMod implements Serializable {
     
     @Id 
