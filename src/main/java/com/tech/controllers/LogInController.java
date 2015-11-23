@@ -26,7 +26,7 @@ public class LogInController {
      * @param user User data
      * @return string in HttpEntity
      */
-    @RequestMapping(method = RequestMethod.POST) //TODO controllers need to be more general and will require JSON , Command as parameters -> not fields
+    @RequestMapping(method = RequestMethod.POST)
     public HttpEntity<String> loadUser(@RequestBody User user){
         if (service.validateUser(user.getUsername(),user.getPassword())) {
             return new ResponseEntity<>(HttpStatus.OK);

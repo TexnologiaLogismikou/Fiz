@@ -45,21 +45,16 @@ public class UserControllerTest {
     public void testLoadUserProfile_ShouldReturnUser() throws Exception {
         User user1 = new User((long)1,"alodapos","123");
 
-        User userTest = userServiceMock.getUserById((long)1);
-
         //get results, get the user from inside (as json), and transform to user object
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/users/alodapos")
                 .contentType("Application/json"))
                 .andReturn();
-        String afk = result.getResponse().getContentAsString();
-        System.out.println(afk);
-        ModelAndView modelAndView = result.getModelAndView();
-        Gson gson = new Gson();
-        System.out.println("---------------------------------------------------------");
-        System.out.println(modelAndView.getModel());
-        String userData = gson.toJson(modelAndView.getModel());
-        User user = gson.fromJson(userData,User.class);
 
-        assertEquals("Failure - expected " + user1.getUsername(), user1,user);
+        ModelAndView model = result.getModelAndView();
+        Gson gson = new Gson();
+        String userData = gson.toJson(model.getModel());
+        User user2 = gson.fromJson(userData,User.class);
+
+        assertEquals("Failure - expected " + user1.getUsername(), user1,user2);
     }
 }
