@@ -14,10 +14,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -37,7 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/images")
 public class ImagesController {
-    ClassLoader cl = getClass().getClassLoader();
+    ClassLoader cl = getClass().getClassLoader();  //gia na parw to path tis eikonas
     String fixedData = "C:\\vol\\images";
     
     @Autowired
@@ -54,7 +51,7 @@ public class ImagesController {
      */
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
     public HttpEntity<String> loadImages(@RequestParam("userid") Long userid, @RequestParam("file") MultipartFile file){
-//        Timestamp tm = new Timestamp(Calendar.getInstance(Locale.getDefault()).getTime().getTime());
+
         Date tm = new Date();
         if (userService.getUserById(userid) == null){
             return new ResponseEntity<>("User doesnt exist",null,HttpStatus.NOT_FOUND);
@@ -96,7 +93,7 @@ public class ImagesController {
                 String path = service.getImageByHashtag(num).getImages();
                 return Files.readAllBytes(new File(path).toPath()); //added
             } else {
-                return Files.readAllBytes(new File(cl.getResource("images/ntf.jpg").getFile()).toPath());
+                return Files.readAllBytes(new File(cl.getResource("images/ntf.jpg").getFile()).toPath());   //kai auto gia na parw mono to path
             }
         } 
         return null;
