@@ -27,7 +27,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "ImagesMod.findByUserid", query = "SELECT p FROM ImagesMod p WHERE p.userid = ?1"),
     @NamedQuery(name = "ImagesMod.findByHashtag",query = "SELECT p FROM ImagesMod p WHERE p.hashtag = ?1")
 })
-@Table(name = "images")
+@Table(name = "images2")
 public class ImagesMod {
     
     @Id 
@@ -41,7 +41,7 @@ public class ImagesMod {
        
     @Column(name = "images")
     @NotNull
-    private byte[] images;  
+    private String images;  
    
     @Column(name = "hashtag")
     @NotNull
@@ -51,7 +51,7 @@ public class ImagesMod {
         
     }
     
-    public ImagesMod(Long userid,Timestamp tmstamp,byte[] data,int hashtag) {
+    public ImagesMod(Long userid,Timestamp tmstamp,String data,long hashtag) {
         this.userid = userid;
         this.tmstamp = tmstamp;
         this.images = data;
@@ -66,7 +66,7 @@ public class ImagesMod {
         return tmstamp;
     }
     
-    public byte[] getImages(){
+    public String getImages(){
         return images;
     }
     
@@ -82,7 +82,7 @@ public class ImagesMod {
         this.tmstamp = tmstamp;
     }
     
-    public void setImages(byte[] data){
+    public void setImages(String data){
         this.images = data;
     }
     

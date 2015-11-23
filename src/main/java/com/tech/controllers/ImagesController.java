@@ -10,7 +10,10 @@ import com.tech.services.interfaces.IImagesService;
 import com.tech.services.interfaces.IUserService;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,6 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/images")
 public class ImagesController {
     ClassLoader cl = getClass().getClassLoader();
+    String fixedData = "C:\\vol\\images";
     
     @Autowired
     IImagesService service;
@@ -56,10 +60,21 @@ public class ImagesController {
             return new ResponseEntity<>("User doesnt exist",null,HttpStatus.NOT_FOUND);
         }
         if(!file.isEmpty()) {
+            Long imgPath = tm.hashCode() + userid.hashCode() + 0L;
             try {
                 byte[] bytes = file.getBytes();
+                
+                try {
+                    Path pt = FileSystems.getDefault().getPath(fixedData + "\\" + imgPath + ".jpg");
+                    Files.write(pt,bytes ,StandardOpenOption.CREATE);
+                } catch (IOException ex) {
+                    //TODO something
+                }    
+                
                 ImagesMod img = new ImagesMod(userid,tm
-                        ,bytes,tm.hashCode()+userid.hashCode());//TODO
+                        ,fixedData + "\\" + imgPath + ".jpg"
+                        ,imgPath);
+                
                 service.addImage(img);
                 return new ResponseEntity<>("G00D", null, HttpStatus.OK);
             }catch (Exception e) {
@@ -82,27 +97,12 @@ public class ImagesController {
         if (extension.equalsIgnoreCase("jpg")){
             Long num = Long.parseLong(arithName.substring(0,arithName.length()-1));
             if (service.checkImagesByHashtag(num)){
-                return service.getImageByHashtag(num).getImages();                
+                String path = service.getImageByHashtag(num).getImages();
+                return Files.readAllBytes(new File(path).toPath()); //added
             } else {
                 return Files.readAllBytes(new File(cl.getResource("images/ntf.jpg").getFile()).toPath());
             }
         } 
         return null;
-    }
-
-    @RequestMapping("/getNew/{arithName:^[1-9][0-9]+\\.}{extension}")
-    public @ResponseBody byte[] handleImage(@PathVariable String arithName, @PathVariable String extension)throws IOException {   
-        String fixedData = "C:\\vol\\images";
-        System.out.println(fixedData);
-        if (extension.equalsIgnoreCase("jpg")){
-            Long num = Long.parseLong(arithName.substring(0,arithName.length()-1));
-            if (service.checkImagesByHashtag(num)){
-                return service.getImageByHashtag(num).getImages();                
-            } else {
-                return Files.readAllBytes(new File(cl.getResource("images/ntf.jpg").getFile()).toPath());
-            }
-        } 
-        return null;
-        
     }
 }
