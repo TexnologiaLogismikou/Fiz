@@ -32,8 +32,8 @@ import org.springframework.web.multipart.MultipartFile;
  * @author KuroiTenshi
  */
 @RestController
-@RequestMapping("/upload")
-public class ImagesUploadController {
+@RequestMapping("/images")
+public class ImagesController {
     ClassLoader cl = getClass().getClassLoader();
     
     @Autowired
@@ -48,7 +48,7 @@ public class ImagesUploadController {
      * @param file
      * @return http status depending on the validations
      */
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/upload",method = RequestMethod.POST)
     public HttpEntity<String> loadImages(@RequestParam("userid") Long userid, @RequestParam("file") MultipartFile file){
         Timestamp tm = new Timestamp(Calendar.getInstance(Locale.getDefault()).getTime().getTime());
  
@@ -90,4 +90,19 @@ public class ImagesUploadController {
         return null;
     }
 
+    @RequestMapping("/getNew/{arithName:^[1-9][0-9]+\\.}{extension}")
+    public @ResponseBody byte[] handleImage(@PathVariable String arithName, @PathVariable String extension)throws IOException {   
+        String fixedData = "C:\\vol\\images";
+        System.out.println(fixedData);
+        if (extension.equalsIgnoreCase("jpg")){
+            Long num = Long.parseLong(arithName.substring(0,arithName.length()-1));
+            if (service.checkImagesByHashtag(num)){
+                return service.getImageByHashtag(num).getImages();                
+            } else {
+                return Files.readAllBytes(new File(cl.getResource("images/ntf.jpg").getFile()).toPath());
+            }
+        } 
+        return null;
+        
+    }
 }
