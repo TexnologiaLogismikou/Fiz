@@ -7,6 +7,7 @@ package com.tech.models.entities.embeddedIds;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 import javax.persistence.Embeddable;
 
 /**
@@ -16,14 +17,14 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class ImageComposite implements Serializable{
      protected Long userid; //gia na mi vazoume getters kai setters..
-    protected Timestamp tmstamp;
+    protected Date tmstamp;
   
   public ImageComposite()
   {
       
   }
   
-  public ImageComposite(Long userid,Timestamp tmstamp) {
+  public ImageComposite(Long userid,Date tmstamp) {
       this.userid = userid;
       this.tmstamp = tmstamp;
   }

@@ -54,8 +54,8 @@ public class ImagesController {
      */
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
     public HttpEntity<String> loadImages(@RequestParam("userid") Long userid, @RequestParam("file") MultipartFile file){
-        Timestamp tm = new Timestamp(Calendar.getInstance(Locale.getDefault()).getTime().getTime());
- 
+//        Timestamp tm = new Timestamp(Calendar.getInstance(Locale.getDefault()).getTime().getTime());
+        Date tm = new Date();
         if (userService.getUserById(userid) == null){
             return new ResponseEntity<>("User doesnt exist",null,HttpStatus.NOT_FOUND);
         }
@@ -63,14 +63,10 @@ public class ImagesController {
             Long imgPath = tm.hashCode() + userid.hashCode() + 0L;
             try {
                 byte[] bytes = file.getBytes();
-                
-                try {
-                    Path pt = FileSystems.getDefault().getPath(fixedData + "\\" + imgPath + ".jpg");
-                    Files.write(pt,bytes ,StandardOpenOption.CREATE);
-                } catch (IOException ex) {
-                    //TODO something
-                }    
-                
+
+                Path pt = FileSystems.getDefault().getPath(fixedData + "\\" + imgPath + ".jpg");
+                Files.write(pt,bytes ,StandardOpenOption.CREATE);
+            
                 ImagesMod img = new ImagesMod(userid,tm
                         ,fixedData + "\\" + imgPath + ".jpg"
                         ,imgPath);

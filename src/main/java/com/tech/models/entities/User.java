@@ -1,6 +1,5 @@
 package com.tech.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -11,6 +10,7 @@ import javax.persistence.*;
  * @author KuroiTenshi
  */
 @Entity
+@NamedQuery(name = "User.findByUserid", query = "SELECT p FROM User p WHERE p.id = ?1")
 @Table (name = "Usersdata")
 public class User {
     
