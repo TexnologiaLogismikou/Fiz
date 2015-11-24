@@ -8,6 +8,7 @@ package com.tech.services;
 import com.tech.AbstractTest;
 import com.tech.models.entities.Friend;
 import com.tech.services.interfaces.IFriendService;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -28,12 +29,17 @@ public class FriendServiceTest extends AbstractTest
 {
     @Autowired
     IFriendService service;
+    private ArrayList<Friend> addedFriends = new ArrayList<>();
+    private ArrayList<Friend> deletedFriends = new ArrayList<>();;
+    
+    
     
     public FriendServiceTest() {
     }
     
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass() 
+    { 
     }
     
     @AfterClass
@@ -43,11 +49,16 @@ public class FriendServiceTest extends AbstractTest
     @Before
     public void setUp()
     {
-       
+       addedFriends.add(new Friend(1L,2L));
+       addedFriends.add(new Friend(1L,3L));
+       deletedFriends.add(new Friend(1L,4L));
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() 
+    {
+        addedFriends = null;
+        deletedFriends = null;
     }
     
     @Test
@@ -68,9 +79,21 @@ public class FriendServiceTest extends AbstractTest
     @Sql(scripts = "classpath:friendTesting.sql")
     public void testGetFriendsByUser()
     {
-        List<Friend> friendList = service.getFriendsByUser(1L);
-        Assert.assertTrue("failure",friendList.get(0).getFriendid().equals(2L));
-        Assert.assertTrue("failure",friendList.get(1).getFriendid().equals(3L));       
+        List<Friend> friendList = service.getFriendsByUser(1L);    
+        Assert.assertTrue("wrong match",friendList.get(0).getFriendid().equals(2L));
+        Assert.assertTrue("wrong match",friendList.get(1).getFriendid().equals(3L));
     }
+   
     
+    @Test
+    @Sql(scripts = "classpath:friendTesting.sql")
+    public void testFriendDeleted()
+    {
+        List<Friend> friendList = service.getFriendsByUser(1L);    
+        // Deleting the friend 4 that user 1 has.
+        service.deleteFriend(deletedFriends.get(0));
+        //Here we are testing if the user 2 was deleted from the friendList of user 1
+        Assert.assertFalse("error in deleting fiend",service.checkFriendIfExists(deletedFriends.get(0)));
+    }
 }
+

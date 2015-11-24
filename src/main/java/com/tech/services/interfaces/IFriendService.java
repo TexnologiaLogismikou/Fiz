@@ -19,6 +19,9 @@ public interface IFriendService
     public void addFriend(Friend friend);
     
     @Transactional
+    public void deleteFriend(Friend friend);
+    
+    @Transactional
     public List<Friend> getFriendsByUser(Long userid);
     
     @Transactional

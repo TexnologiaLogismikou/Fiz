@@ -31,6 +31,13 @@ public class FriendService implements IFriendService
         repository.save(friend);
     }
     
+    @Override
+    @Transactional
+    public void deleteFriend(Friend friend)
+    {
+        repository.delete(friend);
+    }
+    
     /**
      * 
      * @param userid
