@@ -5,7 +5,7 @@
  */
 package com.tech.models.entities;
 
-import com.tech.models.entities.EmbeddedIds.FriendComposite;
+import com.tech.models.entities.embeddedIds.FriendComposite;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import javax.persistence.Entity;

@@ -20,4 +20,7 @@ public interface IFriendService
     
     @Transactional
     public List<Friend> getFriendsByUser(Long userid);
+    
+    @Transactional
+    public Boolean checkFriendIfExists(Friend friend);
 }

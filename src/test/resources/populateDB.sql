@@ -7,6 +7,7 @@
  * Author:  KuroiTenshi
  * Created: Nov 15, 2015
  */
+delete from images;
 delete from friendlist;
 delete from usersdata;
 

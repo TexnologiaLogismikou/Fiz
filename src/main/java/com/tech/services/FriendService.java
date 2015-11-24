@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class FriendService implements IFriendService
 {
-     @Autowired
+    @Autowired
     private IFriendRepository repository;
 
     @Override
@@ -41,5 +41,19 @@ public class FriendService implements IFriendService
     public List<Friend> getFriendsByUser(Long userid)
     {  
         return repository.findByUserid(userid);
+    }  
+    
+    @Transactional
+    @Override
+    public Boolean checkFriendIfExists(Friend friend)
+    { 
+        for(Friend vLookUp:repository.findByUserid(friend.getUserid()))
+        {
+            if(vLookUp.getFriendid().equals(friend.getFriendid()))
+            {
+                return true;
+            }
+        }
+        return false;
     }  
 }

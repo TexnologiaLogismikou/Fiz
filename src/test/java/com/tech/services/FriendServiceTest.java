@@ -50,6 +50,16 @@ public class FriendServiceTest extends AbstractTest
     public void tearDown() {
     }
     
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    @Sql(scripts = "classpath:friendTesting.sql")
+    public void testAddFriend()
+    {
+      Friend friend = new Friend(3L,1L);
+      service.addFriend(friend);
+      Assert.assertTrue("fail",service.checkFriendIfExists(friend));
+    }
+    
     /**
      * Test of getFriendByUser method, of class FriendService.
      */
@@ -59,18 +69,8 @@ public class FriendServiceTest extends AbstractTest
     public void testGetFriendsByUser()
     {
         List<Friend> friendList = service.getFriendsByUser(1L);
-        Assert.assertTrue("i milena nistazei",friendList.get(0).getFriendid().equals(2L));
-        Assert.assertTrue("i milena nistazei",friendList.get(1).getFriendid().equals(3L));
-
-        
-    }
-    
-    @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    @Sql(scripts = "classpath:friendTesting.sql")
-    public void testGetFriendStatus()
-    {
-        
+        Assert.assertTrue("failure",friendList.get(0).getFriendid().equals(2L));
+        Assert.assertTrue("failure",friendList.get(1).getFriendid().equals(3L));       
     }
     
 }
