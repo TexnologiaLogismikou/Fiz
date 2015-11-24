@@ -35,7 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/images")
 public class ImagesController {
     ClassLoader cl = getClass().getClassLoader();  //gia na parw to path tis eikonas
-    String fixedData = "C:\\vol\\images";
+    String fixedData = "C:\\vol\\images";//TODO will be property
     
     @Autowired
     IImagesService service;
@@ -57,16 +57,14 @@ public class ImagesController {
             return new ResponseEntity<>("User doesnt exist",null,HttpStatus.NOT_FOUND);
         }
         if(!file.isEmpty()) {
-            Long imgPath = tm.hashCode() + userid.hashCode() + 0L;
+            Long imgPath = tm.hashCode() + userid.hashCode() + 0L; // 4000_2567  --> 2_3_4000_567
             try {
                 byte[] bytes = file.getBytes();
 
                 Path pt = FileSystems.getDefault().getPath(fixedData + "\\" + imgPath + ".jpg");
                 Files.write(pt,bytes ,StandardOpenOption.CREATE);
             
-                ImagesMod img = new ImagesMod(userid,tm
-                        ,fixedData + "\\" + imgPath + ".jpg"
-                        ,imgPath);
+                ImagesMod img = new ImagesMod(userid,tm,fixedData + "\\" + imgPath + ".jpg",imgPath);
                 
                 service.addImage(img);
                 return new ResponseEntity<>("G00D", null, HttpStatus.OK);
@@ -95,7 +93,7 @@ public class ImagesController {
             } else {
                 return Files.readAllBytes(new File(cl.getResource("images/ntf.jpg").getFile()).toPath());   //kai auto gia na parw mono to path
             }
-        } 
+        }
         return null;
     }
 }
