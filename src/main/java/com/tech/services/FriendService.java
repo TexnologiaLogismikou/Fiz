@@ -43,6 +43,11 @@ public class FriendService implements IFriendService
         return repository.findByUserid(userid);
     }  
     
+    /**
+     * 
+     * @param friend
+     * @return returns True if Friend exists
+     */
     @Transactional
     @Override
     public Boolean checkFriendIfExists(Friend friend)
