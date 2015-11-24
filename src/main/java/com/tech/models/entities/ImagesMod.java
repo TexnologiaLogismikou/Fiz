@@ -5,6 +5,7 @@
  */
 package com.tech.models.entities;
 
+import com.tech.configurations.tools.NameCoder;
 import com.tech.models.entities.embeddedIds.ImageComposite;
 import java.io.Serializable;
 import java.util.Date;
@@ -52,11 +53,11 @@ public class ImagesMod implements Serializable {
         
     }
     
-    public ImagesMod(Long userid,Date tmstamp,String data,long hashtag) {
+    public ImagesMod(Long userid,Date tmstamp) {
         this.userid = userid;
         this.tmstamp = tmstamp;
-        this.images = data;
-        this.hashtag = hashtag;
+        this.hashtag = NameCoder.nameConverter(userid, tmstamp.hashCode());
+        this.images = NameCoder.pathConverter(this.hashtag);
     }
     
     public long getUserID(){
@@ -67,7 +68,7 @@ public class ImagesMod implements Serializable {
         return tmstamp;
     }
     
-    public String getImages(){
+    public String getImagePath(){
         return images;
     }
     
@@ -83,7 +84,7 @@ public class ImagesMod implements Serializable {
         this.tmstamp = tmstamp;
     }
     
-    public void setImages(String data){
+    public void setImagePath(String data){
         this.images = data;
     }
     

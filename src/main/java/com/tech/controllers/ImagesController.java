@@ -14,6 +14,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.nio.file.attribute.FileAttribute;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -57,15 +58,16 @@ public class ImagesController {
             return new ResponseEntity<>("User doesnt exist",null,HttpStatus.NOT_FOUND);
         }
         if(!file.isEmpty()) {
-            Long imgPath = tm.hashCode() + userid.hashCode() + 0L; // 4000_2567  --> 2_3_4000_567
             try {
                 byte[] bytes = file.getBytes();
-
-                Path pt = FileSystems.getDefault().getPath(fixedData + "\\" + imgPath + ".jpg");
-                Files.write(pt,bytes ,StandardOpenOption.CREATE);
-            
-                ImagesMod img = new ImagesMod(userid,tm,fixedData + "\\" + imgPath + ".jpg",imgPath);
+                ImagesMod img = new ImagesMod(userid,tm);
                 
+                File newFile = new File(img.getImagePath());
+                if (!newFile.getParentFile().exists()){
+                    newFile.getParentFile().mkdirs(); //need check if creation fails?               
+                }
+                Files.write(newFile.toPath(), bytes, StandardOpenOption.CREATE);//if file exists?
+                        
                 service.addImage(img);
                 return new ResponseEntity<>("G00D", null, HttpStatus.OK);
             }catch (Exception e) {
@@ -88,7 +90,7 @@ public class ImagesController {
         if (extension.equalsIgnoreCase("jpg")){
             Long num = Long.parseLong(arithName.substring(0,arithName.length()-1));
             if (service.checkImagesByHashtag(num)){
-                String path = service.getImageByHashtag(num).getImages();
+                String path = service.getImageByHashtag(num).getImagePath();
                 return Files.readAllBytes(new File(path).toPath()); //added
             } else {
                 return Files.readAllBytes(new File(cl.getResource("images/ntf.jpg").getFile()).toPath());   //kai auto gia na parw mono to path
