@@ -35,7 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/images")
 public class ImagesController {
     ClassLoader cl = getClass().getClassLoader();  //gia na parw to path tis eikonas
-    String fixedData = "C:\\vol\\images";
+    String fixedData = "C:\\vol\\images"; //edw tha paei kai tha swthei i eikona
     
     @Autowired
     IImagesService service;
