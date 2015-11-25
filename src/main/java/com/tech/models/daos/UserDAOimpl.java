@@ -7,7 +7,7 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class UserDAOimpl implements IDAO{
+public class UserDAOImpl implements IDAO{
     private SessionFactory sessionFactory;
     
     /**
