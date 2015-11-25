@@ -51,7 +51,7 @@ public class FriendServiceTest extends AbstractTest
     {
        addedFriends.add(new Friend(1L,2L));
        addedFriends.add(new Friend(1L,3L));
-       deletedFriends.add(new Friend(1L,4L));
+       deletedFriends.add(new Friend(1L,3L));
     }
     
     @After
@@ -66,9 +66,19 @@ public class FriendServiceTest extends AbstractTest
     @Sql(scripts = "classpath:friendTesting.sql")
     public void testAddFriend()
     {
-      Friend friend = new Friend(3L,1L);
-      service.addFriend(friend);
-      Assert.assertTrue("fail",service.checkFriendIfExists(friend));
+        Friend friend = new Friend(3L,1L);
+        service.addFriend(friend);
+        Assert.assertTrue("fail",service.checkFriendIfExists(friend));
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:friendTesting.sql")
+    public void testDeletedFriend2() 
+    {
+        Friend friend = new Friend(3L,1L);
+        service.addFriend(friend); //maybe change the assert to assume
+        service.deleteFriend(friend);
+        Assert.assertTrue("fail", !service.checkFriendIfExists(friend));
     }
     
     /**
@@ -90,9 +100,7 @@ public class FriendServiceTest extends AbstractTest
     public void testFriendDeleted()
     {
         List<Friend> friendList = service.getFriendsByUser(1L);    
-        // Deleting the friend 4 that user 1 has.
         service.deleteFriend(deletedFriends.get(0));
-        //Here we are testing if the user 2 was deleted from the friendList of user 1
         Assert.assertFalse("error in deleting fiend",service.checkFriendIfExists(deletedFriends.get(0)));
     }
 }
