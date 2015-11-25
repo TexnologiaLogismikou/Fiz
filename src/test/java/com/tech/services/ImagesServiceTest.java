@@ -36,6 +36,7 @@ public class ImagesServiceTest extends AbstractTest{
     private List<ImagesMod> list = null;    
     private ImagesMod images;
     private ImagesMod images2;
+    private ImagesMod images3;
         
     public ImagesServiceTest() {
     }
@@ -53,14 +54,14 @@ public class ImagesServiceTest extends AbstractTest{
     public void setUp() throws IOException{
         ClassLoader cl = getClass().getClassLoader(); //pairnw to path tiw eikonas 
                 
-        File file = new File(cl.getResource("testImg.jpg").getFile());
-        File file2 = new File(cl.getResource("testImg2.jpg").getFile());  //thelw na parei tin ekona pou exw swsmeni
+        File file = new File(cl.getResource("images/testImg.jpg").getFile());
+        File file2 = new File(cl.getResource("images/testImg2.jpg").getFile());  //thelw na parei tin ekona pou exw swsmeni
         
         Long userid = 1L; //poios xristis tha anebasei tn eikona
         Long userid2 = 2L;
         
-        byte[] bytes = file.getPath().getBytes();   //metatrepw to path se enan pinaka apo byte[]
-        byte[] bytes2 = file2.getPath().getBytes(); 
+        byte[] bytes = Files.readAllBytes(file.toPath()); //metatrepw to path se enan pinaka apo byte[]
+        byte[] bytes2 = Files.readAllBytes(file2.toPath());
             
             ImagesMod img = new ImagesMod(userid);
             images = img;
@@ -88,6 +89,8 @@ public class ImagesServiceTest extends AbstractTest{
     public void tearDown() throws IOException {
        Files.delete(new File(images.getImagePath()).toPath());
        Files.delete(new File(images2.getImagePath()).toPath());
+//      Files.deleteIfExists(new File(images.getImagePath()).toPath().getParent());
+      
     }
 
     @Test
@@ -103,24 +106,25 @@ public class ImagesServiceTest extends AbstractTest{
 
     
     @Test
-    public void testAddImage() {
-        /*ClassLoader cl = getClass().getClassLoader();
+    public void testAddImage() throws IOException {
+        ClassLoader cl = getClass().getClassLoader();
         
-        File file3 = new File(cl.getResource("testImg3.jpg").getFile());
-          Long userid = 3L;
-          byte[] bytes3 = file3.getPath().getBytes();
-          ImagesMod img3 = new ImagesMod(userid);
-            images = img;
-            File newFile = new File(img.getImagePath());
-            if (!newFile.getParentFile().exists()){
-                newFile.getParentFile().mkdirs(); //   
-                try {
-            Files.write(newFile.toPath(), bytes, StandardOpenOption.CREATE);//dimiourgite to arxeio
-        } catch (IOException ex) {
-            Logger.getLogger(ImagesServiceTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        File file3 = new File(cl.getResource("images/testImg3.jpg").getFile());
+        Long userid3 = 3L;
+        
+        byte[] bytes3 = Files.readAllBytes(file3.toPath());
+        
+        ImagesMod img3 = new ImagesMod(userid3);
+        
+        File newFile3 = new File(img3.getImagePath());
+        if (!newFile3.getParentFile().exists()){
+            newFile3.getParentFile().mkdirs(); //   
             }
-             service.addImage(img); */
+        Files.write(newFile3.toPath(), bytes3, StandardOpenOption.CREATE);//dimiourgite to arxeio
+       service.addImage(img3); 
+       
+       Assert.assertEquals("Faileresesrreer",img3.getHashtag(),service.getImageByHashtag(img3.getHashtag()).getHashtag());             
+        
     }
 
     
@@ -131,14 +135,25 @@ public class ImagesServiceTest extends AbstractTest{
     
     @Test
     public void testGetAllImages() {
+        ImagesMod tmp = null ;
+        for(ImagesMod vLookUp:service.getImageByUserID(1L)){
+            if (vLookUp.getHashtag() == images.getHashtag()) {
+                tmp = vLookUp;
+            }
+        }
+        Assert.assertNotNull("Failedasda",tmp);
     }
 
     @Test
     public void testDeleteImage() {
+        service.deleteImage(images);
+        Assert.assertFalse("images dont delete",service.checkImagesByHashtag(images.getHashtag()));
+        
     }
 
     @Test
     public void testCheckImagesByHashtag() {
+        Assert.assertEquals("Fail check images by hashtag",images.getHashtag(),service.getImageByHashtag(images.getHashtag()).getHashtag());
     }
 
     @Test
