@@ -90,12 +90,8 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public boolean checkUsername(String username) {
-        for(User vLookUp:repository.findAll()) {
-            if(vLookUp.getUsername().equalsIgnoreCase(username)){
-                return true;
-            }
-        }
-        return false;
+        User user = repository.findByUsername(username);
+        return user != null;
     }
 
     /**
