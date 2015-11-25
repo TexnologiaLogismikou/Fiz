@@ -35,8 +35,8 @@ public class ImagesServiceTest extends AbstractTest{
     private IImagesService service;
     private List<ImagesMod> list = null;    
     private ImagesMod images;
-    //IUserService userService = null;
-    
+    private ImagesMod images2;
+        
     public ImagesServiceTest() {
     }
     
@@ -50,48 +50,44 @@ public class ImagesServiceTest extends AbstractTest{
     
     @Before
     @Sql(scripts = "classpath:clearImages.sql")
-    public void setUp(){
-       /* ClassLoader cl = getClass().getClassLoader(); //pairnw to path tiw eikonas 
-        String fixedData = "C:\\vol\\images";   //edw tha apothikeutei i eikona
-        
+    public void setUp() throws IOException{
+        ClassLoader cl = getClass().getClassLoader(); //pairnw to path tiw eikonas 
+                
         File file = new File(cl.getResource("testImg.jpg").getFile());
         File file2 = new File(cl.getResource("testImg2.jpg").getFile());  //thelw na parei tin ekona pou exw swsmeni
         
         Long userid = 1L; //poios xristis tha anebasei tn eikona
         Long userid2 = 2L;
         
-        Date tm = new Date();  // pairnw tin imerominia
-        
-        Long imgPath = tm.hashCode() + userid.hashCode() + 0L; //dimiourgw to imgPath
-        Long imgPath2 = tm.hashCode() + userid2.hashCode() + 0L;
-        
-        
-            byte[] bytes = file.getPath().getBytes();   //metatrepw to path se enan pinaka apo byte[]
-            byte[] bytes2 = file2.getPath().getBytes(); 
+        byte[] bytes = file.getPath().getBytes();   //metatrepw to path se enan pinaka apo byte[]
+        byte[] bytes2 = file2.getPath().getBytes(); 
             
-            Path pt = FileSystems.getDefault().getPath(fixedData + "\\" + imgPath + ".jpg"); //kanei ena path gia t pc
-        try {
-            Files.write(pt,bytes ,StandardOpenOption.CREATE);//dimiourgite to arxeio
-        } catch (IOException ex) {
-            Logger.getLogger(ImagesServiceTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            Path pt2 = FileSystems.getDefault().getPath(fixedData + "\\" + imgPath2 + ".jpg"); 
-        try {
-            Files.write(pt2,bytes2 ,StandardOpenOption.CREATE);
-        } catch (IOException ex) {
-            Logger.getLogger(ImagesServiceTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            
-            ImagesMod img = new ImagesMod(userid,tm );
+            ImagesMod img = new ImagesMod(userid);
             images = img;
-            ImagesMod img2 = new ImagesMod(userid2,tm );
+            ImagesMod img2 = new ImagesMod(userid2);
+            images2 = img2;
             
+            
+            File newFile = new File(img.getImagePath());
+            if (!newFile.getParentFile().exists()){
+                newFile.getParentFile().mkdirs(); //               
+            }
+            File newFile2 = new File(img2.getImagePath());
+            if (!newFile2.getParentFile().exists()){
+                newFile2.getParentFile().mkdirs(); //              
+            }
+            
+            Files.write(newFile.toPath(), bytes, StandardOpenOption.CREATE);//dimiourgite to arxeio
+            Files.write(newFile2.toPath(), bytes2, StandardOpenOption.CREATE);//dimiourgite to arxeio           
+  
             service.addImage(img);  //apothikeuete /kataxwrite i eikona meta sto table images
-            service.addImage(img2);*/
-          
+            service.addImage(img2);
     }
+   
     @After
-    public void tearDown() {
+    public void tearDown() throws IOException {
+       Files.delete(new File(images.getImagePath()).toPath());
+       Files.delete(new File(images2.getImagePath()).toPath());
     }
 
     @Test
@@ -102,13 +98,29 @@ public class ImagesServiceTest extends AbstractTest{
    
     @Test
     public void testGetImageByHashtag() {
-       // Assert.assertNotNull("expected image",service.getImageByHashtag(images.getHashtag()));
+       Assert.assertNotNull("expected image",service.getImageByHashtag(images.getHashtag()));
     }
 
     
     @Test
     public void testAddImage() {
-       
+        /*ClassLoader cl = getClass().getClassLoader();
+        
+        File file3 = new File(cl.getResource("testImg3.jpg").getFile());
+          Long userid = 3L;
+          byte[] bytes3 = file3.getPath().getBytes();
+          ImagesMod img3 = new ImagesMod(userid);
+            images = img;
+            File newFile = new File(img.getImagePath());
+            if (!newFile.getParentFile().exists()){
+                newFile.getParentFile().mkdirs(); //   
+                try {
+            Files.write(newFile.toPath(), bytes, StandardOpenOption.CREATE);//dimiourgite to arxeio
+        } catch (IOException ex) {
+            Logger.getLogger(ImagesServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            }
+             service.addImage(img); */
     }
 
     
