@@ -40,10 +40,10 @@ public class UserServiceTest extends AbstractTest {
 //        list.add(new User(1L,"mixalis","mixalis"));
 //        list.add(new User(2L,"iwanna","iwanna"));
 //        list.add(new User(3L,"milena","milena"));
-        list.add(new User(4L,"mixalis2","mixalis2"));
-        list.add(new User(5L,"iwanna2","iwanna2"));
-        list.add(new User(6L,"milena2","milena2"));
-        user = new User(2L,"iwanna","iwanna");
+        list.add(new User(4L,"mixalis2","mixalis2",true));
+        list.add(new User(5L,"iwanna2","iwanna2",true));
+        list.add(new User(6L,"milena2","milena2",true));
+        user = new User(2L,"iwanna","iwanna",true);
 //        service.addUsers(list);
     }
     
@@ -77,7 +77,7 @@ public class UserServiceTest extends AbstractTest {
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testAddUser(){
-        User user = new User(4L,"basilis","basilis");
+        User user = new User(4L,"basilis","basilis",true);
         service.addUser(user);
         Assert.assertEquals("Failure - user wasnt added",user.getId(),service.getUserById(user.getId()).getId());
     } 
@@ -103,9 +103,9 @@ public class UserServiceTest extends AbstractTest {
     @Sql(scripts = "classpath:populateDB.sql")
     public void testGetAllUsers(){
         list = new ArrayList();
-        list.add(new User(1L,"mixalis","mixalis"));
-        list.add(new User(2L,"iwanna","iwanna"));
-        list.add(new User(3L,"milena","milena"));
+        list.add(new User(1L,"mixalis","mixalis",true));
+        list.add(new User(2L,"iwanna","iwanna",true));
+        list.add(new User(3L,"milena","milena",true));
         
         List<User> list2 = service.getAllUsers();
         

@@ -52,7 +52,7 @@ public class LogInAndOutControllerTest extends AbstractControllerTest{
    
     @Test
     public void testLoadUser() throws Exception{
-        User user = new User(2L,"iwanna","iwanna");
+        User user = new User(2L,"iwanna","iwanna",true);
         String inputInJSON = super.mapToJson(user);
         
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(url)
@@ -70,7 +70,7 @@ public class LogInAndOutControllerTest extends AbstractControllerTest{
     
     @Test
     public void testLoadUserFailBoth() throws Exception {
-        User user = new User(2L,"giorgos","giorgos");
+        User user = new User(2L,"giorgos","giorgos",true);
         String inputInJSON = super.mapToJson(user);
         
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(url)
@@ -88,7 +88,7 @@ public class LogInAndOutControllerTest extends AbstractControllerTest{
     
     @Test
     public void testLoadUserFailUsername() throws Exception {
-        User user = new User(2L,"giorgos","iwanna");
+        User user = new User(2L,"giorgos","iwanna",true);
         String inputInJSON = super.mapToJson(user);
         
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(url)
@@ -106,7 +106,7 @@ public class LogInAndOutControllerTest extends AbstractControllerTest{
     
      @Test
     public void testLoadUserFailPassword() throws Exception {
-        User user = new User(2L,"iwanna","giorgos");
+        User user = new User(2L,"iwanna","giorgos",true);
         String inputInJSON = super.mapToJson(user);
         
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(url)

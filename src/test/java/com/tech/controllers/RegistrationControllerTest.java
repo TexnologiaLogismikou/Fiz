@@ -75,7 +75,7 @@ public class RegistrationControllerTest extends AbstractControllerTest{
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testSaveUserSucceed() throws Exception {
-        User user = new User(4L,"andrew","andrew");
+        User user = new User(4L,"andrew","andrew",true);
         String inputInJSON = super.mapToJson(user);
         
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri)
@@ -94,7 +94,7 @@ public class RegistrationControllerTest extends AbstractControllerTest{
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testSaveUserFail()  throws Exception {
-        User user = new User(4L,"iwanna","iwanna");
+        User user = new User(4L,"iwanna","iwanna",true);
         String inputInJSON = super.mapToJson(user);
         
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri)

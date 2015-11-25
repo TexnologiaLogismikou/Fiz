@@ -43,7 +43,7 @@ public class UserControllerTest {
 
     @Test
     public void testLoadUserProfile_ShouldReturnUser() throws Exception {
-        User user1 = new User((long)1,"alodapos","123");
+        User user1 = new User((long)1,"alodapos","123",true);
 
         //get results, get the user from inside (as json), and transform to user object
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/users/alodapos")
