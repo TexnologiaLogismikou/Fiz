@@ -25,9 +25,6 @@ public interface IImagesService {
     public ImagesMod getImageByHashtag(Long tag);
     
     @Transactional
-    long getNextID();
-    
-    @Transactional
     public List<ImagesMod> getAllImages();
     
     @Transactional

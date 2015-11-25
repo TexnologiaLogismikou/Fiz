@@ -45,13 +45,6 @@ public class ImagesService implements IImagesService {
 
     @Override
     @Transactional
-    public long getNextID() {
-        return repository.count();//TODO toDelete
-        
-    }
-    
-    @Override
-    @Transactional
     public List<ImagesMod> getAllImages() {
         return repository.findAll();
     }

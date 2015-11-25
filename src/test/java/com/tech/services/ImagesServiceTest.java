@@ -33,10 +33,9 @@ public class ImagesServiceTest extends AbstractTest{
     
     @Autowired
     private IImagesService service;
-    private List<ImagesMod> list = null;    
+    
     private ImagesMod images;
     private ImagesMod images2;
-    private ImagesMod images3;
         
     public ImagesServiceTest() {
     }
@@ -50,7 +49,6 @@ public class ImagesServiceTest extends AbstractTest{
     }
     
     @Before
-    @Sql(scripts = "classpath:clearImages.sql")
     public void setUp() throws IOException{
         ClassLoader cl = getClass().getClassLoader(); //pairnw to path tiw eikonas 
                 
@@ -90,22 +88,32 @@ public class ImagesServiceTest extends AbstractTest{
        Files.delete(new File(images.getImagePath()).toPath());
        Files.delete(new File(images2.getImagePath()).toPath());
 //      Files.deleteIfExists(new File(images.getImagePath()).toPath().getParent());
-      
+       images = null;
+       images2 = null;
     }
 
     @Test
+    @Sql(scripts = "classpath:clearImages.sql")
     public void testGetImageByUserID() {
+        List<ImagesMod> list = service.getImageByUserID(1L);
+        int i = 0;
+        for(ImagesMod vLookUp:list){
+            Assert.assertEquals("Found wrong id on the " + i + " record",1L,vLookUp.getUserID());
+            i++;
+        }
         
     }
 
    
     @Test
+    @Sql(scripts = "classpath:clearImages.sql")
     public void testGetImageByHashtag() {
        Assert.assertNotNull("expected image",service.getImageByHashtag(images.getHashtag()));
     }
 
     
     @Test
+    @Sql(scripts = "classpath:clearImages.sql")
     public void testAddImage() throws IOException {
         ClassLoader cl = getClass().getClassLoader();
         
@@ -127,13 +135,8 @@ public class ImagesServiceTest extends AbstractTest{
         
     }
 
-    
-    @Test
-    public void testGetNextID() {
-    }
-
-    
-    @Test
+   @Test
+    @Sql(scripts = "classpath:clearImages.sql")
     public void testGetAllImages() {
         ImagesMod tmp = null ;
         for(ImagesMod vLookUp:service.getImageByUserID(1L)){
@@ -145,20 +148,23 @@ public class ImagesServiceTest extends AbstractTest{
     }
 
     @Test
+    @Sql(scripts = "classpath:clearImages.sql")
     public void testDeleteImage() {
         service.deleteImage(images);
-        Assert.assertFalse("images dont delete",service.checkImagesByHashtag(images.getHashtag()));
-        
+        Assert.assertFalse("images dont delete",service.checkImagesByHashtag(images.getHashtag()));       
     }
 
     @Test
+    @Sql(scripts = "classpath:clearImages.sql")
     public void testCheckImagesByHashtag() {
         Assert.assertEquals("Fail check images by hashtag",images.getHashtag(),service.getImageByHashtag(images.getHashtag()).getHashtag());
     }
 
     @Test
+    @Sql(scripts = "classpath:clearImages.sql")
     public void testGetCount() {
-        
+        System.out.println(service.getCount());
+        Assert.assertEquals("Fail get Count",2L,service.getCount());
     }
     
 }
