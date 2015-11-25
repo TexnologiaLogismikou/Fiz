@@ -1,10 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Please Log in</title>
+    <title>404 Not Found</title>
 </head>
 <body>
-<h1>HA you suck!</h1>
-
+The page you requested was not found! n00b!
 </body>
 </html>

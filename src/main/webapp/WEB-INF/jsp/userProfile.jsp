@@ -15,8 +15,8 @@
     </thead>
     <tbody>
     <tr>
-        <td>${user.id}</td>
-        <td>${user.username}</td>
+        <td>${id}</td>
+        <td>${username}</td>
     </tr>
     </tbody>
 </table>
