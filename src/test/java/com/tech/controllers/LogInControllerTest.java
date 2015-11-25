@@ -24,10 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
  * @author KuroiTenshi
  */
 @Transactional
-public class LogInControllerTest extends AbstractControllerTest{
+public class LoginControllerTest extends AbstractControllerTest{
     private String url;
     
-    public LogInControllerTest() {
+    public LoginControllerTest() {
     }
     
     @BeforeClass

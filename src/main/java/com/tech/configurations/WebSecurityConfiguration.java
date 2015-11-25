@@ -18,12 +18,17 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication().withUser("alodapos").password("firofthedark").roles("ADMIN");
     }
 
+
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/", "/home").permitAll()
                 .antMatchers("/user/**","/user**").access("hasRole('USER')")
-                .and().formLogin()
+                .antMatchers("/images**","/images/**").permitAll()
+                .and().logout().logoutUrl("/logout")
+                .and().formLogin().loginPage("/login")
                 .and().exceptionHandling().accessDeniedPage("/Access_Denied");
     }
 }

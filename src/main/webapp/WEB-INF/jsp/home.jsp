@@ -1,4 +1,4 @@
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -11,10 +11,10 @@
     <table>
         <tr>
             <td>
-                <a href="/register">Register Page</a>
+                <a href="<c:url value="/register"/>">Register Page</a>
             </td>
             <td>
-                <a href="/log-in">Login Page</a>
+                <a href="<c:url value="/login"/>">Login Page</a>
             </td>
             <td>
                 <a href="/chat.html">Chat</a>
