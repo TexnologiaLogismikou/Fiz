@@ -14,8 +14,10 @@ public class AccessDeniedController {
     @RequestMapping(method = RequestMethod.GET)
     public String accessDenied(ModelMap model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-        model.addAttribute("user",name);
+        if (auth != null){
+            String name = auth.getName();
+            model.addAttribute("user",name);
+        }
         return "accessDenied";
     }
 }
