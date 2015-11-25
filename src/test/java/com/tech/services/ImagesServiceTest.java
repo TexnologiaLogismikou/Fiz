@@ -1,6 +1,7 @@
 package com.tech.services;
 
 import com.tech.AbstractTest;
+import com.tech.configurations.tools.FileTools;
 import com.tech.models.entities.ImagesMod;
 import com.tech.services.interfaces.IImagesService;
 import com.tech.services.interfaces.IUserService;
@@ -85,11 +86,10 @@ public class ImagesServiceTest extends AbstractTest{
    
     @After
     public void tearDown() throws IOException {
-       Files.delete(new File(images.getImagePath()).toPath());
-       Files.delete(new File(images2.getImagePath()).toPath());
-       //Files.delete(new File("C:\\FizData\\Images\\3").toPath());
-       images = null;
-       images2 = null;
+        
+        FileTools.deleteDirectory(new File(images.getImagePath()).getParentFile().getParentFile());
+        images = null;
+        images2 = null;
     }
 
     @Test

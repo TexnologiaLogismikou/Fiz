@@ -5,11 +5,12 @@
  */
 /**
  * Author:  KuroiTenshi
- * Created: Nov 15, 2015
+ * Created: Nov 15, 
  */
+delete from user_roles;
 delete from friendlist;
 delete from usersdata;
 
-insert into usersdata  values (1,'milena','milena');
-insert into usersdata values (2,'iwanna','iwanna');
-insert into usersdata values (3,'mixalis','mixalis');
+insert into usersdata  values (1,'milena','milena',true);
+insert into usersdata values (2,'iwanna','iwanna',true);
+insert into usersdata values (3,'mixalis','mixalis',true);

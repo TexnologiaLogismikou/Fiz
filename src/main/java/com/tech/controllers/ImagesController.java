@@ -49,14 +49,15 @@ public class ImagesController {
      * @return http status depending on the validations
      */
     @RequestMapping(value = "/upload",method = RequestMethod.POST)//na baloume accept kai consume   
-    public HttpEntity<String> loadImages(@RequestParam("file") MultipartFile file,@RequestParam("userid") Long userid ){
-        if (userService.getUserById(userid) == null){
+    public HttpEntity<String> loadImages(@RequestParam("file") MultipartFile file,@RequestParam("userid") String userid ){
+        Long sm = Long.parseLong(userid);
+        if (userService.getUserById(sm) == null){
             return new ResponseEntity<>("User doesnt exist",null,HttpStatus.NOT_FOUND);
         }
         if(!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
-                ImagesMod img = new ImagesMod(userid);
+                ImagesMod img = new ImagesMod(sm);
                 
                 File newFile = new File(img.getImagePath());
                 if (!newFile.getParentFile().exists()){

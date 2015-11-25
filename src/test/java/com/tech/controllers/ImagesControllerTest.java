@@ -7,6 +7,7 @@ package com.tech.controllers;
 
 import com.oracle.webservices.internal.api.message.ContentType;
 import com.tech.AbstractControllerTest;
+import com.tech.configurations.tools.FileTools;
 import com.tech.models.entities.ImagesMod;
 import com.tech.services.interfaces.IImagesService;
 import java.io.File;
@@ -41,6 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional
 public class ImagesControllerTest extends AbstractControllerTest{
     private String url;
+    private ClassLoader cl = getClass().getClassLoader(); 
     
     @Autowired
     private IImagesService service;
@@ -64,7 +66,6 @@ public class ImagesControllerTest extends AbstractControllerTest{
         super.setUp();
         url = "/images";
         
-        ClassLoader cl = getClass().getClassLoader(); 
         
         File file = new File(cl.getResource("images/testImg.jpg").getFile());
         Long userid = 1L;
@@ -93,7 +94,7 @@ public class ImagesControllerTest extends AbstractControllerTest{
     
     @After
     public void tearDown() throws IOException {
-       // Files.delete(new File(images.getImagePath()).toPath());
+        FileTools.deleteDirectory(new File(images.getImagePath()).getParentFile().getParentFile());
         images = null;
     }
 
@@ -102,27 +103,13 @@ public class ImagesControllerTest extends AbstractControllerTest{
      */
     @Test
     public void testLoadImages() throws Exception {
-//        byte[] f = Files.readAllBytes(new File(images.getImagePath()).toPath());
-//        MockMultipartFile MF = new MockMultipartFile("file",f);           
-        final File file = new File(images.getImagePath());
-        final MockMultipartFile MF = new MockMultipartFile("file",new FileInputStream(file));
-       /**
-        * 
-        * final File file = getFileFromResource(fileName);
-        final MockMultipartFile MF = new MockMultipartFile("aMultiPartFile.txt", new FileInputStream(file));
-        */
-
-
-//        MvcResult result = mvc.perform(MockMvcRequestBuilders.get(url+ "/upload")
-//                .requestAttr("file", MF.getBytes())
-//                .requestAttr("userid", "1L")
-//                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
-//                .andReturn();
-        
+        byte[] f = Files.readAllBytes(new File(cl.getResource("images/testImg.jpg").getFile()).toPath());
+        MockMultipartFile MF = new MockMultipartFile("file","psaraki.jpg", "multipart/form-data", f);        
+                
         MvcResult result = mvc.perform(MockMvcRequestBuilders
                 .fileUpload(url + "/upload")
-                .requestAttr("file", MF.getBytes())
-                .requestAttr("userid", 1L)) 
+                .file(MF)
+                .param("userid", "1"))
                 .andReturn();
 
         int status = result.getResponse().getStatus();
@@ -130,6 +117,42 @@ public class ImagesControllerTest extends AbstractControllerTest{
         
         Assert.assertEquals("Expected 200\n" + str +"\n",200,status);
         Assert.assertEquals("expected g00d","G00D",str);
+    }
+    
+    @Test
+    public void testLoadImagesNoUser() throws Exception {
+        byte[] f = Files.readAllBytes(new File(cl.getResource("images/testImg.jpg").getFile()).toPath());
+        MockMultipartFile MF = new MockMultipartFile("file","psaraki.jpg", "multipart/form-data", f);        
+                
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .fileUpload(url + "/upload")
+                .file(MF)
+                .param("userid", "911"))
+                .andReturn();
+
+        int status = result.getResponse().getStatus();
+        String str = result.getResponse().getContentAsString();
+        
+        Assert.assertEquals("Expected 404\n" + str +"\n",404,status);
+        Assert.assertEquals("expected User doesnt exist","User doesnt exist",str);
+    }
+
+    @Test
+    public void testLoadImagesEmpty() throws Exception {
+        byte[] f = null;
+        MockMultipartFile MF = new MockMultipartFile("file","1001002586287.jpg", "multipart/form-data", f);        
+                
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .fileUpload(url + "/upload")
+                .file(MF)
+                .param("userid", "1"))
+                .andReturn();
+
+        int status = result.getResponse().getStatus();
+        String str = result.getResponse().getContentAsString();
+        
+        Assert.assertEquals("Expected 404\n" + str +"\n",404,status);
+        Assert.assertEquals("expected empty","empty",str);
     }
 
     /**
@@ -145,4 +168,23 @@ public class ImagesControllerTest extends AbstractControllerTest{
         Assert.assertTrue("Image didnt found", result.getResponse().getContentAsString().trim().length() > 0);
     }
     
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testHandleFail() throws Exception {
+         MvcResult result = mvc.perform(MockMvcRequestBuilders 
+                 .post(url + "/get/1001002586281237.jpg")) //me ti methodo post ektelei to url kai pernei tin eikona pou tou balame
+                 .andReturn(); //kai edw gurnaei afwse? sw auto pou girnaei dn einai aplai eikona.. einai ena HttpResponse
+          //pou perixe
+        Assert.assertTrue("Image didnt found", result.getResponse().getContentAsString().trim().length() > 0);
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testHandleFailv2() throws Exception {
+         MvcResult result = mvc.perform(MockMvcRequestBuilders 
+                 .post(url + "/get/1001002586287.hah")) //me ti methodo post ektelei to url kai pernei tin eikona pou tou balame
+                 .andReturn(); //kai edw gurnaei afwse? sw auto pou girnaei dn einai aplai eikona.. einai ena HttpResponse
+          //pou perixe
+        Assert.assertTrue("Image was found", result.getResponse().getContentAsString().trim().length() == 0);
+    }
 }
