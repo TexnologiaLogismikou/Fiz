@@ -1,13 +1,13 @@
 package com.tech.models.daos;
 
-import com.tech.models.daos.interfaces.UserDAO;
+import com.tech.models.daos.interfaces.IDAO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class UserDAOimpl implements UserDAO{
+public class UserDAOimpl implements IDAO{
     private SessionFactory sessionFactory;
     
     /**
@@ -23,7 +23,7 @@ public class UserDAOimpl implements UserDAO{
      * @param userDAO 
      */
     @Override
-    public void save(UserDAO userDAO) {
+    public void save(IDAO userDAO) {
         Session session = this.sessionFactory.openSession();//Initialize the Session 
         Transaction tx = session.beginTransaction();//Starts a transaction with the database to add data (using the Created Session)
         session.persist(userDAO);//adds the DAO in the session
@@ -37,9 +37,9 @@ public class UserDAOimpl implements UserDAO{
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<UserDAO> list() {
+    public List<IDAO> list() {
         Session session = this.sessionFactory.openSession();
-        List<UserDAO> userList = session.createQuery("from user").list();//takes a list of UserDAO's from the session
+        List<IDAO> userList = session.createQuery("from user").list();//takes a list of User IDAOs from the session
         session.close();
         return userList;
     }

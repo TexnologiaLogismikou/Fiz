@@ -7,7 +7,7 @@ package com.tech.models.daos;
 
 import java.util.List;
 
-import com.tech.models.daos.interfaces.ImagesDAO;
+import com.tech.models.daos.interfaces.IDAO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -16,7 +16,7 @@ import org.hibernate.Transaction;
  *
  * @author KuroiTenshi
  */
-public class ImagesDAOimpl implements ImagesDAO {
+public class ImagesDAOimpl implements IDAO {
     private SessionFactory sessionFactory;
     
     /**
@@ -28,7 +28,7 @@ public class ImagesDAOimpl implements ImagesDAO {
     }
     
     @Override
-    public void save(ImagesDAO imagesDAO) {
+    public void save(IDAO imagesDAO) {
         Session session = this.sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
         session.persist(imagesDAO);
@@ -37,9 +37,9 @@ public class ImagesDAOimpl implements ImagesDAO {
     }
 
     @Override
-    public List<ImagesDAO> list() {
+    public List<IDAO> list() {
         Session session = this.sessionFactory.openSession();
-        List<ImagesDAO> imagesList = session.createQuery("from images").list();//takes a list of UserDAO's from the session
+        List<IDAO> imagesList = session.createQuery("from images").list();//takes a list of Image IDAOs from the session
         session.close();
         return imagesList;
     }
