@@ -20,7 +20,7 @@ public class RegistrationController {
     @ResponseBody
     public HttpEntity<String> saveUser(@RequestBody User user) {
         if (!service.checkUsername(user.getUsername())) {
-            service.addUser(new User(service.getNextID(),user.getUsername(),user.getPassword()));
+            service.addUser(new User(service.getNextID(),user.getUsername(),user.getPassword(),true));
             return new ResponseEntity<>("complete", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("already exists",HttpStatus.FOUND);
