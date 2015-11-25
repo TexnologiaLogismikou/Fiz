@@ -33,7 +33,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/images")
 public class ImagesController {
     ClassLoader cl = getClass().getClassLoader();  //gia na parw to path tis eikonas
-    String fixedData = "C:\\vol\\images";//TODO will be property
     
     @Autowired
     IImagesService service;
@@ -50,14 +49,13 @@ public class ImagesController {
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
     public HttpEntity<String> loadImages(@RequestParam("userid") Long userid, @RequestParam("file") MultipartFile file){
 
-        Date tm = new Date();
         if (userService.getUserById(userid) == null){
             return new ResponseEntity<>("User doesnt exist",null,HttpStatus.NOT_FOUND);
         }
         if(!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
-                ImagesMod img = new ImagesMod(userid,tm);
+                ImagesMod img = new ImagesMod(userid);
                 
                 File newFile = new File(img.getImagePath());
                 if (!newFile.getParentFile().exists()){

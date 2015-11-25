@@ -53,9 +53,9 @@ public class ImagesMod implements Serializable {
         
     }
     
-    public ImagesMod(Long userid,Date tmstamp) {
+    public ImagesMod(Long userid) {
         this.userid = userid;
-        this.tmstamp = tmstamp;
+        this.tmstamp = new Date();
         this.hashtag = NameCoder.nameConverter(userid, tmstamp.hashCode());
         this.images = NameCoder.pathConverter(this.hashtag);
     }
