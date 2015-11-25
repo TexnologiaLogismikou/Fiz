@@ -4,13 +4,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
          http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" >
-    <context-param>
-        <param-name>contextConfiguration</param-name>
-        <param-value>
-            /rest-servlet.xml
-            /WebApplicationSecurity.xml
-        </param-value>
-    </context-param>
 
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

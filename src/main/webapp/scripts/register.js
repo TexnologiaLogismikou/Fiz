@@ -17,7 +17,7 @@ function registerUser() {
         success : function(response) {
             document.getElementById("username").value=null;
             document.getElementById("password").value=null;
-            window.location.href = "/complete.html";
+            window.location.href = "/home";
         },
         error : function(respone,e,data) {
             switch(data.toString()){
