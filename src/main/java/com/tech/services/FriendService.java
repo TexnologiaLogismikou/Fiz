@@ -67,5 +67,14 @@ public class FriendService implements IFriendService
             }
         }
         return false;
-    }  
+    }
+    
+    @Transactional
+    @Override
+    public List<Friend> getAllFriends()
+    { 
+        return repository.findAll();
+    }
+    
+    
 }

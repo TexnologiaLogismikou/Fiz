@@ -26,4 +26,7 @@ public interface IFriendService
     
     @Transactional
     public Boolean checkFriendIfExists(Friend friend);
+    
+    @Transactional
+    public List<Friend> getAllFriends();
 }
