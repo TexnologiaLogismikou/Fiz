@@ -8,12 +8,13 @@ import javax.persistence.*;
 /**
  * Model for database Table "Usersdata"
  * with separate fields for each database element
+ *
  * @author KuroiTenshi
  */
 @Entity
-@Table (name = "Usersdata")
+@Table(name = "Usersdata")
 public class User {
-    
+
     @Id //id = primary key
     @Column(name = "id") //column that the variable belongs
     private Long id;
@@ -24,14 +25,20 @@ public class User {
     @Column(name = "password") //column that the variable belongs
     private String password;
 
-    public User() {}
+    @Column(name = "enabled")
+    private boolean enabled;
 
-    public User(Long id, String username, String password) {
+    public User() {
+    }
+
+    public User(Long id, String username, String password, boolean enabled) {
 
         this.id = id;
         this.username = username;
         this.password = password;
+        this.enabled = enabled;
     }
+
 
     @JsonProperty
     public Long getId() {
@@ -60,8 +67,17 @@ public class User {
         this.password = password;
     }
 
+    @JsonProperty
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
-    public String toString(){
+    public String toString() {
         return " id : " + this.id + " username : " + this.username + " password : " + this.password;
     }
 }
