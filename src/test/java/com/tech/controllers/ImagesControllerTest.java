@@ -5,7 +5,6 @@
  */
 package com.tech.controllers;
 
-import com.oracle.webservices.internal.api.message.ContentType;
 import com.tech.AbstractControllerTest;
 import com.tech.configurations.tools.FileTools;
 import com.tech.models.entities.ImagesMod;
