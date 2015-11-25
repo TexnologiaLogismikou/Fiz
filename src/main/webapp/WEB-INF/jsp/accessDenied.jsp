@@ -15,6 +15,6 @@
             You do not have permission to access this page!</h2>
     </c:otherwise>
 </c:choose>
-<a href="<c:url value="/logout" />">Logout</a>
+<a href="<c:url value="/login?logout" />">Logout</a>
 </body>
 </html>
