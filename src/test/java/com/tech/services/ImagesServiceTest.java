@@ -87,7 +87,7 @@ public class ImagesServiceTest extends AbstractTest{
     public void tearDown() throws IOException {
        Files.delete(new File(images.getImagePath()).toPath());
        Files.delete(new File(images2.getImagePath()).toPath());
-//      Files.deleteIfExists(new File(images.getImagePath()).toPath().getParent());
+       //Files.delete(new File("C:\\FizData\\Images\\3").toPath());
        images = null;
        images2 = null;
     }
@@ -144,14 +144,14 @@ public class ImagesServiceTest extends AbstractTest{
                 tmp = vLookUp;
             }
         }
-        Assert.assertNotNull("Failedasda",tmp);
+        Assert.assertNotNull("Fail Get all Images",tmp);
     }
 
     @Test
     @Sql(scripts = "classpath:clearImages.sql")
     public void testDeleteImage() {
         service.deleteImage(images);
-        Assert.assertFalse("images dont delete",service.checkImagesByHashtag(images.getHashtag()));       
+        Assert.assertFalse("Fail Delete Image",service.checkImagesByHashtag(images.getHashtag()));       
     }
 
     @Test
