@@ -109,7 +109,7 @@ public class UserService implements IUserService {
     }
 
     /**
-     * validates the users existance with a query on the repository
+     * validates the users existence with a query on the repository
      * @param username
      * @param password
      * @return 
