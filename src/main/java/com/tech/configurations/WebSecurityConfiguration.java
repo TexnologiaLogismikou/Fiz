@@ -27,8 +27,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/home").permitAll()
                 .antMatchers("/user/**","/user**").access("hasRole('USER')")
                 .antMatchers("/images**","/images/**").permitAll()
-                .and().logout().logoutUrl("/logout")
-                .and().formLogin().loginPage("/login")
+                .and().logout().logoutUrl("/login?logout")
+                .and().formLogin().loginPage("/login").failureUrl("/login?error")
                 .and().exceptionHandling().accessDeniedPage("/Access_Denied");
     }
 }

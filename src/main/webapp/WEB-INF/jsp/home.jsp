@@ -8,6 +8,14 @@
 <body>
 <div id="body-wrapper">
     <h1>Welcome on new AutoDeploy</h1>
+    <c:choose>
+        <c:when test="${empty user}">
+            <h2>You are not logged in</h2>
+        </c:when>
+        <c:otherwise>
+            <h2>Logged in as: ${user}, <a href="<c:url value="/login?logout"/>">Logout</a></h2>
+        </c:otherwise>
+    </c:choose>
     <table>
         <tr>
             <td>
@@ -16,6 +24,8 @@
             <td>
                 <a href="<c:url value="/login"/>">Login Page</a>
             </td>
+        </tr>
+        <tr>
             <td>
                 <a href="/chat.html">Chat</a>
             </td>

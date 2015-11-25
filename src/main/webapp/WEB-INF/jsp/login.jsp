@@ -14,7 +14,7 @@
             border-color: #ebccd1;
         }
 
-        .msg {
+        .logout {
             padding: 15px;
             margin-bottom: 20px;
             border: 1px solid transparent;
@@ -44,10 +44,10 @@
     <h2>Login with Username and Password</h2>
 
     <c:if test="${not empty error}">
-        <div class="error">${error}</div>
+        <div class="error">Username or Password are incorrect</div>
     </c:if>
-    <c:if test="${not empty msg}">
-        <div class="msg">${msg}</div>
+    <c:if test="${not empty logout}">
+        <div class="logout">You have been logged out</div>
     </c:if>
 
     <form name='loginForm'
