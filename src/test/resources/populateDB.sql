@@ -5,9 +5,11 @@
  */
 /**
  * Author:  KuroiTenshi
- * Created: Nov 15,
+ * Created: Nov 15, 2015
  */
 delete from user_roles;
+delete from friendlist;
+delete from images;
 delete from friendlist;
 delete from usersdata;
 delete from messages;

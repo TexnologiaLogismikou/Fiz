@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NamedQuery(name = "User.findByUserid", query = "SELECT p FROM User p WHERE p.id = ?1")
 @Table (name = "Usersdata")
 public class User {
-    
+   
     @Id //id = primary key
     @Column(name = "id") //column that the variable belongs
     private Long id;
@@ -23,7 +23,7 @@ public class User {
 
     @Column(name = "password") //column that the variable belongs
     private String password;
-
+    
     public User() {}
 
     public User(Long id, String username, String password) {
@@ -63,5 +63,5 @@ public class User {
     @Override
     public String toString(){
         return " id : " + this.id + " username : " + this.username + " password : " + this.password;
-    }
+    }   
 }
