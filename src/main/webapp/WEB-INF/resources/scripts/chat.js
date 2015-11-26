@@ -1,10 +1,9 @@
 var stompClient = null;
 
-function connect() {
+function connect(){
     var socket = new SockJS('/chat');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function(frame) {
-
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/chat', function(chat){
             showGreeting(JSON.parse(chat.body).message, JSON.parse(chat.body).user);
@@ -20,9 +19,8 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function sendMessage() {
+function sendMessage(userid) {
     var message = document.getElementById('message').value;
-    var userid = "Andreas";
     stompClient.send("/app/chat", {}, JSON.stringify(
         {
             'message': message ,

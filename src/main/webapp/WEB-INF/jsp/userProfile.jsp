@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>User Details</title>
-    <link rel="stylesheet" type="text/css" href="/Styles/chat.css">
+    <link rel="stylesheet" type="text/css" href="/WEB-INF/resources/styles/chat.css">
 </head>
 <body>
     <table border="1" align="center" style="width:50%">

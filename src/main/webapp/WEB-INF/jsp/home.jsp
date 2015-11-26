@@ -27,7 +27,7 @@
         </tr>
         <tr>
             <td>
-                <a href="/chat.html">Chat</a>
+                <a href="<c:url value="/publicchat"/>">Chat</a>
             </td>
             <td>
                 <a href="<c:url value="/images"/>">Images</a>
