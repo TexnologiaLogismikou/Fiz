@@ -29,6 +29,7 @@ public class FriendServiceTest extends AbstractTest
 {
     @Autowired
     IFriendService service;
+    
     private ArrayList<Friend> addedFriends = new ArrayList<>();
     private ArrayList<Friend> deletedFriends = new ArrayList<>();;
     
