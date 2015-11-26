@@ -12,26 +12,21 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
-import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
  * @author KuroiTenshi
  */
-@RestController
+@Controller
 @RequestMapping("/images")
 public class ImagesController {
     ClassLoader cl = getClass().getClassLoader();  //gia na parw to path tis eikonas
@@ -44,16 +39,15 @@ public class ImagesController {
 
     /**
      * 
-     * @param userid
+     * @param name
      * @param file
+     * @param model
      * @return http status depending on the validations
      */
-    @RequestMapping(value = "/upload",method = RequestMethod.POST)//na baloume accept kai consume   
-    public HttpEntity<String> loadImages(@RequestParam("file") MultipartFile file,@RequestParam("userid") String userid ){
-        Long sm = Long.parseLong(userid);
-        if (userService.getUserById(sm) == null){
-            return new ResponseEntity<>("User doesnt exist",null,HttpStatus.NOT_FOUND);
-        }
+    @RequestMapping(method = RequestMethod.POST) 
+    public String loadImages(@RequestParam("file") MultipartFile file,@RequestParam("username") String name,ModelMap model){
+        Long sm = userService.getUserByUsername(name).getId();
+        
         if(!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
@@ -66,13 +60,15 @@ public class ImagesController {
                 Files.write(newFile.toPath(), bytes, StandardOpenOption.CREATE);//if file exists?
                         
                 service.addImage(img);
-                return new ResponseEntity<>("G00D", null, HttpStatus.OK);
+                
+                model.addAttribute("response","all good");
             }catch (Exception e) {
-                return new ResponseEntity<>("bad", null, HttpStatus.NOT_FOUND);
+                model.addAttribute("response","error with the file");//TODO enumarated
             } 
         } else {
-            return new ResponseEntity<>("empty", null, HttpStatus.NOT_FOUND);
+            model.addAttribute("response","file was empty");
         }   
+        return "images";
     }
         
     /**
@@ -94,5 +90,10 @@ public class ImagesController {
             }
         }
         return null;
+    }
+    
+    @RequestMapping(method = RequestMethod.GET)
+    public String returnPage(){
+        return "images";//einai to view name
     }
 }

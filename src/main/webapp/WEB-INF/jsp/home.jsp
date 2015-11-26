@@ -30,7 +30,7 @@
                 <a href="/chat.html">Chat</a>
             </td>
             <td>
-                <a href="/images.html">Images</a>
+                <a href="<c:url value="/images"/>">Images</a>
             </td>
         </tr>
     </table>
