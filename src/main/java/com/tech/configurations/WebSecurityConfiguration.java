@@ -28,15 +28,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "select username, role from user_roles where username=?");
     }
 
-    @Bean(name = "dataSource")
-    public DriverManagerDataSource dataSource() {
-        DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
-        driverManagerDataSource.setDriverClassName("org.postgresql.Driver");
-        driverManagerDataSource.setUrl("jdbc:postgresql://shinigami.ddns.net:5432/fiz");
-        driverManagerDataSource.setUsername("admin");
-        driverManagerDataSource.setPassword("Tech2015");
-        return driverManagerDataSource;
-    }
+//    @Bean(name = "dataSource")
+//    public DriverManagerDataSource dataSource() {
+//        DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
+//        driverManagerDataSource.setDriverClassName("org.postgresql.Driver");
+//        driverManagerDataSource.setUrl("jdbc:postgresql://shinigami.ddns.net:5432/fiz");
+//        driverManagerDataSource.setUsername("admin");
+//        driverManagerDataSource.setPassword("Tech2015");
+//        return driverManagerDataSource;
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
