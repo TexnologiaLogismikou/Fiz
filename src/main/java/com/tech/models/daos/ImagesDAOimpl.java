@@ -16,7 +16,7 @@ import org.hibernate.Transaction;
  *
  * @author KuroiTenshi
  */
-public class ImagesDAOImpl implements IDAO {
+public class ImagesDAOimpl implements IDAO {
     private SessionFactory sessionFactory;
     
     /**

@@ -8,7 +8,7 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 
-public class MessageDAOImpl implements IDAO {
+public class MessageDAOimpl implements IDAO {
     private SessionFactory sessionFactory;
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;

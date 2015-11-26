@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Aenaos on 25/11/2015.
  */
-class UserRolesDAOImpl implements IDAO {
+class UserRolesDAOimpl implements IDAO {
 
 
     private SessionFactory sessionFactory;
