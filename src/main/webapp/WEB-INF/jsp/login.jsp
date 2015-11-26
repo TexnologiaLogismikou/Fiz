@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Login Page</title>
-    <link rel="stylesheet" type="text/css" href="../styles/login.css">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/styles/login.css"/>">
 </head>
 <body onload='document.loginForm.username.focus();'>
 
