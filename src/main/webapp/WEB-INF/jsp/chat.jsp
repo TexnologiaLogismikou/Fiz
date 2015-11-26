@@ -8,7 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/sockjs/1.0.0/sockjs.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <script type="text/javascript" src="<c:url value="/resources/scripts/chat.js"/>"></script>
+    <script src="<c:url value="/resources/scripts/chat.js"/>"></script>
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/styles/chat.css"/>">
 </head>
 <body onload="connect()"  onclose="disconnect()">

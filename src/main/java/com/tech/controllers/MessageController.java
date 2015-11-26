@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class MessageController {
@@ -22,7 +24,6 @@ public class MessageController {
     public JSONObject chat(ChatMessage message) {
 
 //        User user = userService.getUserById(Long.parseLong(message.getUserId()));
-//
 //        Message messageModel = new Message(1L, user.getId(), message.getMessage());
 
        // TODO Add to DB after profile implementation
@@ -34,4 +35,8 @@ public class MessageController {
         return object;
     }
 
+    @RequestMapping(value = "/chat",method = RequestMethod.GET)
+    public String loadChat(){
+        return "chat";
+    }
 }

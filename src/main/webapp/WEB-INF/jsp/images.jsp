@@ -13,7 +13,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>images</title>
-        <!--<script type="text/javascript"  src="scripts/ImgScript.js"></script>-->
+        <script type="text/javascript"  src="<c:url value="/resources/scripts/ImgScript.js"/>"></script>
          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>         
     </head>
     <body>
@@ -39,7 +39,7 @@
                     <input type="text" name="answer" value="error with the file" readonly="readonly" disabled="disabled" />
                 </c:if>
              </div>
-             <form method="POST" enctype="multipart/form-data" action="/images">File to upload: 
+             <form method="POST" enctype="multipart/form-data" action="<c:url value="/images"/>">File to upload:
                 <input type="file" name="file"><br /> 
                 <input type="submit" value="Upload"> Press here to upload the file!
                 <input type="hidden" name="username" value="<%= username %>">
