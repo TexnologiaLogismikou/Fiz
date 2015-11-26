@@ -26,14 +26,14 @@ public class ImagesService implements IImagesService {
     
     @Transactional
     @Override
-    public ImagesMod getImageByID(long id){
-        return repository.getOne(id);
+    public List<ImagesMod> getImageByUserID(long id){
+        return repository.findByUserid(id);
     }
     
     @Override
     @Transactional
-    public ImagesMod getImageByName(String name){
-        return repository.findByName(name);
+    public ImagesMod getImageByHashtag(Long tag){
+        return repository.findByHashtag(tag);
     }
     
     @Transactional
@@ -45,28 +45,30 @@ public class ImagesService implements IImagesService {
 
     @Override
     @Transactional
-    public long getNextID() {
-        return repository.count();
-        
-    }
-    
-    @Override
-    @Transactional
-    public List<ImagesMod> getAllUsers() {
+    public List<ImagesMod> getAllImages() {
         return repository.findAll();
     }
     
-    @Override
-    @Transactional
-    public List<ImagesMod> getAllUsers(Long id) {
-        return repository.findById(id);
-    }
-
-    
+       
     @Override
     @Transactional
     public void deleteImage(ImagesMod images) {
         repository.delete(images);
     }
     
+    /**
+     * 
+     * @param name
+     * @return true if the image exists else false
+     */
+    @Override
+    public boolean checkImagesByHashtag(Long hashtag) {
+        ImagesMod tstImg = repository.findByHashtag(hashtag);
+        return tstImg!=null;
+    }
+    
+    @Override
+    public long getCount() {
+        return repository.count();
+    }
 }

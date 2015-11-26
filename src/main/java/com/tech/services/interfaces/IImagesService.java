@@ -19,20 +19,20 @@ public interface IImagesService {
     public void addImage(ImagesMod newImg);
     
     @Transactional
-    public ImagesMod getImageByID(long id);
+    public List<ImagesMod> getImageByUserID(long id);
     
     @Transactional
-    public ImagesMod getImageByName(String name);
+    public ImagesMod getImageByHashtag(Long tag);
     
     @Transactional
-    long getNextID();
-    
-    @Transactional
-    public List<ImagesMod> getAllUsers();
-    
-    @Transactional
-    public List<ImagesMod> getAllUsers(Long id);
+    public List<ImagesMod> getAllImages();
     
     @Transactional
     public void deleteImage(ImagesMod images);
+    
+    @Transactional
+    public boolean checkImagesByHashtag(Long hashtag);
+    
+    @Transactional
+    public long getCount();
 }

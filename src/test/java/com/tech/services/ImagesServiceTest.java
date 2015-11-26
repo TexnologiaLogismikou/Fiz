@@ -1,39 +1,43 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.tech.services;
 
 import com.tech.AbstractTest;
+import com.tech.configurations.tools.FileTools;
 import com.tech.models.entities.ImagesMod;
-import com.tech.models.entities.User;
 import com.tech.services.interfaces.IImagesService;
+import com.tech.services.interfaces.IUserService;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.transaction.Transactional;
 import org.junit.After;
-import org.junit.Test;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.jdbc.Sql;
 
 /**
  *
- * @author ΙΩΑΝΝΑ
+ * @author iwann
  */
 @Transactional
 public class ImagesServiceTest extends AbstractTest{
+    
     @Autowired
     private IImagesService service;
-    private List<User> list = null;    
-    ImagesMod images = null;
     
+    private ImagesMod images;
+    private ImagesMod images2;
+        
     public ImagesServiceTest() {
     }
     
@@ -46,52 +50,121 @@ public class ImagesServiceTest extends AbstractTest{
     }
     
     @Before
-    public void setUp() {
+    public void setUp() throws IOException{
+        ClassLoader cl = getClass().getClassLoader(); //pairnw to path tiw eikonas 
+                
+        File file = new File(cl.getResource("images/testImg.jpg").getFile());
+        File file2 = new File(cl.getResource("images/testImg2.jpg").getFile());  //thelw na parei tin ekona pou exw swsmeni
+        
+        Long userid = 1L; //poios xristis tha anebasei tn eikona
+        Long userid2 = 2L;
+        
+        byte[] bytes = Files.readAllBytes(file.toPath()); //metatrepw to path se enan pinaka apo byte[]
+        byte[] bytes2 = Files.readAllBytes(file2.toPath());
+            
+            ImagesMod img = new ImagesMod(userid);
+            images = img;
+            ImagesMod img2 = new ImagesMod(userid2);
+            images2 = img2;
+            
+            
+            File newFile = new File(img.getImagePath());
+            if (!newFile.getParentFile().exists()){
+                newFile.getParentFile().mkdirs(); //               
+            }
+            File newFile2 = new File(img2.getImagePath());
+            if (!newFile2.getParentFile().exists()){
+                newFile2.getParentFile().mkdirs(); //              
+            }
+            
+            Files.write(newFile.toPath(), bytes, StandardOpenOption.CREATE);//dimiourgite to arxeio
+            Files.write(newFile2.toPath(), bytes2, StandardOpenOption.CREATE);//dimiourgite to arxeio           
+  
+            service.addImage(img);  //apothikeuete /kataxwrite i eikona meta sto table images
+            service.addImage(img2);
     }
-    
+   
     @After
-    public void tearDown() {
-         //images = null;
+    public void tearDown() throws IOException {
+        
+        FileTools.deleteDirectory(new File(images.getImagePath()).getParentFile().getParentFile());
+        images = null;
+        images2 = null;
     }
 
     @Test
-    public void testGetImageByID() {
-        long id = 0L;
-        ImagesMod newImg = service.getImageByID(id);
-        Assert.assertTrue("Failure - expected image to have size",newImg.getImages().length >0);
-        Assert.assertEquals("Failure - expected image has wrong id",newImg.getID(),id);
-        Assert.assertEquals("Failure - expected image has wrong name","iwanna",newImg.getName());
-        // TODO review the generated test code and remove the default call to fail.
-    }    
-    
-    @Test
-    public void testGetImageByName() {
-        String name = "iwanna";
-        long id=0L;
-        ImagesMod newString = service.getImageByName(name);
-        Assert.assertEquals("Failure - expected images has wrong name","iwanna",newString.getName());
-        Assert.assertEquals("Failure - expected images has wrong name",newString.getID(),id);
-        Assert.assertTrue("Failure - expected image to have size",newString.getImages().length >0);
-    }
-    
-    @Test
-    public void testAddImage(){
-        
-        ClassLoader cl = getClass().getClassLoader();
-        
-        File fi = new File(cl.getResource("testImg.jpg").getFile());
-        byte[] fileContent = null;
-        System.out.println(fi.toPath());
-        try {
-            fileContent = Files.readAllBytes(fi.toPath());
-        } catch (IOException ex) {
-           Assert.fail("file not found");
+    @Sql(scripts = "classpath:clearImages.sql")
+    public void testGetImageByUserID() {
+        List<ImagesMod> list = service.getImageByUserID(1L);
+        int i = 0;
+        for(ImagesMod vLookUp:list){
+            Assert.assertEquals("Found wrong id on the " + i + " record",1L,vLookUp.getUserID());
+            i++;
         }
         
-        ImagesMod imagemode = new ImagesMod(3L,"Fiz",fileContent);  //etoimazei mia eikona
-        service.addImage(imagemode); //pairnei tin kainourgia egkrafi
-        Assert.assertEquals("Fail add images",imagemode.getID(),service.getImageByID(imagemode.getID()).getID());
+    }
+
+   
+    @Test
+    @Sql(scripts = "classpath:clearImages.sql")
+    public void testGetImageByHashtag() {
+       Assert.assertNotNull("expected image",service.getImageByHashtag(images.getHashtag()));
+    }
+
+    
+    @Test
+    @Sql(scripts = "classpath:clearImages.sql")
+    public void testAddImage() throws IOException {
+        ClassLoader cl = getClass().getClassLoader();
+        
+        File file3 = new File(cl.getResource("images/testImg3.jpg").getFile());
+        Long userid3 = 3L;
+        
+        byte[] bytes3 = Files.readAllBytes(file3.toPath());
+        
+        ImagesMod img3 = new ImagesMod(userid3);
+        
+        File newFile3 = new File(img3.getImagePath());
+        if (!newFile3.getParentFile().exists()){
+            newFile3.getParentFile().mkdirs(); //   
+            }
+        Files.write(newFile3.toPath(), bytes3, StandardOpenOption.CREATE);//dimiourgite to arxeio
+       service.addImage(img3); 
+       
+       Assert.assertEquals("Faileresesrreer",img3.getHashtag(),service.getImageByHashtag(img3.getHashtag()).getHashtag());             
+        
+    }
+
+   @Test
+    @Sql(scripts = "classpath:clearImages.sql")
+    public void testGetAllImages() {
+        ImagesMod tmp = null ;
+        for(ImagesMod vLookUp:service.getImageByUserID(1L)){
+            if (vLookUp.getHashtag() == images.getHashtag()) {
+                tmp = vLookUp;
+            }
+        }
+        Assert.assertNotNull("Fail Get all Images",tmp);
+    }
+
+    @Test
+    @Sql(scripts = "classpath:clearImages.sql")
+    public void testDeleteImage() {
+        service.deleteImage(images);
+        Assert.assertFalse("Fail Delete Image",service.checkImagesByHashtag(images.getHashtag()));       
+    }
+
+    @Test
+    @Sql(scripts = "classpath:clearImages.sql")
+    public void testCheckImagesByHashtag() {
+        Assert.assertEquals("Fail check images by hashtag",images.getHashtag(),service.getImageByHashtag(images.getHashtag()).getHashtag());
+    }
+
+    @Test
+    @Sql(scripts = "classpath:clearImages.sql")
+    public void testGetCount() {
+        System.out.println(service.getCount());
+        Assert.assertEquals("Fail get Count",2L,service.getCount());
     }
     
-      
 }

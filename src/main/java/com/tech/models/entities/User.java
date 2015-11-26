@@ -8,11 +8,11 @@ import javax.persistence.*;
 /**
  * Model for database Table "Usersdata"
  * with separate fields for each database element
- *
  * @author KuroiTenshi
  */
 @Entity
-@Table(name = "Usersdata")
+@NamedQuery(name = "User.findByUserid", query = "SELECT p FROM User p WHERE p.id = ?1")
+@Table (name = "Usersdata")
 public class User {
 
     @Id //id = primary key
@@ -38,7 +38,6 @@ public class User {
         this.password = password;
         this.enabled = enabled;
     }
-
 
     @JsonProperty
     public Long getId() {
@@ -77,7 +76,7 @@ public class User {
     }
 
     @Override
-    public String toString() {
+    public String toString(){
         return " id : " + this.id + " username : " + this.username + " password : " + this.password;
     }
 }

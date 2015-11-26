@@ -5,62 +5,91 @@
  */
 package com.tech.models.entities;
 
+import com.tech.configurations.tools.NameCoder;
+import com.tech.models.entities.embeddedIds.ImageComposite;
+import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author KuroiTenshi
  */
 @Entity
+@IdClass(ImageComposite.class)
+@NamedQueries({
+    @NamedQuery(name = "ImagesMod.findByUserid", query = "SELECT p FROM ImagesMod p WHERE p.userid = ?1"),
+    @NamedQuery(name = "ImagesMod.findByHashtag",query = "SELECT p FROM ImagesMod p WHERE p.hashtag = ?1")
+})
 @Table(name = "images")
-public class ImagesMod {
+public class ImagesMod implements Serializable {
     
-    @Id //id = primary key
-    @Column(name = "id") //column that the variable belongs
-    private Long id;
+    @Id 
+    @NotNull
+    @Min(1)
+    private Long userid;
 
-    @Column(name = "name") //column that the variable belongs
-    private String name;
+    @Id
+    @NotNull
+    private Date tmstamp;
        
     @Column(name = "images")
-    private byte[] images;  
+    @NotNull
+    private String images;  
    
+    @Column(name = "hashtag")
+    @NotNull
+    private long hashtag;
     
     public ImagesMod() {
         
     }
     
-    public ImagesMod(Long id,String name,byte[] data) {
-        this.id = id;
-        this.name = name;
-        this.images = data;
+    public ImagesMod(Long userid) {
+        this.userid = userid;
+        this.tmstamp = new Date();
+        this.hashtag = NameCoder.nameConverter(userid, tmstamp.hashCode());
+        this.images = NameCoder.pathConverter(this.hashtag);
     }
     
-    public long getID(){
-        return id;
+    public long getUserID(){
+        return userid;
     }
     
-    public String getName(){
-        return name;
+    public Date getTimestamp(){
+        return tmstamp;
     }
     
-    public byte[] getImages(){
+    public String getImagePath(){
         return images;
     }
     
-    public void setID(long id){
-        this.id = id;
+    public long getHashtag(){
+        return hashtag;
     }
     
-    public void setName(String name){
-        this.name = name;
+    public void setUserid(long userid){
+        this.userid = userid;
     }
     
-    public void setImages(byte[] name){
-        this.images = name;
+    public void setName(Date tmstamp){
+        this.tmstamp = tmstamp;
+    }
+    
+    public void setImagePath(String data){
+        this.images = data;
+    }
+    
+    public void setHashtag(long hashtag){
+        this.hashtag = hashtag;
     }
     
 }

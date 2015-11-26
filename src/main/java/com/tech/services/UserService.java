@@ -25,7 +25,7 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public User getUserById(Long id) {
-        return repository.getOne(id);
+        return repository.findByUserid(id);
     }
 
     /**
@@ -89,12 +89,8 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public boolean checkUsername(String username) {
-        for(User vLookUp:repository.findAll()) {
-            if(vLookUp.getUsername().equalsIgnoreCase(username)){
-                return true;
-            }
-        }
-        return false;
+        User user = repository.findByUsername(username);
+        return user != null;
     }
 
     /**

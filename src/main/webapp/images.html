@@ -14,27 +14,12 @@ and open the template in the editor.
     </head>
     <body>
          <div id="body-wrapper">
-<!--             <table>
-                <tr>
-
-                    <td>images: </td>
-                    <td>
-                        <input type="file" name="file" id="images">
-                    </td>   
-                <input type="" name="images2" id="images2" required>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><button type="button" onclick="uploadFile()">upload image</button></td>
-                    </tr>
-             </table> <br /> <br /> <br />-->
-             MORE
-             
-           <form method="POST" enctype="multipart/form-data"
-		action="/upload/c">
-		File to upload: <input type="file" name="file"><br /> Name: <input type="text" name="name"><br /> <br />
-               <input type="submit" value="Upload"> Press here to upload the file!
+         <form method="POST" enctype="multipart/form-data" action="images/upload">File to upload: 
+                <input type="file" name="file"><br /> Userid: 
+                <input type="number" name="userid"><br /> <br />
+                <input type="submit" value="Upload"> Press here to upload the file!
             </form>
+
             <br /><br />
             
             <input type="text" name="imgID" id="imgID" required >
