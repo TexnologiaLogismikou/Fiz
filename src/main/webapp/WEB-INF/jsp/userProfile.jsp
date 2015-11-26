@@ -4,21 +4,22 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>User Details</title>
+    <link rel="stylesheet" type="text/css" href="/Styles/chat.css">
 </head>
 <body>
-<table border="1" align="center" style="width:50%">
-    <thead>
-    <tr>
-        <th>User Id</th>
-        <th>User Name</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>${id}</td>
-        <td>${username}</td>
-    </tr>
-    </tbody>
-</table>
+    <table border="1" align="center" style="width:50%">
+        <thead>
+        <tr>
+            <th>User Id</th>
+            <th>User Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>${id}</td>
+            <td>${username}</td>
+        </tr>
+        </tbody>
+    </table>
 </body>
 </html>
