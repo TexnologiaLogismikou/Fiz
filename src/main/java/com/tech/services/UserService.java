@@ -1,9 +1,9 @@
 package com.tech.services;
 
-import com.tech.Models.User;
-import com.tech.Repositories.IUserRepository;
+import com.tech.services.interfaces.IUserService;
+import com.tech.models.entities.User;
+import com.tech.repositories.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,19 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public User getUserById(Long id) {
-        return repository.getOne(id);
+        return repository.findByUserid(id);
+    }
+
+    /**
+     * initialize a transaction with the repository - database to get an element
+     * with its username
+     * @param username
+     * @return
+     */
+    @Override
+    @Transactional
+    public User getUserByUsername(String username) {
+        return repository.findByUsername(username);
     }
 
     /**
@@ -60,7 +72,7 @@ public class UserService implements IUserService {
     
     /**
      * initialize a transaction with the repository - database to get all the elements from the database 
-     * @return 
+     * @return List\<Use\>
      */
     @Override
     @Transactional
@@ -77,11 +89,59 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public boolean checkUsername(String username) {
-        for(User vLookUp:repository.findAll()) {
-            if(vLookUp.getUsername().equalsIgnoreCase(username)){
-                return false;
-            }
-        }
-        return true;
+        User user = repository.findByUsername(username);
+        return user != null;
     }
+
+    /**
+     * calls the overloaded function
+     * @param user
+     * @return 
+     */
+    @Override
+    @Transactional
+    public boolean validateUser(User user) {
+        return validateUser(user.getUsername(),user.getPassword());
+    }
+
+    /**
+     * validates the users existence with a query on the repository
+     * @param username
+     * @param password
+     * @return 
+     */
+    @Override
+    @Transactional
+    public boolean validateUser(String username, String password) {
+        User u = repository.findByUsernameAndPassword(username, password);
+        return u != null;
+    }
+
+    /**
+     * counts the records in the repository and returns the exact number
+     * @return 
+     */
+    @Override
+    @Transactional
+    public long getCount() {
+        return repository.count();
+    }
+
+    /**
+     * counts the records in the repository and returns the number increased by 1 . 
+     * that number is a "free slot" for a new user
+     * @return 
+     */
+    @Override
+    @Transactional
+    public long getNextID() {
+        return getCount() + 1L ;
+    }
+    
+    @Override    
+    @Transactional
+    public User getLastRecord(){
+        throw new UnsupportedOperationException("Not working yet");
+    }
+    
 }

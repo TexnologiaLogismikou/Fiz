@@ -5,7 +5,11 @@
         <property name="dataSource" ref="dataSource" />
         <property name="annotatedClasses">
             <list>
-                <value>com.tech.Mmodel.User</value>
+                <value>com.tech.models.entities.Message</value>
+                <value>com.tech.models.entities.User</value>
+                <value>com.tech.models.entities.ImagesMod</value>
+                <value>com.tech.models.entities.Friend</value>
+                <value>com.tech.models.entities.UserRole</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -17,11 +21,23 @@
         </property>
     </bean>
      
-    <!--<bean id="messageDAO" class="com.tech.Models.MessageDAOImpl">-->
-        <!--<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />-->
-    <!--</bean>-->
+    <bean id="messageDAO" class="com.tech.models.daos.MessageDAOimpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
 
-    <bean id="userDAO" class="com.tech.Models.UserDAOImpl">
+    <bean id="userDAO" class="com.tech.models.daos.UserDAOimpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
+
+    <bean id="imagesDAO" class="com.tech.models.daos.ImagesDAOimpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
+    
+    <bean id="friendDAO" class="com.tech.models.daos.FriendDAOimpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
+    
+    <bean id="userRoleDAO" class="com.tech.models.daos.UserRolesDAOimpl.">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
 </beans>
