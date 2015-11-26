@@ -36,8 +36,7 @@ public class UserService implements IUserService {
      */
     @Override
     @Transactional
-    public User getUserByUsername(String username)
-    {
+    public User getUserByUsername(String username) {
         return repository.findByUsername(username);
     }
 
