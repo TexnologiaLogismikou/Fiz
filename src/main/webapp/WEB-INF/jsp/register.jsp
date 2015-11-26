@@ -11,7 +11,13 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
         <div id="body-wrapper">
-            <%--<form id="form" name="form" method="post" action="">--%>
+            <c:if test="${response == 'OK'}">
+                User registered successfully
+            </c:if>
+            <c:if test="${response == 'CONFLICT'}">
+                Username already in use
+            </c:if>
+            <form id="form" name="form" method="post" action="<c:url value="/register"/>">
                 <table id="table">
                     <tr>
                         <td>Username: </td>
@@ -24,11 +30,12 @@
                     <tr>
                         <td></td>
                         <td>
-                            <button type="button" onclick="testAlrt()">Submit</button>
+                            <input type="submit" name="submit" value="Register">
                         </td>
                     </tr>
                 </table>
-            <%--</form>--%>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </form>
         </div>
     </body>
 </html>
