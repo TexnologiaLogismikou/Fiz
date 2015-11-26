@@ -29,8 +29,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/user/**","/user**").access("hasRole('USER')")
+                .antMatchers("/chat/**","/chat**").access("hasRole('USER')")
+                .antMatchers("/pictures/**","/pictures**").access("hasRole('USER')")
+                .antMatchers("/images/**","/images**").access("hasRole('USER')")
                 .antMatchers("/", "/home").permitAll()
-                .antMatchers("/user/**","/user**","/images/**","/images**").access("hasRole('USER')")
                 .and().logout().logoutUrl("/login?logout")
                 .and().formLogin().loginPage("/login").failureUrl("/login?error")
                 .and().exceptionHandling().accessDeniedPage("/Access_Denied");

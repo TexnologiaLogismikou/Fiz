@@ -26,9 +26,9 @@
             </td>
         </tr>
         <tr>
-            <td>
-                <a href="<c:url value="/chat"/>">Chat</a>
-            </td>
+            <%--<td>--%>
+                <%--<a href="<c:url value="/chat"/>">Chat</a>--%>
+            <%--</td>--%>
             <td>
                 <a href="<c:url value="/images"/>">Images</a>
             </td>

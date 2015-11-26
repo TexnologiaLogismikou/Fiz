@@ -16,17 +16,17 @@ import javax.transaction.Transactional;
 public interface IFriendService
 {
     @Transactional
-    public void addFriend(Friend friend);
+    void addFriend(Friend friend);
     
     @Transactional
-    public void deleteFriend(Friend friend);
+    void deleteFriend(Friend friend);
     
     @Transactional
-    public List<Friend> getFriendsByUser(Long userid);
+    List<Friend> getFriendsByUser(Long userid);
     
     @Transactional
-    public Boolean checkFriendIfExists(Friend friend);
+    Boolean checkFriendIfExists(Friend friend);
     
     @Transactional
-    public List<Friend> getAllFriends();
+    List<Friend> getAllFriends();
 }

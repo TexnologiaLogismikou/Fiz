@@ -12,7 +12,7 @@ import java.util.List;
  * @author KuroiTenshi
  */
 public interface ImagesDAO {
-    public void save(ImagesDAO imagesDAO);
-    public List<ImagesDAO> list();
+    void save(ImagesDAO imagesDAO);
+    List<ImagesDAO> list();
     
 }

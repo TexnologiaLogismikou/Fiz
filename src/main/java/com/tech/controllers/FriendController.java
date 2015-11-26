@@ -24,7 +24,7 @@ import org.springframework.web.servlet.tags.HtmlEscapeTag;
  * @author milena 
  */
 @Controller
-@RequestMapping("/friendlist")
+@RequestMapping("/friendservice")
 public class FriendController
 {
    @Autowired 

@@ -16,23 +16,23 @@ import org.springframework.transaction.annotation.Transactional;
 public interface IImagesService {
     
     @Transactional
-    public void addImage(ImagesMod newImg);
+    void addImage(ImagesMod newImg);
     
     @Transactional
-    public List<ImagesMod> getImageByUserID(long id);
+    List<ImagesMod> getImageByUserID(long id);
     
     @Transactional
-    public ImagesMod getImageByHashtag(Long tag);
+    ImagesMod getImageByHashtag(Long tag);
     
     @Transactional
-    public List<ImagesMod> getAllImages();
+    List<ImagesMod> getAllImages();
     
     @Transactional
-    public void deleteImage(ImagesMod images);
+    void deleteImage(ImagesMod images);
     
     @Transactional
-    public boolean checkImagesByHashtag(Long hashtag);
+    boolean checkImagesByHashtag(Long hashtag);
     
     @Transactional
-    public long getCount();
+    long getCount();
 }

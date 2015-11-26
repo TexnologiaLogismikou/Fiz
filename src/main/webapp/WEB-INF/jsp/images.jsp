@@ -1,16 +1,15 @@
-<%-- 
+<%--
     Document   : images
     Created on : Nov 26, 2015, 10:19:51 AM
     Author     : KuroiTenshi
 --%>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>             
+<%@page contentType="text/html"%>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>images</title>
         <script type="text/javascript"  src="<c:url value="/resources/scripts/ImgScript.js"/>"></script>

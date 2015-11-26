@@ -13,7 +13,6 @@ import java.util.List;
  */
 public interface FriendDAO 
 {
-    public void save(FriendDAO friendDAO);
-    //public void delete(FriendDAO friendDAO);
-    public List<FriendDAO> list();
+    void save(FriendDAO friendDAO);
+    List<FriendDAO> list();
 }
