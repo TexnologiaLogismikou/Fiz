@@ -8,6 +8,9 @@ package com.tech.services;
 import com.tech.AbstractTest;
 import com.tech.models.entities.User;
 import com.tech.services.interfaces.IUserService;
+import static java.nio.file.Files.list;
+import java.util.ArrayList;
+import java.util.List;
 import javax.transaction.Transactional;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -31,6 +34,12 @@ public class UserServiceTest extends AbstractTest{
     
     @Autowired
     private IUserService service;
+    private List<User> list = null;
+    User userExist = null;
+    //    private IUserService service = Mockito.mock(IUserService.class);
+    User userNotExist = null;
+    
+   
     
     @BeforeClass
     public static void setUpClass() {
@@ -41,7 +50,15 @@ public class UserServiceTest extends AbstractTest{
     }    
     
     @Before
-    public void setUp(){ //TODO check user_roles for corresponding changes       
+    public void setUp(){
+        list = new ArrayList();
+        list.add(new User(4L,"mixalis2","mixalis2",true));
+        list.add(new User(5L,"iwanna2","iwanna2",true));
+        list.add(new User(6L,"milena2","milena2",true));
+        //TODO check user_roles for corresponding changes   
+        
+        userExist = new User (2L,"iwanna","iwanna",true);
+        
     }
     
     @After
@@ -187,4 +204,112 @@ public class UserServiceTest extends AbstractTest{
         Assert.assertNotEquals("Failure expected changed status", 
                 userOrigin.isEnabled(), user.isEnabled());
     }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetUserByID(){
+//        when(service.getUserById(2L)).thenReturn(user);
+        Assert.assertEquals("Failure - wrong id returned",userExist.getId(),service.getUserById(2L).getId());
+        Assert.assertEquals("Failure - wrong username returned",userExist.getUsername(),service.getUserById(2L).getUsername());
+        Assert.assertEquals("Failure - wrong password returned",userExist.getPassword(),service.getUserById(2L).getPassword());  
+       
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetUserByUsername(){
+        Assert.assertEquals("User wasnt found",userExist.getUsername(),service.getUserByUsername(userExist.getUsername()).getUsername());
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testAddUser(){
+        User user = new User(4L,"basilis","basilis",true);
+        service.addUser(user);
+        Assert.assertEquals("Failure - user wasnt added",user.getId(),service.getUserById(user.getId()).getId());
+    } 
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testAddUsers(){
+        service.addUsers(list);
+        Assert.assertEquals("Failure - user 4 wasnt added",list.get(0).getId(),service.getUserById(list.get(0).getId()).getId());
+        Assert.assertEquals("Failure - user 5 wasnt added",list.get(1).getId(),service.getUserById(list.get(1).getId()).getId());
+        Assert.assertEquals("Failure - user 6 wasnt added",list.get(2).getId(),service.getUserById(list.get(2).getId()).getId());
+        
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testDeleteUser(){
+        service.deleteUser(userExist);
+        Assert.assertFalse("Failure - user wasnt deleted",service.checkUsername(userExist.getUsername()));
+    }
+
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetAllUsers(){
+        list = new ArrayList();
+        list.add(new User(1L,"mixalis","mixalis",true));
+        list.add(new User(2L,"iwanna","iwanna",true));
+        list.add(new User(3L,"milena","milena",true));
+        
+        List<User> list2 = service.getAllUsers();
+        
+        Assert.assertEquals("Failure first record doesnt match",list.get(0).getId(),list2.get(0).getId());
+        Assert.assertEquals("Failure second record doesnt match",list.get(1).getId(),list2.get(1).getId());
+        Assert.assertEquals("Failure third record doesnt match",list.get(2).getId(),list2.get(2).getId());
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testCheckUsernameTrue(){ 
+        Assert.assertTrue("Username wasnt found", service.checkUsername(userExist.getUsername()));
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testCheckUsernameFail(){
+        Assert.assertFalse("Username was found", service.checkUsername("UserDoesntExist"));
+        
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testValidateUser(){        
+        Assert.assertTrue("User wasnt validated",service.validateUser(userExist));
+        
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testValidateUserFromStrings(){
+        Assert.assertTrue("User wasnt validated",service.validateUser(userExist.getUsername(),userExist.getPassword()));
+        
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testValidateUserFailPassword(){
+        Assert.assertFalse("User wasnt validated",service.validateUser(list.get(2).getUsername(),"Wrong password"));        
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testValidateUserFail(){
+        Assert.assertFalse("User wasnt validated",service.validateUser("Wrong username",list.get(2).getPassword()));        
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetCount(){
+        Assert.assertEquals("Counting was wrong",3,service.getCount());        
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetNextID(){
+        Assert.assertEquals("Counting was wrong",4,service.getNextID());        
+    }
+    
 }

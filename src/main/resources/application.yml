@@ -19,7 +19,7 @@ spring:
     # DataSource (DataSourceAutoConfiguration & DataSourceProperties)
     datasource:
         driverClassName: org.postgresql.Driver
-        url: jdbc:postgresql://shinigami.ddns.net:5432/fiz
+        url: jdbc:postgresql://83.212.105.54:5432/fiz
         username: admin
         password: Tech2015
 
