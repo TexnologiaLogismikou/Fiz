@@ -13,9 +13,9 @@ delete from images;
 delete from usersdata;
 delete from messages;
 
-insert into usersdata  values (1,'milena','milena');
-insert into usersdata values (2,'iwanna','iwanna');
-insert into usersdata values (3,'mixalis','mixalis');
+insert into usersdata  values (1,'milena','milena',true);
+insert into usersdata values (2,'iwanna','iwanna',true);
+insert into usersdata values (3,'mixalis','mixalis',true);
 
 insert into messages  values (1, 1, 'Hi');
 insert into messages values (2, 1, 'Hello, how are you');
