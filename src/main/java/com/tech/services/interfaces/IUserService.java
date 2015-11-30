@@ -41,4 +41,7 @@ public interface IUserService {
     
     @Transactional
     User getLastRecord();
+    
+    @Transactional
+    void modifyUser(User modifiedUser);
 }

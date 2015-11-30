@@ -143,5 +143,13 @@ public class UserService implements IUserService {
     public User getLastRecord(){
         throw new UnsupportedOperationException("Not working yet");
     }
+
+    @Override
+    @Transactional
+    public void modifyUser(User modifiedUser) {
+        repository.setUserInfoById(modifiedUser.getUsername(), modifiedUser.getPassword(),
+                modifiedUser.isEnabled(), modifiedUser.getId());  
+    }
+
     
 }
