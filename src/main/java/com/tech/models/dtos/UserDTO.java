@@ -10,14 +10,9 @@ package com.tech.models.dtos;
  * @author bill5_000
  */
 public class UserDTO {
-    private Long id;
     private String username;
     private String password;
     private boolean enabled;
-    
-    public Long getid(){
-        return id;
-    }
     
     public String getUsername(){
         return username;

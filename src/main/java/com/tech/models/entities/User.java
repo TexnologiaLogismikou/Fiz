@@ -32,8 +32,8 @@ public class User {
     public User() {
     }
     
-    public User(UserDTO userDTO){
-        this(userDTO.getid(),userDTO.getUsername(),
+    public User(Long id,UserDTO userDTO){
+        this(id,userDTO.getUsername(),
                 userDTO.getPassword(),userDTO.getEnabled());
     }
     

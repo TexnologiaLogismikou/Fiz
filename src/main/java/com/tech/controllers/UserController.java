@@ -45,8 +45,9 @@ public class UserController {
         if(!service.checkUsername(username)){
             return "User not found";
         }
+        Long userId = service.getUserByUsername(username).getId();
         
-        User user = new User(userDTO);
+        User user = new User(userId,userDTO);
                 
         service.modifyUser(user);
         
