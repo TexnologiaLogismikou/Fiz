@@ -8,6 +8,7 @@ package com.tech.services;
 import com.tech.AbstractTest;
 import com.tech.models.entities.Friend;
 import com.tech.services.interfaces.IFriendService;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -34,6 +35,8 @@ public class FriendServiceTest extends AbstractTest
 {
     @Autowired
     IFriendService service;
+    private ArrayList<Friend> friendsToAdd = new ArrayList<>();
+    private ArrayList<Friend> friendsToDelete = new ArrayList<>();;
     
     public FriendServiceTest() {
     }
@@ -47,11 +50,18 @@ public class FriendServiceTest extends AbstractTest
     }
     
     @Before
-    public void setUp() {
+    public void setUp() 
+    {
+        friendsToAdd.add(new Friend(1L,2L));
+        friendsToAdd.add(new Friend(1L,3L));
+        friendsToDelete.add(new Friend(3L,1L));
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() 
+    {
+        friendsToAdd = null;
+        friendsToDelete = null;
     }
 
     /**
@@ -70,9 +80,13 @@ public class FriendServiceTest extends AbstractTest
      * Test of deleteFriend method, of class FriendService.
      */
     @Test
+    @Sql(scripts = "classpath:populateDB.sql")
     public void testDeleteFriend()
     {
-        
+        Friend testFriend = friendsToDelete.get(0);
+        service.addFriend(testFriend); //maybe change the assert to assume
+        service.deleteFriend(testFriend);
+        Assert.assertTrue("fail", !service.checkFriendIfExists(testFriend));
     }
 
     /**
@@ -91,18 +105,25 @@ public class FriendServiceTest extends AbstractTest
      * Test of checkFriendIfExists method, of class FriendService.
      */
     @Test
+    @Sql(scripts = "classpath:populateDB.sql")
     public void testCheckFriendIfExists()
     {
-        
+        service.addFriend(friendsToAdd.get(0));
+        service.deleteFriend(friendsToAdd.get(0));
+        service.checkFriendIfExists(friendsToAdd.get(0));
     }
 
     /**
      * Test of getAllFriends method, of class FriendService.
      */
     @Test
+    @Sql(scripts = "classpath:populateDB.sql")
     public void testGetAllFriends() 
     {
-       
+       //service.addFriend(friendsToAdd.get(0));
+       //service.addFriend(friendsToAdd.get(1));
+       Assert.assertTrue("fail",!service.getAllFriends().isEmpty()); 
+        //Poli viastika....
     }
     
 }
