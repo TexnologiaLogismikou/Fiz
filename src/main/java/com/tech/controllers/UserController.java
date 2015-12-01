@@ -1,5 +1,5 @@
 package com.tech.controllers;
-
+/*
 import com.tech.models.dtos.UserDTO;
 import com.tech.models.entities.User;
 import com.tech.services.interfaces.IUserService;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
 
     @Autowired
-    IUserService service;
+    IUserService service;*/
 /*
     @RequestMapping(value = "/{username}",method = RequestMethod.GET)
     public String loadUserProfile(@PathVariable String username, ModelMap model){
@@ -39,7 +39,7 @@ public class UserController {
         return "userProfile";
     }
     */
-    @RequestMapping(value="/{username}/modify",method = RequestMethod.POST)
+   /* @RequestMapping(value="/{username}/modify",method = RequestMethod.POST)
     public String deactivateUser(@PathVariable String username,@RequestParam("user") UserDTO userDTO){
         
         if(!service.checkUsername(username)){
@@ -54,4 +54,4 @@ public class UserController {
         return "User modified";
     }
 
-}
+}*/

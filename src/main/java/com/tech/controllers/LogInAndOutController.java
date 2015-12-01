@@ -1,5 +1,5 @@
 package com.tech.controllers;
-
+/*
 import com.tech.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-/*
+
 @Controller
 @RequestMapping("/login")
 public class LogInAndOutController {

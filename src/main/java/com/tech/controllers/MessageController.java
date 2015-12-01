@@ -25,15 +25,14 @@ public class MessageController {
     @SendTo("/topic/chat")
     public JSONObject chat(MessageDTO messageDTO) {
 
-        User user = userService.getUserByUsername(messageDTO.getUser());
-        Long id = 1000L;
-        Message message = new Message(id, user.getId(), messageDTO.getMessage());
-
-       // TODO Add to DB after profile implementation
+//        User user = userService.getUserByUsername(messageDTO.getUser());
+//        Long id = 1000L;
+//        Message message = new Message(id, user.getId(), messageDTO.getMessage());
+//        TODO Add to DB after profile implementation
 
         JSONObject object = new JSONObject();
-        object.put("user", user.getUsername());
-        object.put("message", message.getMessage());
+        object.put("user", messageDTO.getUser());
+        object.put("message", messageDTO.getMessage());
 
         return object;
     }
