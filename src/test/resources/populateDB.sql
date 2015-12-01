@@ -20,3 +20,6 @@ insert into usersdata values (3,'mixalis','mixalis',true);
 insert into messages  values (1, 1, 'Hi');
 insert into messages values (2, 1, 'Hello, how are you');
 insert into messages values (3, 2, 'I m fine thank you');
+
+insert into friendlist  values (1,2);
+insert into friendlist  values (1,3);
