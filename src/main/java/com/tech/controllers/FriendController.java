@@ -40,7 +40,7 @@ public class FriendController
     * @return 
     */
    @RequestMapping(value = "/addfriend",method = RequestMethod.POST)
-   public HttpEntity<String> addFriend(@RequestParam("username") String username,
+   public HttpEntity<String> addFriend(@RequestParam("username") String username, //TODO use JSON
            @RequestParam("friendname") String friendname)
    {
        if(!userService.checkUsername(username))

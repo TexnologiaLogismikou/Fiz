@@ -19,7 +19,7 @@ public class UserController {
 
     @Autowired
     IUserService service;
-
+/*
     @RequestMapping(value = "/{username}",method = RequestMethod.GET)
     public String loadUserProfile(@PathVariable String username, ModelMap model){
         User user = service.getUserByUsername(username.toLowerCase());
@@ -38,7 +38,7 @@ public class UserController {
         model.addAttribute("username",username);
         return "userProfile";
     }
-    
+    */
     @RequestMapping(value="/{username}/modify",method = RequestMethod.POST)
     public String deactivateUser(@PathVariable String username,@RequestParam("user") UserDTO userDTO){
         

@@ -26,58 +26,61 @@ import org.springframework.web.multipart.MultipartFile;
  *
  * @author KuroiTenshi
  */
+/*
 @Controller
 @RequestMapping("/images")
 public class ImagesController {
     ClassLoader cl = getClass().getClassLoader();  //gia na parw to path tis eikonas
-    
+
     @Autowired
     IImagesService service;
-    
+
     @Autowired
     IUserService userService;
-
+*/
     /**
-     * 
+     *
      * @param name
      * @param file
      * @param model
      * @return http status depending on the validations
      */
-    @RequestMapping(method = RequestMethod.POST) 
+    /*
+    @RequestMapping(method = RequestMethod.POST) //TODO use JSON
     public String loadImages(@RequestParam("file") MultipartFile file,@RequestParam("username") String name,ModelMap model){
         Long sm = userService.getUserByUsername(name).getId();
-        
+
         if(!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
                 ImagesMod img = new ImagesMod(sm);
-                
+
                 File newFile = new File(img.getImagePath());
                 if (!newFile.getParentFile().exists()){
-                    newFile.getParentFile().mkdirs(); //need check if creation fails?               
+                    newFile.getParentFile().mkdirs(); //need check if creation fails?
                 }
                 Files.write(newFile.toPath(), bytes, StandardOpenOption.CREATE);//if file exists?
-                        
+
                 service.addImage(img);
-                
+
                 model.addAttribute("response","all good");
             }catch (Exception e) {
                 model.addAttribute("response","error with the file");//TODO enumarated
-            } 
+            }
         } else {
             model.addAttribute("response","file was empty");
-        }   
+        }
         return "images";
     }
-        
+        */
     /**
-     * 
+     *
      * @param arithName
      * @param extension
      * @return null if the extension was wrong else a picture either the selected or an error picture
-     * @throws IOException 
+     * @throws IOException
      */
+    /*
     @RequestMapping("/get/{arithName:^[1-9][0-9]+\\.}{extension}")
     public @ResponseBody byte[] handle(@PathVariable String arithName, @PathVariable String extension) throws IOException {
         if (extension.equalsIgnoreCase("jpg")){
@@ -91,9 +94,10 @@ public class ImagesController {
         }
         return null;
     }
-    
+
     @RequestMapping(method = RequestMethod.GET)
     public String returnPage(){
         return "images";//einai to view name
     }
 }
+*/

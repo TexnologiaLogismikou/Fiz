@@ -1,5 +1,7 @@
 package com.tech.models.entities;
 
+import com.tech.models.dtos.MessageDTO;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;

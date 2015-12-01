@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+/*
 @Controller
 @RequestMapping("/login")
 public class LogInAndOutController {
@@ -21,7 +21,7 @@ public class LogInAndOutController {
     @Autowired
     IUserService service;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET) //TODO use JSON
     public String loadLoginPage(@RequestParam (value = "error", required=false) String error,
                                 @RequestParam(value = "logout", required = false) String logout,
                                 ModelMap model, HttpServletRequest request, HttpServletResponse response) {
@@ -35,4 +35,4 @@ public class LogInAndOutController {
         }
         return "login";
     }
-}
+}*/

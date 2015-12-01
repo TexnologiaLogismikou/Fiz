@@ -8,7 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
+/*
 @Controller
 @RequestMapping("/register")
 public class RegistrationController {
@@ -16,7 +16,7 @@ public class RegistrationController {
     @Autowired
     IUserService service;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST) // TODO use JSON
     public String saveUser(@RequestParam("username") String username, @RequestParam("password") String password, ModelMap model) {
         if (!service.checkUsername(username)) {
             service.addUser(new User(service.getNextID(), username, password, true));
@@ -32,4 +32,4 @@ public class RegistrationController {
     public String loadRegistrationPage() {
         return "register";
     }
-}
+}*/

@@ -1,6 +1,8 @@
 package com.tech.controllers;
 
-import com.tech.models.dtos.ChatMessage;
+import com.tech.models.dtos.MessageDTO;
+import com.tech.models.entities.Message;
+import com.tech.models.entities.User;
 import com.tech.services.interfaces.IUserService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +23,16 @@ public class MessageController {
 
     @MessageMapping("/chat")
     @SendTo("/topic/chat")
-    public JSONObject chat(ChatMessage message) {
+    public JSONObject chat(MessageDTO messageDTO) {
 
-//        User user = userService.getUserById(Long.parseLong(message.getUserId()));
-//        Message messageModel = new Message(1L, user.getId(), message.getMessage());
+        User user = userService.getUserByUsername(messageDTO.getUser());
+        Long id = 1000L;
+        Message message = new Message(id, user.getId(), messageDTO.getMessage());
 
        // TODO Add to DB after profile implementation
 
         JSONObject object = new JSONObject();
-        object.put("user", message.getUser());
+        object.put("user", user.getUsername());
         object.put("message", message.getMessage());
 
         return object;

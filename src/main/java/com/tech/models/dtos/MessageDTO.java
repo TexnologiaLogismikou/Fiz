@@ -1,7 +1,7 @@
 package com.tech.models.dtos;
 
 
-public class ChatMessage {
+public class MessageDTO {
     private String message;
     private String user;
 

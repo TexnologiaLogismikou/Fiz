@@ -30,7 +30,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/user/**","/user**").access("hasRole('USER')")
-                .antMatchers("/chat/**","/chat**").access("hasRole('USER')")
+                .antMatchers("/chat/**","/chat**").permitAll()
                 .antMatchers("/pictures/**","/pictures**").access("hasRole('USER')")
                 .antMatchers("/images/**","/images**").access("hasRole('USER')")
                 .antMatchers("/", "/home").permitAll()
