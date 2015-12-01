@@ -8,11 +8,14 @@ package com.tech.models.entities;
 import com.tech.models.entities.embeddedIds.FriendComposite;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -30,12 +33,17 @@ public class Friend implements Serializable
     @Id
     private Long friendid;
     
+    @Column(name = "date")
+    @NotNull
+    private Date tmstamp;
+    
     public Friend() {}
 
     public Friend(Long userid, Long friendid)
     {
         this.userid = userid;
         this.friendid = friendid;
+        this.tmstamp = new Date();
     }
 
     @JsonProperty
@@ -48,6 +56,11 @@ public class Friend implements Serializable
     public Long getFriendid()
     {
        return friendid;
+    }
+    
+    public Date getTimestamp()
+    {
+        return tmstamp;
     }
 
     public void setUserid(Long userid)
