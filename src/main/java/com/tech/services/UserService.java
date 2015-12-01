@@ -51,26 +51,6 @@ public class UserService implements IUserService {
     }
     
     /**
-     * initialize a transaction with the repository - database to add a list of elements to the database
-     * @param users 
-     */
-    @Override
-    @Transactional
-    public void addUsers(List<User> users) {
-        repository.save(users);
-    }
-    
-    /**
-     * initialize a transaction with the repository - database to remove an element from the database
-     * @param user 
-     */
-    @Override
-    @Transactional
-    public void deleteUser(User user) {
-        repository.delete(user);
-    }
-    
-    /**
      * initialize a transaction with the repository - database to get all the elements from the database 
      * @return List\<Use\>
      */

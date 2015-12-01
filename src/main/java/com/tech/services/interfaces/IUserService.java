@@ -16,12 +16,6 @@ public interface IUserService {
     void addUser(User user);
 
     @Transactional
-    void addUsers(List<User> users);
-
-    @Transactional
-    void deleteUser(User user);
-
-    @Transactional
     List<User> getAllUsers();
     
     @Transactional

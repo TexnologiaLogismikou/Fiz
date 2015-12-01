@@ -228,23 +228,6 @@ public class UserServiceTest extends AbstractTest{
         service.addUser(user);
         Assert.assertEquals("Failure - user wasnt added",user.getId(),service.getUserById(user.getId()).getId());
     } 
-    
-    @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    public void testAddUsers(){
-        service.addUsers(list);
-        Assert.assertEquals("Failure - user 4 wasnt added",list.get(0).getId(),service.getUserById(list.get(0).getId()).getId());
-        Assert.assertEquals("Failure - user 5 wasnt added",list.get(1).getId(),service.getUserById(list.get(1).getId()).getId());
-        Assert.assertEquals("Failure - user 6 wasnt added",list.get(2).getId(),service.getUserById(list.get(2).getId()).getId());
-        
-    }
-    
-    @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    public void testDeleteUser(){
-        service.deleteUser(userExist);
-        Assert.assertFalse("Failure - user wasnt deleted",service.checkUsername(userExist.getUsername()));
-    }
 
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
