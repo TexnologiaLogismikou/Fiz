@@ -8,6 +8,7 @@ package com.tech.services;
 import com.tech.models.entities.Friend;
 import com.tech.repositories.IFriendRepository;
 import com.tech.services.interfaces.IFriendService;
+import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,10 +72,24 @@ public class FriendService implements IFriendService
     
     @Transactional
     @Override
+    public Boolean checkFriendship(Friend friend)
+    { 
+        return true; //TODO
+    }
+    
+    @Transactional
+    @Override
     public List<Friend> getAllFriends()
     { 
         return repository.findAll();
     }
     
+    @Transactional
+    @Override
+    public List<Friend> getFriendsByMonth(Date date)
+    { 
+        
+        return repository.findByDate(date); //TODO
+    }
     
 }

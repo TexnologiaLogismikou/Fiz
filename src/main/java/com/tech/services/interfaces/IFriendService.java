@@ -6,6 +6,7 @@
 package com.tech.services.interfaces;
 
 import com.tech.models.entities.Friend;
+import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
 
@@ -29,4 +30,10 @@ public interface IFriendService
     
     @Transactional
     List<Friend> getAllFriends();
+    
+    @Transactional
+    public List<Friend> getFriendsByMonth(Date date);
+    
+    @Transactional
+    public Boolean checkFriendship(Friend friend);
 }
