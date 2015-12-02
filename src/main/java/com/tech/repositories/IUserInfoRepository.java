@@ -20,8 +20,10 @@ import org.springframework.stereotype.Repository;
 public interface IUserInfoRepository extends JpaRepository<UserInfo, Long>{
     
     @Modifying
-    @Query("update UserInfo u set u.email = ?1, u.profile_photo = ?2, u.status = ?3, u.last_name = ?4, u.birthday = ?5, u.hometown = ?6 where u.userid = ?7")
-    void setUserInfoById(String email, String profile_photo, String status, String last_name, String birthday, String hometown, Long userid );
+    @Query("update UserInfo u set u.email = ?1, u.profile_photo = ?2, u.status = ?3, "
+            + "u.last_name = ?4, u.birthday = ?5, u.hometown = ?6 where u.userid = ?7")
+    void setUserInfoById(String email, String profile_photo, String status, String last_name, 
+            String birthday, String hometown, Long userid );
     
     UserInfo findByUserid(Long userid);
 }

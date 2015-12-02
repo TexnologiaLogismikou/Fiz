@@ -72,12 +72,13 @@ public class UserInfoServiceTest extends AbstractTest{
         UserInfo userinfoOrigin = service.getUserInfoByUserId(userExist.getUserid());
         userNotExist.setUserid(userExist.getUserid());
         service.modifyUserInfo(userNotExist);
-        userNotExist = service.getUserInfoByUserId(userExist.getUserid());
-        System.out.println(userNotExist.getUserid());
-      
-        Assert.assertEquals("Fail Modify User Info", userinfoOrigin.getUserid(), userNotExist.getUserid());
-        Assert.assertEquals("Fail in modify Emai",userinfoOrigin.getEmail(),userNotExist.getEmail());
-        Assert.assertEquals("Fail in Modify last name",userinfoOrigin.getLastName(),userNotExist.getLastName() );
+        UserInfo userNotExist = service.getUserInfoByUserId(userExist.getUserid());
+        //TODO den kanei allagi twn Data gia to test.kanonika ta kanei
+              
+        Assert.assertEquals("Fail Modify User Info,expected same id", userinfoOrigin.getUserid(), userNotExist.getUserid());
+        Assert.assertNotEquals("Fail in modify Emai expected : " + userinfoOrigin.getEmail()
+                + " but Found : " + userNotExist.getEmail() ,userinfoOrigin.getEmail(),userNotExist.getEmail());
+        Assert.assertNotEquals("Fail in Modify last name",userinfoOrigin.getLastName(),userNotExist.getLastName() );
         
     }
 
@@ -90,7 +91,7 @@ public class UserInfoServiceTest extends AbstractTest{
         UserInfo userinfo = new UserInfo(3L,"iwanna@gmail5.com",Attr.NO_IMAGE_ASSIGNED.getData(),
                 "Status","Fwtiadoy5","23/01/1994","kommotini");
         service.addUserInfo(userinfo);
-        Assert.assertEquals("Fail add user",userExist.getUserid(),service.getUserInfoByUserId(userExist.getUserid()).getUserid());
+        Assert.assertNotNull("Fail add User",service.getUserInfoByUserId(userinfo.getUserid()));
     }
 
     /**
@@ -99,7 +100,7 @@ public class UserInfoServiceTest extends AbstractTest{
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testGetUserInfoByUserId() {
-        Assert.assertEquals("Fail get User By Id",userExist.getUserid(),service.getUserInfoByUserId(2L).getUserid());
+        Assert.assertEquals("Fail get User By Id",userExist.getUserid(),service.getUserInfoByUserId(userExist.getUserid()).getUserid());
     }
     
 }
