@@ -2,6 +2,7 @@ package com.tech.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tech.models.dtos.RegisteredUserDTO;
 import com.tech.models.dtos.UserDTO;
 
 import javax.persistence.*;
@@ -35,6 +36,10 @@ public class User {
     public User(Long id,UserDTO userDTO){
         this(id,userDTO.getUsername(),
                 userDTO.getPassword(),userDTO.getEnabled());
+    }
+    
+    public User(Long id,RegisteredUserDTO userDTO) {
+        this(id,userDTO.getUsername(),userDTO.getPassword(),true);
     }
     
     public User(Long id, String username, String password, boolean enabled) {

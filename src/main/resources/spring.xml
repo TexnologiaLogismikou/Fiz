@@ -6,10 +6,11 @@
         <property name="annotatedClasses">
             <list>
                 <value>com.tech.models.entities.Message</value>
-                <value>com.tech.models.entities.User</value>
                 <value>com.tech.models.entities.ImagesMod</value>
                 <value>com.tech.models.entities.Friend</value>
+                <value>com.tech.models.entities.User</value>
                 <value>com.tech.models.entities.UserRole</value>
+                <value>com.tech.models.entities.UserInfo</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -38,6 +39,9 @@
     </bean>
     
     <bean id="userRoleDAO" class="com.tech.models.daos.UserRolesDAOimpl.">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
+    <bean id="userInfoDAO" class="com.tech.models.daos.UserInfoDAOimpl.">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
 </beans>

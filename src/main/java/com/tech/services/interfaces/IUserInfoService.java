@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tech.services;
+package com.tech.services.interfaces;
 
 import com.tech.models.entities.UserInfo;
 import javax.transaction.Transactional;

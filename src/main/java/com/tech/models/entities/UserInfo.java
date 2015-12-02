@@ -5,7 +5,9 @@
  */
 package com.tech.models.entities;
 
-import com.tech.models.dtos.UserInfoDTO;
+import com.tech.configurations.tools.Attr;
+import com.tech.models.dtos.RegisteredUserDTO;
+import com.tech.models.dtos.UserDTO;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -42,9 +44,15 @@ public class UserInfo {
     @Column(name = "hometown")
     private String hometown;
 
-    public UserInfo(Long userid,UserInfoDTO userInfoDTO){
-        this(userid,userInfoDTO.getEmail(),userInfoDTO.getProfile_photo(),userInfoDTO.getStatus(),
-                userInfoDTO.getLast_name(),userInfoDTO.getBirthday(),userInfoDTO.getHometown());
+    public UserInfo(Long userid,UserDTO userDTO){
+        this(userid,userDTO.getEmail(),userDTO.getProfile_photo(),userDTO.getStatus(),
+                userDTO.getLast_name(),userDTO.getBirthday(),userDTO.getHometown());
+    }
+    
+    public UserInfo(Long userid,RegisteredUserDTO userDTO){
+        this(userid,userDTO.getEmail(),Attr.NO_IMAGE_ASSIGNED.getData(),null,
+                userDTO.getLast_name(),userDTO.getBirthday(),null);
+        
     }
     
     public UserInfo(Long userid, String email, String profile_photo, 

@@ -7,29 +7,17 @@ package com.tech.models.dtos;
 
 /**
  *
- * @author bill5_000
+ * @author KuroiTenshi
  */
-public class UserDTO {
+public class RegisteredUserDTO {
     private String username;
     private String password;
-    private boolean enabled;
     private String email;
-    private String profile_photo;
-    private String status;
     private String last_name;
     private String birthday;
-    private String hometown;
     
     public String getEmail(){
         return email;
-    }
-    
-    public String getProfile_photo(){
-        return profile_photo;
-    }
-    
-    public String getStatus(){
-        return status;
     }
 
     public String getLast_name() {
@@ -39,10 +27,7 @@ public class UserDTO {
     public String getBirthday() {
         return birthday;
     }
-
-    public String getHometown() {
-        return hometown;
-    }
+    
     public String getUsername(){
         return username;
     }
@@ -50,9 +35,4 @@ public class UserDTO {
     public String getPassword(){
         return password;
     }
-    
-    public boolean getEnabled(){
-        return enabled;
-    }
-            
 }

@@ -10,7 +10,8 @@ package com.tech.configurations.tools;
  * @author KuroiTenshi
  */
 public enum Attr {
-    IMAGES_OUTPUT_FOLDER("C:\\FizData\\Images");    
+    IMAGES_OUTPUT_FOLDER("C:\\FizData\\Images"),
+    NO_IMAGE_ASSIGNED(null);
     
     private final String str;
     Attr(String str) {
