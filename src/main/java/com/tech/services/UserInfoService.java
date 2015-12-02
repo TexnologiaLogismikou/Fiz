@@ -10,11 +10,13 @@ import com.tech.models.entities.UserInfo;
 import com.tech.repositories.IUserInfoRepository;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author iwann
  */
+@Service
 public class UserInfoService implements IUserInfoService {
     
     @Autowired

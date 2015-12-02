@@ -209,12 +209,6 @@
 
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>4.1.8.RELEASE</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
             <artifactId>org.springframework.beans</artifactId>
             <version>3.2.2.RELEASE</version>
             <scope>test</scope>
@@ -237,6 +231,7 @@
             <artifactId>tomcat-embed-el</artifactId>
             <scope>provided</scope>
         </dependency>
+        
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
