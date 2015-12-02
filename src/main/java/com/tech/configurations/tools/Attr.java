@@ -11,7 +11,7 @@ package com.tech.configurations.tools;
  */
 public enum Attr {
     IMAGES_OUTPUT_FOLDER("C:\\FizData\\Images"),
-    NO_IMAGE_ASSIGNED(null);
+    NO_IMAGE_ASSIGNED("C:\\FizData\\DefaultImages\\NoImage\\noImg.jpg");
     
     private final String str;
     Attr(String str) {
