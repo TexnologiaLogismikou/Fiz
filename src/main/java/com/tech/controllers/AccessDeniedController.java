@@ -9,7 +9,7 @@
 //
 //@Controller
 //@RequestMapping("/Access_Denied")
-//public class AccessDeniedController {
+//public class AccessDeniedController extends BaseController{
 //
 //    @RequestMapping(method = RequestMethod.GET)
 //    public String accessDenied(ModelMap model){

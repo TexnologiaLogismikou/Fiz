@@ -1,5 +1,6 @@
 package com.tech.controllers;
 
+import com.tech.controllers.superclass.BaseController;
 import com.tech.models.dtos.MessageDTO;
 import com.tech.models.entities.Message;
 import com.tech.models.entities.User;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class MessageController {
+public class MessageController extends BaseController{
 
     //@Autowired
     //IMessageService messageService;

@@ -5,6 +5,7 @@
  */
 package com.tech.controllers;
 
+import com.tech.controllers.superclass.BaseController;
 import com.tech.models.entities.Friend;
 import com.tech.services.interfaces.IFriendService;
 import com.tech.services.interfaces.IUserService;
@@ -25,7 +26,7 @@ import org.springframework.web.servlet.tags.HtmlEscapeTag;
  */
 @Controller
 @RequestMapping("/friendservice")
-public class FriendController
+public class FriendController extends BaseController
 {
    @Autowired 
    IFriendService friendService;

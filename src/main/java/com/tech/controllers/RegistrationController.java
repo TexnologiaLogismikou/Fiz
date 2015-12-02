@@ -1,5 +1,6 @@
 package com.tech.controllers;
 
+import com.tech.controllers.superclass.BaseController;
 import com.tech.models.dtos.RegisteredUserDTO;
 import com.tech.models.entities.User;
 import com.tech.models.entities.UserInfo;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Controller;
 
 @RestController
 @RequestMapping("/register")
-public class RegistrationController {
+public class RegistrationController extends BaseController{
 
     @Autowired
     IUserService service;

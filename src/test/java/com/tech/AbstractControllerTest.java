@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tech.controllers.superclass.BaseController;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -31,6 +32,10 @@ public abstract class AbstractControllerTest extends AbstractTest{
     
     protected void setUp(){
         mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    }
+    
+    protected void setUp(BaseController controller) {
+        mvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
     
     protected String mapToJson(Object obj) throws JsonProcessingException {

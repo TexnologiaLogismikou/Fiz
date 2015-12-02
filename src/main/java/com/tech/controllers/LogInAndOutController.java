@@ -1,5 +1,6 @@
 package com.tech.controllers;
 
+import com.tech.controllers.superclass.BaseController;
 import com.tech.models.dtos.LoginUserDTO;
 import com.tech.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/login")
-public class LogInAndOutController {
+public class LogInAndOutController extends BaseController {
 
     @Autowired
     IUserService service;
