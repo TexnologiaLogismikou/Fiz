@@ -64,7 +64,7 @@ public class FriendController extends BaseController
        Friend friend = new Friend(userService.getUserByUsername(friendDTO.getUsername()).getId(),
                userService.getUserByUsername(friendDTO.getFriendname()).getId());
 
-       if(friendService.checkFriendIfExists(friend))
+       if(friendService.checkFriendIfExists(friend.getUserid(),friend.getFriendid()))
        {
           return new ResponseEntity<>("Friend already exists",HttpStatus.FOUND);
        }

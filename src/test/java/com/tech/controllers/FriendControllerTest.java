@@ -112,7 +112,61 @@ public class FriendControllerTest extends AbstractControllerTest
     @Sql(scripts = "classpath:populateDB.sql")
     public void testDeleteFriend() throws Exception 
     {
+        JSONObject json = new JSONObject();
+        json.put("username","milena");
+        json.put("friendname","mixalis");
         
+        doNothing().when(friendService).deleteFriend(any(Friend.class));
+        
+        when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","milena",true));
+        when(userService.getUserByUsername("mixalis")).thenReturn(new User(3L,"mixalis","mixalis",true));
+        
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/deletefriend")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+        
+        verify(userService,times(2)).getUserByUsername(anyString());
+        verify(friendService,times(1)).deleteFriend(any(Friend.class));
+        
+        Assert.assertEquals("failure - expected HTTP status to be '200'", 200, status); 
+        
+        Assert.assertTrue("failure - expected HTTP response body to be 'complete'",
+                    content.equals("complete"));
+    }  
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testCheckFriendExists() throws Exception 
+    {
+        JSONObject json = new JSONObject();
+        json.put("username","milena");
+        json.put("friendname","iwanna");
+        
+        
+        when(friendService.checkFriendIfExists(1L,2L)).thenReturn(true);
+        
+        when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","milena",true));
+        when(userService.getUserByUsername("iwanna")).thenReturn(new User(2L,"iwanna","iwanna",true));
+        
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/checkfriend")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+        
+        verify(userService,times(2)).getUserByUsername(anyString());
+        verify(friendService,times(1)).checkFriendIfExists(1L,2L);
+        
+        Assert.assertEquals("failure - expected HTTP status to be '302'", 302, status); 
+        
+        Assert.assertTrue("failure - expected HTTP response body to be 'Friend already exists'",
+                    content.equals("Friend already exists"));
     }  
 }
 
