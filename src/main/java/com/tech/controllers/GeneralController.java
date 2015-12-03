@@ -1,5 +1,6 @@
 package com.tech.controllers;
 
+import com.tech.configurations.tools.Host;
 import com.tech.controllers.superclass.BaseController;
 import com.tech.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = "http://83.212.105.54")
+@CrossOrigin(origins = Host.apache)
 @RestController
 @RequestMapping("/generalController")
 public class GeneralController extends BaseController{

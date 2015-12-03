@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
@@ -33,11 +34,13 @@ public class MessageController extends BaseController{
 //        TODO Add to DB after profile implementation
 
         Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh-mm");
 
         JSONObject object = new JSONObject();
         object.put("user", messageDTO.getUser());
         object.put("message", messageDTO.getMessage());
-        object.put("date", date.toString());
+        object.put("date", dateFormat.format(date));
+        object.put("color", messageDTO.getColor());
 
         return object;
     }
