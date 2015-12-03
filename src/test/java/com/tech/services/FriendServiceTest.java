@@ -83,9 +83,8 @@ public class FriendServiceTest extends AbstractTest
     @Sql(scripts = "classpath:populateDB.sql")
     public void testDeleteFriend()
     {
-        Friend testFriend = friendsToAdd.get(0);
-        service.deleteFriend(testFriend);
-        Assert.assertTrue("fail", !service.checkFriendIfExists(testFriend));
+        service.deleteFriend(friendsToAdd.get(0));
+        Assert.assertTrue("fail", !service.checkFriendIfExists(friendsToAdd.get(0)));
     }
 
     /**
@@ -117,8 +116,8 @@ public class FriendServiceTest extends AbstractTest
     @Sql(scripts = "classpath:populateDB.sql")
     public void testGetAllFriends() 
     {
-       Assert.assertTrue("fail",!service.getAllFriends().isEmpty());
-       //Assert.assertTrue("fail",service.getAllFriends().size()==2); 
+       //Assert.assertTrue("fail",!service.getAllFriends().isEmpty());
+       Assert.assertTrue("fail",service.getAllFriends().size()==2); 
     }
     
     @Test
