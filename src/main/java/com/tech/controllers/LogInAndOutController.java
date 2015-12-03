@@ -42,7 +42,7 @@ public class LogInAndOutController extends BaseController {
     @RequestMapping(method = RequestMethod.POST)
     public  HttpEntity<String> handleLogin(@RequestBody LoginUserDTO loginUserDTO) {
         if (!service.validateUser(loginUserDTO.getUsername(), loginUserDTO.getPassword())) {
-            return new ResponseEntity<>("Not authorized", HttpStatus.UNAUTHORIZED);   
+            return new ResponseEntity<>("Not authorized", HttpStatus.UNAUTHORIZED);   //401
         }
         return new ResponseEntity<>("Login",HttpStatus.ACCEPTED);    
     }
