@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Controller
@@ -31,10 +32,12 @@ public class MessageController extends BaseController{
 //        Message message = new Message(id, user.getId(), messageDTO.getMessage());
 //        TODO Add to DB after profile implementation
 
+        Date date = new Date();
+
         JSONObject object = new JSONObject();
         object.put("user", messageDTO.getUser());
         object.put("message", messageDTO.getMessage());
-        object.put("date", new Date().toString());
+        object.put("date", date.toString());
 
         return object;
     }
