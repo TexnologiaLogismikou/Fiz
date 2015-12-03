@@ -26,8 +26,8 @@ import javax.validation.constraints.NotNull;
 @IdClass(FriendComposite.class)
 @NamedQueries({
         @NamedQuery (name = "Friend.findByUserid", query = "SELECT p FROM Friend p WHERE p.userid = ?1"),
-        //@NamedQuery (name = "Friend.findByDate", query = "SELECT p FROM Friend p WHERE p.date = ?1"),
-        @NamedQuery (name = "Friend.findByUseridAndFriendid", query = "SELECT p FROM Friend p WHERE p.userid = ?1 and friendid=?1")
+        @NamedQuery (name = "Friend.findByDate", query = "SELECT p FROM Friend p WHERE p.tmstamp = ?1"),
+        @NamedQuery (name = "Friend.findByUseridAndFriendid", query = "SELECT p FROM Friend p WHERE p.userid = ?1 and p.friendid=?2")
              })//edw vazw oti query thelw
 @Table (name = "friendlist")
 public class Friend implements Serializable
@@ -39,7 +39,6 @@ public class Friend implements Serializable
     private Long friendid;
     
     @Column(name = "date")
-    @NotNull
     private Date tmstamp;
     
     public Friend() {}

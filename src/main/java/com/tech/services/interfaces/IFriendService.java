@@ -26,7 +26,7 @@ public interface IFriendService
     List<Friend> getFriendsByUser(Long userid);
     
     @Transactional
-    Boolean checkFriendIfExists(Friend friend);
+    boolean checkFriendIfExists(Friend friend);
     
     @Transactional
     List<Friend> getAllFriends();
