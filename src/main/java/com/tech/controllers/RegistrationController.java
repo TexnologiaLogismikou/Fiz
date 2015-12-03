@@ -11,7 +11,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.stereotype.Controller;
 
 @CrossOrigin(origins = "http://83.212.105.54")
 @RestController
@@ -50,7 +49,7 @@ public class RegistrationController extends BaseController{
     @RequestMapping(value = "/testUsername", method = RequestMethod.POST)
     public HttpEntity<String> validateUsername (@RequestParam("username") String username) {
         if (!service.checkUsername(username)) {
-            return new ResponseEntity<>("available",HttpStatus.ACCEPTED);            
+            return new ResponseEntity<>("available",HttpStatus.OK);            
         } 
         return new ResponseEntity<>("Not available", HttpStatus.FOUND);   
     }

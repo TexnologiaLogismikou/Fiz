@@ -8,7 +8,6 @@ package com.tech.services;
 import com.tech.AbstractTest;
 import com.tech.models.entities.User;
 import com.tech.services.interfaces.IUserService;
-import static java.nio.file.Files.list;
 import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -36,7 +35,6 @@ public class UserServiceTest extends AbstractTest{
     private IUserService service;
     private List<User> list = null;
     User userExist = null;
-    //    private IUserService service = Mockito.mock(IUserService.class);
     User userNotExist = null;
     
    
@@ -55,7 +53,6 @@ public class UserServiceTest extends AbstractTest{
         list.add(new User(4L,"mixalis2","mixalis2",true));
         list.add(new User(5L,"iwanna2","iwanna2",true));
         list.add(new User(6L,"milena2","milena2",true));
-        //TODO check user_roles for corresponding changes   
         
         userExist = new User (2L,"iwanna","iwanna",true);
         

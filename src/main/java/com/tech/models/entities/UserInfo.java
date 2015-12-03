@@ -8,6 +8,7 @@ package com.tech.models.entities;
 import com.tech.configurations.tools.Attr;
 import com.tech.models.dtos.RegisteredUserDTO;
 import com.tech.models.dtos.UserDTO;
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -21,7 +22,7 @@ import javax.persistence.Table;
 @Entity
 @NamedQuery(name = "UserInfo.findByUserid", query = "SELECT p FROM UserInfo p WHERE p.userid = ?1")
 @Table (name = "user_info")
-public class UserInfo {
+public class UserInfo implements Serializable {
     @Id
     @Column(name = "userid")
     private Long userid;
