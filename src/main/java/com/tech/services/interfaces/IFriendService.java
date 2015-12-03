@@ -6,6 +6,7 @@
 package com.tech.services.interfaces;
 
 import com.tech.models.entities.Friend;
+import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
 
@@ -25,8 +26,12 @@ public interface IFriendService
     List<Friend> getFriendsByUser(Long userid);
     
     @Transactional
-    Boolean checkFriendIfExists(Friend friend);
+    boolean checkFriendIfExists(Long userid,Long friendid);
     
     @Transactional
     List<Friend> getAllFriends();
+    
+    @Transactional
+    public List<Friend> getFriendsByMonth(Date date);
+    
 }

@@ -6,6 +6,7 @@
 package com.tech.repositories;
 
 import com.tech.models.entities.Friend;
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -18,4 +19,6 @@ import org.springframework.stereotype.Repository;
 public interface IFriendRepository extends JpaRepository<Friend, Long> 
 {
     List<Friend> findByUserid(Long userid);
+    List<Friend> findByDate(Date date);
+    Friend findByUseridAndFriendid(Long userid, Long friendid);
 }

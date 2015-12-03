@@ -39,8 +39,5 @@ public class RegistrationController extends BaseController{
         infoService.addUserInfo(userInfo);
         
         return new ResponseEntity<>("success",HttpStatus.OK);
-
     }
-    
-    
 }

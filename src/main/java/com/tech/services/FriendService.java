@@ -8,6 +8,7 @@ package com.tech.services;
 import com.tech.models.entities.Friend;
 import com.tech.repositories.IFriendRepository;
 import com.tech.services.interfaces.IFriendService;
+import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,21 +53,15 @@ public class FriendService implements IFriendService
     
     /**
      * 
-     * @param friend
+     * @param userid
+     * @param friendid
      * @return returns True if Friend exists
      */
     @Transactional
     @Override
-    public Boolean checkFriendIfExists(Friend friend)
-    { 
-        for(Friend vLookUp:repository.findByUserid(friend.getUserid()))
-        {
-            if(vLookUp.getFriendid().equals(friend.getFriendid()))
-            {
-                return true;
-            }
-        }
-        return false;
+    public boolean checkFriendIfExists(Long userid, Long friendid) 
+    {        
+       return repository.findByUseridAndFriendid(userid,friendid) != null;
     }
     
     @Transactional
@@ -76,5 +71,12 @@ public class FriendService implements IFriendService
         return repository.findAll();
     }
     
+    @Transactional
+    @Override
+    public List<Friend> getFriendsByMonth(Date date)
+    { 
+//        throw new UnsupportedOperationException("not supported yet");
+        return repository.findByDate(date); //TODO
+    }
     
 }

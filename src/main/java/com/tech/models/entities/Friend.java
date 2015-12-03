@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -23,7 +24,11 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @IdClass(FriendComposite.class)
-@NamedQuery(name = "Friend.findByUserid", query = "SELECT p FROM Friend p WHERE p.userid = ?1")//edw vazw oti query thelw
+@NamedQueries({
+        @NamedQuery (name = "Friend.findByUserid", query = "SELECT p FROM Friend p WHERE p.userid = ?1"),
+        @NamedQuery (name = "Friend.findByDate", query = "SELECT p FROM Friend p WHERE p.tmstamp = ?1"),
+        @NamedQuery (name = "Friend.findByUseridAndFriendid", query = "SELECT p FROM Friend p WHERE p.userid = ?1 and p.friendid=?2")
+             })//edw vazw oti query thelw
 @Table (name = "friendlist")
 public class Friend implements Serializable
 {
@@ -34,7 +39,6 @@ public class Friend implements Serializable
     private Long friendid;
     
     @Column(name = "date")
-    @NotNull
     private Date tmstamp;
     
     public Friend() {}
