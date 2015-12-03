@@ -68,29 +68,14 @@ public class FriendController
          return new ResponseEntity<>("available",HttpStatus.OK);
     }
    
-   @RequestMapping(value = "/deletefriend",method = RequestMethod.POST) //arxa
-   public HttpEntity<String> deleteFriend(@RequestParam("username") String username, @RequestParam("friendname") String friendname)
+   @RequestMapping(value = "/deletefriend",method = RequestMethod.POST) 
+   public HttpEntity<String> deleteFriend(@RequestBody FriendDTO friendDTO)
    {
-       if(!userService.checkUsername(username))
-       {
-           return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);    
-       }
-       else if (!userService.checkUsername(friendname))
-       {
-           return new ResponseEntity<>("Friend does not exist", HttpStatus.NOT_FOUND);      
-       }
-       else
-       {
-           Friend f = new Friend(userService.getUserByUsername(username).getId(), userService.getUserByUsername(friendname).getId());
-           if (!friendService.checkFriendIfExists(f))
-           {
-                return new ResponseEntity<>("This user is not in your friend list anyway", HttpStatus.FOUND);
-           }
-           else
-           {
-               friendService.deleteFriend(f);
-               return new ResponseEntity<>("Friend successfully deleted", HttpStatus.OK);
-           }
-       }  
+       Friend friend = new Friend(userService.getUserByUsername(friendDTO.getUsername()).getId(),
+               userService.getUserByUsername(friendDTO.getFriendname()).getId());
+       
+       friendService.deleteFriend(friend);
+       return new ResponseEntity<>("complete", HttpStatus.OK);      
+      
    }   
 }

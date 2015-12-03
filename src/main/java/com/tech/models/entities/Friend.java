@@ -26,7 +26,7 @@ import javax.validation.constraints.NotNull;
 @IdClass(FriendComposite.class)
 @NamedQueries({
         @NamedQuery (name = "Friend.findByUserid", query = "SELECT p FROM Friend p WHERE p.userid = ?1"),
-        @NamedQuery (name = "Friend.findByDate", query = "SELECT p FROM Friend p WHERE p.date = ?1"),
+        //@NamedQuery (name = "Friend.findByDate", query = "SELECT p FROM Friend p WHERE p.date = ?1"),
         @NamedQuery (name = "Friend.findByUseridAndFriendid", query = "SELECT p FROM Friend p WHERE p.userid = ?1 and friendid=?1")
              })//edw vazw oti query thelw
 @Table (name = "friendlist")

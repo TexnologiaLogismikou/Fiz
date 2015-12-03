@@ -75,8 +75,8 @@ public class FriendService implements IFriendService
     @Override
     public List<Friend> getFriendsByMonth(Date date)
     { 
-        
-        return repository.findByDate(date); //TODO
+        throw new UnsupportedOperationException("not supported yet");
+        //return repository.findByDate(date); //TODO
     }
     
 }

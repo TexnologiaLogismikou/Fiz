@@ -19,6 +19,6 @@ import org.springframework.stereotype.Repository;
 public interface IFriendRepository extends JpaRepository<Friend, Long> 
 {
     List<Friend> findByUserid(Long userid);
-    List<Friend> findByDate(Date date);
+    //List<Friend> findByDate(Date date);
     Friend findByUseridAndFriendid(Long userid, Long friendid);
 }
