@@ -7,6 +7,9 @@ package com.tech.services;
 
 import com.tech.AbstractTest;
 import com.tech.models.entities.User;
+import com.tech.repositories.IUserInfoRepository;
+import com.tech.repositories.IUserRepository;
+import com.tech.services.interfaces.IUserInfoService;
 import com.tech.services.interfaces.IUserService;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +20,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import static org.mockito.Matchers.anyLong;
+import org.mockito.Mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
@@ -31,9 +41,17 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @ActiveProfiles({"iwanna","iwanna"})
 public class UserServiceTest extends AbstractTest{
     
+    @Mock
+    private IUserRepository repository;
+    
+    @InjectMocks
+    private UserService mockService;
+    
     @Autowired
     private IUserService service;
+    
     private List<User> list = null;
+    
     User userExist = null;
     User userNotExist = null;
     
@@ -49,25 +67,38 @@ public class UserServiceTest extends AbstractTest{
     
     @Before
     public void setUp(){
+        MockitoAnnotations.initMocks(this);
+        
         list = new ArrayList();
         list.add(new User(4L,"mixalis2","mixalis2",true));
         list.add(new User(5L,"iwanna2","iwanna2",true));
         list.add(new User(6L,"milena2","milena2",true));
         
+        userNotExist = new User(2L,"vasilis","vasilis",true);
         userExist = new User (2L,"iwanna","iwanna",true);
-        
     }
     
     @After
-    public void tearDown() {        
+    public void tearDown() { 
+        userNotExist = null;
+        userExist = null;
+        list = null;
     }
     
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testModifyUserByName(){
-        User userOrigin = service.getUserById(2L);
-        User user = new User(2L,"vasilis","iwanna",true);
-        service.modifyUser(user);
+        User mockedModifyUser = new User (2L,"vasilis","iwanna",true);
+        
+        User userOrigin = service.getUserById(userExist.getId());
+        when(mockService.getUserById(2L)).thenReturn(mockedModifyUser);
+        
+        mockService.modifyUser(mockedModifyUser);
+        User user = mockService.getUserById(userExist.getId());
+        
+        verify(repository, times(1)).findByUserid(anyLong());
+        verify(repository, times(1)).setUserInfoById(mockedModifyUser.getUsername(), mockedModifyUser.getPassword(),
+                mockedModifyUser.isEnabled(), mockedModifyUser.getId());
         
         Assert.assertNotEquals("Failure expected changed username",
                 userOrigin.getUsername(), user.getUsername());
@@ -85,9 +116,17 @@ public class UserServiceTest extends AbstractTest{
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testModifyUserByPassword(){
-        User userOrigin = service.getUserById(2L);
-        User user = new User(2L,"iwanna","vasilis",true);
-        service.modifyUser(user);
+        User mockedModifyUser = new User (2L,"iwanna","vasilis",true);
+        
+        User userOrigin = service.getUserById(userExist.getId());
+        when(mockService.getUserById(2L)).thenReturn(mockedModifyUser);
+        
+        mockService.modifyUser(mockedModifyUser);
+        User user = mockService.getUserById(userExist.getId());
+        
+        verify(repository, times(1)).findByUserid(anyLong());
+        verify(repository, times(1)).setUserInfoById(mockedModifyUser.getUsername(), mockedModifyUser.getPassword(),
+                mockedModifyUser.isEnabled(), mockedModifyUser.getId());
         
         Assert.assertNotEquals("Failure expected changed password",
                 userOrigin.getPassword(), user.getPassword());
@@ -105,9 +144,17 @@ public class UserServiceTest extends AbstractTest{
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testModifyUserByStatus(){
-        User userOrigin = service.getUserById(2L);
-        User user = new User(2L,"iwanna","iwanna",false);
-        service.modifyUser(user);
+        User mockedModifyUser = new User (2L,"iwanna","iwanna",false);
+        
+        User userOrigin = service.getUserById(userExist.getId());
+        when(mockService.getUserById(2L)).thenReturn(mockedModifyUser);
+        
+        mockService.modifyUser(mockedModifyUser);
+        User user = mockService.getUserById(userExist.getId());
+        
+        verify(repository, times(1)).findByUserid(anyLong());
+        verify(repository, times(1)).setUserInfoById(mockedModifyUser.getUsername(), mockedModifyUser.getPassword(),
+                mockedModifyUser.isEnabled(), mockedModifyUser.getId());
         
         Assert.assertNotEquals("Failure expected changed status",
                 userOrigin.isEnabled(), user.isEnabled());
@@ -125,9 +172,17 @@ public class UserServiceTest extends AbstractTest{
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testModifyUserByUsernameAndPassword(){
-        User userOrigin = service.getUserById(2L);
-        User user = new User(2L,"vasilis","vasilis",true);
-        service.modifyUser(user);
+        User mockedModifyUser = new User (2L,"vasilis","vasilis",true);
+        
+        User userOrigin = service.getUserById(userExist.getId());
+        when(mockService.getUserById(2L)).thenReturn(mockedModifyUser);
+        
+        mockService.modifyUser(mockedModifyUser);
+        User user = mockService.getUserById(userExist.getId());
+        
+        verify(repository, times(1)).findByUserid(anyLong());
+        verify(repository, times(1)).setUserInfoById(mockedModifyUser.getUsername(), mockedModifyUser.getPassword(),
+                mockedModifyUser.isEnabled(), mockedModifyUser.getId());
         
         Assert.assertNotEquals("Failure expected changed password",
                 userOrigin.getPassword(), user.getPassword());
@@ -142,70 +197,109 @@ public class UserServiceTest extends AbstractTest{
                 userOrigin.isEnabled(), user.isEnabled());
     }
     
+    /**
+     * iwanna
+     */
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testModifyUserByUsernameAndStatus(){
-        User userOrigin = service.getUserById(2L);
-        User user = new User(2L,"vasilis","iwanna",false);
-        service.modifyUser(user);
+        User mockedModifyUser = new User (2L,"vasilis","iwanna",false);
+         
+        User userOrigin = service.getUserById(userExist.getId());
+        when(mockService.getUserById(2L)).thenReturn(mockedModifyUser);
         
-        Assert.assertEquals("Failure expected same password",
-                userOrigin.getPassword(), user.getPassword());
+        mockService.modifyUser(mockedModifyUser);
+        User user = mockService.getUserById(userExist.getId());
         
-        Assert.assertNotEquals("Failure expected changed username", 
+        verify(repository, times(1)).findByUserid(anyLong());
+        verify(repository, times(1)).setUserInfoById(mockedModifyUser.getUsername(), mockedModifyUser.getPassword(),
+                mockedModifyUser.isEnabled(), mockedModifyUser.getId());
+        
+        Assert.assertNotEquals("Failure expected changed username",
                 userOrigin.getUsername(), user.getUsername());
+        
+        Assert.assertEquals("Failure expected changed password", 
+                userOrigin.getPassword(), user.getPassword());
         
         Assert.assertEquals("Failure expected same id", 
                 userOrigin.getId(), user.getId());
         
-        Assert.assertNotEquals("Failure expected changed status", 
+        Assert.assertNotEquals("Failure expected same status", 
                 userOrigin.isEnabled(), user.isEnabled());
+        
+        
     }
     
+    /**
+     * iwanna
+     */
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testModifyUserByPasswordAndStatus(){
-        User userOrigin = service.getUserById(2L);
-        User user = new User(2L,"iwanna","vasilis",false);
-        service.modifyUser(user);
+        User mockedModifyUser = new User (2L,"iwanna","vasilis",false);
+         
+        User userOrigin = service.getUserById(userExist.getId());
+        when(mockService.getUserById(2L)).thenReturn(mockedModifyUser);
         
-        Assert.assertNotEquals("Failure expected changed password",
-                userOrigin.getPassword(), user.getPassword());
+        mockService.modifyUser(mockedModifyUser);
+        User user = mockService.getUserById(userExist.getId());
         
-        Assert.assertEquals("Failure expected same username", 
+        verify(repository, times(1)).findByUserid(anyLong());
+        verify(repository, times(1)).setUserInfoById(mockedModifyUser.getUsername(), mockedModifyUser.getPassword(),
+                mockedModifyUser.isEnabled(), mockedModifyUser.getId());
+        
+        Assert.assertEquals("Failure expected changed username",
                 userOrigin.getUsername(), user.getUsername());
+        
+        Assert.assertNotEquals("Failure expected changed password", 
+                userOrigin.getPassword(), user.getPassword());
         
         Assert.assertEquals("Failure expected same id", 
                 userOrigin.getId(), user.getId());
         
-        Assert.assertNotEquals("Failure expected changed status", 
+        Assert.assertNotEquals("Failure expected same status", 
                 userOrigin.isEnabled(), user.isEnabled());
+        
+        
     }
     
+    /**
+     * 
+     */
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testModifyUserByUsernameAndPasswordAndStatus(){
-        User userOrigin = service.getUserById(2L);
-        User user = new User(2L,"vasilis","vasilis",false);
-        service.modifyUser(user);
+       User mockedModifyUser = new User (2L,"vasilis","vasilis",false);
+         
+        User userOrigin = service.getUserById(userExist.getId());
+        when(mockService.getUserById(2L)).thenReturn(mockedModifyUser);
         
-        Assert.assertNotEquals("Failure expected changed password",
-                userOrigin.getPassword(), user.getPassword());
+        mockService.modifyUser(mockedModifyUser);
+        User user = mockService.getUserById(userExist.getId());
         
-        Assert.assertNotEquals("Failure expected changed username", 
+        verify(repository, times(1)).findByUserid(anyLong());
+        verify(repository, times(1)).setUserInfoById(mockedModifyUser.getUsername(), mockedModifyUser.getPassword(),
+                mockedModifyUser.isEnabled(), mockedModifyUser.getId());
+        
+        Assert.assertNotEquals("Failure expected changed username",
                 userOrigin.getUsername(), user.getUsername());
+        
+        Assert.assertNotEquals("Failure expected changed password", 
+                userOrigin.getPassword(), user.getPassword());
         
         Assert.assertEquals("Failure expected same id", 
                 userOrigin.getId(), user.getId());
         
-        Assert.assertNotEquals("Failure expected changed status", 
+        Assert.assertNotEquals("Failure expected same status", 
                 userOrigin.isEnabled(), user.isEnabled());
+        
+        
     }
+   
     
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testGetUserByID(){
-//        when(service.getUserById(2L)).thenReturn(user);
         Assert.assertEquals("Failure - wrong id returned",userExist.getId(),service.getUserById(2L).getId());
         Assert.assertEquals("Failure - wrong username returned",userExist.getUsername(),service.getUserById(2L).getUsername());
         Assert.assertEquals("Failure - wrong password returned",userExist.getPassword(),service.getUserById(2L).getPassword());  
