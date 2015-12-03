@@ -34,6 +34,4 @@ public interface IFriendService
     @Transactional
     public List<Friend> getFriendsByMonth(Date date);
     
-    @Transactional
-    public Boolean checkFriendship(Friend friend);
 }

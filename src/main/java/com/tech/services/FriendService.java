@@ -58,23 +58,10 @@ public class FriendService implements IFriendService
      */
     @Transactional
     @Override
-    public Boolean checkFriendIfExists(Friend friend)
+    public Boolean checkFriendIfExists(Friend friend) 
     { 
-        for(Friend vLookUp:repository.findByUserid(friend.getUserid()))
-        {
-            if(vLookUp.getFriendid().equals(friend.getFriendid()))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    @Transactional
-    @Override
-    public Boolean checkFriendship(Friend friend)
-    { 
-        return true; //TODO
+       repository.findByUseridAndFriendid(friend.getUserid(), friend.getFriendid());
+       return true;
     }
     
     @Transactional
