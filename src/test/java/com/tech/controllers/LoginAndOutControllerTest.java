@@ -6,9 +6,6 @@
 package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
-import com.tech.models.entities.User;
-import com.tech.models.entities.UserInfo;
-import com.tech.services.UserService;
 import javax.transaction.Transactional;
 import net.minidev.json.JSONObject;
 import org.junit.After;
@@ -17,13 +14,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import static org.mockito.Matchers.any;
-import org.mockito.Mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
@@ -39,12 +29,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @ActiveProfiles({"milena","milena"})
 public class LoginAndOutControllerTest extends AbstractControllerTest{
     String uri;
-    
-    @Mock
-    private UserService userService;
-    
-    @Autowired
-    private LogInAndOutController controller;
     
     @BeforeClass
     public static void setUpClass() {

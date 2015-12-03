@@ -300,7 +300,6 @@ public class UserServiceTest extends AbstractTest{
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testGetUserByID(){
-//        when(service.getUserById(2L)).thenReturn(user);
         Assert.assertEquals("Failure - wrong id returned",userExist.getId(),service.getUserById(2L).getId());
         Assert.assertEquals("Failure - wrong username returned",userExist.getUsername(),service.getUserById(2L).getUsername());
         Assert.assertEquals("Failure - wrong password returned",userExist.getPassword(),service.getUserById(2L).getPassword());  
