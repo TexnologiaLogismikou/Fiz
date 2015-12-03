@@ -28,7 +28,7 @@
 // */
 //@Controller
 //@RequestMapping("/images")
-//public class ImagesController {
+//public class ImagesController extends BaseController{
 //    ClassLoader cl = getClass().getClassLoader();  //gia na parw to path tis eikonas
 //
 //    @Autowired

@@ -8,7 +8,7 @@
 //        import org.springframework.web.bind.annotation.RequestMethod;
 //
 //@Controller
-//public class HomepageController {
+//public class HomepageController extends BaseController{
 //
 //    @RequestMapping(value={"/","/home"},method = RequestMethod.GET)
 //    public String loadHomepage(ModelMap model){

@@ -1,5 +1,7 @@
 package com.tech.controllers;
 
+import com.tech.configurations.tools.Host;
+import com.tech.controllers.superclass.BaseController;
 import com.tech.models.dtos.RegisteredUserDTO;
 import com.tech.models.entities.User;
 import com.tech.models.entities.UserInfo;
@@ -9,16 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = Host.apache)
 @RestController
 @RequestMapping("/register")
-public class RegistrationController {
+public class RegistrationController extends BaseController{
 
     @Autowired
     IUserService service;
@@ -41,19 +39,5 @@ public class RegistrationController {
         infoService.addUserInfo(userInfo);
         
         return new ResponseEntity<>("success",HttpStatus.OK);
-
-    }
-    
-    /**
-     * 
-     * @param username
-     * @return available if username doesn't exists (HttpStatus -> ACCEPTED ) else Not Available (HttpStatus -> FOUND)
-     */
-    @RequestMapping(value = "/testUsername", method = RequestMethod.POST)
-    public HttpEntity<String> validateUsername (@RequestParam("username") String username) {
-        if (!service.checkUsername(username)) {
-            return new ResponseEntity<>("available",HttpStatus.ACCEPTED);            
-        } 
-        return new ResponseEntity<>("Not available", HttpStatus.FOUND);   
     }
 }

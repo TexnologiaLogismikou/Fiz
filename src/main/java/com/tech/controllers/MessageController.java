@@ -1,8 +1,7 @@
 package com.tech.controllers;
 
+import com.tech.controllers.superclass.BaseController;
 import com.tech.models.dtos.MessageDTO;
-import com.tech.models.entities.Message;
-import com.tech.models.entities.User;
 import com.tech.services.interfaces.IUserService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Controller
-public class MessageController {
+public class MessageController extends BaseController{
 
     //@Autowired
     //IMessageService messageService;
@@ -30,9 +33,14 @@ public class MessageController {
 //        Message message = new Message(id, user.getId(), messageDTO.getMessage());
 //        TODO Add to DB after profile implementation
 
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh-mm");
+
         JSONObject object = new JSONObject();
         object.put("user", messageDTO.getUser());
         object.put("message", messageDTO.getMessage());
+        object.put("date", dateFormat.format(date));
+        object.put("color", messageDTO.getColor());
 
         return object;
     }
