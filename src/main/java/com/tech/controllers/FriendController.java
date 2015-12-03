@@ -59,7 +59,7 @@ public class FriendController extends BaseController
        {
           return new ResponseEntity<>("Friend already exists",HttpStatus.FOUND);
        }
-       
+ 
        friendService.addFriend(f);
        
        return new ResponseEntity<>("complete", HttpStatus.OK);       

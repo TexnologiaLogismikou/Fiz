@@ -41,16 +41,5 @@ public class RegistrationController extends BaseController{
 
     }
     
-    /**
-     * 
-     * @param username
-     * @return available if username doesn't exists (HttpStatus -> ACCEPTED ) else Not Available (HttpStatus -> FOUND)
-     */
-    @RequestMapping(value = "/testUsername", method = RequestMethod.POST)
-    public HttpEntity<String> validateUsername (@RequestParam("username") String username) {
-        if (!service.checkUsername(username)) {
-            return new ResponseEntity<>("available",HttpStatus.OK);            
-        } 
-        return new ResponseEntity<>("Not available", HttpStatus.FOUND);   
-    }
+    
 }

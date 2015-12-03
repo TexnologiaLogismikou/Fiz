@@ -101,48 +101,5 @@ public class RegistrationControllerTest extends AbstractControllerTest{
         Assert.assertEquals("failure - expected HTTP status 200", 200, status);
         Assert.assertTrue("failure - expected HTTP response body to not be empty",
                 content.trim().length() > 0);     
-    }
-    
-    @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    public void testValidateUsername() throws Exception {
-        List<String> listOfUsernames = new ArrayList();
-        listOfUsernames.add("milena");
-        listOfUsernames.add("mixalis");
-        listOfUsernames.add("iwanna");
-        listOfUsernames.add("andreas");
-        listOfUsernames.add("giorgos");
-        listOfUsernames.add("basilis");
-        listOfUsernames.add("thanasis");
-        listOfUsernames.add("nikiforos");
-        
-        when(userService.checkUsername("milena")).thenReturn(true);
-        when(userService.checkUsername("mixalis")).thenReturn(true);
-        when(userService.checkUsername("iwanna")).thenReturn(true);
-        when(userService.checkUsername("andreas")).thenReturn(false);
-        when(userService.checkUsername("giorgos")).thenReturn(false);
-        when(userService.checkUsername("basilis")).thenReturn(false);
-        when(userService.checkUsername("thanasis")).thenReturn(false);
-        when(userService.checkUsername("nikiforos")).thenReturn(false);
-        
-        for (String vLookUp : listOfUsernames){            
-            MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/testUsername")
-                    .param("username",vLookUp))
-                    .andReturn();
-            
-            String content = result.getResponse().getContentAsString();
-            int status = result.getResponse().getStatus();
-
-            verify(userService,times(1)).checkUsername(vLookUp);
-            if (vLookUp.equals("milena") || vLookUp.equals("mixalis") || vLookUp.equals("iwanna")) {
-                Assert.assertEquals("failure - expected HTTP status 302", 302, status);
-                Assert.assertTrue("failure - expected HTTP response body to be 'available'",
-                    content.equals("Not available"));                  
-            } else {           
-                Assert.assertEquals("failure - expected HTTP status 200", 200, status);
-                Assert.assertTrue("failure - expected HTTP response body to be 'available'",
-                    content.equals("available"));         
-            }
-        }
-    }    
+    } 
 }
