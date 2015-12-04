@@ -12,7 +12,9 @@ import com.tech.models.entities.User;
 import com.tech.services.ImagesService;
 import com.tech.services.UserService;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import javax.transaction.Transactional;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -21,7 +23,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyString;
 import org.mockito.Mock;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
@@ -129,7 +134,20 @@ public class ImagesControllerTest extends AbstractControllerTest{
     
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void testHandleCorrectImage(){
-        
+    public void testHandleCorrectImage() throws IOException, Exception{
+//        when(imagesService.checkImagesByHashtag(12345678L)).thenReturn(true);
+////        when(imagesService.getImageByHashtag(anyLong()).getImagePath()).thenReturn("C:\\Path");
+//        when(imagesService.getImageByHashtag(12345678L)).thenReturn(new ImagesMod(2L));
+//        when(Files.readAllBytes(any(Path.class))).thenReturn(null);
+//        
+//        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/get/12345678.jpg"))
+//                .andReturn();
+//        
+//        verify(imagesService,times(1)).checkImagesByHashtag(12345678L);
+//        
+//        String content = result.getResponse().getContentAsString();
+//        int status = result.getResponse().getStatus();
+//        
+//        System.out.println(content);System.out.println(status);        
     }
 }
