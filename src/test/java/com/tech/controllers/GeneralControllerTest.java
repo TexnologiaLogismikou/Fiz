@@ -6,7 +6,6 @@
 package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
-import com.tech.services.UserInfoService;
 import com.tech.services.UserService;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +61,9 @@ public class GeneralControllerTest extends AbstractControllerTest{
     }
     
     @After
+    @Override
     public void tearDown() {   
+        super.tearDown();
         uri = null;
     }
     @Test
@@ -96,6 +97,7 @@ public class GeneralControllerTest extends AbstractControllerTest{
             int status = result.getResponse().getStatus();
 
             verify(userService,times(1)).checkUsername(vLookUp);
+            
             if (vLookUp.equals("milena") || vLookUp.equals("mixalis") || vLookUp.equals("iwanna")) {
                 Assert.assertEquals("failure - expected HTTP status 302", 302, status);
                 Assert.assertTrue("failure - expected HTTP response body to be 'available'",

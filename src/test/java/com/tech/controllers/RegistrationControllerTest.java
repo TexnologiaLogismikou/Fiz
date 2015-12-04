@@ -68,14 +68,15 @@ public class RegistrationControllerTest extends AbstractControllerTest{
     }
     
     @After
+    @Override
     public void tearDown() {   
+        super.tearDown();
         uri = null;
     }
     
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testRegister() throws Exception{
-        JSONObject json = new JSONObject();
         json.put("username","milena4");
         json.put("password","milena12312314");
         json.put("last_name","iwanna");

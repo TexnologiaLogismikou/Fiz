@@ -22,5 +22,4 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
                                    // just as it would be starting normally
 public abstract class AbstractTest {
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
-    protected JSONObject json;
 }
