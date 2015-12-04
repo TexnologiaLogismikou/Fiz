@@ -7,11 +7,9 @@ package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
 import com.tech.configurations.tools.Attr;
-import com.tech.models.entities.Friend;
 import com.tech.models.entities.ImagesMod;
 import com.tech.models.entities.User;
 import com.tech.services.ImagesService;
-import com.tech.services.UserInfoService;
 import com.tech.services.UserService;
 import java.io.File;
 import java.nio.file.Files;
@@ -52,7 +50,7 @@ public class ImagesControllerTest extends AbstractControllerTest{
     private UserService userService;
     
     @InjectMocks
-    private RegistrationController controller;
+    private ImagesController controller;
     
     @BeforeClass
     public static void setUpClass() {
@@ -89,21 +87,18 @@ public class ImagesControllerTest extends AbstractControllerTest{
         doNothing().when(imagesService).addImage(any(ImagesMod.class));
         
         MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .fileUpload(uri + "/upload")
+                .fileUpload(uri)
                 .file(MF)
                 .param("username", "iwanna"))
                 .andReturn();
         
         String content = result.getResponse().getContentAsString();
         int status = result.getResponse().getStatus();
-        System.out.println("===============" + content + status);
                
         verify(imagesService,times(1)).addImage(any(ImagesMod.class));
         verify(userService,times(1)).getUserByUsername("iwanna");
         
         Assert.assertEquals("Fail expected status 200 but was " + status, 200, status);
-        Assert.assertTrue("Fail expected Response Body to be 'Success'",content.equals("Success"));
-        
-     }
-    
+        Assert.assertTrue("Fail expected Response Body to be 'Success'",content.equals("Success"));        
+     }    
 }
