@@ -6,7 +6,7 @@
 
     <name>Fiz</name>
     <description>Web Service for Fiz App</description>
-    <version>0.1.3656</version>
+    <version>0.1.4856</version>
     <packaging>war</packaging>
 
     <groupId>com.tech</groupId>
