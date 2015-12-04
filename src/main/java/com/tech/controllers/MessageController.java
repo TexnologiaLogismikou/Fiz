@@ -34,7 +34,7 @@ public class MessageController extends BaseController{
 //        TODO Add to DB after profile implementation
 
         Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh-mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
 
         JSONObject object = new JSONObject();
         object.put("user", messageDTO.getUser());
