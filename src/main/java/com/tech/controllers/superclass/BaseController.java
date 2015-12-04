@@ -5,16 +5,10 @@
  */
 package com.tech.controllers.superclass;
 
-import com.tech.configurations.tools.Host;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RestController;
-
 /**
  *
  * @author KuroiTenshi
  */
-@CrossOrigin(origins = Host.apache)
-@RestController
 public class BaseController {
     
 }

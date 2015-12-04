@@ -1,5 +1,6 @@
 package com.tech.controllers;
 
+import com.tech.configurations.tools.Host;
 import com.tech.controllers.superclass.BaseController;
 import com.tech.models.dtos.RegisteredUserDTO;
 import com.tech.models.entities.User;
@@ -12,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = Host.apache)
+@RestController
 @RequestMapping("/register")
 public class RegistrationController extends BaseController{
 
