@@ -5,7 +5,6 @@
  */
 package com.tech.models.daos;
 
-import com.tech.models.daos.interfaces.IDAO;
 import com.tech.models.daos.interfaces.UserInfoDAO;
 import java.util.List;
 import org.hibernate.Session;

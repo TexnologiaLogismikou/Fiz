@@ -7,9 +7,7 @@ package com.tech.services;
 
 import com.tech.AbstractTest;
 import com.tech.models.entities.User;
-import com.tech.repositories.IUserInfoRepository;
 import com.tech.repositories.IUserRepository;
-import com.tech.services.interfaces.IUserInfoService;
 import com.tech.services.interfaces.IUserService;
 import java.util.ArrayList;
 import java.util.List;

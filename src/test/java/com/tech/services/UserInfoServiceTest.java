@@ -21,7 +21,6 @@ import org.mockito.InjectMocks;
 import static org.mockito.Matchers.anyLong;
 import org.mockito.Mock;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;

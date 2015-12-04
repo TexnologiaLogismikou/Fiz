@@ -5,17 +5,11 @@
  */
 package com.tech.services;
 
-import com.tech.configurations.tools.Attr;
 import com.tech.models.entities.ImagesMod;
 import com.tech.services.interfaces.IImagesService;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

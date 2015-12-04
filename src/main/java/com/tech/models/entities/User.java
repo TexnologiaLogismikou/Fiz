@@ -1,6 +1,5 @@
 package com.tech.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tech.models.dtos.RegisteredUserDTO;
 import com.tech.models.dtos.UserDTO;
