@@ -1,6 +1,7 @@
 package com.tech.controllers;
 
 import com.tech.configurations.tools.Host;
+import com.tech.configurations.tools.Responses;
 import com.tech.controllers.superclass.BaseController;
 import com.tech.models.dtos.RegisteredUserDTO;
 import com.tech.models.entities.User;
@@ -38,6 +39,6 @@ public class RegistrationController extends BaseController{
         service.addUser(user);
         infoService.addUserInfo(userInfo);
         
-        return new ResponseEntity<>("success",HttpStatus.OK);
+        return new ResponseEntity<>(Responses.SUCCESS.getData(),HttpStatus.OK);
     }
 }

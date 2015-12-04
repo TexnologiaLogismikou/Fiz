@@ -1,6 +1,7 @@
 package com.tech.controllers;
 
 import com.tech.configurations.tools.Host;
+import com.tech.configurations.tools.Responses;
 import com.tech.controllers.superclass.BaseController;
 import com.tech.models.dtos.LoginUserDTO;
 import com.tech.models.entities.User;
@@ -29,12 +30,12 @@ public class LogInController extends BaseController {
 
             object.put("username", user.getUsername());
             object.put("role", "ROLE_USER");// na pernei to role apo ton pinaka roles.
-            object.put("error","success");
+            object.put("error",Responses.SUCCESS.getData());
             return new ResponseEntity<>(object,HttpStatus.OK);
         }
-        object.put("username","NOT_AUTHORIZED");
-        object.put("role","NOT_AUTHORIZED");
-        object.put("error","error");
+        object.put("username",Responses.NOT_AUTHORIZED.getData());
+        object.put("role",Responses.NOT_AUTHORIZED.getData());
+        object.put("error",Responses.ERROR.getData());
         return new ResponseEntity<>(object,HttpStatus.OK);
     }
 }

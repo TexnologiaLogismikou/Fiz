@@ -6,6 +6,7 @@
 package com.tech.controllers;
 
 import com.tech.configurations.tools.Host;
+import com.tech.configurations.tools.Responses;
 import com.tech.models.dtos.FriendDTO;
 import com.tech.controllers.superclass.BaseController;
 import com.tech.models.entities.Friend;
@@ -49,7 +50,7 @@ public class FriendController extends BaseController
 
        friendService.addFriend(friend);
 
-       return new ResponseEntity<>("complete", HttpStatus.OK);
+       return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);
     }
 
    /**
@@ -65,9 +66,9 @@ public class FriendController extends BaseController
 
        if(friendService.checkFriendIfExists(friend.getUserid(),friend.getFriendid()))
        {
-          return new ResponseEntity<>("Friend already exists",HttpStatus.FOUND);
+          return new ResponseEntity<>(Responses.FRIEND_ALREADY_EXISTS.getData(),HttpStatus.FOUND);
        }
-         return new ResponseEntity<>("available",HttpStatus.OK);
+         return new ResponseEntity<>(Responses.AVAILABLE.getData(),HttpStatus.OK);
     }
 
    @RequestMapping(value = "/deletefriend",method = RequestMethod.POST)
@@ -77,7 +78,7 @@ public class FriendController extends BaseController
                userService.getUserByUsername(friendDTO.getFriendname()).getId());
        
        friendService.deleteFriend(friend);
-       return new ResponseEntity<>("complete", HttpStatus.OK);
+       return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);
 
    }   
 }

@@ -6,6 +6,7 @@
 package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
+import com.tech.configurations.tools.Responses;
 import com.tech.models.dtos.LoginUserResponseDTO;
 import com.tech.models.entities.User;
 import com.tech.services.UserService;
@@ -94,12 +95,12 @@ public class LogInControllerTest extends AbstractControllerTest{
         
         Assert.assertEquals("failure - expected HTTP response OK",
                 200, status); 
-        Assert.assertTrue("failure - expected HTTP response 'username' to be 'NOT_AUTHORIZED'",
-                LURDTO.getUsername().equals("NOT_AUTHORIZED"));
-        Assert.assertTrue("failure - expected HTTP response 'role' to be 'NOT_AUTHORIZED'",
-                LURDTO.getRole().equals("NOT_AUTHORIZED"));
-        Assert.assertTrue("failure - expected HTTP response 'error' to be 'error'",
-                LURDTO.getError().equals("error"));
+        Assert.assertTrue("failure - expected HTTP response 'username' to be '" + Responses.NOT_AUTHORIZED.getData() + "'",
+                LURDTO.getUsername().equals(Responses.NOT_AUTHORIZED.getData() ));
+        Assert.assertTrue("failure - expected HTTP response 'role' to be '" + Responses.NOT_AUTHORIZED.getData() + "'",
+                LURDTO.getRole().equals(Responses.NOT_AUTHORIZED.getData() ));
+        Assert.assertTrue("failure - expected HTTP response 'error' to be '" + Responses.ERROR.getData() + "'",
+                LURDTO.getError().equals(Responses.ERROR.getData()));
     }
     
     @Test
@@ -130,7 +131,7 @@ public class LogInControllerTest extends AbstractControllerTest{
                 LURDTO.getUsername().equals("milena"));
         Assert.assertTrue("failure - expected HTTP response 'role' to be 'ROLE_USER'",
                 LURDTO.getRole().equals("ROLE_USER"));
-        Assert.assertTrue("failure - expected HTTP response 'error' to be 'success'",
-                LURDTO.getError().equals("success"));
+        Assert.assertTrue("failure - expected HTTP response 'error' to be '" + Responses.SUCCESS.getData()  + " '",
+                LURDTO.getError().equals(Responses.SUCCESS.getData() ));
     }
 }
