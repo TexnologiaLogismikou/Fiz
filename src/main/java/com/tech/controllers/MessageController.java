@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
-public class MessageController {
+public class MessageController extends BaseController {
     /*
         This Class DOESNT extend BaseController . Testing of this class will be different from the rest. 
         if testing has problems this ca nextend BaseController. BUT BaseController must be refactored and 

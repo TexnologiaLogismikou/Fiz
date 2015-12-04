@@ -6,6 +6,7 @@
 package com.tech.controllers;
 
 import com.tech.configurations.tools.Attr;
+import com.tech.configurations.tools.Host;
 import com.tech.controllers.superclass.BaseController;
 import com.tech.models.entities.ImagesMod;
 import com.tech.services.interfaces.IImagesService;
@@ -16,18 +17,21 @@ import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
  * @author KuroiTenshi
  */
-@Controller
+@CrossOrigin(origins = Host.apache)
+@RestController
 @RequestMapping("/images")
 public class ImagesController extends BaseController{
 
