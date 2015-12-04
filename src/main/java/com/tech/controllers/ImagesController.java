@@ -16,7 +16,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +42,7 @@ public class ImagesController extends BaseController{
 
     @Autowired
     IUserService userService;
+    
     /**
      *
      * @param name
@@ -47,7 +50,7 @@ public class ImagesController extends BaseController{
      * @return http status depending on the validations
      */
     @RequestMapping(method = RequestMethod.POST)
-    public String loadImages(@RequestParam("file") MultipartFile file,@RequestParam("username") String name){
+    public HttpEntity<String> loadImages(@RequestParam("file") MultipartFile file,@RequestParam("username") String name){
         Long sm = userService.getUserByUsername(name).getId();
 
         if(!file.isEmpty()) {
@@ -63,14 +66,13 @@ public class ImagesController extends BaseController{
 
                 service.addImage(img);
 
-                //model.addAttribute("response","all good");
-            }catch (Exception e) {
-                //model.addAttribute("response","error with the file");//TODO enumarated
+                return new ResponseEntity<>("Success", HttpStatus.OK); 
+            }catch (Exception e) {                
+                return new ResponseEntity<>("File Error", HttpStatus.NOT_MODIFIED); 
             }
         } else {
-            //model.addAttribute("response","file was empty");
+            return new ResponseEntity<>("Empty file", HttpStatus.NO_CONTENT); 
         }
-        throw new UnsupportedOperationException("unsupported operation");
     }
     /**
      *
@@ -85,9 +87,9 @@ public class ImagesController extends BaseController{
             Long num = Long.parseLong(arithName.substring(0,arithName.length()-1));
             if (service.checkImagesByHashtag(num)){
                 String path = service.getImageByHashtag(num).getImagePath();
-                return Files.readAllBytes(new File(path).toPath()); //added
+                return Files.readAllBytes(new File(path).toPath()); 
             } else {
-                return Files.readAllBytes(new File(Attr.NO_IMAGE_FOUND.getData()).toPath());   //kai auto gia na parw mono to path
+                return Files.readAllBytes(new File(Attr.NO_IMAGE_FOUND.getData()).toPath());
             }
         }
         return null;

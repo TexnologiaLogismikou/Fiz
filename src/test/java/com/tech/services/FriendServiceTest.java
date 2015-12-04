@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author milena
  */
-
 @Transactional
 @WebAppConfiguration
 @ActiveProfiles({"milena","milena"})

@@ -11,7 +11,6 @@ import com.tech.models.entities.User;
 import com.tech.services.FriendService;
 import com.tech.services.UserService;
 import javax.transaction.Transactional;
-import net.minidev.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -73,8 +72,10 @@ public class FriendControllerTest extends AbstractControllerTest
     }
     
     @After
+    @Override
     public void tearDown() 
     {   
+        super.tearDown();
         uri = null;
     }
     
@@ -82,7 +83,6 @@ public class FriendControllerTest extends AbstractControllerTest
     @Sql(scripts = "classpath:populateDB.sql")
     public void testAddFriend() throws Exception 
     {
-        JSONObject json = new JSONObject();
         json.put("username","mixalis");
         json.put("friendname","milena");
         
@@ -112,7 +112,6 @@ public class FriendControllerTest extends AbstractControllerTest
     @Sql(scripts = "classpath:populateDB.sql")
     public void testDeleteFriend() throws Exception 
     {
-        JSONObject json = new JSONObject();
         json.put("username","milena");
         json.put("friendname","mixalis");
         
@@ -142,7 +141,6 @@ public class FriendControllerTest extends AbstractControllerTest
     @Sql(scripts = "classpath:populateDB.sql")
     public void testCheckFriendExists() throws Exception 
     {
-        JSONObject json = new JSONObject();
         json.put("username","milena");
         json.put("friendname","iwanna");
         
@@ -174,7 +172,6 @@ public class FriendControllerTest extends AbstractControllerTest
     @Sql(scripts = "classpath:populateDB.sql")
     public void testCheckFriendNotExists() throws Exception 
     {
-        JSONObject json = new JSONObject();
         json.put("username","iwanna");
         json.put("friendname","milena");
         

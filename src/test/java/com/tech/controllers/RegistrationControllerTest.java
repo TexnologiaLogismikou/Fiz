@@ -11,7 +11,6 @@ import com.tech.models.entities.UserInfo;
 import com.tech.services.UserInfoService;
 import com.tech.services.UserService;
 import javax.transaction.Transactional;
-import net.minidev.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
