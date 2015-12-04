@@ -6,6 +6,7 @@
 package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
+import com.tech.configurations.tools.Responses;
 import com.tech.models.entities.Friend;
 import com.tech.models.entities.User;
 import com.tech.services.FriendService;
@@ -104,8 +105,8 @@ public class FriendControllerTest extends AbstractControllerTest
         
         Assert.assertEquals("failure not OK", 200, status); 
         
-        Assert.assertTrue("failure - expected HTTP response body to be 'complete'",
-                    content.equals("complete"));
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+                    content.equals(Responses.SUCCESS.getData()));
     }
     
     @Test
@@ -133,8 +134,8 @@ public class FriendControllerTest extends AbstractControllerTest
         
         Assert.assertEquals("failure - expected HTTP status to be '200'", 200, status); 
         
-        Assert.assertTrue("failure - expected HTTP response body to be 'complete'",
-                    content.equals("complete"));
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+                    content.equals(Responses.SUCCESS.getData()));
     }  
     
     @Test
@@ -163,8 +164,8 @@ public class FriendControllerTest extends AbstractControllerTest
         
         Assert.assertEquals("failure - expected HTTP status to be '302'", 302, status); 
         
-        Assert.assertTrue("failure - expected HTTP response body to be 'Friend already exists'",
-                    content.equals("Friend already exists"));
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.FRIEND_ALREADY_EXISTS.getData() + "'",
+                    content.equals(Responses.FRIEND_ALREADY_EXISTS.getData()));
     }  
     
     
@@ -194,8 +195,8 @@ public class FriendControllerTest extends AbstractControllerTest
         
         Assert.assertEquals("failure - expected HTTP status to be '200'", 200, status); 
         
-        Assert.assertTrue("failure - expected HTTP response body to be 'available'",
-                    content.equals("available"));
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.AVAILABLE.getData() + "'",
+                    content.equals(Responses.AVAILABLE.getData()));
     }  
     
 }

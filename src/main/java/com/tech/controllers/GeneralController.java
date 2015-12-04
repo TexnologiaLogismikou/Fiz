@@ -1,6 +1,7 @@
 package com.tech.controllers;
 
 import com.tech.configurations.tools.Host;
+import com.tech.configurations.tools.Responses;
 import com.tech.controllers.superclass.BaseController;
 import com.tech.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,9 @@ public class GeneralController extends BaseController{
     @RequestMapping(value = "/checkUsername", method = RequestMethod.POST)
     public HttpEntity<String> validateUsername (@RequestParam("username") String username) {
         if (!service.checkUsername(username)) {
-            return new ResponseEntity<>("available",HttpStatus.OK);            
+            return new ResponseEntity<>(Responses.AVAILABLE.getData(),HttpStatus.OK);            
         } 
-        return new ResponseEntity<>("Not available", HttpStatus.FOUND);   
+        return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(), HttpStatus.FOUND);   
     }
     
 }

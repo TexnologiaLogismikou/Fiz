@@ -6,6 +6,7 @@
 package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
+import com.tech.configurations.tools.Responses;
 import com.tech.services.UserService;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,12 +101,12 @@ public class GeneralControllerTest extends AbstractControllerTest{
             
             if (vLookUp.equals("milena") || vLookUp.equals("mixalis") || vLookUp.equals("iwanna")) {
                 Assert.assertEquals("failure - expected HTTP status 302", 302, status);
-                Assert.assertTrue("failure - expected HTTP response body to be 'available'",
-                    content.equals("Not available"));                  
+                Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.NOT_AVAILABLE.getData() + "'",
+                    content.equals(Responses.NOT_AVAILABLE.getData()));                  
             } else {           
                 Assert.assertEquals("failure - expected HTTP status 200", 200, status);
-                Assert.assertTrue("failure - expected HTTP response body to be 'available'",
-                    content.equals("available"));         
+                Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.AVAILABLE.getData() + "'",
+                    content.equals(Responses.AVAILABLE.getData()));         
             }
         }
     }  

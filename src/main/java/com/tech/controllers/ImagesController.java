@@ -7,6 +7,8 @@ package com.tech.controllers;
 
 import com.tech.configurations.tools.Attr;
 import com.tech.configurations.tools.Host;
+import com.tech.configurations.tools.Responses;
+import com.tech.configurations.tools.Validator;
 import com.tech.controllers.superclass.BaseController;
 import com.tech.models.entities.ImagesMod;
 import com.tech.services.interfaces.IImagesService;
@@ -51,6 +53,15 @@ public class ImagesController extends BaseController{
      */
     @RequestMapping(method = RequestMethod.POST)
     public HttpEntity<String> loadImages(@RequestParam("file") MultipartFile file,@RequestParam("username") String name){
+        
+        if (!Validator.usernameValidation(name)){
+            return new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(),HttpStatus.NOT_ACCEPTABLE);
+        }
+        
+        if (!userService.checkUsername(name)) {
+            return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);            
+        }  
+        
         Long sm = userService.getUserByUsername(name).getId();
 
         if(!file.isEmpty()) {
@@ -66,12 +77,12 @@ public class ImagesController extends BaseController{
 
                 service.addImage(img);
 
-                return new ResponseEntity<>("Success", HttpStatus.OK); 
-            }catch (Exception e) {                
-                return new ResponseEntity<>("File Error", HttpStatus.NOT_MODIFIED); 
+                return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK); 
+            }catch (IOException e) {                
+                return new ResponseEntity<>(Responses.FILE_ERROR.getData(), HttpStatus.NOT_MODIFIED); 
             }
         } else {
-            return new ResponseEntity<>("Empty file", HttpStatus.NO_CONTENT); 
+            return new ResponseEntity<>(Responses.FILE_WAS_EMPTY.getData(), HttpStatus.NO_CONTENT); 
         }
     }
     /**
