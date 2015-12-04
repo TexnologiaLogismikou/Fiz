@@ -73,7 +73,7 @@ public class FriendServiceTest extends AbstractTest
     {
         Friend friend = new Friend(3L,1L);
         service.addFriend(friend);
-        Assert.assertTrue("fail",service.checkFriendIfExists(friendsToAdd.get(0).getUserid(),friendsToAdd.get(0).getFriendid()));
+        Assert.assertTrue("fail",service.checkFriendIfExists(friend.getUserid(),friend.getFriendid()));
     }
 
     /**
@@ -117,7 +117,7 @@ public class FriendServiceTest extends AbstractTest
     public void testGetAllFriends() 
     {
        //Assert.assertTrue("fail",!service.getAllFriends().isEmpty());
-       Assert.assertTrue("fail",service.getAllFriends().size()==2); 
+       Assert.assertTrue("fail",service.getAllFriends().size()==2); //size-> to megethos ts listas
     }
     
     @Test
