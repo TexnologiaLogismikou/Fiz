@@ -100,5 +100,36 @@ public class ImagesControllerTest extends AbstractControllerTest{
         
         Assert.assertEquals("Fail expected status 200 but was " + status, 200, status);
         Assert.assertTrue("Fail expected Response Body to be 'Success'",content.equals("Success"));        
-     }    
+    }   
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testLoadImagesNull() throws Exception{
+        byte[] f = null;
+        MockMultipartFile MF = new MockMultipartFile("file","psaraki.jpg", "multipart/form-data", f);     
+        
+        when(userService.getUserByUsername("iwanna")).thenReturn(new User(2L,"iwanna","iwanna",true));
+        doNothing().when(imagesService).addImage(any(ImagesMod.class));
+        
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .fileUpload(uri)
+                .file(MF)
+                .param("username", "iwanna"))
+                .andReturn();
+        
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+               
+        verify(imagesService,times(0)).addImage(any(ImagesMod.class));
+        verify(userService,times(1)).getUserByUsername("iwanna");
+        
+        Assert.assertEquals("Fail expected status 204 but was " + status, 204, status);
+        Assert.assertTrue("Fail expected Response Body to be 'Empty file'",content.equals("Empty file"));        
+    }    
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testHandleCorrectImage(){
+        
+    }
 }
