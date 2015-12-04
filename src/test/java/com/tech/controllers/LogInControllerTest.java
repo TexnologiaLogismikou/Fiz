@@ -6,10 +6,7 @@
 package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
-import com.tech.models.entities.User;
-import com.tech.models.entities.UserInfo;
-import com.tech.services.UserInfoService;
-import com.tech.services.UserService;
+import com.tech.models.dtos.LoginUserResponseDTO;
 import javax.transaction.Transactional;
 import net.minidev.json.JSONObject;
 import org.junit.After;
@@ -18,13 +15,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import static org.mockito.Matchers.any;
-import org.mockito.Mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
@@ -33,21 +23,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 /**
  *
- * @author KuroiTenshi
+ * @author bill5_000
  */
 @Transactional
-@ActiveProfiles({"mixalis","mixalis"})
-public class RegistrationControllerTest extends AbstractControllerTest{
+@ActiveProfiles({"milena","milena"})
+public class LogInControllerTest extends AbstractControllerTest{
     String uri;
-    
-    @Mock
-    private UserService userService;
-    
-    @Mock
-    private UserInfoService userInfoService;
-    
-    @InjectMocks
-    private RegistrationController controller;
     
     @BeforeClass
     public static void setUpClass() {
@@ -60,11 +41,10 @@ public class RegistrationControllerTest extends AbstractControllerTest{
     @Before
     @Override
     public void setUp(){ 
-        MockitoAnnotations.initMocks(this);
         
-        super.setUp(controller);
+        super.setUp();
         
-        uri = "/register";
+        uri = "/login";
     }
     
     @After
@@ -74,30 +54,54 @@ public class RegistrationControllerTest extends AbstractControllerTest{
     
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void testRegister() throws Exception{
+    public void testHandleLoginNotAuthorized() throws Exception{
         JSONObject json = new JSONObject();
         json.put("username","milena4");
         json.put("password","milena12312314");
-        json.put("last_name","iwanna");
-        json.put("email","douleuei@teicm.gr");
-        json.put("birtday","23-11-94");
         
-        when(userService.getNextID()).thenReturn(4L);
         
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri)
                 .content(json.toString())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
          
+        
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+            
+        LoginUserResponseDTO LURDTO = super.mapFromJson(content, LoginUserResponseDTO.class);
+        
+        Assert.assertEquals("failure - expected HTTP response OK",
+                200, status); 
+        Assert.assertTrue("failure - expected HTTP response 'username' to be 'NOT_AUTHORIZED'",
+                LURDTO.getUsername().equals("NOT_AUTHORIZED"));
+        Assert.assertTrue("failure - expected HTTP response 'role' to be 'NOT_AUTHORIZED'",
+                LURDTO.getRole().equals("NOT_AUTHORIZED"));
+        Assert.assertTrue("failure - expected HTTP response 'error' to be 'error'",
+                LURDTO.getError().equals("error"));
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testHandleLoginAuthorized() throws Exception{
+        JSONObject json = new JSONObject();
+        json.put("username","milena");
+        json.put("password","milena");
+        
+        
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri)
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+         
+        
         String content = result.getResponse().getContentAsString();
         int status = result.getResponse().getStatus();
         
-        verify(userService, times(1)).getNextID();
-        verify(userService, times(1)).addUser(any(User.class));
-        verify(userInfoService, times(1)).addUserInfo(any(UserInfo.class));        
         
-        Assert.assertEquals("failure - expected HTTP status 200", 200, status);
+        Assert.assertEquals("failure - expected HTTP response OK",
+                200, status); 
         Assert.assertTrue("failure - expected HTTP response body to not be empty",
-                content.trim().length() > 0);     
-    } 
+                content.trim().length() > 0);
+    }
 }

@@ -12,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = Host.apache)
-@RestController
 @RequestMapping("/login")
 public class LogInController extends BaseController {
 
@@ -24,18 +22,17 @@ public class LogInController extends BaseController {
     public HttpEntity<JSONObject> login(@RequestBody LoginUserDTO loginUserDTO) {
 
         JSONObject object = new JSONObject();
-        System.out.println(loginUserDTO.getUsername());
         if (service.validateUser(loginUserDTO.getUsername(), loginUserDTO.getPassword())) {
             User user = service.getUserByUsername(loginUserDTO.getUsername());
 
             object.put("username", user.getUsername());
             object.put("role", "ROLE_USER");
             object.put("error","success");
-            System.out.println(object);
             return new ResponseEntity<>(object,HttpStatus.OK);
         }
+        object.put("username","NOT_AUTHORIZED");
+        object.put("role","NOT_AUTHORIZED");
         object.put("error","error");
-        System.out.println(object);
         return new ResponseEntity<>(object,HttpStatus.OK);
     }
 }

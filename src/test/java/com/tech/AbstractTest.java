@@ -5,6 +5,7 @@
  */
 package com.tech;
 
+import net.minidev.json.JSONObject;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,4 +22,5 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
                                    // just as it would be starting normally
 public abstract class AbstractTest {
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
+    protected JSONObject json;
 }

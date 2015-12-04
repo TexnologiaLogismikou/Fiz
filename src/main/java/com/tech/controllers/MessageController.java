@@ -10,13 +10,16 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
-public class MessageController extends BaseController{
+public class MessageController {
+    /*
+        This Class DOESNT extend BaseController . Testing of this class will be different from the rest. 
+        if testing has problems this ca nextend BaseController. BUT BaseController must be refactored and 
+        remove @RestController annotation
+    */
 
     //@Autowired
     //IMessageService messageService;

@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author milena 
  */
-@CrossOrigin(origins = "http://83.212.105.54")
-@Controller
 @RequestMapping("/friendservice")
 public class FriendController extends BaseController
 {
