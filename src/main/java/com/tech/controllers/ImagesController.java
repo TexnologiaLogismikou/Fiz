@@ -44,7 +44,7 @@ public class ImagesController extends BaseController{
      * @param file
      * @return http status depending on the validations
      */
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/upload",method = RequestMethod.POST)
     public HttpEntity<String> loadImages(@RequestParam("file") MultipartFile file,@RequestParam("username") String name){
         Long sm = userService.getUserByUsername(name).getId();
 
