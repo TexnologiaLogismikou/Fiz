@@ -20,6 +20,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import org.mockito.Mock;
 import static org.mockito.Mockito.doNothing;
@@ -84,121 +85,86 @@ public class FriendControllerTest extends AbstractControllerTest
     @Sql(scripts = "classpath:populateDB.sql")
     public void testAddFriend() throws Exception 
     {
-//        json.put("username","mixalis");
-//        json.put("friendname","milena");
-//        
-//        doNothing().when(friendService).addFriend(any(Friend.class));
-//        
-//        when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","milena",true));
-//        when(userService.getUserByUsername("mixalis")).thenReturn(new User(3L,"mixalis","mixalis",true));
-//        
-//        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/addfriend")
-//                .content(json.toString())
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andReturn();
-//         
-//        String content = result.getResponse().getContentAsString();
-//        int status = result.getResponse().getStatus();
-//        
-//        verify(userService,times(2)).getUserByUsername(anyString());
-//        verify(friendService,times(1)).addFriend(any(Friend.class));
-//        
-//        Assert.assertEquals("failure not OK", 200, status); 
-//        
-//        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
-//                    content.equals(Responses.SUCCESS.getData()));
+        json.put("username","mixalis");
+        json.put("friendname","milena");
+        
+        doNothing().when(friendService).addFriend(any(Friend.class));
+        
+        when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","milena",true));
+        when(userService.getUserByUsername("mixalis")).thenReturn(new User(3L,"mixalis","mixalis",true));
+        
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/addfriend")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+         
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+        
+        verify(userService,times(2)).getUserByUsername(anyString());
+        verify(friendService,times(1)).addFriend(any(Friend.class));
+        
+        Assert.assertEquals("failure not OK", 200, status); 
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+                    content.equals(Responses.SUCCESS.getData()));
     }
     
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testDeleteFriend() throws Exception 
     {
-//        json.put("username","milena");
-//        json.put("friendname","mixalis");
-//        
-//        doNothing().when(friendService).deleteFriend(any(Friend.class));
-//        
-//        when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","milena",true));
-//        when(userService.getUserByUsername("mixalis")).thenReturn(new User(3L,"mixalis","mixalis",true));
-//        
-//        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/deletefriend")
-//                .content(json.toString())
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andReturn();
-//        
-//        String content = result.getResponse().getContentAsString();
-//        int status = result.getResponse().getStatus();
-//        
-//        verify(userService,times(2)).getUserByUsername(anyString());
-//        verify(friendService,times(1)).deleteFriend(any(Friend.class));
-//        
-//        Assert.assertEquals("failure - expected HTTP status to be '200'", 200, status); 
-//        
-//        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
-//                    content.equals(Responses.SUCCESS.getData()));
+        json.put("username","milena");
+        json.put("friendname","mixalis");
+        
+        doNothing().when(friendService).deleteFriend(any(Friend.class));
+        
+        when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","milena",true));
+        when(userService.getUserByUsername("mixalis")).thenReturn(new User(3L,"mixalis","mixalis",true));
+        
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/deletefriend")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+        
+        verify(userService,times(2)).getUserByUsername(anyString());
+        verify(friendService,times(1)).deleteFriend(any(Friend.class));
+        
+        Assert.assertEquals("failure - expected HTTP status to be '200'", 200, status); 
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+                    content.equals(Responses.SUCCESS.getData()));
     }  
-    
+               
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void testCheckFriendExists() throws Exception 
+    public void testInAppropriateFormat() throws Exception 
     {
-//        json.put("username","milena");
-//        json.put("friendname","iwanna");
-//        
-//        
-//        when(friendService.checkFriendIfExists(1L,2L)).thenReturn(true);
-//        
-//        when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","milena",true));
-//        when(userService.getUserByUsername("iwanna")).thenReturn(new User(2L,"iwanna","iwanna",true));
-//        
-//        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/checkfriend")
-//                .content(json.toString())
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andReturn();
-//        
-//        String content = result.getResponse().getContentAsString();
-//        int status = result.getResponse().getStatus();
-//        
-//        verify(userService,times(2)).getUserByUsername(anyString());
-//        verify(friendService,times(1)).checkFriendIfExists(1L,2L);
-//        
-//        Assert.assertEquals("failure - expected HTTP status to be '302'", 302, status); 
-//        
-//        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.FRIEND_ALREADY_EXISTS.getData() + "'",
-//                    content.equals(Responses.FRIEND_ALREADY_EXISTS.getData()));
-    }  
-    
-    
-    @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    public void testCheckFriendNotExists() throws Exception 
-    {
-//        json.put("username","iwanna");
-//        json.put("friendname","milena");
-//        
-//        
-//        when(friendService.checkFriendIfExists(2L,1L)).thenReturn(false);
-//        
-//        when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","milena",true));
-//        when(userService.getUserByUsername("iwanna")).thenReturn(new User(2L,"iwanna","iwanna",true));
-//        
-//        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/checkfriend")
-//                .content(json.toString())
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andReturn();
-//        
-//        String content = result.getResponse().getContentAsString();
-//        int status = result.getResponse().getStatus();
-//        
-//        verify(userService,times(2)).getUserByUsername(anyString());
-//        verify(friendService,times(1)).checkFriendIfExists(2L,1L);
-//        
-//        Assert.assertEquals("failure - expected HTTP status to be '200'", 200, status); 
-//        
-//        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.AVAILABLE.getData() + "'",
-//                    content.equals(Responses.AVAILABLE.getData()));
-    }  
-    
+        json.put("username","5milena");
+        json.put("friendname","!mixalis");
+        
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/addfriend")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+        
+        verify(userService,times(0)).getUserByUsername(anyString());
+        verify(userService,times(0)).checkUsername(anyString());
+        verify(friendService,times(0)).checkFriendIfExists(anyLong(),anyLong());
+        verify(friendService,times(0)).addFriend(any(Friend.class));
+        
+        Assert.assertEquals("failure - expected HTTP status to be '406'", 406, status); 
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
+                    content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+        
+    }
 }
 
 
