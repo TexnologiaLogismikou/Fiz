@@ -7,6 +7,7 @@ package com.tech.controllers;
 
 import com.tech.configurations.tools.Host;
 import com.tech.configurations.tools.Responses;
+import com.tech.configurations.tools.Validator;
 import com.tech.models.dtos.FriendDTO;
 import com.tech.controllers.superclass.BaseController;
 import com.tech.models.entities.Friend;
@@ -45,32 +46,31 @@ public class FriendController extends BaseController
    @RequestMapping(value = "/addfriend",method = RequestMethod.POST)
    public HttpEntity<String> addFriend(@RequestBody FriendDTO friendDTO)
    {
+      
+        if (!Validator.usernameValidation(friendDTO.getFriendname()))
+        {
+            return new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(),HttpStatus.NOT_ACCEPTABLE);
+        }
+         
+       if(userService.checkUsername(friendDTO.getFriendname()))
+       {
+          return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);
+       }
+       
        Friend friend = new Friend(userService.getUserByUsername(friendDTO.getUsername()).getId(),
                userService.getUserByUsername(friendDTO.getFriendname()).getId());
-
-       friendService.addFriend(friend);
-
-       return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);
-    }
-
-   /**
-    * checks if friendship already exists
-    * @param friendDTO
-    * @return
-    */
-   @RequestMapping(value = "/checkfriend",method = RequestMethod.POST)
-    public HttpEntity<String> checkFriend(@RequestBody FriendDTO friendDTO)
-    {
-       Friend friend = new Friend(userService.getUserByUsername(friendDTO.getUsername()).getId(),
-               userService.getUserByUsername(friendDTO.getFriendname()).getId());
-
+    
        if(friendService.checkFriendIfExists(friend.getUserid(),friend.getFriendid()))
        {
           return new ResponseEntity<>(Responses.FRIEND_ALREADY_EXISTS.getData(),HttpStatus.FOUND);
-       }
-         return new ResponseEntity<>(Responses.AVAILABLE.getData(),HttpStatus.OK);
+       }    
+       
+       friendService.addFriend(friend);
+       
+       return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);
     }
 
+ 
    @RequestMapping(value = "/deletefriend",method = RequestMethod.POST)
    public HttpEntity<String> deleteFriend(@RequestBody FriendDTO friendDTO)
    {
