@@ -7,6 +7,7 @@ package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
 import com.tech.configurations.tools.Responses;
+import com.tech.configurations.tools.Validator;
 import com.tech.models.entities.Friend;
 import com.tech.models.entities.User;
 import com.tech.services.FriendService;
@@ -121,6 +122,8 @@ public class FriendControllerTest extends AbstractControllerTest
         
         when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","milena",true));
         when(userService.getUserByUsername("mixalis")).thenReturn(new User(3L,"mixalis","mixalis",true));
+        when(friendService.checkFriendIfExists(1L,3L)).thenReturn(true);
+        //when(userService.checkUsername("mixalis")).thenReturn(true);
         
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/deletefriend")
                 .content(json.toString())
@@ -165,7 +168,59 @@ public class FriendControllerTest extends AbstractControllerTest
                     content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
         
     }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testDeleteFriendInAppropiateFormatFriendname() throws Exception 
+    {
+        json.put("username","milena");
+        json.put("friendname","25mixalis");
+        
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/deletefriend")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+        
+        verify(userService,times(0)).getUserByUsername(anyString());
+        verify(userService,times(0)).checkUsername(anyString());
+        verify(friendService,times(0)).checkFriendIfExists(anyLong(),anyLong());
+        verify(friendService,times(0)).deleteFriend(any(Friend.class));
+        
+        Assert.assertEquals("failure - expected HTTP status to be '406'", 406, status); 
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
+                    content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+    }  
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testDeleteFriendNotFound() throws Exception 
+    {
+        json.put("username","milena");
+        json.put("friendname","kiki");
+        
+        when(userService.checkUsername("kiki")).thenReturn(false);
+        
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/deletefriend")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+        
+        verify(userService,times(0)).getUserByUsername(anyString());
+        verify(userService,times(1)).checkUsername(anyString());
+        verify(friendService,times(0)).checkFriendIfExists(anyLong(),anyLong());
+        verify(friendService,times(0)).deleteFriend(any(Friend.class));
+        
+        Assert.assertEquals("failure - expected HTTP status to be '404'", 404, status); 
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.NOT_AVAILABLE.getData() + "'",
+                    content.equals(Responses.NOT_AVAILABLE.getData()));
+    }
+
 }
-
-
-

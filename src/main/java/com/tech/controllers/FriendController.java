@@ -78,7 +78,7 @@ public class FriendController extends BaseController
            return new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(),HttpStatus.NOT_ACCEPTABLE);
        }
        
-       if(userService.checkUsername(friendDTO.getFriendname())){
+       if(!userService.checkUsername(friendDTO.getFriendname())){
            return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);
        }
        
