@@ -94,7 +94,6 @@ public class FriendControllerTest extends AbstractControllerTest
         when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","milena",true));
         when(userService.getUserByUsername("mixalis")).thenReturn(new User(3L,"mixalis","mixalis",true));
         when(userService.checkUsername("milena")).thenReturn(true);
-        //when(userService.checkUsername("mixalis")).thenReturn(true);
 
         
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/addfriend")
@@ -126,7 +125,7 @@ public class FriendControllerTest extends AbstractControllerTest
         when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","milena",true));
         when(userService.getUserByUsername("mixalis")).thenReturn(new User(3L,"mixalis","mixalis",true));
         when(friendService.checkFriendIfExists(1L,3L)).thenReturn(true);
-        //when(userService.checkUsername("mixalis")).thenReturn(true);
+        when(userService.checkUsername("mixalis")).thenReturn(true); // gt itan se sxolia? :/
         
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/deletefriend")
                 .content(json.toString())
@@ -263,6 +262,7 @@ public class FriendControllerTest extends AbstractControllerTest
        when(friendService.checkFriendIfExists(1L,2L)).thenReturn(true);
        when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","milena",true));
        when(userService.getUserByUsername("iwanna")).thenReturn(new User(2L,"iwanna","iwanna",true));
+       when(userService.checkUsername("iwanna")).thenReturn(true); //dn edwses apantisi gia to checkUsername
        
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/addfriend")
                 .content(json.toString())
@@ -272,8 +272,8 @@ public class FriendControllerTest extends AbstractControllerTest
       String content = result.getResponse().getContentAsString();
         int status = result.getResponse().getStatus();
         
-        verify(userService,times(2)).getUserByUsername(anyString());
         verify(userService,times(1)).checkUsername(anyString());
+        verify(userService,times(2)).getUserByUsername(anyString());
         verify(friendService,times(1)).checkFriendIfExists(anyLong(),anyLong());
         verify(friendService,times(0)).addFriend(any(Friend.class));
         
