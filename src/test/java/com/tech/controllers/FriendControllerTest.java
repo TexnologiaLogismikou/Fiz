@@ -92,6 +92,9 @@ public class FriendControllerTest extends AbstractControllerTest
         
         when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","milena",true));
         when(userService.getUserByUsername("mixalis")).thenReturn(new User(3L,"mixalis","mixalis",true));
+        when(userService.checkUsername("milena")).thenReturn(true);
+        //when(userService.checkUsername("mixalis")).thenReturn(true);
+
         
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/addfriend")
                 .content(json.toString())
@@ -142,7 +145,7 @@ public class FriendControllerTest extends AbstractControllerTest
                
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void testInAppropriateFormat() throws Exception 
+    public void testAddFriendFOrInAppropriateFormat() throws Exception 
     {
         json.put("username","5milena");
         json.put("friendname","!mixalis");
@@ -194,6 +197,36 @@ public class FriendControllerTest extends AbstractControllerTest
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.NOT_AVAILABLE.getData() + "'",
                     content.equals(Responses.NOT_AVAILABLE.getData()));
         
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testCheckFriendShipExist() throws Exception 
+    {
+       json.put("username","milena");
+       json.put("friendname","iwanna"); 
+       
+       when(friendService.checkFriendIfExists(1L,2L)).thenReturn(true);
+       when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","milena",true));
+       when(userService.getUserByUsername("iwanna")).thenReturn(new User(2L,"iwanna","iwanna",true));
+       
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/addfriend")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        
+      String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+        
+        verify(userService,times(2)).getUserByUsername(anyString());
+        verify(userService,times(1)).checkUsername(anyString());
+        verify(friendService,times(1)).checkFriendIfExists(anyLong(),anyLong());
+        verify(friendService,times(0)).addFriend(any(Friend.class));
+        
+        Assert.assertEquals("failure - expected HTTP status to be '302'", 302, status); 
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.FRIEND_ALREADY_EXIST.getData() + "'",
+                    content.equals(Responses.FRIEND_ALREADY_EXIST.getData()));
     }
 }
 
