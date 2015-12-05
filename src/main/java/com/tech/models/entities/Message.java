@@ -19,16 +19,24 @@ public class Message {
     @Column(name = "message")
     private String message;
 
-    @Column(name = "date")
-    private Date date;
+    @Column(name = "dateSent")
+    private Date dateSent;
 
+    @Column(name = "TTL")
+    private Date ttl;
+
+    @Column(name = "chatroom")
+    private String chatroom;
+    
     protected Message() {}
 
-    public Message(Long id, Long userid, String message) {
+    public Message(Long id, Long userid, String message, Date ttl, String chatroom) {
         this.message = message;
         this.id = id;
         this.userid = userid;
-        this.date = new Date();
+        this.dateSent = new Date();
+        this.ttl = ttl;
+        this.chatroom = chatroom;
     }
 
     public Long getId() {
@@ -56,10 +64,27 @@ public class Message {
     }
 
     public Date getDate() {
-        return date;
+        return dateSent;
     }
 
     public void setDate() {
-        this.date = new Date();
+        this.dateSent = new Date();
     }
+    
+    public Date getTtl() {
+        return ttl;
+    }
+
+    public void setTtl(Date ttl) {
+        this.ttl = ttl;
+    }
+
+    public String getChatroom() {
+        return chatroom;
+    }
+
+    public void setChatroom(String chatroom) {
+        this.chatroom = chatroom;
+    }
+    
 }
