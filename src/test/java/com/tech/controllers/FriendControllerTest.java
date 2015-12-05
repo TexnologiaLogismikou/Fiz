@@ -82,6 +82,10 @@ public class FriendControllerTest extends AbstractControllerTest
         uri = null;
     }
     
+    /**
+     * @author milena
+     * @throws Exception 
+     */
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testAddFriend() throws Exception 
@@ -143,7 +147,11 @@ public class FriendControllerTest extends AbstractControllerTest
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
                     content.equals(Responses.SUCCESS.getData()));
     }  
-               
+      
+    /**
+     * @author milena
+     * @throws Exception 
+     */
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testAddFriendFOrInAppropriateFormat() throws Exception 
@@ -224,7 +232,10 @@ public class FriendControllerTest extends AbstractControllerTest
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.NOT_AVAILABLE.getData() + "'",
                     content.equals(Responses.NOT_AVAILABLE.getData()));
     }
-
+    /**
+     * @author milena
+     * @throws Exception 
+    */
     public void testFriendNotExist() throws Exception 
     {
        json.put("username","milena");
@@ -252,6 +263,10 @@ public class FriendControllerTest extends AbstractControllerTest
         
     }
     
+    /**
+     * @author milena
+     * @throws Exception 
+     */
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testCheckFriendShipExist() throws Exception 
