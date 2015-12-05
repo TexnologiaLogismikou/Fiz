@@ -62,7 +62,7 @@ public class FriendController extends BaseController
     
        if(friendService.checkFriendIfExists(friend.getUserid(),friend.getFriendid()))
        {
-          return new ResponseEntity<>(Responses.FRIEND_ALREADY_EXISTS.getData(),HttpStatus.FOUND);
+          return new ResponseEntity<>(Responses.FRIEND_ALREADY_EXIST.getData(),HttpStatus.FOUND);
        }    
        
        friendService.addFriend(friend);
@@ -74,11 +74,23 @@ public class FriendController extends BaseController
    @RequestMapping(value = "/deletefriend",method = RequestMethod.POST)
    public HttpEntity<String> deleteFriend(@RequestBody FriendDTO friendDTO)
    {
+       if(!Validator.usernameValidation(friendDTO.getFriendname())){
+           return new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(),HttpStatus.NOT_ACCEPTABLE);
+       }
+       
+       if(userService.checkUsername(friendDTO.getFriendname())){
+           return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);
+       }
+       
        Friend friend = new Friend(userService.getUserByUsername(friendDTO.getUsername()).getId(),
                userService.getUserByUsername(friendDTO.getFriendname()).getId());
        
-       friendService.deleteFriend(friend);
-       return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);
+       if(!friendService.checkFriendIfExists(friend.getUserid(), friend.getFriendid())){
+           return new ResponseEntity<>(Responses.FRIEND_DOES_NOT_EXIST.getData(),HttpStatus.NOT_FOUND);
+       }
+
+        friendService.deleteFriend(friend);
+        return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);
 
    }   
 }
