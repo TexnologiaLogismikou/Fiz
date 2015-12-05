@@ -33,12 +33,12 @@ public abstract class AbstractControllerTest extends AbstractTest{
     @Autowired
     protected WebApplicationContext webApplicationContext;
     
-    protected void setUp(){
+    protected void setUp() throws Exception{
         mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         json = new JSONObject();
     }
     
-    protected void setUp(BaseController controller) {
+    protected void setUp(BaseController controller){
         mvc = MockMvcBuilders.standaloneSetup(controller).build();
         json = new JSONObject();
     }
