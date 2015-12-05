@@ -65,9 +65,9 @@ public class UserInfoServiceTest extends AbstractTest{
         MockitoAnnotations.initMocks(this);
         
         userNotExist = new UserInfo(4L,"mixalis2@gmail.com",Attr.NO_IMAGE_ASSIGNED.getData(),
-                "status","mixailidis","25/08/1994","thessaloniki");
+                "status","mixailidis","25/08/1994","thessaloniki","mixalis");
         userExist = new UserInfo(2L,"iwanna@gmail.com",Attr.NO_IMAGE_ASSIGNED.getData(),
-                "Status","Fwtiadoy","23/01/1994","serres");
+                "Status","Fwtiadoy","23/01/1994","serres","serres");
        
     }
     
@@ -86,7 +86,7 @@ public class UserInfoServiceTest extends AbstractTest{
     @Sql(scripts = "classpath:populateDB.sql")
     public void testModifyUserInfo() {
         UserInfo mockedChangedUser = new UserInfo(Long.parseLong("2"),"mixalis2@gmail.com",Attr.NO_IMAGE_ASSIGNED.getData(),
-                "status","mixailidis","25/08/1994","thessaloniki");
+                "status","mixailidis","25/08/1994","thessaloniki","mixalis");
         
         UserInfo userinfoOrigin = service.getUserInfoByUserId(userExist.getUserid());
         when(mockService.getUserInfoByUserId(2L)).thenReturn(mockedChangedUser);
@@ -97,7 +97,7 @@ public class UserInfoServiceTest extends AbstractTest{
         verify(repository, times(1)).findByUserid(anyLong());
         verify(repository, times(1)).setUserInfoById(mockedChangedUser.getEmail(), mockedChangedUser.getProfilePhoto(),
                 mockedChangedUser.getStatus(), mockedChangedUser.getLastName(),mockedChangedUser.getBirthday(),mockedChangedUser.getHometown(),
-                mockedChangedUser.getUserid());
+                mockedChangedUser.getFirstName(),mockedChangedUser.getUserid());
         
         Assert.assertEquals("Fail Modify User Info,expected same id", userinfoOrigin.getUserid(), tmp.getUserid());
         Assert.assertNotEquals("Fail in modify Emai expected : " + userinfoOrigin.getEmail()
@@ -113,7 +113,7 @@ public class UserInfoServiceTest extends AbstractTest{
     @Sql(scripts = "classpath:populateDB.sql")
     public void testAddUserInfo() {
         UserInfo userinfo = new UserInfo(3L,"iwanna@gmail5.com",Attr.NO_IMAGE_ASSIGNED.getData(),
-                "Status","Fwtiadoy5","23/01/1994","kommotini");
+                "Status","Fwtiadoy5","23/01/1994","kommotini","thessaloniki");
         service.addUserInfo(userinfo);
         Assert.assertNotNull("Fail add User",service.getUserInfoByUserId(userinfo.getUserid()));
     }

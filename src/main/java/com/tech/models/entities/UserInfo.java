@@ -44,6 +44,9 @@ public class UserInfo implements Serializable {
     
     @Column(name = "hometown")
     private String hometown;
+    
+    @Column(name = "first_name")
+    private String first_name;
 
     public UserInfo (){
         
@@ -51,17 +54,17 @@ public class UserInfo implements Serializable {
     
     public UserInfo(Long userid,UserDTO userDTO){
         this(userid,userDTO.getEmail(),userDTO.getProfile_photo(),userDTO.getStatus(),
-                userDTO.getLast_name(),userDTO.getBirthday(),userDTO.getHometown());
+                userDTO.getLast_name(),userDTO.getBirthday(),userDTO.getHometown(),userDTO.getFirstName());
     }
     
     public UserInfo(Long userid,RegisteredUserDTO userDTO){
         this(userid,userDTO.getEmail(),Attr.NO_IMAGE_ASSIGNED.getData(),null,
-                userDTO.getLast_name(),userDTO.getBirthday(),null);
+                userDTO.getLast_name(),userDTO.getBirthday(),null,userDTO.getFirstName());
         
     }
     
     public UserInfo(Long userid, String email, String profile_photo, 
-            String status, String last_name, String birthday, String hometown){
+            String status, String last_name, String birthday, String hometown, String first_name){
         this.userid = userid;
         this.email = email;
         this.profile_photo = profile_photo;
@@ -69,6 +72,7 @@ public class UserInfo implements Serializable {
         this.last_name = last_name;
         this.birthday = birthday;
         this.hometown = hometown;
+        this.first_name = first_name;
     }
     
     public Long getUserid() {
@@ -125,6 +129,14 @@ public class UserInfo implements Serializable {
 
     public void setHometown(String hometown) {
         this.hometown = hometown;
+    }
+    
+    public String getFirstName() {
+        return first_name;
+    }
+
+    public void setFirstName(String first_Name) {
+        this.first_name = first_Name;
     }
     
 }
