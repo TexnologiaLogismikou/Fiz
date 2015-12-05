@@ -21,9 +21,9 @@ public interface IUserInfoRepository extends JpaRepository<UserInfo, Long>{
     
     @Modifying
     @Query("update UserInfo u set u.email = ?1, u.profile_photo = ?2, u.status = ?3, "
-            + "u.last_name = ?4, u.birthday = ?5, u.hometown = ?6 where u.userid = ?7")
+            + "u.last_name = ?4, u.birthday = ?5, u.hometown = ?6, u.first_name = ?7 where u.userid = ?8")
     void setUserInfoById(String email, String profile_photo, String status, String last_name, 
-            String birthday, String hometown, Long userid );
+            String birthday, String hometown,String first_name, Long userid );
     
     UserInfo findByUserid(Long userid);
 }

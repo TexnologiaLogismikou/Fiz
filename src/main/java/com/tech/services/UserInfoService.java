@@ -26,7 +26,8 @@ public class UserInfoService implements IUserInfoService {
     @Transactional
     public void modifyUserInfo(UserInfo modifiedUser) {
         repository.setUserInfoById(modifiedUser.getEmail(),modifiedUser.getProfilePhoto(),modifiedUser.getStatus(),
-                modifiedUser.getLastName(),modifiedUser.getBirthday(),modifiedUser.getHometown(), modifiedUser.getUserid());
+                modifiedUser.getLastName(),modifiedUser.getBirthday(),modifiedUser.getHometown(),
+                modifiedUser.getFirstName(), modifiedUser.getUserid());
     }
     
     @Override 
