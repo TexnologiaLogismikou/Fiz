@@ -15,6 +15,7 @@ public class RegisteredUserDTO {
     private String email;
     private String last_name;
     private String birthday;
+    private String first_name;
     
     public String getEmail(){
         return email;
@@ -34,5 +35,9 @@ public class RegisteredUserDTO {
     
     public String getPassword(){
         return password;
+    }
+    
+    public String getFirstName(){
+        return first_name;
     }
 }
