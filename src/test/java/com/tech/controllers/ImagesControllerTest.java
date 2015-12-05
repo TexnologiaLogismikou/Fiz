@@ -300,7 +300,7 @@ public class ImagesControllerTest extends AbstractControllerTest{
     
     @Test
     public void testHandleWrongExtension() throws Exception {        
-        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/get/123124.png")).andReturn();        
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/get/123124.mp3")).andReturn();        
         
         String content = result.getResponse().getContentAsString();
         int status = result.getResponse().getStatus();
