@@ -9,62 +9,66 @@ import com.tech.configurations.tools.Attr;
 import com.tech.models.dtos.RegisteredUserDTO;
 import com.tech.models.dtos.UserDTO;
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import java.util.Date;
+import javax.persistence.*;
 
 /**
  *
  * @author iwann
  */
 @Entity
-@NamedQuery(name = "UserInfo.findByUserid", query = "SELECT p FROM UserInfo p WHERE p.userid = ?1")
+@NamedQueries({
+        @NamedQuery(name = "UserInfo.findByUserid", query = "SELECT p FROM UserInfo p WHERE p.userid = ?1"),
+        @NamedQuery(name = "UserInfo.findByFirstName", query = "SELECT p FROM UserInfo p WHERE p.first_name = ?1"),
+        @NamedQuery(name = "UserInfo.findByLastName", query = "SELECT p FROM UserInfo p WHERE p.last_name = ?1"),
+        @NamedQuery(name = "UserInfo.findByBirthDay", query = "SELECT p FROM UserInfo p WHERE p.birthday = ?1"),
+        @NamedQuery(name = "UserInfo.findByEmail", query = "SELECT p FROM UserInfo p WHERE p.email = ?1"),
+        @NamedQuery(name = "UserInfo.findByHomeTown", query = "SELECT p FROM UserInfo p WHERE p.hometown = ?1")
+})
 @Table (name = "user_info")
 public class UserInfo implements Serializable {
     @Id
     @Column(name = "userid")
     private Long userid;
-    
+
     @Column(name = "email")
     private String email;
-    
+
     @Column(name = "profile_photo")
     private String profile_photo;
-    
+
     @Column(name = "status")
     private String status;
-    
+
     @Column(name = "last_name")
     private String last_name;
-    
+
     @Column(name = "birthday")
-    private String birthday;
-    
+    private Date birthday;
+
     @Column(name = "hometown")
     private String hometown;
-    
+
     @Column(name = "first_name")
     private String first_name;
 
     public UserInfo (){
-        
+
     }
-    
+
     public UserInfo(Long userid,UserDTO userDTO){
         this(userid,userDTO.getEmail(),userDTO.getProfile_photo(),userDTO.getStatus(),
                 userDTO.getLast_name(),userDTO.getBirthday(),userDTO.getHometown(),userDTO.getFirstName());
     }
-    
+
     public UserInfo(Long userid,RegisteredUserDTO userDTO){
         this(userid,userDTO.getEmail(),Attr.NO_IMAGE_ASSIGNED.getData(),null,
                 userDTO.getLast_name(),userDTO.getBirthday(),null,userDTO.getFirstName());
-        
+
     }
-    
-    public UserInfo(Long userid, String email, String profile_photo, 
-            String status, String last_name, String birthday, String hometown, String first_name){
+
+    public UserInfo(Long userid, String email, String profile_photo,
+                    String status, String last_name, Date birthday, String hometown, String first_name){
         this.userid = userid;
         this.email = email;
         this.profile_photo = profile_photo;
@@ -74,7 +78,7 @@ public class UserInfo implements Serializable {
         this.hometown = hometown;
         this.first_name = first_name;
     }
-    
+
     public Long getUserid() {
         return userid;
     }
@@ -115,11 +119,11 @@ public class UserInfo implements Serializable {
         this.last_name = last_name;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
@@ -130,7 +134,7 @@ public class UserInfo implements Serializable {
     public void setHometown(String hometown) {
         this.hometown = hometown;
     }
-    
+
     public String getFirstName() {
         return first_name;
     }
@@ -138,5 +142,4 @@ public class UserInfo implements Serializable {
     public void setFirstName(String first_Name) {
         this.first_name = first_Name;
     }
-    
 }

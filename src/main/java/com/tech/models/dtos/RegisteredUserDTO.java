@@ -5,6 +5,8 @@
  */
 package com.tech.models.dtos;
 
+import java.util.Date;
+
 /**
  *
  * @author KuroiTenshi
@@ -14,7 +16,7 @@ public class RegisteredUserDTO {
     private String password;
     private String email;
     private String last_name;
-    private String birthday;
+    private Date birthday;
     private String first_name;
     
     public String getEmail(){
@@ -25,7 +27,7 @@ public class RegisteredUserDTO {
         return last_name;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
     
