@@ -11,7 +11,9 @@
                 <value>com.tech.models.entities.User</value>
                 <value>com.tech.models.entities.UserRole</value>
                 <value>com.tech.models.entities.UserInfo</value>
-                <value>com.tech.models.entities.Chatroom</value>
+                <value>com.tech.models.entities.ChatroomEntities</value>
+                <value>com.tech.models.entities.ChatroomMembers</value>
+                <value>com.tech.models.entities.ChatroomPrivileges</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -42,11 +44,22 @@
     <bean id="userRoleDAO" class="com.tech.models.daos.UserRolesDAOimpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
+    
     <bean id="userInfoDAO" class="com.tech.models.daos.UserInfoDAOimpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
-
-    <bean id="chatRoomDAO" class="com.tech.models.daos.ChatroomDAOimp">
-        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+    
+    <bean id="chatroomEntitiesDAO" class="com.tech.models.daos.ChatroomEntitiesDAOimpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
+    
+    <bean id="chatroomMembersDAO" class="com.tech.models.daos.ChatroomMembersDAOimpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
+    
+    <bean id="chatroomPrivilegesDAO" class="com.tech.models.daos.ChatroomPrivilegesDAOimpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
+
+
 </beans>

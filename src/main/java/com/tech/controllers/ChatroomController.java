@@ -7,9 +7,6 @@ package com.tech.controllers;
 
 import com.tech.configurations.tools.Host;
 import com.tech.configurations.tools.Responses;
-import com.tech.models.dtos.ChatroomCreatorDTO;
-import com.tech.models.dtos.ChatroomDTO;
-import com.tech.services.interfaces.IChatroomService;
 import com.tech.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -30,8 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/chatroom")
 public class ChatroomController {
     @Autowired
-    IChatroomService service;
-    @Autowired
     IUserService userService;
     
     /** 
@@ -40,17 +35,17 @@ public class ChatroomController {
      * @return 
      */
    @RequestMapping(value = "/newChatroom",method = RequestMethod.POST)
-   public HttpEntity<String> handleNewChatroom(@RequestBody ChatroomCreatorDTO newChatroom){
+   public HttpEntity<String> handleNewChatroom(/*@RequestBody ChatroomCreatorDTO newChatroom*/){
        return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);
    }
    
    @RequestMapping(value = "/connectChatroom",method = RequestMethod.POST)
-   public HttpEntity<String> connectToChatroom(@RequestBody ChatroomDTO chatroom){
+   public HttpEntity<String> connectToChatroom(/*@RequestBody ChatroomDTO chatroom*/){
        return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);
    }
    
    @RequestMapping(value ="/deleteChatroom",method = RequestMethod.POST)
-   public HttpEntity<String> deleteChatroom(@RequestBody ChatroomDTO chatroom) {
+   public HttpEntity<String> deleteChatroom(/*@RequestBody ChatroomDTO chatroom*/) {
        return new ResponseEntity<>(Responses.SUCCESS.getData(),HttpStatus.OK);
    }   
 }

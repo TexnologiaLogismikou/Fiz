@@ -2,8 +2,10 @@ DROP TABLE "user_roles"; --table#2
 DROP TABLE "user_info"; --table#3
 DROP TABLE "images"; --table#4
 DROP TABLE "friendlist"; --table#5
-DROP TABLE "messages"; --table#6
-DROP TABLE "chatrooms"; --table#7
+DROP TABLE "messages"; --table#7
+DROP TABLE "chatrooms_members"; --table#6.2
+DROP TABLE "chatroom_privileges"; --table#6.3
+DROP TABLE "chatrooms_entities"; --table#6.1
 DROP TABLE "usersdata"; --table#1
 
 CREATE TABLE "usersdata" ( --table#1
@@ -49,21 +51,32 @@ CREATE TABLE "friendlist" ( --table#5
     CONSTRAINT pk_friendlist PRIMARY KEY (userid,friendid)    
 );
 
-CREATE TABLE "messages" ( --table#6
+CREATE TABLE "chatrooms_entities" ( --table#6.1
+    "room_id" bigint NOT NULL UNIQUE,
+    "room_creator" bigint NOT NULL,
+    "room_name" text NOT NULL,
+    CONSTRAINT pk_chatroom_entities PRIMARY KEY (room_id,room_creator)
+);
+
+CREATE TABLE "chatrooms_members" ( --table#6.2
+    "room_id" bigint NOT NULL,
+    "room_member" bigint NOT NULL,
+    CONSTRAINT pk_chatroom_members PRIMARY KEY (room_id,room_member)
+);
+
+CREATE TABLE "chatroom_privileges" ( --table#6.3
+    "room_id" bigint NOT NULL,
+    "room_privileges" text NOT NULL,
+    CONSTRAINT pk_chatroom_priv PRIMARY KEY (room_id)
+);
+
+CREATE TABLE "messages" ( --table#7
     "id" bigint NOT NULL,
     "userid" bigint NOT NULL,
     "message" text NOT NULL,
     "datesent" TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     "chatroom_id" bigint NOT NULL,
     CONSTRAINT pk_message PRIMARY KEY (id)
-);
-
-CREATE TABLE "chatrooms" ( --table#7
-    "room_id" bigint NOT NULL,
-    "room_name" text NOT NULL,
-    "room_creator" bigint NOT NULL,
-    "room_member" bigint NOT NULL,
-    CONSTRAINT pk_chatroom PRIMARY KEY (room_id,room_creator,room_member)
 );
 
 ALTER TABLE "user_roles" ADD --table#2
@@ -91,19 +104,39 @@ ALTER TABLE "friendlist" ADD --table#5.2
     FOREIGN KEY (friendid) REFERENCES "usersdata" (id)
     ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "messages" ADD --table#6
+ALTER TABLE "chatrooms_entities" ADD --table#6.1
+    CONSTRAINT "fk_chatroom_entities_userid" 
+    FOREIGN KEY (room_id) REFERENCES "usersdata" (id)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE "chatrooms_entities" ADD --table#6.1
+    CONSTRAINT "fk_chatroom_entities_creatorid" 
+    FOREIGN KEY (room_creator) REFERENCES "usersdata" (id)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE "chatrooms_members" ADD --table#6.2
+    CONSTRAINT "fk_chatroom_members_room_id" 
+    FOREIGN KEY (room_id) REFERENCES "chatrooms_entities" (room_id)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE "chatrooms_members" ADD --table#6.2
+    CONSTRAINT "fk_chatroom_member_memberid" 
+    FOREIGN KEY (room_member) REFERENCES "usersdata" (id)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE "chatroom_privileges" ADD --table#6.3
+    CONSTRAINT "fk_chatroom_privileges_room_id" 
+    FOREIGN KEY (room_id) REFERENCES "chatrooms_entities" (room_id)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE "messages" ADD --table#7
     CONSTRAINT "fk_userid_messages" 
     FOREIGN KEY (userid) REFERENCES "usersdata" (id)
     ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "chatrooms" ADD --table#7.1
-    CONSTRAINT "fk_userid_chatrooms_creator" 
-    FOREIGN KEY (room_creator) REFERENCES "usersdata" (id)
-    ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "chatrooms" ADD --table#7.2
-    CONSTRAINT "fk_userid_chatrooms_member" 
-    FOREIGN KEY (room_member) REFERENCES "usersdata" (id)
+ALTER TABLE "messages" ADD --table#7
+    CONSTRAINT "fk_userid_messages2" 
+    FOREIGN KEY (chatroom_id) REFERENCES "chatrooms_entities" (room_id)
     ON DELETE CASCADE ON UPDATE CASCADE;
 
 INSERT INTO usersdata  VALUES (1,'milenaAz','milena',TRUE); --table#1
@@ -121,12 +154,20 @@ INSERT INTO user_info VALUES (3,'Mixalis','Mixailidis','17/10/1994','mixalis@gma
 INSERT INTO friendlist VALUES (1, 2,TO_TIMESTAMP('16-05-2011 12:00:00', 'dd-mm-yyyy hh24:mi:ss')); --table#5
 INSERT INTO friendlist VALUES (1, 3,TO_TIMESTAMP('16-05-2011 13:00:00', 'dd-mm-yyyy hh24:mi:ss')); --table#5
 
-INSERT INTO chatrooms VALUES (1,'testing room','1','1'); --table#7
-INSERT INTO chatrooms VALUES (1,'testing room','1','2'); --table#7
-INSERT INTO chatrooms VALUES (2,'second testing room','3','3'); --table#7
-INSERT INTO chatrooms VALUES (2,'second testing room','3','2'); --table#7
+INSERT INTO chatrooms_entities VALUES (1,1,'first testing room'); --table#6.1
+INSERT INTO chatrooms_entities VALUES (2,1, 'second testing room'); --table#6.1
+INSERT INTO chatrooms_entities VALUES (3,3, 'third testing room'); --table#6.1
 
-INSERT INTO messages  VALUES (1, 1,'initial message',TO_TIMESTAMP('16-05-2011 12:30:00', 'dd-mm-yyyy hh24:mi:ss'),'1'); --table#6
-INSERT INTO messages  VALUES (2, 2,'second message',TO_TIMESTAMP('16-05-2011 13:30:00', 'dd-mm-yyyy hh24:mi:ss'),'1'); --table#6
-INSERT INTO messages  VALUES (3, 2,'third message',TO_TIMESTAMP('16-05-2011 14:30:00', 'dd-mm-yyyy hh24:mi:ss'),'1'); --table#6
-INSERT INTO messages  VALUES (4, 3,'forth message',TO_TIMESTAMP('16-05-2011 13:30:00', 'dd-mm-yyyy hh24:mi:ss'),'2'); --table#6
+INSERT INTO chatrooms_members VALUES (1,1); --table#6.2
+INSERT INTO chatrooms_members VALUES (1,2); --table#6.2
+INSERT INTO chatrooms_members VALUES (3,3); --table#6.2
+INSERT INTO chatrooms_members VALUES (3,2); --table#6.2
+
+INSERT INTO chatroom_privileges VALUES (1,'PUBLIC'); --table#6.3
+INSERT INTO chatroom_privileges VALUES (2,'PUBLIC'); --table#6.3
+INSERT INTO chatroom_privileges VALUES (3,'PUBLIC'); --table#6.3
+
+INSERT INTO messages VALUES (1, 1,'initial message',TO_TIMESTAMP('16-05-2011 12:30:00', 'dd-mm-yyyy hh24:mi:ss'),'1'); --table#7
+INSERT INTO messages VALUES (2, 2,'second message',TO_TIMESTAMP('16-05-2011 13:30:00', 'dd-mm-yyyy hh24:mi:ss'),'1'); --table#7
+INSERT INTO messages VALUES (3, 2,'third message',TO_TIMESTAMP('16-05-2011 14:30:00', 'dd-mm-yyyy hh24:mi:ss'),'1'); --table#7
+INSERT INTO messages VALUES (4, 3,'forth message',TO_TIMESTAMP('16-05-2011 13:30:00', 'dd-mm-yyyy hh24:mi:ss'),'2'); --table#7

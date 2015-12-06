@@ -1,0 +1,59 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.tech.models.entities;
+
+import com.tech.models.entities.embeddedIds.ChatroomMembersComposite;
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+/**
+ *
+ * @author KuroiTenshi
+ */
+@NamedQueries({
+        @NamedQuery(name = "ChatroomMembers.findByRoomId", query = "SELECT p FROM ChatroomMembers p WHERE p.room_id = ?1"),
+        @NamedQuery(name = "ChatroomMembers.findByRoomMember",query = "SELECT p FROM ChatroomMembers p WHERE p.room_member = ?1")
+})
+@Entity
+@IdClass(ChatroomMembersComposite.class)
+@Table (name = "chatrooms_members")
+public class ChatroomMembers implements Serializable {    
+    @Id 
+    private Long room_id;
+    
+    @Id
+    private Long room_member;
+
+    public ChatroomMembers() {
+    }
+
+    public ChatroomMembers(Long room_id, Long room_member) {
+        this.room_id = room_id;
+        this.room_member = room_member;
+    }
+
+    public Long getRoom_id() {
+        return room_id;
+    }
+
+    public void setRoom_id(Long room_id) {
+        this.room_id = room_id;
+    }
+
+    public Long getRoom_member() {
+        return room_member;
+    }
+
+    public void setRoom_member(Long room_member) {
+        this.room_member = room_member;
+    }
+    
+}
