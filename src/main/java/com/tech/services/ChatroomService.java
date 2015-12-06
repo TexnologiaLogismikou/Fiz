@@ -73,4 +73,12 @@ public class ChatroomService implements IChatroomService {
         repository.setRoomNameByRoomId(room_name, room_id);
         return true;
     }
+    
+    @Transactional
+    @Override
+    public Long getNextID(){
+        Long i = repository.count();
+        Long x = repository.getOne(i).getRoom_id();
+        return x + 1L;
+    }
 }

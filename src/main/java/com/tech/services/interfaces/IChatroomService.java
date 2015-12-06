@@ -32,4 +32,7 @@ public interface IChatroomService {
 
     @Transactional
     boolean modifyRoomNameByRoomID(String room_name, Long room_id);
+    
+    @Transactional
+    public Long getNextID();
 }
