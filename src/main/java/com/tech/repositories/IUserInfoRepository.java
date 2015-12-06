@@ -22,7 +22,7 @@ import java.util.List;
 @Repository
 public interface IUserInfoRepository extends JpaRepository<UserInfo, Long>{
     @Modifying
-    @Query("update UserInfo u set u.first_name = ?1, u.last_name = ?2, u.birthday = ?3, "
+    @Query("update UserInfo u set u.firstname = ?1, u.last_name = ?2, u.birthday = ?3, "
             + "u.email = ?4, u.status = ?5, u.profile_photo = ?6, u.hometown = ?7 where u.userid = ?8")
     void setUserInfoById(String first_name, String last_name, Date birthday, String email,
                          String status, String profile_photo, String hometown, Long userid );
