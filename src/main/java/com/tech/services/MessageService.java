@@ -29,14 +29,8 @@ public class MessageService implements IMessageService {
 
     @Override
     @Transactional
-    public void addMessages(List<Message> messages) {
-        repository.save(messages);
-    }
-
-    @Override
-    @Transactional
-    public void deleteMessage(Message message) {
-        repository.delete(message);
+    public void modifyMessage(Message message) {
+        throw new UnsupportedOperationException("not yet");
     }
 
     @Override
@@ -44,5 +38,6 @@ public class MessageService implements IMessageService {
     public List<Message> getAllMessages() {
         return repository.findAll();
     }
+
 
 }

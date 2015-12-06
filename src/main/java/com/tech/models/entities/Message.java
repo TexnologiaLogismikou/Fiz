@@ -1,14 +1,18 @@
 package com.tech.models.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Message.findByMessageId", query = "SELECT p FROM Message p WHERE p.id = ?1"),
+        @NamedQuery(name = "Message.findBySenderId",query = "SELECT p FROM Message p WHERE p.userid = ?1"),
+        @NamedQuery(name = "Message.findByChatRoom",query = "SELECT p FROM Message p WHERE p.chatroom_id = ?1")
+//    @NamedQuery(named = "Message.FindByDateOfSend", query = "SELECT p FROM Message p WHERE p.dateSent = ?1")
+})
 @Table (name = "messages")
-public class Message {
+public class Message implements Serializable{
     @Id
     @Column(name = "id")
     private Long id;
@@ -19,24 +23,20 @@ public class Message {
     @Column(name = "message")
     private String message;
 
-    @Column(name = "dateSent")
+    @Column(name = "datesent")
     private Date dateSent;
 
-    @Column(name = "TTL")
-    private Date ttl;
+    @Column(name = "chatroom_id")
+    private String chatroom_id;
 
-    @Column(name = "chatroom")
-    private String chatroom;
-    
     protected Message() {}
 
-    public Message(Long id, Long userid, String message, Date ttl, String chatroom) {
+    public Message(Long id, Long userid, String message, String chatroom) {
         this.message = message;
         this.id = id;
         this.userid = userid;
         this.dateSent = new Date();
-        this.ttl = ttl;
-        this.chatroom = chatroom;
+        this.chatroom_id = chatroom;
     }
 
     public Long getId() {
@@ -70,21 +70,12 @@ public class Message {
     public void setDate() {
         this.dateSent = new Date();
     }
-    
-    public Date getTtl() {
-        return ttl;
-    }
-
-    public void setTtl(Date ttl) {
-        this.ttl = ttl;
-    }
 
     public String getChatroom() {
-        return chatroom;
+        return chatroom_id;
     }
 
     public void setChatroom(String chatroom) {
-        this.chatroom = chatroom;
+        this.chatroom_id = chatroom;
     }
-    
 }
