@@ -30,17 +30,4 @@ public class GeneralController extends BaseController{
         System.exit(0);
     }
     
-    /**
-     * 
-     * @param username
-     * @return available if username doesn't exists (HttpStatus -> ACCEPTED ) else Not Available (HttpStatus -> FOUND)
-     */
-    @RequestMapping(value = "/checkUsername", method = RequestMethod.POST)
-    public HttpEntity<String> validateUsername (@RequestParam("username") String username) {
-        if (!service.checkUsername(username)) {
-            return new ResponseEntity<>(Responses.AVAILABLE.getData(),HttpStatus.OK);            
-        } 
-        return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(), HttpStatus.FOUND);   
-    }
-    
 }
