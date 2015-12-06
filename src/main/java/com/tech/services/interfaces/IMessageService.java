@@ -13,10 +13,7 @@ public interface IMessageService {
     void addMessage(Message message);
 
     @Transactional
-    void addMessages(List<Message> messages);
-
-    @Transactional
-    void deleteMessage(Message message);
+    void modifyMessage(Message message);
 
     @Transactional
     List<Message> getAllMessages();

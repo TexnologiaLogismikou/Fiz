@@ -14,8 +14,8 @@ public class RegisteredUserDTO {
     private String password;
     private String email;
     private String last_name;
+    private String firstname;
     private String birthday;
-    private String first_name;
     
     public String getEmail(){
         return email;
@@ -38,6 +38,6 @@ public class RegisteredUserDTO {
     }
     
     public String getFirstName(){
-        return first_name;
+        return firstname;
     }
 }

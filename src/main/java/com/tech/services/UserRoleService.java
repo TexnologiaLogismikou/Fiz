@@ -13,21 +13,8 @@ import java.util.List;
  */
 @Service
 public class UserRoleService implements IUserRoleService{
-
-
     @Autowired
     private IUserRolesRepository repository;
-
-
-    @Override
-    public List<UserRole> getRoleByUsername(String username) {
-        return repository.findByUsername(username);
-    }
-
-    @Override
-    public List<UserRole> getUsernameByRole(String role) {
-        return repository.findByRole(role);
-    }
 
     @Override
     public void addUserRole(UserRole userRole) {
@@ -35,18 +22,23 @@ public class UserRoleService implements IUserRoleService{
     }
 
     @Override
-    public void addUserRoles(List<UserRole> userRoles) {
-        repository.save(userRoles);
-    }
-
-    @Override
-    public void deleteUserRole(UserRole userRole) {
-        repository.delete(userRole);
-    }
-
-    @Override
     public List<UserRole> getAllUserRoles() {
         return repository.findAll();
+    }
+
+    @Override
+    public String getRoleByUserID(Long userid) {
+        return repository.findByUserID(userid).getRole();
+    }
+
+    @Override
+    public List<UserRole> getUserRolesByRoles(String role) {
+        return repository.findByRole(role);
+    }
+
+    @Override
+    public void modifyUserRole(UserRole newRole) {
+        repository.setUserRoleById(newRole.getRole(),newRole.getUserID());
     }
 
 }

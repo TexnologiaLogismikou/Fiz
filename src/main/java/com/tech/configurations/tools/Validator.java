@@ -56,4 +56,26 @@ public class Validator {
         return true;               
     }
     
+    /**
+     * 
+     * @param password
+     * @return returns true only if password is not null, doesn't contain spaces
+     *         and the size is at least 4
+     */
+    public static boolean passwordValidator(String password) {
+        if(password.isEmpty()){
+            return false;
+        }
+        
+        if(password.trim().length() < password.length()) {
+            return false;
+        }
+        
+        if(password.length() < 4){
+            return false;
+        }
+        
+        return true;
+    }
+    
 }

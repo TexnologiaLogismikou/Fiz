@@ -1,51 +1,47 @@
 package com.tech.models.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Aenaos on 25/11/2015.
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "UserRole.findByUserID", query = "SELECT p FROM UserRole p WHERE p.user_role_userid = ?1"),
+        @NamedQuery(name = "UserRole.findByRole", query = "SELECT p FROM UserRole p WHERE p.user_role_role = ?1")
+})
 @Table(name = "user_roles")
-public class UserRole {
+public class UserRole implements Serializable {
     @Id
-    @Column(name = "id")
-    private int id;
-    @Column(name = "username")
-    private String username;
-    @Column(name = "role")
-    private String role;
+    @Column(name = "user_role_userid")
+    private Long user_role_userid;
 
-    public UserRole(int id, String username, String role) {
-        this.id = id;
-        this.username = username;
-        this.role = role;
+    @Column(name = "user_role_role")
+    private String user_role_role;
+
+    public UserRole() {
+
     }
 
-    public int getId() {
-        return id;
+    public UserRole(Long id, String role) {
+        this.user_role_userid = id;
+        this.user_role_role = role;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Long getUserID() {
+        return user_role_userid;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(Long username) {
+        this.user_role_userid = username;
     }
 
     public String getRole() {
-        return role;
+        return user_role_role;
     }
 
     public void setRole(String role) {
-        this.role = role;
+        this.user_role_role = role;
     }
 }

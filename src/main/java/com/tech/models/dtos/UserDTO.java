@@ -19,7 +19,7 @@ public class UserDTO {
     private String last_name;
     private String birthday;
     private String hometown;
-    private String first_name;
+    private String firstname;
     
     public String getEmail(){
         return email;
@@ -57,7 +57,7 @@ public class UserDTO {
     }
     
     public String getFirstName(){
-        return first_name;
+        return firstname;
     }
             
 }
