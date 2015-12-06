@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class UserRole implements Serializable {
     @Id
     @Column(name = "user_role_userid")
-    private String user_role_userid;
+    private Long user_role_userid;
 
     @Column(name = "user_role_role")
     private String user_role_role;
@@ -24,16 +24,16 @@ public class UserRole implements Serializable {
 
     }
 
-    public UserRole(String username, String role) {
-        this.user_role_userid = username;
+    public UserRole(Long id, String role) {
+        this.user_role_userid = id;
         this.user_role_role = role;
     }
 
-    public String getUsername() {
+    public Long getUserID() {
         return user_role_userid;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(Long username) {
         this.user_role_userid = username;
     }
 

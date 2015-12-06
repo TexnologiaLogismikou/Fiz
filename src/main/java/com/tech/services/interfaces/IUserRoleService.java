@@ -15,14 +15,12 @@ import java.util.List;
 public interface IUserRoleService {
     void addUserRole(UserRole userRole);
 
-    //void addUserRoles(List<UserRole> userRoles);
-
-    //void deleteUserRole(UserRole userRole);
-
     List<UserRole> getAllUserRoles();
 
-    List<UserRole> getRoleByUserID(Long userid);
+    public String getRoleByUserID(Long userid);
 
-    List<UserRole> getUserRolesByRoles(String role);
+    public List<UserRole> getUserRolesByRoles(String role);
+    
+    public void modifyUserRole(UserRole newRole);
     
 }

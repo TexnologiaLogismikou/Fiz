@@ -6,9 +6,12 @@
 package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
+import com.tech.configurations.tools.AvailableRoles;
 import com.tech.configurations.tools.Responses;
 import com.tech.models.dtos.LoginUserResponseDTO;
 import com.tech.models.entities.User;
+import com.tech.models.entities.UserRole;
+import com.tech.services.UserRoleService;
 import com.tech.services.UserService;
 import javax.transaction.Transactional;
 import org.junit.After;
@@ -41,6 +44,9 @@ public class LogInControllerTest extends AbstractControllerTest{
     
     @Mock
     private UserService userService;
+    
+    @Mock
+    private UserRoleService userRoleService;
     
     @InjectMocks
     private LogInController controller;
@@ -106,11 +112,12 @@ public class LogInControllerTest extends AbstractControllerTest{
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testHandleLoginAuthorized() throws Exception{
-        json.put("username","milena");
+        json.put("username","milenaAz");
         json.put("password","milena");
         
-        when(userService.validateUser("milena","milena")).thenReturn(true);
-        when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","milena",true));
+        when(userService.validateUser("milenaAz","milena")).thenReturn(true);
+        when(userService.getUserByUsername("milenaAz")).thenReturn(new User(1L,"milenaAz","milena",true));
+        when(userRoleService.getRoleByUserID(1L)).thenReturn(AvailableRoles.ROLE_USER.getData());
         
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri)
                 .content(json.toString())
@@ -122,15 +129,15 @@ public class LogInControllerTest extends AbstractControllerTest{
         
         LoginUserResponseDTO LURDTO = super.mapFromJson(content, LoginUserResponseDTO.class);        
            
-        verify(userService,times(1)).validateUser("milena","milena");
-        verify(userService,times(1)).getUserByUsername("milena");
+        verify(userService,times(1)).validateUser("milenaAz","milena");
+        verify(userService,times(1)).getUserByUsername("milenaAz");
         
         Assert.assertEquals("failure - expected HTTP response OK",
                 200, status); 
-        Assert.assertTrue("failure - expected HTTP response 'username' to be 'milena'",
-                LURDTO.getUsername().equals("milena"));
-        Assert.assertTrue("failure - expected HTTP response 'role' to be 'ROLE_USER'",
-                LURDTO.getRole().equals("ROLE_USER"));
+        Assert.assertTrue("failure - expected HTTP response 'username' to be 'milenaAz'",
+                LURDTO.getUsername().equals("milenaAz"));
+        Assert.assertTrue("failure - expected HTTP response 'role' to be '" + AvailableRoles.ROLE_USER.getData() + "'",
+                LURDTO.getRole().equals(AvailableRoles.ROLE_USER.getData()));
         Assert.assertTrue("failure - expected HTTP response 'error' to be '" + Responses.SUCCESS.getData()  + " '",
                 LURDTO.getError().equals(Responses.SUCCESS.getData() ));
     }

@@ -27,13 +27,18 @@ public class UserRoleService implements IUserRoleService{
     }
 
     @Override
-    public List<UserRole> getRoleByUserID(Long userid) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getRoleByUserID(Long userid) {
+        return repository.findByUserID(userid).getRole();
     }
 
     @Override
     public List<UserRole> getUserRolesByRoles(String role) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return repository.findByRole(role);
+    }
+
+    @Override
+    public void modifyUserRole(UserRole newRole) {
+        repository.setUserRoleById(newRole.getRole(),newRole.getUserID());
     }
 
 }
