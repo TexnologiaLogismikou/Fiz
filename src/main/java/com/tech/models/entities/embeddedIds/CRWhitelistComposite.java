@@ -14,23 +14,23 @@ import javax.persistence.Embeddable;
  * @author KuroiTenshi
  */
 @Embeddable
-public class ChatroomMembersComposite implements Serializable {
+public class CRWhitelistComposite implements Serializable {
     protected Long room_id; 
     protected Long room_member;
-    
-    public ChatroomMembersComposite() {
+
+    public CRWhitelistComposite() {
     }
 
-    public ChatroomMembersComposite(Long room_id, Long room_member) {
+    public CRWhitelistComposite(Long room_id, Long room_member) {
         this.room_id = room_id;
         this.room_member = room_member;
     }
-    
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.room_id);
-        hash = 37 * hash + Objects.hashCode(this.room_member);
+        int hash = 5;
+        hash = 29 * hash + Objects.hashCode(this.room_id);
+        hash = 29 * hash + Objects.hashCode(this.room_member);
         return hash;
     }
 
@@ -45,7 +45,7 @@ public class ChatroomMembersComposite implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ChatroomMembersComposite other = (ChatroomMembersComposite) obj;
+        final CRWhitelistComposite other = (CRWhitelistComposite) obj;
         if (!Objects.equals(this.room_id, other.room_id)) {
             return false;
         }
@@ -53,5 +53,6 @@ public class ChatroomMembersComposite implements Serializable {
             return false;
         }
         return true;
-    }   
+    }
+    
 }

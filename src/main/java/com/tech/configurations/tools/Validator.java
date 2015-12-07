@@ -78,4 +78,20 @@ public class Validator {
         return true;
     }
     
+    /**
+     * 
+     * @param accessMethod
+     * @return returns true if AccessMethod is either blacklist or whitelist
+     */
+    public static boolean accessMethodValidator(String accessMethod){
+        if(accessMethod.isEmpty()){
+            return false;
+        }
+        
+        if(accessMethod.equals("blacklist") || accessMethod.equals("whitelist")){
+            return true;
+        }
+        
+        return false;
+    }
 }

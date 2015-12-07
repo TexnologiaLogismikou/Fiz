@@ -5,7 +5,7 @@
  */
 package com.tech.repositories;
 
-import com.tech.models.entities.ChatroomPrivileges;
+import com.tech.models.entities.ChatroomBlacklist;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,8 +15,8 @@ import org.springframework.stereotype.Repository;
  * @author KuroiTenshi
  */
 @Repository
-public interface IChatroomPrivilegesRepository extends JpaRepository<ChatroomPrivileges,Long>{
-    ChatroomPrivileges findByRoomId(Long room_id);
-    List<ChatroomPrivileges> findByPrivileges(String room_privileges);
-    ChatroomPrivileges validateAccess(Long room_id,String room_password);
+public interface ICRBlacklist extends JpaRepository<ChatroomBlacklist, Long>{
+    List<ChatroomBlacklist> findByRoomID(Long room_id);
+    List<ChatroomBlacklist> findByRoomMember(Long room_member);
+    ChatroomBlacklist findByRoomIDAndRoomMember(Long room_id,Long room_member);
 }

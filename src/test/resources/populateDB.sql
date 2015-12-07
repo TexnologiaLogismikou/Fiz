@@ -12,6 +12,8 @@ DELETE FROM "user_info"; --table#3
 DELETE FROM "images"; --table#4
 DELETE FROM "friendlist"; --table#5
 DELETE FROM "messages"; --table#7
+DELETE FROM "chatroom_blacklist"; --table#6.4
+DELETE FROM "chatroom_whitelist"; --table#6.5
 DELETE FROM "chatrooms_members"; --table#6.2
 DELETE FROM "chatroom_privileges"; --table#6.3
 DELETE FROM "chatrooms_entities"; --table#6.1
@@ -32,18 +34,25 @@ INSERT INTO user_info VALUES (3,'Mixalis','Mixailidis','17/10/1994','mixalis@gma
 INSERT INTO friendlist VALUES (1, 2,TO_TIMESTAMP('16-05-2011 12:00:00', 'dd-mm-yyyy hh24:mi:ss')); --table#5
 INSERT INTO friendlist VALUES (1, 3,TO_TIMESTAMP('16-05-2011 13:00:00', 'dd-mm-yyyy hh24:mi:ss')); --table#5
 
-INSERT INTO chatrooms_entities VALUES (1,1,'first testing room'); --table#6.1
-INSERT INTO chatrooms_entities VALUES (2,1, 'second testing room'); --table#6.1
-INSERT INTO chatrooms_entities VALUES (3,3, 'third testing room'); --table#6.1
+INSERT INTO chatrooms_entities VALUES (1,1,'first testing room','20/1/2010','7/12/2015'); --table#6.1
+INSERT INTO chatrooms_entities VALUES (2,1, 'second testing room','21/2/2011','7/12/2015'); --table#6.1
+INSERT INTO chatrooms_entities VALUES (3,3, 'third testing room','22/3/2012','7/12/2015'); --table#6.1
 
-INSERT INTO chatrooms_members VALUES (1,1); --table#6.2
-INSERT INTO chatrooms_members VALUES (1,2); --table#6.2
-INSERT INTO chatrooms_members VALUES (3,3); --table#6.2
-INSERT INTO chatrooms_members VALUES (3,2); --table#6.2
+INSERT INTO chatrooms_members VALUES (1,1,'15/12/2015'); --table#6.2
+INSERT INTO chatrooms_members VALUES (1,2,'14/9/2015'); --table#6.2
+INSERT INTO chatrooms_members VALUES (2,1,'14/9/2015'); --table#6.2
+INSERT INTO chatrooms_members VALUES (3,3,'13/10/2015'); --table#6.2
+INSERT INTO chatrooms_members VALUES (3,2,'12/11/2015'); --table#6.2
 
-INSERT INTO chatroom_privileges VALUES (1,'PUBLIC'); --table#6.3
-INSERT INTO chatroom_privileges VALUES (2,'PUBLIC'); --table#6.3
-INSERT INTO chatroom_privileges VALUES (3,'PUBLIC'); --table#6.3
+INSERT INTO chatroom_privileges VALUES (1,'PUBLIC',FALSE,NULL,'whitelist'); --table#6.3
+INSERT INTO chatroom_privileges VALUES (2,'PUBLIC',FALSE,NULL,'blacklist'); --table#6.3
+INSERT INTO chatroom_privileges VALUES (3,'PUBLIC',TRUE,'password','blacklist'); --table#6.3
+
+INSERT INTO chatroom_blacklist VALUES (2,3,'10/10/2015','28/12/2015'); --table#6.4
+INSERT INTO chatroom_blacklist VALUES (3,1,'11/10/2014','30/12/2015'); --table#6.4
+
+INSERT INTO chatroom_whitelist VALUES (1,1,'1/1/2014'); --table#6.5
+INSERT INTO chatroom_whitelist VALUES (1,2,'10/1/2014'); --table#6.5
 
 INSERT INTO messages VALUES (1, 1,'initial message',TO_TIMESTAMP('16-05-2011 12:30:00', 'dd-mm-yyyy hh24:mi:ss'),'1'); --table#7
 INSERT INTO messages VALUES (2, 2,'second message',TO_TIMESTAMP('16-05-2011 13:30:00', 'dd-mm-yyyy hh24:mi:ss'),'1'); --table#7

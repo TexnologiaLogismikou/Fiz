@@ -18,7 +18,7 @@ public class MessageService implements IMessageService {
     @Override
     @Transactional
     public Message getMessageById(Long id) {
-        return repository.getOne(id);
+        return repository.findByMessageId(id);
     }
 
     @Override
