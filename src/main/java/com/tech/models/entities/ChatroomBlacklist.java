@@ -25,7 +25,7 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "ChatroomBlacklist.findByRoomID", query = "SELECT p FROM ChatroomBlacklist p WHERE p.room_id = ?1"),
     @NamedQuery(name = "ChatroomBlacklist.findByRoomMember",query = "SELECT p FROM ChatroomBlacklist p WHERE p.room_member = ?1"),
-    @NamedQuery(name = "ChatroomBlacklist.findByRoomMemberAndID",query = "SELECT p FROM ChatroomBlacklist p WHERE p.room_id = ?1 AND p.room_member = ?2")
+    @NamedQuery(name = "ChatroomBlacklist.findByRoomIDAndRoomMember",query = "SELECT p FROM ChatroomBlacklist p WHERE p.room_id = ?1 AND p.room_member = ?2")
 })
 @Table(name = "chatroom_blacklist")
 public class ChatroomBlacklist implements Serializable {

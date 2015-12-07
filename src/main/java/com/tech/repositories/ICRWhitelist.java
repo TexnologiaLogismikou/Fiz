@@ -18,5 +18,5 @@ import org.springframework.stereotype.Repository;
 public interface ICRWhitelist extends JpaRepository<ChatroomWhitelist, Long>{
     List<ChatroomWhitelist> findByRoomID(Long room_id);
     List<ChatroomWhitelist> findByRoomMember(Long room_member);
-    ChatroomWhitelist findByRoomMemberAndID(Long room_id, Long room_member);  
+    ChatroomWhitelist findByRoomIDAndRoomName(Long room_id, Long room_member);  
 }
