@@ -3,6 +3,8 @@ DROP TABLE "user_info"; --table#3
 DROP TABLE "images"; --table#4
 DROP TABLE "friendlist"; --table#5
 DROP TABLE "messages"; --table#7
+DROP TABLE "chatroom_blacklist"; --table#6.4
+DROP TABLE "chatroom_whitelist"; --table#6.5
 DROP TABLE "chatrooms_members"; --table#6.2
 DROP TABLE "chatroom_privileges"; --table#6.3
 DROP TABLE "chatrooms_entities"; --table#6.1
@@ -55,19 +57,40 @@ CREATE TABLE "chatrooms_entities" ( --table#6.1
     "room_id" bigint NOT NULL UNIQUE,
     "room_creator" bigint NOT NULL,
     "room_name" text NOT NULL,
+    "room_creation_date" TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
+    "room_last_activity" TIMESTAMP WITHOUT TIME ZONE NOT NULL CHECK (room_creation_date < room_last_activity),
     CONSTRAINT pk_chatroom_entities PRIMARY KEY (room_id,room_creator)
 );
 
 CREATE TABLE "chatrooms_members" ( --table#6.2
     "room_id" bigint NOT NULL,
     "room_member" bigint NOT NULL,
+    "room_joined_date" TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     CONSTRAINT pk_chatroom_members PRIMARY KEY (room_id,room_member)
 );
 
 CREATE TABLE "chatroom_privileges" ( --table#6.3
     "room_id" bigint NOT NULL,
     "room_privileges" text NOT NULL,
+    "room_password_protected" BOOLEAN NOT NULL,
+    "room_password" text,
+    "room_access_method" text NOT NULL CHECK(room_access_method IN('blacklist','whitelist')),
     CONSTRAINT pk_chatroom_priv PRIMARY KEY (room_id)
+);
+
+CREATE TABLE "chatroom_blacklist" ( --table#6.4
+    "room_id" bigint NOT NULL,
+    "room_member" bigint NOT NULL,
+    "room_ban_time" TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    "room_expiration_time" TIMESTAMP WITHOUT TIME ZONE NOT NULL CHECK (room_ban_time < room_expiration_time),
+    CONSTRAINT pk_chatroom_blacklist PRIMARY KEY (room_id,room_member)
+);
+
+CREATE TABLE "chatroom_whitelist" ( --table#6.5
+    "room_id" bigint NOT NULL,
+    "room_member" bigint NOT NULL,
+    "room_invitation_time" TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    CONSTRAINT pk_chatroom_whitelist PRIMARY KEY (room_id,room_member)
 );
 
 CREATE TABLE "messages" ( --table#7
@@ -139,6 +162,26 @@ ALTER TABLE "messages" ADD --table#7
     FOREIGN KEY (chatroom_id) REFERENCES "chatrooms_entities" (room_id)
     ON DELETE CASCADE ON UPDATE CASCADE;
 
+ALTER TABLE "chatroom_blacklist" ADD --table#6.4
+    CONSTRAINT "fk_room_blacklist_userid" 
+    FOREIGN KEY (room_member) REFERENCES "usersdata" (id)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE "chatroom_blacklist" ADD --table#6.2
+    CONSTRAINT "fk_room_blacklist_roomid" 
+    FOREIGN KEY (room_id) REFERENCES "chatrooms_entities" (room_id)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE "chatroom_whitelist" ADD --table#6.4
+    CONSTRAINT "fk_room_whitelist_userid" 
+    FOREIGN KEY (room_member) REFERENCES "usersdata" (id)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE "chatroom_whitelist" ADD --table#6.2
+    CONSTRAINT "fk_room_whitelist_roomid" 
+    FOREIGN KEY (room_id) REFERENCES "chatrooms_entities" (room_id)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+
 INSERT INTO usersdata  VALUES (1,'milenaAz','milena',TRUE); --table#1
 INSERT INTO usersdata VALUES (2,'iwannaFot','iwanna',TRUE); --table#1
 INSERT INTO usersdata VALUES (3,'mixalisMix','mixalis',TRUE); --table#1
@@ -154,18 +197,25 @@ INSERT INTO user_info VALUES (3,'Mixalis','Mixailidis','17/10/1994','mixalis@gma
 INSERT INTO friendlist VALUES (1, 2,TO_TIMESTAMP('16-05-2011 12:00:00', 'dd-mm-yyyy hh24:mi:ss')); --table#5
 INSERT INTO friendlist VALUES (1, 3,TO_TIMESTAMP('16-05-2011 13:00:00', 'dd-mm-yyyy hh24:mi:ss')); --table#5
 
-INSERT INTO chatrooms_entities VALUES (1,1,'first testing room'); --table#6.1
-INSERT INTO chatrooms_entities VALUES (2,1, 'second testing room'); --table#6.1
-INSERT INTO chatrooms_entities VALUES (3,3, 'third testing room'); --table#6.1
+INSERT INTO chatrooms_entities VALUES (1,1,'first testing room','20/1/2010','7/12/2015'); --table#6.1
+INSERT INTO chatrooms_entities VALUES (2,1, 'second testing room','21/2/2011','7/12/2015'); --table#6.1
+INSERT INTO chatrooms_entities VALUES (3,3, 'third testing room','22/3/2012','7/12/2015'); --table#6.1
 
-INSERT INTO chatrooms_members VALUES (1,1); --table#6.2
-INSERT INTO chatrooms_members VALUES (1,2); --table#6.2
-INSERT INTO chatrooms_members VALUES (3,3); --table#6.2
-INSERT INTO chatrooms_members VALUES (3,2); --table#6.2
+INSERT INTO chatrooms_members VALUES (1,1,'15/12/2015'); --table#6.2
+INSERT INTO chatrooms_members VALUES (1,2,'14/9/2015'); --table#6.2
+INSERT INTO chatrooms_members VALUES (2,1,'14/9/2015'); --table#6.2
+INSERT INTO chatrooms_members VALUES (3,3,'13/10/2015'); --table#6.2
+INSERT INTO chatrooms_members VALUES (3,2,'12/11/2015'); --table#6.2
 
-INSERT INTO chatroom_privileges VALUES (1,'PUBLIC'); --table#6.3
-INSERT INTO chatroom_privileges VALUES (2,'PUBLIC'); --table#6.3
-INSERT INTO chatroom_privileges VALUES (3,'PUBLIC'); --table#6.3
+INSERT INTO chatroom_privileges VALUES (1,'PUBLIC',FALSE,NULL,'whitelist'); --table#6.3
+INSERT INTO chatroom_privileges VALUES (2,'PUBLIC',FALSE,NULL,'blacklist'); --table#6.3
+INSERT INTO chatroom_privileges VALUES (3,'PUBLIC',TRUE,'password','blacklist'); --table#6.3
+
+INSERT INTO chatroom_blacklist VALUES (2,3,'10/10/2015','28/12/2015'); --table#6.4
+INSERT INTO chatroom_blacklist VALUES (3,1,'11/10/2014','30/12/2015'); --table#6.4
+
+INSERT INTO chatroom_whitelist VALUES (1,1,'1/1/2014'); --table#6.5
+INSERT INTO chatroom_whitelist VALUES (1,2,'10/1/2014'); --table#6.5
 
 INSERT INTO messages VALUES (1, 1,'initial message',TO_TIMESTAMP('16-05-2011 12:30:00', 'dd-mm-yyyy hh24:mi:ss'),'1'); --table#7
 INSERT INTO messages VALUES (2, 2,'second message',TO_TIMESTAMP('16-05-2011 13:30:00', 'dd-mm-yyyy hh24:mi:ss'),'1'); --table#7

@@ -7,6 +7,8 @@ package com.tech.models.entities;
 
 import com.tech.models.entities.embeddedIds.ChatroomMembersComposite;
 import java.io.Serializable;
+import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -32,12 +34,16 @@ public class ChatroomMembers implements Serializable {
     @Id
     private Long room_member;
 
+    @Column(name = "room_joined_date")
+    private Date room_joined_date;
+    
     public ChatroomMembers() {
     }
 
-    public ChatroomMembers(Long room_id, Long room_member) {
+    public ChatroomMembers(Long room_id, Long room_member, Date room_joined_date) {
         this.room_id = room_id;
         this.room_member = room_member;
+        this.room_joined_date = room_joined_date;
     }
 
     public Long getRoom_id() {
@@ -54,6 +60,14 @@ public class ChatroomMembers implements Serializable {
 
     public void setRoom_member(Long room_member) {
         this.room_member = room_member;
+    }
+
+    public Date getRoom_joined_date() {
+        return room_joined_date;
+    }
+
+    public void setRoom_joined_date(Date room_joined_date) {
+        this.room_joined_date = room_joined_date;
     }
     
 }

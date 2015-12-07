@@ -123,7 +123,8 @@ public class UserService implements IUserService {
     @Override    
     @Transactional
     public User getLastRecord(){
-        throw new UnsupportedOperationException("Not working yet");
+        Long i = getCount();
+        return repository.getOne(i);
     }
 
     @Override

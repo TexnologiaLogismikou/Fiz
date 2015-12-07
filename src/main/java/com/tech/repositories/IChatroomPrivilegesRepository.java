@@ -18,4 +18,5 @@ import org.springframework.stereotype.Repository;
 public interface IChatroomPrivilegesRepository extends JpaRepository<ChatroomPrivileges,Long>{
     ChatroomPrivileges findByRoomId(Long room_id);
     List<ChatroomPrivileges> findByPrivileges(String room_privileges);
+    ChatroomPrivileges validateAccess(Long room_id,String room_password);
 }
