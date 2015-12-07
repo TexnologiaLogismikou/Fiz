@@ -20,6 +20,11 @@ public class ChatroomEntitiesComposite implements Serializable {
     
     public ChatroomEntitiesComposite() {
     }    
+
+    public ChatroomEntitiesComposite(Long room_id, Long room_creator) {
+        this.room_id = room_id;
+        this.room_creator = room_creator;
+    }
     
     @Override
     public int hashCode() {

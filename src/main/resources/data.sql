@@ -152,6 +152,26 @@ ALTER TABLE "chatroom_privileges" ADD --table#6.3
     FOREIGN KEY (room_id) REFERENCES "chatrooms_entities" (room_id)
     ON DELETE CASCADE ON UPDATE CASCADE;
 
+ALTER TABLE "chatroom_blacklist" ADD --table#6.4
+    CONSTRAINT "fk_room_blacklist_userid" 
+    FOREIGN KEY (room_member) REFERENCES "usersdata" (id)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE "chatroom_blacklist" ADD --table#6.4
+    CONSTRAINT "fk_room_blacklist_roomid" 
+    FOREIGN KEY (room_id) REFERENCES "chatrooms_entities" (room_id)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE "chatroom_whitelist" ADD --table#6.5
+    CONSTRAINT "fk_room_whitelist_userid" 
+    FOREIGN KEY (room_member) REFERENCES "usersdata" (id)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE "chatroom_whitelist" ADD --table#6.5
+    CONSTRAINT "fk_room_whitelist_roomid" 
+    FOREIGN KEY (room_id) REFERENCES "chatrooms_entities" (room_id)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+
 ALTER TABLE "messages" ADD --table#7
     CONSTRAINT "fk_userid_messages" 
     FOREIGN KEY (userid) REFERENCES "usersdata" (id)
@@ -160,26 +180,6 @@ ALTER TABLE "messages" ADD --table#7
 ALTER TABLE "messages" ADD --table#7
     CONSTRAINT "fk_userid_messages2" 
     FOREIGN KEY (chatroom_id) REFERENCES "chatrooms_entities" (room_id)
-    ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "chatroom_blacklist" ADD --table#6.4
-    CONSTRAINT "fk_room_blacklist_userid" 
-    FOREIGN KEY (room_member) REFERENCES "usersdata" (id)
-    ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "chatroom_blacklist" ADD --table#6.2
-    CONSTRAINT "fk_room_blacklist_roomid" 
-    FOREIGN KEY (room_id) REFERENCES "chatrooms_entities" (room_id)
-    ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "chatroom_whitelist" ADD --table#6.4
-    CONSTRAINT "fk_room_whitelist_userid" 
-    FOREIGN KEY (room_member) REFERENCES "usersdata" (id)
-    ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "chatroom_whitelist" ADD --table#6.2
-    CONSTRAINT "fk_room_whitelist_roomid" 
-    FOREIGN KEY (room_id) REFERENCES "chatrooms_entities" (room_id)
     ON DELETE CASCADE ON UPDATE CASCADE;
 
 INSERT INTO usersdata  VALUES (1,'milenaAz','milena',TRUE); --table#1
