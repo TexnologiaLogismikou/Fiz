@@ -24,12 +24,12 @@ public class NameCoder {
         if (str.length() > 1 ) {
             String otherChars = str.substring(1);
             if (otherChars.length() > 9) {
-                finalString = firstChar + otherChars.length() + Integer.toString(tmstamp) + otherChars;                
+                finalString = firstChar + otherChars.length() + Integer.toString(hashCodeValidator(tmstamp)) + otherChars;                
             } else {
-                finalString = firstChar + "0" + otherChars.length() + Integer.toString(tmstamp) + otherChars;                
+                finalString = firstChar + "0" + otherChars.length() + Integer.toString(hashCodeValidator(tmstamp)) + otherChars;                
             }            
         } else {
-            finalString = firstChar + "00" + Integer.toString(tmstamp);
+            finalString = firstChar + "00" + Integer.toString(hashCodeValidator(tmstamp));
         }
         return Long.parseLong(finalString);
     }
@@ -43,5 +43,12 @@ public class NameCoder {
         String finalPath = Attr.IMAGES_OUTPUT_FOLDER.getData() + "\\" + userid + "\\" + hsTag + ".jpg";
         
         return finalPath;        
+    }
+    
+    private static int hashCodeValidator(int hash){
+        if (hash < 0 ){
+            return -hash;
+        }
+        return hash;
     }
 }
