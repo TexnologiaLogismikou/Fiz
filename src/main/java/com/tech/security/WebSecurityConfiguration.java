@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
@@ -34,23 +35,30 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "select username, role from user_roles where username=?");
     }
 
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(restAuthenticationEntryPoint)
-                .and()
-                    .authorizeRequests()
-                        .antMatchers("/login**","/login/**").permitAll()
-                        .antMatchers("/user**","/user/**").authenticated()
+                .authorizeRequests()
+                    .antMatchers("/login**", "/login/**").permitAll()
+                    .antMatchers("/user**", "/user/**").authenticated()
+                    .anyRequest().authenticated()
                 .and()
                     .formLogin()
-                        .loginProcessingUrl("/login")
-                        .usernameParameter("username")
-                        .passwordParameter("password")
+                        .usernameParameter("j_username")
+                        .passwordParameter("j_password")
+                        .defaultSuccessUrl("/", true)
                         .successHandler(authenticationSuccessHandler)
-                        .failureHandler(new SimpleUrlAuthenticationFailureHandler())
+                        .permitAll()
+                        .loginProcessingUrl("/login")
                 .and()
-                    .logout();
+                    .logout()
+                        .logoutUrl("/logout")
+                        .invalidateHttpSession(true)
+                        .logoutSuccessUrl("/")
+                        .deleteCookies("JSESSIONID")
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .and()
+                    .csrf();
     }
 }
+
