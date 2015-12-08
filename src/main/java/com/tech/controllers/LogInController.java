@@ -31,22 +31,16 @@ public class LogInController extends BaseController {
         JSONObject object = new JSONObject();
         
         if (!Validator.usernameValidation(loginUserDTO.getUsername()) || !Validator.passwordValidator(loginUserDTO.getPassword())){
-            object.put("username",Responses.NOT_AUTHORIZED.getData());
-            object.put("role",Responses.NOT_AUTHORIZED.getData());
             object.put("error",Responses.ERROR.getData());
             return new ResponseEntity<>(object,HttpStatus.NOT_ACCEPTABLE);
         }
-        
         if (service.validateUser(loginUserDTO.getUsername(), loginUserDTO.getPassword())) {
             User user = service.getUserByUsername(loginUserDTO.getUsername());
-
             object.put("username", user.getUsername());
             object.put("role", userRoleService.getRoleByUserID(user.getId()));
             object.put("error",Responses.SUCCESS.getData());
             return new ResponseEntity<>(object,HttpStatus.OK);
         }
-        object.put("username",Responses.NOT_AUTHORIZED.getData());
-        object.put("role",Responses.NOT_AUTHORIZED.getData());
         object.put("error",Responses.ERROR.getData());
         return new ResponseEntity<>(object,HttpStatus.OK);
     }
