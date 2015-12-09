@@ -14,6 +14,8 @@
                 <value>com.tech.models.entities.ChatroomEntities</value>
                 <value>com.tech.models.entities.ChatroomMembers</value>
                 <value>com.tech.models.entities.ChatroomPrivileges</value>
+                <value>com.tech.models.entities.ChatroomBlacklist</value>
+                <value>com.tech.models.entities.ChatroomWhitelist</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -58,6 +60,14 @@
     </bean>
     
     <bean id="chatroomPrivilegesDAO" class="com.tech.models.daos.ChatroomPrivilegesDAOimpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
+    
+     <bean id="cRBlacklistDAO" class="com.tech.models.daos.CRBlacklistDAOimpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
+    
+    <bean id="cRWhitelistDAO" class="com.tech.models.daos.CRWhitelistDAOimpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
 
