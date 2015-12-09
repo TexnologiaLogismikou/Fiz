@@ -52,6 +52,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .successHandler(authenticationSuccessHandler)
                         .permitAll()
                         .loginProcessingUrl("/login")
+                        //.failureHandler(new SimpleUrlAuthenticationFailureHandler())
                 .and()
                     .logout()
                         .logoutUrl("/logout")
@@ -60,7 +61,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .deleteCookies("JSESSIONID")
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .and()
-                    .csrf();
+                    .csrf().disable();
     }
 }
 
