@@ -52,7 +52,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .successHandler(authenticationSuccessHandler)
                         .permitAll()
                         .loginProcessingUrl("/login")
-                        //.failureHandler(new SimpleUrlAuthenticationFailureHandler())
+                        .failureHandler(new SimpleUrlAuthenticationFailureHandler())
                 .and()
                     .logout()
                         .logoutUrl("/logout")
