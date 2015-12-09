@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
@@ -27,6 +28,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     AuthenticationEntryPoint restAuthenticationEntryPoint;
 
     @Autowired
+    CorsFilter corsFilter;
+
+    @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication().withUser("user").password("123").authorities("ROLE_USER");
 
@@ -40,6 +44,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                     .antMatchers("/login**", "/login/**").permitAll()
                     .antMatchers("/user**", "/user/**").authenticated()
@@ -49,10 +54,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .usernameParameter("j_username")
                         .passwordParameter("j_password")
                         .defaultSuccessUrl("/", true)
-                        .successHandler(authenticationSuccessHandler)
+//                        .successHandler(authenticationSuccessHandler)
                         .permitAll()
                         .loginProcessingUrl("/login")
-                        .failureHandler(new SimpleUrlAuthenticationFailureHandler())
+//                        .failureHandler(new SimpleUrlAuthenticationFailureHandler())
                 .and()
                     .logout()
                         .logoutUrl("/logout")
@@ -61,7 +66,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .deleteCookies("JSESSIONID")
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .and()
-                    .csrf().disable();
+                    .csrf().disable()
+                .exceptionHandling();
+//                    .authenticationEntryPoint(restAuthenticationEntryPoint);
     }
 }
 
