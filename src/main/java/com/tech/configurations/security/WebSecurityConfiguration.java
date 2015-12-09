@@ -34,8 +34,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery(
                         "select username,password,enabled from usersdata where username=?")
-                .authoritiesByUsernameQuery(
-                        "select username, role from user_roles where username=?");
+                .authoritiesByUsernameQuery("SELECT usersdata.username, user_roles.user_role_role\n" +
+                        "FROM usersdata\n" +
+                        "INNER JOIN user_roles\n" +
+                        "ON usersdata.id = user_roles.user_role_userid\n" +
+                        "WHERE usersdata.username = ?");
     }
 
     @Override
@@ -68,4 +71,5 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .authenticationEntryPoint(restAuthenticationEntryPoint);
     }
 }
+
 
