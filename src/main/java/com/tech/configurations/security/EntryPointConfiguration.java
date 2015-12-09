@@ -1,4 +1,4 @@
-package com.tech.security;
+package com.tech.configurations.security;
 
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;

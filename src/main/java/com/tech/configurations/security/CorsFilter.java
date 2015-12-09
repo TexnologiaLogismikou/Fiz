@@ -1,5 +1,6 @@
-package com.tech.security;
+package com.tech.configurations.security;
 
+import com.tech.configurations.tools.Host;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,9 +22,8 @@ public class CorsFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         if (request.getHeader(ORIGIN) == null || request.getHeader(ORIGIN).equals("null")) {
-            response.addHeader("Access-Control-Allow-Origin", "http://localhost");
+            response.addHeader("Access-Control-Allow-Origin", Host.apache);
             response.setHeader("Access-Control-Allow-Credentials", "true");
-//          response.addHeader("Access-Control-Max-Age", "1000");
 
             String reqHead = request.getHeader("Access-Control-Request-Headers");
 

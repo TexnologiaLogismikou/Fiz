@@ -1,6 +1,7 @@
-package com.tech.security;
+package com.tech.configurations.security;
 
 
+import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,8 +12,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
@@ -32,13 +31,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("user").password("123").authorities("ROLE_USER");
-
-//        auth.jdbcAuthentication().dataSource(dataSource)
-//                .usersByUsernameQuery(
-//                        "select username,password,enabled from usersdata where username=?")
-//                .authoritiesByUsernameQuery(
-//                        "select username, role from user_roles where username=?");
+        auth.jdbcAuthentication().dataSource(dataSource)
+                .usersByUsernameQuery(
+                        "select username,password,enabled from usersdata where username=?")
+                .authoritiesByUsernameQuery(
+                        "select username, role from user_roles where username=?");
     }
 
     @Override
@@ -54,10 +51,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .usernameParameter("j_username")
                         .passwordParameter("j_password")
                         .defaultSuccessUrl("/", true)
-//                        .successHandler(authenticationSuccessHandler)
+                        .successHandler(authenticationSuccessHandler)
                         .permitAll()
                         .loginProcessingUrl("/login")
-//                        .failureHandler(new SimpleUrlAuthenticationFailureHandler())
+                        .failureHandler(new SimpleUrlAuthenticationFailureHandler())
                 .and()
                     .logout()
                         .logoutUrl("/logout")
@@ -67,8 +64,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .and()
                     .csrf().disable()
-                .exceptionHandling();
-//                    .authenticationEntryPoint(restAuthenticationEntryPoint);
+                .exceptionHandling()
+                    .authenticationEntryPoint(restAuthenticationEntryPoint);
     }
 }
 
