@@ -31,10 +31,13 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @ActiveProfiles({"iwanna","iwanna"})
 public class MessageServiceTest extends AbstractTest
 {
-    
     @Autowired
     private IMessageService service;
     
+   // private final String testTextMessage = "test message";
+    private final String testTextMessage = "test message";
+    private final String testModifiedTextMessage = "this text message has been modified";
+    private Message messageToAdd;
     private Message messageToModify;
     
     public MessageServiceTest() {
@@ -51,11 +54,15 @@ public class MessageServiceTest extends AbstractTest
     @Before
     public void setUp() 
     {
-        messageToModify = new Message()
+        messageToAdd = new Message(5L,3L,testTextMessage,1L);
+        messageToModify = new Message(1L,1L,testModifiedTextMessage,1L);
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() 
+    {
+        messageToAdd = null;
+        messageToModify = null;
     }
 
     /**
@@ -76,72 +83,94 @@ public class MessageServiceTest extends AbstractTest
     @Sql(scripts = "classpath:populateDB.sql")
     public void testAddMessage() 
     {
-        
+        service.addMessage(messageToAdd);
+        Assert.assertTrue(Responses.ERROR.getData(),service.getMessageById(5L).getMessage().equals(testTextMessage));
     }
 
     /**
      * Test of modifyMessage method, of class MessageService.
      */
     @Test
+    @Sql(scripts = "classpath:populateDB.sql")
     public void testModifyMessage() 
     {
-        
+        service.modifyMessage(messageToModify);
+        Assert.assertTrue(Responses.ERROR.getData(),service.getMessageById(1L).getMessage().equals(testModifiedTextMessage));
     }
 
     /**
      * Test of getAllMessages method, of class MessageService.
      */
     @Test
-    public void testGetAllMessages() {
-        
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetAllMessages() 
+    {
+        Assert.assertTrue(Responses.ERROR.getData(),service.getAllMessages().size()==4);
     }
 
     /**
      * Test of getByChatRoom method, of class MessageService.
      */
     @Test
-    public void testGetByChatRoom() {
-        
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetByChatRoom() 
+    {
+        Assert.assertTrue(Responses.ERROR.getData(),service.getByChatRoom(1L).size()==3);
+        Assert.assertTrue(Responses.ERROR.getData(),service.getByChatRoom(2L).size()==1);
     }
 
     /**
      * Test of getBySenderId method, of class MessageService.
      */
     @Test
-    public void testGetBySenderId() {
-        
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetBySenderId() 
+    {
+        Assert.assertTrue(Responses.ERROR.getData(),service.getBySenderId(2L).size()==2);
+        Assert.assertTrue(Responses.ERROR.getData(),service.getBySenderId(1L).size()==1);
+        Assert.assertTrue(Responses.ERROR.getData(),service.getBySenderId(3L).size()==1);   
     }
 
     /**
      * Test of getCount method, of class MessageService.
      */
     @Test
-    public void testGetCount() {
-        
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetCount() 
+    {
+        Assert.assertTrue(Responses.ERROR.getData(),service.getCount().compareTo(4L)==0);
     }
 
     /**
      * Test of getCountBySenderId method, of class MessageService.
      */
     @Test
-    public void testGetCountBySenderId() {
-        
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetCountBySenderId() 
+    {
+        Assert.assertTrue(Responses.ERROR.getData(),service.getCountBySenderId(2L).compareTo(2L)==0);
+        Assert.assertTrue(Responses.ERROR.getData(),service.getCountBySenderId(1L).compareTo(1L)==0);
+        Assert.assertTrue(Responses.ERROR.getData(),service.getCountBySenderId(3L).compareTo(1L)==0);
     }
 
     /**
      * Test of getCountByChatroomId method, of class MessageService.
      */
     @Test
-    public void testGetCountByChatroomId() {
-        
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetCountByChatroomId() 
+    {
+        Assert.assertTrue(Responses.ERROR.getData(),service.getCountByChatroomId(1L).compareTo(3L)==0);
+        Assert.assertTrue(Responses.ERROR.getData(),service.getCountByChatroomId(2L).compareTo(1L)==0);
     }
 
     /**
      * Test of getNextId method, of class MessageService.
      */
     @Test
-    public void testGetNextId() {
-        
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetNextId() 
+    {
+        Assert.assertTrue(Responses.ERROR.getData(),service.getNextId().compareTo(5L)==0);
     }
-    
 }

@@ -93,20 +93,7 @@ public class ValidatorTest
         Assert.assertFalse(Responses.ERROR.getData(),Validator.passwordValidator(stringWithSpaces));
         Assert.assertFalse(Responses.ERROR.getData(),Validator.passwordValidator(stringWithSpacesRight));
         Assert.assertFalse(Responses.ERROR.getData(),Validator.passwordValidator(stringWithSpacesLeft));
-       // Assert.assertFalse(Responses.ERROR.getData(),Validator.passwordValidator(LargeStringFactory.getLargeString()));
+        Assert.assertFalse(Responses.ERROR.getData(),Validator.passwordValidator(LargeStringFactory.getLargeString()));
         Assert.assertFalse(Responses.ERROR.getData(),Validator.passwordValidator(smallString));
     }
-
-    /**
-     * Test of accessMethodValidator method, of class Validator.
-     */
-    @Test
-    public void testAccessMethodValidator() 
-    {
-        Assert.assertFalse(Responses.ERROR.getData(),Validator.accessMethodValidator(emptyString));
-        Assert.assertTrue(Responses.ERROR.getData(),Validator.accessMethodValidator(accessMethods.get(0)));
-        Assert.assertTrue(Responses.ERROR.getData(),Validator.accessMethodValidator(accessMethods.get(1)));
-        Assert.assertFalse(Responses.ERROR.getData(),Validator.accessMethodValidator(stringWithNumbers)); //just a random string
-    }
-    
 }
