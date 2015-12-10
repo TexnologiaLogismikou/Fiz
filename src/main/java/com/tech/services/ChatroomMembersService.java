@@ -55,6 +55,11 @@ public class ChatroomMembersService implements IChatroomMembersService {
        return repository.findByRoomIdAndMember(member_id,room_id)!=null;
     }
 
+    @Override
+    public ChatroomMembers findByRoomIdAndMember(Long member_id, Long room_id) {
+        return repository.findByRoomIdAndMember(member_id,room_id);
+    }
+
 
     @Transactional
     @Override
