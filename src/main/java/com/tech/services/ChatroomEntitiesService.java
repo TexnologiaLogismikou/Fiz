@@ -63,4 +63,10 @@ public class ChatroomEntitiesService implements IChatroomEntitiesService {
         }
         return i;
     }
+    @Transactional
+    @Override
+    public boolean checkIfChatroomExists(ChatroomEntities chatroomEntities)
+    {
+        return repository.findByRoomID(chatroomEntities.getRoom_id()) != null;
+    }
 }
