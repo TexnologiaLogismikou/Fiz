@@ -6,84 +6,91 @@
 package com.tech.services;
 
 import com.tech.AbstractTest;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import com.tech.models.entities.ChatroomEntities;
+import com.tech.services.interfaces.IChatroomEntitiesService;
+import org.junit.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 /**
- *
  * @author iwann
  */
 @Transactional
 @WebAppConfiguration
-@ActiveProfiles({"iwanna","iwanna"})
-public class ChatroomEntitiesServiceTest extends AbstractTest{
-    
-    public ChatroomEntitiesServiceTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
+@ActiveProfiles({"iwanna", "iwanna"})
+public class ChatroomEntitiesServiceTest extends AbstractTest
 
-   
-    @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    public void testAddUserToBlacklist() {
-        
-    }
+        @Autowired
+        private IChatroomEntitiesService service;
 
-    
-    @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    public void testDeleteUserFromChatEntities() {
-       
-    }
 
-    
-    @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    public void testFindByRoomID() {
-        
-    }
+        public ChatroomEntitiesServiceTest() {
+        }
 
-    
-    @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    public void testFindByRoomCreator() {
-       
-    }
+        @BeforeClass
+        public static void setUpClass() {
+        }
 
-    
-    @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    public void testCountRecords() {
-       
-    }
+        @AfterClass
+        public static void tearDownClass() {
+        }
 
-   
-    @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    public void testCountRecordsOfMember() {
-       
-    }
-    
+        @Before
+        public void setUp() {
+        }
+
+        @After
+        public void tearDown() {
+        }
+
+
+        @Test
+        @Sql(scripts = "classpath:populateDB.sql")
+        public void testaddChatroomEntity() {
+
+        }
+
+
+        @Test
+        @Sql(scripts = "classpath:populateDB.sql")
+        public void testDeleteChatroomEntity() {
+
+        }
+
+
+        @Test
+        @Sql(scripts = "classpath:populateDB.sql")
+        public void testFindByRoomID() {
+                ChatroomEntities friend = new ChatroomEntities();
+                service.findByRoomID(room_id,  room_creator,  room_name,  room_creation_date, room_last_activity);
+                Assert.assertTrue("fail",service.checkFriendIfExists(friend.getUserid(),friend.getFriendid()));
+
+        }
+
+
+        @Test
+        @Sql(scripts = "classpath:populateDB.sql")
+        public void testFindByRoomCreator() {
+
+        }
+
+
+        @Test
+        @Sql(scripts = "classpath:populateDB.sql")
+        public void testCountRecords() {
+
+        }
+
+
+        @Test
+        @Sql(scripts = "classpath:populateDB.sql")
+        public void testCountRecordsOfMember() {
+
+        }
+
 }

@@ -16,10 +16,10 @@ import javax.transaction.Transactional;
 public interface IChatroomEntitiesService {
 
     @Transactional
-    void addUserToBlacklist(ChatroomEntities newRecord);
+    void addChatroomEntity(ChatroomEntities newRecord);
 
     @Transactional
-    boolean deleteUserFromChatEntities(ChatroomEntities deleteRecord);
+    boolean deleteChatroomEntity(ChatroomEntities deleteRecord);
 
     @Transactional
     List<ChatroomEntities> findByRoomCreator(Long room_creator);
