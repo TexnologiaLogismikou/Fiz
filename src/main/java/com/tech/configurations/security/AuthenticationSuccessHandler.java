@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -22,11 +23,8 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws ServletException, IOException {
 
-        logger.info(request.getUserPrincipal().getName()+" successfully logged in");
-        System.out.println("logged in somebody" + request.getHeaderNames());
-        logger.info(request.getHeaderNames());
-
         SavedRequest savedRequest = requestCache.getRequest(request, response);
+
         if (savedRequest == null) {
             clearAuthenticationAttributes(request);
             return;
