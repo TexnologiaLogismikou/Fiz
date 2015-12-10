@@ -28,7 +28,14 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
             return;
         }
         String targetUrlParam = getTargetUrlParameter();
-        if (isAlwaysUseDefaultTargetUrl() ||
+        if ("true".equals(request.getHeader("X-Ajax-call"))) {
+            try {
+                response.getWriter().print("OK");
+                response.getWriter().flush();
+            } catch (IOException e) {
+                System.out.println("Exception: cannot send data to ajax response");
+            }
+        } else if (isAlwaysUseDefaultTargetUrl() ||
                 (targetUrlParam != null && StringUtils.hasText(request.getParameter(targetUrlParam)))) {
             requestCache.removeRequest(request, response);
             clearAuthenticationAttributes(request);

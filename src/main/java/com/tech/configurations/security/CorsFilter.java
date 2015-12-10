@@ -2,7 +2,6 @@ package com.tech.configurations.security;
 
 import com.tech.configurations.tools.Host;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -21,7 +20,8 @@ public class CorsFilter extends OncePerRequestFilter {
         response.addHeader("Access-Control-Allow-Origin", Host.apache);
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+        response.setHeader("Access-Control-Allow-Headers", "X-Ajax-call");
+        response.setHeader("Access-Control-Allow-Headers", "X-requested-with");
         response.setHeader("Access-Control-Expose-Headers", "x-requested-with");
         filterChain.doFilter(request, response);
 //
@@ -48,6 +48,5 @@ public class CorsFilter extends OncePerRequestFilter {
 //        res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 //        res.setHeader("Access-Control-Allow-Headers", "x-requested-with");
 //        res.setHeader("Access-Control-Expose-Headers", "x-requested-with"); filterChain.doFilter(request, response);
-
     }
 }
