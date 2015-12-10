@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -24,6 +23,9 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
                                         Authentication authentication) throws ServletException, IOException {
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);
+
+        //TODO some response text
+        //response.getWriter().print("OK");
 
         if (savedRequest == null) {
             clearAuthenticationAttributes(request);

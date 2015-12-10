@@ -58,6 +58,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .failureHandler(new SimpleUrlAuthenticationFailureHandler())
                 .and()
                     .logout()
+//                TODO fix logout
                         .permitAll()
                         .logoutUrl("/logout")
                         .invalidateHttpSession(true)
