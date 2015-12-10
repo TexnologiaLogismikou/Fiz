@@ -17,5 +17,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IChatroomMembersRepository extends JpaRepository<ChatroomMembers, Long>{
     List<ChatroomMembers> findByRoomId(Long room_id);
-    List<ChatroomMembers> findByRoomMember(Long room_member);    
+    List<ChatroomMembers> findByRoomMember(Long room_member);
+    ChatroomMembers findByRoomIdAndMember(Long room_id, Long room_member);
 }
