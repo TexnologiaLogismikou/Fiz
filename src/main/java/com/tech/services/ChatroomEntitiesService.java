@@ -84,4 +84,9 @@ public class ChatroomEntitiesService implements IChatroomEntitiesService {
     public boolean validateRoomnameExistance(String room_name){
         return repository.findByRoomName(room_name) != null;
     }
+
+    @Override
+    public ChatroomEntities getRoomByName(String room_name) {
+        return repository.findByRoomName(room_name);
+    }
 }

@@ -21,6 +21,7 @@ public enum Responses {
     ACCESS_METHOD_NOT_FOUND("access method was not found"),
     STRING_INAPPROPRIATE_FORMAT("string format was wrong"),
     FIRST_NAME_INAPPROPRIATE_FORMAT("first name format was wrong"),
+    ROOM_NOT_FOUND("room was not found"),
     LAST_NAME_INAPPROPRIATE_FORMAT("last name format was wrong"),
     EMAIL_INAPPROPRIATE_FORMAT("emal format was wrong"),
     ID_INAPPROPRIATE_FORMAT("ID format was wrong"),

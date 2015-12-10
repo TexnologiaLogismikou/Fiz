@@ -10,6 +10,7 @@ import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.Validator;
 import com.tech.models.dtos.ChatroomCreationDTO;
+import com.tech.models.dtos.ChatroomDeleteDTO;
 import com.tech.models.entities.ChatroomEntities;
 import com.tech.models.entities.ChatroomMembers;
 import com.tech.models.entities.ChatroomPrivileges;
@@ -19,6 +20,7 @@ import com.tech.services.interfaces.IChatroomMembersService;
 import com.tech.services.interfaces.IChatroomPrivilegesService;
 import com.tech.services.interfaces.IChatroomWhitelistService;
 import com.tech.services.interfaces.IUserService;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -67,9 +69,11 @@ public class ChatroomController {
         if(!p.getBoolean()) {
             return p.getResponse();
         }
+        
         if(userService.getUserById(newChatroom.getUserid())==null){
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);
         }
+        
         if(chatroomEntitesService.validateRoomnameExistance(newChatroom.getRoom_name())){
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.FOUND);
         }
@@ -91,7 +95,20 @@ public class ChatroomController {
     }
    
     @RequestMapping(value ="/deleteChatroom",method = RequestMethod.POST)
-    public HttpEntity<String> deleteChatroom(/*@RequestBody ChatroomDTO chatroom*/) {
+    public HttpEntity<String> deleteChatroom(@RequestBody ChatroomDeleteDTO deleteRoom) {
+        //TODO call sto validator
+        if(chatroomEntitesService.validateRoomnameExistance(deleteRoom.getRoom_name())){
+            return new ResponseEntity<>(Responses.ROOM_NOT_FOUND.getData(),HttpStatus.NOT_FOUND);            
+        }
+        
+        ChatroomEntities CE = chatroomEntitesService.getRoomByName(deleteRoom.getRoom_name());
+        
+        if(!Objects.equals(CE.getRoom_creator(), deleteRoom.getCreator_id())) {
+            return new ResponseEntity<>(Responses.NOT_AUTHORIZED.getData(),HttpStatus.NOT_ACCEPTABLE);               
+        }
+        
+        chatroomEntitesService.delete(CE);
+        
         return new ResponseEntity<>(Responses.SUCCESS.getData(),HttpStatus.OK);
     }   
    
