@@ -6,6 +6,7 @@
 package com.tech.models.entities;
 
 import com.tech.models.dtos.ChatroomCreationDTO;
+import com.tech.models.dtos.ChatroomMemberDTO;
 import com.tech.models.dtos.RegisteredUserDTO;
 import com.tech.models.entities.embeddedIds.ChatroomMembersComposite;
 import java.io.Serializable;
@@ -42,6 +43,10 @@ public class ChatroomMembers implements Serializable {
     public ChatroomMembers() {
     }
 
+    public ChatroomMembers(Long room_id, ChatroomMemberDTO DTO){
+        this(room_id,DTO.getMember_id());
+    }
+    
     public ChatroomMembers(Long room_id, ChatroomCreationDTO DTO){
         this(room_id,DTO.getUserid());
     }

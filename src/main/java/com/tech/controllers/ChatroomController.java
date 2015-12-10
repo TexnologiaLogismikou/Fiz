@@ -11,15 +11,19 @@ import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.Validator;
 import com.tech.models.dtos.ChatroomCreationDTO;
 import com.tech.models.dtos.ChatroomDeleteDTO;
+import com.tech.models.dtos.ChatroomMemberDTO;
+import com.tech.models.entities.ChatroomBlacklist;
 import com.tech.models.entities.ChatroomEntities;
 import com.tech.models.entities.ChatroomMembers;
 import com.tech.models.entities.ChatroomPrivileges;
+import com.tech.models.entities.ChatroomWhitelist;
 import com.tech.services.interfaces.IChatroomBlacklistService;
 import com.tech.services.interfaces.IChatroomEntitiesService;
 import com.tech.services.interfaces.IChatroomMembersService;
 import com.tech.services.interfaces.IChatroomPrivilegesService;
 import com.tech.services.interfaces.IChatroomWhitelistService;
 import com.tech.services.interfaces.IUserService;
+import java.util.Date;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -90,8 +94,60 @@ public class ChatroomController {
     }
    
     @RequestMapping(value = "/connectChatroom",method = RequestMethod.POST)
-    public HttpEntity<String> connectToChatroom(/*@RequestBody ChatroomDTO chatroom*/){
-        return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);
+    public HttpEntity<String> connectToChatroom(@RequestBody ChatroomMemberDTO newMember){
+        //TODO call to validator
+        
+        /*
+            8a itan kali idea na kanw implement ena factory me register / kai lista wste na mporw na balw kai extra 
+            login methods? ektos apo blacklist / whitelist. wste na min anaptisw polla if
+        */
+        
+        if(!newMember.getMethod().equals("ADD")){
+            return new ResponseEntity<>(Responses.ACCESS_METHOD_NOT_FOUND.getData(),HttpStatus.BAD_REQUEST);
+        }
+        
+        if(userService.getUserById(newMember.getMember_id())==null){
+            return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);
+        }
+        
+        if(chatroomEntitesService.getRoomByName(newMember.getRoom_name())==null){
+            return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);           
+        }
+        
+        Long roomId = chatroomEntitesService.getRoomByName(newMember.getRoom_name()).getRoom_id();
+        ChatroomPrivileges CP = chatroomPrivilegesService.findByRoomId(roomId);
+        
+        if(CP.isRoom_password_protected()){
+            if(!CP.getRoom_password().equals(newMember.getPassword())){
+                return new ResponseEntity<>(Responses.NOT_AUTHORIZED.getData(),HttpStatus.UNAUTHORIZED);
+            }
+        }
+        
+        switch(CP.getRoom_access_method()){
+            case "blacklist":
+                ChatroomBlacklist CB = chatroomBlacklistService.findByRoomIDAndRoomMember(roomId,newMember.getMember_id());
+                if (CB != null ){
+                    if (CB.getRoom_expiration_time().after(new Date())){// if CB is later than Today
+                        return new ResponseEntity<>(Responses.NOT_AUTHORIZED.getData(),HttpStatus.UNAUTHORIZED);
+                    }
+                    chatroomBlacklistService.delete(CB);
+                    chatroomMembersService.add(new ChatroomMembers(roomId,newMember));
+                    return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);
+                } else {
+                    chatroomMembersService.add(new ChatroomMembers(roomId,newMember));
+                    return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);                    
+                }
+            case "whitelist":
+                ChatroomWhitelist CW = chatroomWhitelistService.findByRoomIDAndRoomMember(roomId,newMember.getMember_id());
+                if (CW != null){
+                    chatroomMembersService.add(new ChatroomMembers(roomId,newMember));
+                    return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);            
+                } else {
+                    return new ResponseEntity<>(Responses.NOT_AUTHORIZED.getData(), HttpStatus.UNAUTHORIZED);                       
+                }
+            default :
+                return new ResponseEntity<>(Responses.ACCESS_METHOD_NOT_FOUND.getData(), HttpStatus.BAD_REQUEST);     
+        }
     }
    
     @RequestMapping(value ="/deleteChatroom",method = RequestMethod.POST)
@@ -110,7 +166,5 @@ public class ChatroomController {
         chatroomEntitesService.delete(CE);
         
         return new ResponseEntity<>(Responses.SUCCESS.getData(),HttpStatus.OK);
-    }   
-   
-   
+    }     
 }

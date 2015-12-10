@@ -12,8 +12,9 @@ import com.tech.models.dtos.superclass.BaseDTO;
  * @author KuroiTenshi
  */
 public class ChatroomMemberDTO extends BaseDTO{
-    private Long room_id;
+    private String room_name;
     private Long member_id;
+    private String password;
     private String method;//should accept only "ADD" "DELETE" and maybe "UPDATE"?
     
     @Override
@@ -21,8 +22,8 @@ public class ChatroomMemberDTO extends BaseDTO{
         return "ChatroomNewMemberDTO";
     }
 
-    public Long getRoom_id() {
-        return room_id;
+    public String getRoom_name() {
+        return room_name;
     }
 
     public Long getMember_id() {
@@ -31,5 +32,9 @@ public class ChatroomMemberDTO extends BaseDTO{
     
     public String getMethod(){
         return method;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
