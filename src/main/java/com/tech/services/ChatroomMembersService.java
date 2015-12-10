@@ -5,10 +5,7 @@
  */
 package com.tech.services;
 
-import com.tech.models.entities.ChatroomBlacklist;
-import com.tech.models.entities.ChatroomEntities;
 import com.tech.models.entities.ChatroomMembers;
-import com.tech.repositories.IChatroomEntitiesRepository;
 import com.tech.repositories.IChatroomMembersRepository;
 import java.util.List;
 import javax.transaction.Transactional;

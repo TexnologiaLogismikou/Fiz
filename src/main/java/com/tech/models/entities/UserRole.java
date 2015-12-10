@@ -16,7 +16,7 @@ public class UserRole implements Serializable {
     @Id
     @Column(name = "user_role_userid")
     private Long user_role_userid;
-
+    //TODO : Ama bgalo ta setters, ta primary keys den tha allazoyn. Tha trexei to programma?
     @Column(name = "user_role_role")
     private String user_role_role;
 
