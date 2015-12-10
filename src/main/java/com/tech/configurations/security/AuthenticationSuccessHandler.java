@@ -22,6 +22,10 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws ServletException, IOException {
 
+        logger.info(request.getUserPrincipal().getName()+" successfully logged in");
+        System.out.println("logged in somebody" + request.getHeaderNames());
+        logger.info(request.getHeaderNames());
+
         SavedRequest savedRequest = requestCache.getRequest(request, response);
         if (savedRequest == null) {
             clearAuthenticationAttributes(request);
@@ -35,8 +39,7 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
             } catch (IOException e) {
                 System.out.println("Exception: cannot send data to ajax response");
             }
-        } else if (isAlwaysUseDefaultTargetUrl() ||
-                (targetUrlParam != null && StringUtils.hasText(request.getParameter(targetUrlParam)))) {
+        } else if (isAlwaysUseDefaultTargetUrl() || (targetUrlParam != null && StringUtils.hasText(request.getParameter(targetUrlParam)))) {
             requestCache.removeRequest(request, response);
             clearAuthenticationAttributes(request);
             return;
