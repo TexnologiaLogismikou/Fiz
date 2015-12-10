@@ -34,7 +34,7 @@ public interface IChatroomEntitiesService {
     public Long countRecordsOfMember(Long member_id);
 
     @Transactional
-    public boolean checkIfChatroomExists(Long room_id);
+    public boolean checkIfChatroomEntityExists(Long room_id);
 
     @Transactional
     public Long getNextID();
