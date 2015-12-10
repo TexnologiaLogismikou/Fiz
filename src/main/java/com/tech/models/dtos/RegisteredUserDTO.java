@@ -5,17 +5,24 @@
  */
 package com.tech.models.dtos;
 
+import com.tech.models.dtos.superclass.BaseDTO;
+
 /**
  *
  * @author KuroiTenshi
  */
-public class RegisteredUserDTO {
+public class RegisteredUserDTO extends BaseDTO {
     private String username;
     private String password;
     private String email;
     private String last_name;
     private String firstname;
     private String birthday;
+      
+    @Override
+    public String getDTOName() {
+        return "RegisteredUserDTO";
+    }
     
     public String getEmail(){
         return email;

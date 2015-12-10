@@ -5,7 +5,6 @@
  */
 package com.tech.services;
 
-import com.tech.services.interfaces.IChatrooMembersService;
 import com.tech.models.entities.ChatroomBlacklist;
 import com.tech.models.entities.ChatroomEntities;
 import com.tech.models.entities.ChatroomMembers;
@@ -15,12 +14,13 @@ import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.tech.services.interfaces.IChatroomMembersService;
 
 /**
  *
  * @author iwann
  */@Service
-public class ChatroomMembersService implements IChatrooMembersService {
+public class ChatroomMembersService implements IChatroomMembersService {
     @Autowired
     private IChatroomMembersRepository repository;
     
