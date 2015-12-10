@@ -5,6 +5,7 @@
  */
 package com.tech.models.entities;
 
+import com.tech.models.dtos.ChatroomCreationDTO;
 import com.tech.models.entities.embeddedIds.ChatroomEntitiesComposite;
 import java.io.Serializable;
 import java.util.Date;
@@ -46,12 +47,16 @@ public class ChatroomEntities implements Serializable {
     public ChatroomEntities() {
     }
 
-    public ChatroomEntities(Long room_id, Long room_creator, String room_name, Date room_creation_date, Date room_last_activity) {
+    public ChatroomEntities(Long room_id, ChatroomCreationDTO DTO){
+        this(room_id,DTO.getUserid(),DTO.getRoom_name());
+    }
+    
+    public ChatroomEntities(Long room_id, Long room_creator, String room_name) {
         this.room_id = room_id;
         this.room_creator = room_creator;
         this.room_name = room_name;
-        this.room_creation_date = room_creation_date;
-        this.room_last_activity = room_last_activity;
+        this.room_creation_date = new Date();
+        this.room_last_activity = new Date();
     }
 
     public Long getRoom_id() {

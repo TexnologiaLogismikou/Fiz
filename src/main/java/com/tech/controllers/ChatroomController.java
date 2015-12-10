@@ -10,7 +10,6 @@ import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.Validator;
 import com.tech.models.dtos.ChatroomCreationDTO;
-import com.tech.models.entities.User;
 import com.tech.services.interfaces.IChatroomBlacklistService;
 import com.tech.services.interfaces.IChatroomEntitiesService;
 import com.tech.services.interfaces.IChatroomMembersService;
