@@ -6,11 +6,11 @@
 package com.tech.services.interfaces;
 
 import com.tech.models.entities.ChatroomEntities;
+
 import java.util.List;
 import javax.transaction.Transactional;
 
 /**
- *
  * @author iwann
  */
 public interface IChatroomEntitiesService {
@@ -26,11 +26,14 @@ public interface IChatroomEntitiesService {
 
     @Transactional
     ChatroomEntities findByRoomID(Long room_id);
-    
+
     @Transactional
     public Long countRecords();
-    
-   @Transactional
+
+    @Transactional
     public Long countRecordsOfMember(Long member_id);
-    
+
+    @Transactional
+    public boolean checkIfChatroomExists(Long member_id);
+
 }
