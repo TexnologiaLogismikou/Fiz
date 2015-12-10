@@ -20,6 +20,12 @@ public class UserRoleService implements IUserRoleService{
     public void addUserRole(UserRole userRole) {
         repository.save(userRole);
     }
+    
+    @Override
+    public void deleteUserRole(UserRole userRole) 
+    {
+        repository.delete(userRole);
+    }
 
     @Override
     public List<UserRole> getAllUserRoles() {
