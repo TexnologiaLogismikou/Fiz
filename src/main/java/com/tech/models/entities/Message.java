@@ -3,6 +3,7 @@ package com.tech.models.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @NamedQueries({
@@ -25,13 +26,14 @@ public class Message implements Serializable{
 
     @Column(name = "datesent")
     private Date dateSent;
+    //TODO : Anazitisi kai leitourgies me basi
 
     @Column(name = "chatroom_id")
-    private String chatroom_id;
+    private Long chatroom_id;
 
     protected Message() {}
 
-    public Message(Long id, Long userid, String message, String chatroom) {
+    public Message(Long id, Long userid, String message, Long chatroom) {
         this.message = message;
         this.id = id;
         this.userid = userid;
@@ -71,11 +73,11 @@ public class Message implements Serializable{
         this.dateSent = new Date();
     }
 
-    public String getChatroom() {
+    public Long getChatroom() {
         return chatroom_id;
     }
 
-    public void setChatroom(String chatroom) {
+    public void setChatroom(Long chatroom) {
         this.chatroom_id = chatroom;
     }
 }

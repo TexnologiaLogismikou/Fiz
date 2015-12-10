@@ -23,4 +23,6 @@ public interface IUserRoleService {
     
     public void modifyUserRole(UserRole newRole);
     
+    public void deleteUserRole(UserRole userRole);
+    
 }
