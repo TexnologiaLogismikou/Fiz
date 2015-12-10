@@ -66,7 +66,7 @@ public class ChatroomEntitiesService implements IChatroomEntitiesService {
     
     @Transactional
     @Override
-    public boolean checkIfChatroomExists(Long room_id)
+    public boolean checkIfChatroomEntityExists(Long room_id)
     {
         return repository.findByRoomID(room_id) != null;
     }

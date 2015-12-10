@@ -15,10 +15,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.sql.Date;
-import java.util.List;
 
 /**
  * @author Aenaos
@@ -64,7 +61,7 @@ public class ChatroomEntitiesServiceTest extends AbstractTest {
     public void testaddChatroomEntity() {
 
         service.add(new ChatroomEntities(4L, 1L, "TestRoom"));
-        Assert.assertTrue("Could not add chatroom", service.checkIfChatroomExists(4L));
+        Assert.assertTrue("Could not add chatroom", service.checkIfChatroomEntityExists(4L));
     }
 
     @Test
@@ -73,14 +70,14 @@ public class ChatroomEntitiesServiceTest extends AbstractTest {
 
         ChatroomEntities testRoom = chatroomEntitiesList.get(0);
         service.delete(testRoom);
-        Assert.assertFalse("Could not delete chatroom", service.checkIfChatroomExists(testRoom.getRoom_id()));
+        Assert.assertFalse("Could not delete chatroom", service.checkIfChatroomEntityExists(testRoom.getRoom_id()));
 
     }
 
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void testCheckIfChatroomExists() {
-        Assert.assertTrue("Could not find chatroom", service.checkIfChatroomExists(chatroomEntitiesList.get(0).getRoom_id()));
+    public void testCheckIfChatroomEntityExists() {
+        Assert.assertTrue("Could not find chatroom", service.checkIfChatroomEntityExists(chatroomEntitiesList.get(0).getRoom_id()));
     }
 
     @Test
