@@ -86,6 +86,10 @@ public class Validator {
             return false;
         }
         
+        if(password.length() > 128){
+            return false;
+        }
+        
         return true;
     }
     

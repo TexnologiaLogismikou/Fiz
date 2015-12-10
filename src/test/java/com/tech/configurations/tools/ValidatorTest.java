@@ -70,17 +70,17 @@ public class ValidatorTest
     public void testUsernameValidation() 
     {
         // Testing for empty username
-        Assert.assertFalse(Responses.ERROR.getData(),Validator.usernameValidation(emptyString));
+        Assert.assertFalse(Responses.ERROR.getData(),Validator.nameValidation(emptyString));
         // Testing for usernames with spaces
-        Assert.assertFalse(Responses.ERROR.getData(),Validator.usernameValidation(stringWithSpaces));
-        Assert.assertFalse(Responses.ERROR.getData(),Validator.usernameValidation(stringWithSpacesRight));
-        Assert.assertFalse(Responses.ERROR.getData(),Validator.usernameValidation(stringWithSpacesLeft));
+        Assert.assertFalse(Responses.ERROR.getData(),Validator.nameValidation(stringWithSpaces));
+        Assert.assertFalse(Responses.ERROR.getData(),Validator.nameValidation(stringWithSpacesRight));
+        Assert.assertFalse(Responses.ERROR.getData(),Validator.nameValidation(stringWithSpacesLeft));
         // Testing for a string input, larger(120000 chars) than the one permitted(16 chars)
-        Assert.assertFalse(Responses.ERROR.getData(),Validator.usernameValidation(LargeStringFactory.getLargeString()));
+        Assert.assertFalse(Responses.ERROR.getData(),Validator.nameValidation(LargeStringFactory.getLargeString()));
         // Testing if the username has any special characters and if it starts with a character
-        Assert.assertFalse(Responses.ERROR.getData(),Validator.usernameValidation(stringWithSpecialChars1));
-        Assert.assertFalse(Responses.ERROR.getData(),Validator.usernameValidation(stringWithSpecialChars2));
-        Assert.assertFalse(Responses.ERROR.getData(),Validator.usernameValidation(stringWithNumbers));
+        Assert.assertFalse(Responses.ERROR.getData(),Validator.nameValidation(stringWithSpecialChars1));
+        Assert.assertFalse(Responses.ERROR.getData(),Validator.nameValidation(stringWithSpecialChars2));
+        Assert.assertFalse(Responses.ERROR.getData(),Validator.nameValidation(stringWithNumbers));
     }
 
     /**
