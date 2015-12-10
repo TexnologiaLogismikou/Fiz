@@ -58,7 +58,7 @@ CREATE TABLE "chatrooms_entities" ( --table#6.1
     "room_creator" bigint NOT NULL,
     "room_name" text NOT NULL,
     "room_creation_date" TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
-    "room_last_activity" TIMESTAMP WITHOUT TIME ZONE NOT NULL CHECK (room_creation_date < room_last_activity),
+    "room_last_activity" TIMESTAMP WITHOUT TIME ZONE NOT NULL CHECK (room_creation_date <= room_last_activity),
     CONSTRAINT pk_chatroom_entities PRIMARY KEY (room_id,room_creator)
 );
 

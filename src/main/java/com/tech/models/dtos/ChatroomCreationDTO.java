@@ -36,7 +36,7 @@ public class ChatroomCreationDTO extends BaseDTO{
         return access_method;
     }
 
-    public boolean isHasPassword() {
+    public boolean hasPassword() {
         return hasPassword;
     }
 

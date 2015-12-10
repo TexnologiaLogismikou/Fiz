@@ -41,10 +41,10 @@ public class ChatroomWhitelist implements Serializable {
     public ChatroomWhitelist() {
     }
 
-    public ChatroomWhitelist(Long room_id, Long room_member, Date room_invitation_time) {
+    public ChatroomWhitelist(Long room_id, Long room_member) {
         this.room_id = room_id;
         this.room_member = room_member;
-        this.room_invitation_time = room_invitation_time;
+        this.room_invitation_time = new Date();
     }
 
     public Long getRoom_id() {

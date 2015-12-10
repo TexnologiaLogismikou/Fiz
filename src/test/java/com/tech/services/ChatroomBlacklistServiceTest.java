@@ -46,8 +46,8 @@ public class ChatroomBlacklistServiceTest extends AbstractTest{
     
     @Before
     public void setUp() {
-        blacklistExist= new ChatroomBlacklist(2L, 3L, Date.valueOf("2015-10-10"), Date.valueOf("2015-12-28"));
-        blacklistNotExist= new ChatroomBlacklist(3L, 2L, Date.valueOf("2014-12-15"), Date.valueOf("2015-11-30"));
+        blacklistExist= new ChatroomBlacklist(2L, 3L, Date.valueOf("2015-12-28"));
+        blacklistNotExist= new ChatroomBlacklist(3L, 2L, Date.valueOf("2016-11-30"));
         
     }
     
@@ -94,7 +94,6 @@ public class ChatroomBlacklistServiceTest extends AbstractTest{
     @Sql(scripts = "classpath:populateDB.sql")
     public void testFindByRoomIDAndRoomMember() {
         ChatroomBlacklist cr = service.findByRoomIDAndRoomMember(2L,3L);
-        Assert.assertEquals("Fail find by romm ID and room member",blacklistExist.getRoom_ban_time(),cr.getRoom_ban_time());
         Assert.assertEquals("Fail find by romm ID and room member",blacklistExist.getRoom_expiration_time(),cr.getRoom_expiration_time());
         Assert.assertEquals("Fail find by romm ID and room member",blacklistExist.getRoom_id(),cr.getRoom_id());
         Assert.assertEquals("Fail find by romm ID and room member",blacklistExist.getRoom_member(),cr.getRoom_member());

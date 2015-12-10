@@ -35,7 +35,7 @@ public class ChatroomCreationDTOValidator extends BaseValidator implements Custo
     }   
     
     private boolean validateCCDTO(ChatroomCreationDTO CCDTO){
-        if(!accessMethodValidator(CCDTO.getAccess_method())){
+        if(!Validator.accessMethodValidator(CCDTO.getAccess_method())){
             setResponseEntity(Responses.ACCESS_METHOD_NOT_FOUND,HttpStatus.NOT_ACCEPTABLE);
             return false;
         }
@@ -51,25 +51,11 @@ public class ChatroomCreationDTOValidator extends BaseValidator implements Custo
             setResponseEntity(Responses.ID_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE);
             return false;
         }
+        if(!Validator.roomPrivilegeValidator(CCDTO.getRoom_privilege())){
+            setResponseEntity(Responses.ID_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE);
+            return false;
+        }
         setResponseEntity(Responses.SUCCESS, HttpStatus.OK);
         return true;
     }  
-    
-    /**
-     * 
-     * @param accessMethod
-     * @return returns true if AccessMethod is either blacklist or whitelist
-     */
-    public static boolean accessMethodValidator(String accessMethod){
-        if(accessMethod.isEmpty()){
-            return false;
-        }
-        
-        if(accessMethod.equals("blacklist") || accessMethod.equals("whitelist")){
-            return true;
-        }
-        
-        return false;
-    }
-
 }

@@ -49,7 +49,7 @@ public class ChatroomWhitelistServiceTest extends AbstractTest{
     
     @Before
     public void setUp() {
-        whitelistExist = new ChatroomWhitelist(1L, 1L, Date.valueOf("2014-1-1"));
+        whitelistExist = new ChatroomWhitelist(1L, 1L);
         //whitelistNotExist = new ChatroomWhitelist(1L, 1L, Date.valueOf("1-1-2014"));
     }
     
@@ -98,7 +98,6 @@ public class ChatroomWhitelistServiceTest extends AbstractTest{
     @Sql(scripts = "classpath:populateDB.sql")
     public void testFindByRoomIDAndRoomMember() {
         ChatroomWhitelist cr = service.findByRoomIDAndRoomMember(1L,1L);
-        Assert.assertEquals("Fail find by romm ID and room member",whitelistExist.getRoom_invitation_time(),cr.getRoom_invitation_time());
         Assert.assertEquals("Fail find by romm ID and room member",whitelistExist.getRoom_member(),cr.getRoom_member());
        
     }

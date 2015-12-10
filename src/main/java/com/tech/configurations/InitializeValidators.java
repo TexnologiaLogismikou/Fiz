@@ -5,7 +5,10 @@
  */
 package com.tech.configurations;
 
+import com.tech.configurations.tools.Validator;
 import com.tech.configurations.tools.customvalidators.ChatroomCreationDTOValidator;
+import com.tech.configurations.tools.customvalidators.FriendDTOValidator;
+import com.tech.configurations.tools.customvalidators.RegisteredUserDTOValidator;
 
 /**
  *
@@ -14,5 +17,13 @@ import com.tech.configurations.tools.customvalidators.ChatroomCreationDTOValidat
 public class InitializeValidators {
     public static void InitializeCustomValidators(){
         new ChatroomCreationDTOValidator();
+        new FriendDTOValidator();
+        new RegisteredUserDTOValidator();
+        
+        Validator.registerMethod("blacklist");
+        Validator.registerMethod("whitelist");
+        
+        Validator.registerPrivilege("PUBLIC");
+        Validator.registerPrivilege("PRIVATE");
     }
 }

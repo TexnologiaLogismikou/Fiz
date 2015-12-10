@@ -5,6 +5,8 @@
  */
 package com.tech.models.entities;
 
+import com.tech.models.dtos.ChatroomCreationDTO;
+import com.tech.models.dtos.RegisteredUserDTO;
 import com.tech.models.entities.embeddedIds.ChatroomMembersComposite;
 import java.io.Serializable;
 import java.util.Date;
@@ -40,10 +42,14 @@ public class ChatroomMembers implements Serializable {
     public ChatroomMembers() {
     }
 
-    public ChatroomMembers(Long room_id, Long room_member, Date room_joined_date) {
+    public ChatroomMembers(Long room_id, ChatroomCreationDTO DTO){
+        this(room_id,DTO.getUserid());
+    }
+    
+    public ChatroomMembers(Long room_id, Long room_member) {
         this.room_id = room_id;
         this.room_member = room_member;
-        this.room_joined_date = room_joined_date;
+        this.room_joined_date = new Date();
     }
 
     public Long getRoom_id() {
