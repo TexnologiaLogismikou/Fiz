@@ -15,82 +15,102 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.sql.Date;
+import java.util.List;
 
 /**
- * @author iwann
+ * @author Aenaos
  */
 @Transactional
 @WebAppConfiguration
 @ActiveProfiles({"iwanna", "iwanna"})
-public class ChatroomEntitiesServiceTest extends AbstractTest
+public class ChatroomEntitiesServiceTest extends AbstractTest {
 
-        @Autowired
-        private IChatroomEntitiesService service;
+    @Autowired
+    private IChatroomEntitiesService service;
+
+    private ArrayList<ChatroomEntities> chatroomEntitiesList = new ArrayList<>();
+
+    public ChatroomEntitiesServiceTest() {
+    }
+
+    @BeforeClass
+    public static void setUpClass() {
+    }
+
+    @AfterClass
+    public static void tearDownClass() {
+    }
+
+    @Before
+    public void setUp() {
+        chatroomEntitiesList.add(new ChatroomEntities(1L, 1L, "PlayRoom"));
+        chatroomEntitiesList.add(new ChatroomEntities(2L, 2L, "DarkRoom"));
+        chatroomEntitiesList.add(new ChatroomEntities(3L, 3L, "SomeRoom"));
+        chatroomEntitiesList.add(new ChatroomEntities(4L, 1L, "ThisRoom"));
+        chatroomEntitiesList.add(new ChatroomEntities(5L, 2L, "TalkRoom"));
+        chatroomEntitiesList.add(new ChatroomEntities(6L, 3L, "ChatRoom"));
+    }
+
+    @After
+    public void tearDown() {
+        chatroomEntitiesList = null;
+    }
+
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testaddChatroomEntity() {
+
+        service.addChatroomEntity(new ChatroomEntities(4L, 1L, "TestRoom"));
+        Assert.assertTrue("Could not add chatroom", service.checkIfChatroomExists(4L));
+    }
+
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testDeleteChatroomEntity() {
+
+        ChatroomEntities testRoom = chatroomEntitiesList.get(0);
+        service.deleteChatroomEntity(testRoom);
+        Assert.assertFalse("Could not delete chatroom", service.checkIfChatroomExists(testRoom.getRoom_id()));
+
+    }
+
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testCheckIfChatroomExists() {
+        Assert.assertTrue("Could not find chatroom", service.checkIfChatroomExists(chatroomEntitiesList.get(0).getRoom_id()));
+    }
+
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testFindByRoomID() {
+//            ChatroomEntities chatroomEntities = new ChatroomEntities(1L, room_creator, room_name, room_creation_date, room_last_activity);
+//            service.findByRoomID(1L);
+//            Assert.assertTrue("fail", service.checkFriendIfExists(friend.getUserid(), friend.getFriendid()));
+
+    }
 
 
-        public ChatroomEntitiesServiceTest() {
-        }
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testFindByRoomCreator() {
 
-        @BeforeClass
-        public static void setUpClass() {
-        }
-
-        @AfterClass
-        public static void tearDownClass() {
-        }
-
-        @Before
-        public void setUp() {
-        }
-
-        @After
-        public void tearDown() {
-        }
+    }
 
 
-        @Test
-        @Sql(scripts = "classpath:populateDB.sql")
-        public void testaddChatroomEntity() {
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testCountRecords() {
 
-        }
-
-
-        @Test
-        @Sql(scripts = "classpath:populateDB.sql")
-        public void testDeleteChatroomEntity() {
-
-        }
+    }
 
 
-        @Test
-        @Sql(scripts = "classpath:populateDB.sql")
-        public void testFindByRoomID() {
-                ChatroomEntities friend = new ChatroomEntities();
-                service.findByRoomID(room_id,  room_creator,  room_name,  room_creation_date, room_last_activity);
-                Assert.assertTrue("fail",service.checkFriendIfExists(friend.getUserid(),friend.getFriendid()));
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testCountRecordsOfMember() {
 
-        }
-
-
-        @Test
-        @Sql(scripts = "classpath:populateDB.sql")
-        public void testFindByRoomCreator() {
-
-        }
-
-
-        @Test
-        @Sql(scripts = "classpath:populateDB.sql")
-        public void testCountRecords() {
-
-        }
-
-
-        @Test
-        @Sql(scripts = "classpath:populateDB.sql")
-        public void testCountRecordsOfMember() {
-
-        }
+    }
 
 }

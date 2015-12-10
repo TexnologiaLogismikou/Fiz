@@ -8,6 +8,7 @@ package com.tech.models.entities;
 import com.tech.models.dtos.ChatroomCreationDTO;
 import com.tech.models.entities.embeddedIds.ChatroomEntitiesComposite;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,9 +31,11 @@ import javax.persistence.Table;
 @Table (name = "chatrooms_entities")
 public class ChatroomEntities implements Serializable {
     @Id
+    @Column(name = "room_id")
     private Long room_id; 
     
     @Id
+    @Column(name = "room_creator")
     private Long room_creator;
 
     @Column(name = "room_name")
@@ -56,7 +59,7 @@ public class ChatroomEntities implements Serializable {
         this.room_creator = room_creator;
         this.room_name = room_name;
         this.room_creation_date = new Date();
-        this.room_last_activity = new Date();
+        this.room_last_activity = new Date(Calendar.getInstance().getTimeInMillis()+1000);
     }
 
     public Long getRoom_id() {
