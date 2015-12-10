@@ -8,6 +8,9 @@ package com.tech.services;
 import com.tech.models.entities.Friend;
 import com.tech.repositories.IFriendRepository;
 import com.tech.services.interfaces.IFriendService;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -73,10 +76,24 @@ public class FriendService implements IFriendService
     
     @Transactional
     @Override
-    public List<Friend> getFriendsByMonth(Date date)
+    public List<Friend> getFriendsByMonth(Long userid)
     { 
-//        throw new UnsupportedOperationException("not supported yet");
-        return repository.findByDate(date); //TODO
+        List<Friend> friend = repository.findByUserid(userid);
+        List<Friend> tmstampFriends = new ArrayList();
+        
+        Date currentDate = new Date(); 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
+        String month = dateFormat.format(currentDate);
+       
+        for(Friend vLookUp:friend)
+        {
+            String tmstampMonth = dateFormat.format(vLookUp.getTimestamp());
+            if(Integer.parseInt(month)==Integer.parseInt(tmstampMonth))
+            {
+               tmstampFriends.add(vLookUp);
+            }
+        }
+        return tmstampFriends;
     }
     
 }
