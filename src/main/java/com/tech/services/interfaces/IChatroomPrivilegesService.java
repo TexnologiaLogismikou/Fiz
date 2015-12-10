@@ -16,10 +16,10 @@ import javax.transaction.Transactional;
 public interface IChatroomPrivilegesService {
 
     @Transactional
-    void addUserToBlacklist(ChatroomPrivileges newRecord);
+    void add(ChatroomPrivileges newRecord);
 
     @Transactional
-    boolean deleteUserFromBlacklist(ChatroomPrivileges deleteRecord);
+    boolean delete(ChatroomPrivileges deleteRecord);
 
     @Transactional
     List<ChatroomPrivileges> findByPrivileges(String room_privileges);

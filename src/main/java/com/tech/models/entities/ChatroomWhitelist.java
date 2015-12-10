@@ -5,6 +5,7 @@
  */
 package com.tech.models.entities;
 
+import com.tech.models.dtos.ChatroomWhitelistDTO;
 import com.tech.models.entities.embeddedIds.CRWhitelistComposite;
 import java.io.Serializable;
 import java.util.Date;
@@ -41,6 +42,10 @@ public class ChatroomWhitelist implements Serializable {
     public ChatroomWhitelist() {
     }
 
+    public ChatroomWhitelist(ChatroomWhitelistDTO DTO){
+        this(DTO.getRoom_id(),DTO.getMember_id());
+    }
+    
     public ChatroomWhitelist(Long room_id, Long room_member) {
         this.room_id = room_id;
         this.room_member = room_member;

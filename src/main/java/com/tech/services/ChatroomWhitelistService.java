@@ -25,13 +25,13 @@ public class ChatroomWhitelistService implements IChatroomWhitelistService {
     
     @Transactional
     @Override
-    public void addUserToWhitelist(ChatroomWhitelist newRecord){
+    public void add(ChatroomWhitelist newRecord){
         repository.save(newRecord);
     }  
     
     @Transactional
     @Override
-    public boolean deleteUserFromWhitelist(ChatroomWhitelist deleteRecord){
+    public boolean delete(ChatroomWhitelist deleteRecord){
         repository.delete(deleteRecord);
         return true;
     }

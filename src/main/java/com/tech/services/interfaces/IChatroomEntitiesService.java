@@ -16,10 +16,10 @@ import javax.transaction.Transactional;
 public interface IChatroomEntitiesService {
 
     @Transactional
-    void addChatroomEntity(ChatroomEntities newRecord);
+    void add(ChatroomEntities newRecord);
 
     @Transactional
-    boolean deleteChatroomEntity(ChatroomEntities deleteRecord);
+    boolean delete(ChatroomEntities deleteRecord);
 
     @Transactional
     List<ChatroomEntities> findByRoomCreator(Long room_creator);
@@ -36,4 +36,9 @@ public interface IChatroomEntitiesService {
     @Transactional
     public boolean checkIfChatroomExists(Long member_id);
 
+    @Transactional
+    public Long getNextID();
+    
+    @Transactional
+    public boolean validateRoomnameExistance(String room_name);
 }

@@ -63,7 +63,7 @@ public class ChatroomEntitiesServiceTest extends AbstractTest {
     @Sql(scripts = "classpath:populateDB.sql")
     public void testaddChatroomEntity() {
 
-        service.addChatroomEntity(new ChatroomEntities(4L, 1L, "TestRoom"));
+        service.add(new ChatroomEntities(4L, 1L, "TestRoom"));
         Assert.assertTrue("Could not add chatroom", service.checkIfChatroomExists(4L));
     }
 
@@ -72,7 +72,7 @@ public class ChatroomEntitiesServiceTest extends AbstractTest {
     public void testDeleteChatroomEntity() {
 
         ChatroomEntities testRoom = chatroomEntitiesList.get(0);
-        service.deleteChatroomEntity(testRoom);
+        service.delete(testRoom);
         Assert.assertFalse("Could not delete chatroom", service.checkIfChatroomExists(testRoom.getRoom_id()));
 
     }

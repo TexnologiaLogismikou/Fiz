@@ -61,9 +61,9 @@ public class ChatroomWhitelistServiceTest extends AbstractTest{
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testAddUserToWhitelist() {
-        service.deleteUserFromWhitelist(whitelistExist);
+        service.delete(whitelistExist);
         Assert.assertNull(service.findByRoomIDAndRoomMember(1L, 1L));
-        service.addUserToWhitelist(whitelistExist);
+        service.add(whitelistExist);
         Assert.assertNotNull(service.findByRoomIDAndRoomMember(1L, 1L));
        
     }
@@ -73,7 +73,7 @@ public class ChatroomWhitelistServiceTest extends AbstractTest{
     @Sql(scripts = "classpath:populateDB.sql")
     public void testDeleteUserFromBlacklist() {
         Assert.assertNotNull(service.findByRoomIDAndRoomMember(1L, 1L));
-        service.deleteUserFromWhitelist(whitelistExist);
+        service.delete(whitelistExist);
         Assert.assertNull(service.findByRoomIDAndRoomMember(1L, 1L));
     }
 

@@ -25,13 +25,13 @@ public class ChatroomEntitiesService implements IChatroomEntitiesService {
 
     @Transactional
     @Override
-    public void addChatroomEntity(ChatroomEntities newRecord) {
+    public void add(ChatroomEntities newRecord) {
         repository.save(newRecord);
     }
 
     @Transactional
     @Override
-    public boolean deleteChatroomEntity(ChatroomEntities deleteRecord) {
+    public boolean delete(ChatroomEntities deleteRecord) {
         repository.delete(deleteRecord);
         return true;
     }
@@ -63,10 +63,25 @@ public class ChatroomEntitiesService implements IChatroomEntitiesService {
         }
         return i;
     }
+    
     @Transactional
     @Override
-    public boolean checkIfChatroomExists(Long member_id)
+    public boolean checkIfChatroomExists(Long room_id)
     {
-        return repository.findByRoomID(member_id) != null;
+        return repository.findByRoomID(room_id) != null;
+    }
+    
+    @Transactional
+    @Override
+    public Long getNextID(){
+        Long i = countRecords();
+        Long x = repository.getOne(i).getRoom_id();
+        return x + 1L ;       
+    }
+    
+    @Transactional
+    @Override
+    public boolean validateRoomnameExistance(String room_name){
+        return repository.findByRoomName(room_name) != null;
     }
 }

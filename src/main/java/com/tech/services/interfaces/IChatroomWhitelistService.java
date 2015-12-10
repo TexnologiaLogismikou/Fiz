@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 public interface IChatroomWhitelistService {
 
     @Transactional
-    void addUserToWhitelist(ChatroomWhitelist newRecord);
+    void add(ChatroomWhitelist newRecord);
 
     @Transactional
     Long countRecords();
@@ -29,7 +29,7 @@ public interface IChatroomWhitelistService {
     Long countRecordsOfRoom(Long room_id);
 
     @Transactional
-    boolean deleteUserFromWhitelist(ChatroomWhitelist deleteRecord);
+    boolean delete(ChatroomWhitelist deleteRecord);
 
     @Transactional
     List<ChatroomWhitelist> findByRoomID(Long room_id);

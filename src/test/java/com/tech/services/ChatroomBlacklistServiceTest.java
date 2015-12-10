@@ -58,7 +58,7 @@ public class ChatroomBlacklistServiceTest extends AbstractTest{
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testAddUserToBlacklist() {
-        service.addUserToBlacklist(blacklistNotExist);
+        service.add(blacklistNotExist);
         
         Assert.assertEquals("Failure - fail add user to blacklist",
                 blacklistNotExist.getRoom_id(),
@@ -68,7 +68,7 @@ public class ChatroomBlacklistServiceTest extends AbstractTest{
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testDeleteUserFromBlacklist() {
-       Boolean bool = service.deleteUserFromBlacklist(blacklistExist);
+       Boolean bool = service.delete(blacklistExist);
        
        Assert.assertTrue("Fail delete User From Blacklist",bool);
     }

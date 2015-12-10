@@ -23,13 +23,13 @@ public class ChatroomMembersService implements IChatroomMembersService {
     
     @Transactional
     @Override
-    public void addUserToBlacklist(ChatroomMembers newRecord){
+    public void add(ChatroomMembers newRecord){
         repository.save(newRecord);
     }   
      
     @Transactional
     @Override
-    public boolean deleteUserFromChatEntities(ChatroomMembers deleteRecord){
+    public boolean delete(ChatroomMembers deleteRecord){
         repository.delete(deleteRecord);
         return true;
     }

@@ -17,5 +17,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IChatroomEntitiesRepository extends JpaRepository<ChatroomEntities,Long> {
     ChatroomEntities findByRoomID(Long room_id);
+    ChatroomEntities findByRoomName(String room_name);
     List<ChatroomEntities> findByRoomCreator(Long room_creator);    
 }

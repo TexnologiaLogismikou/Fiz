@@ -24,6 +24,7 @@ import javax.persistence.Table;
  */
 @NamedQueries({
         @NamedQuery(name = "ChatroomEntities.findByRoomID", query = "SELECT p FROM ChatroomEntities p WHERE p.room_id = ?1"),
+        @NamedQuery(name = "ChatroomEntities.findByRoomName", query = "SELECT p FROM ChatroomEntities p WHERE p.room_name = ?1"),    
         @NamedQuery(name = "ChatroomEntities.findByRoomCreator",query = "SELECT p FROM ChatroomEntities p WHERE p.room_creator = ?1")
 })
 @Entity

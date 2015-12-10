@@ -10,6 +10,9 @@ import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.Validator;
 import com.tech.models.dtos.ChatroomCreationDTO;
+import com.tech.models.entities.ChatroomEntities;
+import com.tech.models.entities.ChatroomMembers;
+import com.tech.models.entities.ChatroomPrivileges;
 import com.tech.services.interfaces.IChatroomBlacklistService;
 import com.tech.services.interfaces.IChatroomEntitiesService;
 import com.tech.services.interfaces.IChatroomMembersService;
@@ -58,23 +61,39 @@ public class ChatroomController {
      * @param newChatroom
      * @return 
      */
-   @RequestMapping(value = "/newChatroom",method = RequestMethod.POST)
-   public HttpEntity<String> handleNewChatroom(@RequestBody ChatroomCreationDTO newChatroom){
-       Pair p = Validator.validateDTO(newChatroom);
-       if(!p.getBoolean()) {
-           return p.getResponse();
-       }
-
-       return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);
-   }
+    @RequestMapping(value = "/newChatroom",method = RequestMethod.POST)
+    public HttpEntity<String> handleNewChatroom(@RequestBody ChatroomCreationDTO newChatroom){
+        Pair p = Validator.validateDTO(newChatroom);
+        if(!p.getBoolean()) {
+            return p.getResponse();
+        }
+        if(userService.getUserById(newChatroom.getUserid())==null){
+            return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);
+        }
+        if(chatroomEntitesService.validateRoomnameExistance(newChatroom.getRoom_name())){
+            return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.FOUND);
+        }
+        
+        ChatroomEntities CE = new ChatroomEntities(chatroomEntitesService.getNextID(), newChatroom);
+        ChatroomPrivileges CP = new ChatroomPrivileges(CE.getRoom_id(), newChatroom);
+        ChatroomMembers CM = new ChatroomMembers(CE.getRoom_id(), newChatroom);
+        
+        chatroomEntitesService.add(CE);
+        chatroomMembersService.add(CM);
+        chatroomPrivilegesService.add(CP);
+        
+        return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);
+    }
    
-   @RequestMapping(value = "/connectChatroom",method = RequestMethod.POST)
-   public HttpEntity<String> connectToChatroom(/*@RequestBody ChatroomDTO chatroom*/){
-       return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);
-   }
+    @RequestMapping(value = "/connectChatroom",method = RequestMethod.POST)
+    public HttpEntity<String> connectToChatroom(/*@RequestBody ChatroomDTO chatroom*/){
+        return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);
+    }
    
-   @RequestMapping(value ="/deleteChatroom",method = RequestMethod.POST)
-   public HttpEntity<String> deleteChatroom(/*@RequestBody ChatroomDTO chatroom*/) {
-       return new ResponseEntity<>(Responses.SUCCESS.getData(),HttpStatus.OK);
-   }   
+    @RequestMapping(value ="/deleteChatroom",method = RequestMethod.POST)
+    public HttpEntity<String> deleteChatroom(/*@RequestBody ChatroomDTO chatroom*/) {
+        return new ResponseEntity<>(Responses.SUCCESS.getData(),HttpStatus.OK);
+    }   
+   
+   
 }

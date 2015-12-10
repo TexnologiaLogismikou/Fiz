@@ -16,7 +16,7 @@ import javax.transaction.Transactional;
 public interface IChatroomMembersService {
 
     @Transactional
-    void addUserToBlacklist(ChatroomMembers newRecord);
+    void add(ChatroomMembers newRecord);
 
     @Transactional
     Long countRecords();
@@ -28,7 +28,7 @@ public interface IChatroomMembersService {
     Long countRecordsOfRoom(Long room_id);
 
     @Transactional
-    boolean deleteUserFromChatEntities(ChatroomMembers deleteRecord);
+    boolean delete(ChatroomMembers deleteRecord);
 
     @Transactional
     List<ChatroomMembers> findByRoomId(Long room_id);
