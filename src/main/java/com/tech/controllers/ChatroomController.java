@@ -6,10 +6,10 @@
 package com.tech.controllers;
 
 import com.tech.configurations.tools.Host;
+import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.Validator;
 import com.tech.models.dtos.ChatroomCreationDTO;
-import com.tech.models.entities.User;
 import com.tech.services.interfaces.IChatroomBlacklistService;
 import com.tech.services.interfaces.IChatroomEntitiesService;
 import com.tech.services.interfaces.IChatroomMembersService;
@@ -59,12 +59,11 @@ public class ChatroomController {
      */
    @RequestMapping(value = "/newChatroom",method = RequestMethod.POST)
    public HttpEntity<String> handleNewChatroom(@RequestBody ChatroomCreationDTO newChatroom){
-       
-       if(!Validator.validateDTO(newChatroom)) {
-           return Validator.getResponse();
+       Pair p = Validator.validateDTO(newChatroom);
+       if(!p.getBoolean()) {
+           return p.getResponse();
        }
 
-       
        return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);
    }
    

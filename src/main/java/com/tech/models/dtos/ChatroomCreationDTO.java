@@ -14,6 +14,7 @@ import com.tech.models.dtos.superclass.BaseDTO;
 public class ChatroomCreationDTO extends BaseDTO{
     private Long userid;
     private String room_name;
+    private String room_privilege;
     private String access_method;
     private boolean hasPassword;
     private String password;
@@ -41,6 +42,10 @@ public class ChatroomCreationDTO extends BaseDTO{
 
     public String getPassword() {
         return password;
+    }
+
+    public String getRoom_privilege() {
+        return room_privilege;
     }
     
 }

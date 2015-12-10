@@ -2,6 +2,7 @@ package com.tech.controllers;
 
 import com.tech.configurations.tools.AvailableRoles;
 import com.tech.configurations.tools.Host;
+import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.Validator;
 import com.tech.controllers.superclass.BaseController;
@@ -40,14 +41,9 @@ public class RegistrationController extends BaseController{
      */
     @RequestMapping(method = RequestMethod.POST)
     public HttpEntity<String> register(@RequestBody RegisteredUserDTO userDTO) {
-        if(!Validator.nameValidation(userDTO.getUsername())){
-            return new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(),HttpStatus.NOT_ACCEPTABLE);
-        }
-        if(!Validator.passwordValidator(userDTO.getPassword())){
-            return new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(),HttpStatus.NOT_ACCEPTABLE);            
-        }
-        if(userDTO.getFirstName().isEmpty() || userDTO.getLast_name().isEmpty() || userDTO.getEmail().isEmpty()){
-            return new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(),HttpStatus.NOT_ACCEPTABLE);
+        Pair p = Validator.validateDTO(userDTO);
+        if(!p.getBoolean()) {
+            return p.getResponse();
         }
         
         if(service.checkUsername(userDTO.getUsername())) {
