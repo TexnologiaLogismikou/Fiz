@@ -1,6 +1,5 @@
 package com.tech.configurations.security;
 
-
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -46,23 +45,22 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                    .antMatchers("/login**", "/login/**").permitAll()
                     .antMatchers("/user**", "/user/**").authenticated()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
+                        .permitAll()
                         .usernameParameter("j_username")
                         .passwordParameter("j_password")
                         .defaultSuccessUrl("/", true)
                         .successHandler(authenticationSuccessHandler)
-                        .permitAll()
                         .loginProcessingUrl("/login")
                         .failureHandler(new SimpleUrlAuthenticationFailureHandler())
                 .and()
                     .logout()
+                        .permitAll()
                         .logoutUrl("/logout")
                         .invalidateHttpSession(true)
-                        .logoutSuccessUrl("/")
                         .deleteCookies("JSESSIONID")
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .and()
