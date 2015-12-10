@@ -96,4 +96,23 @@ public class FriendService implements IFriendService
         return tmstampFriends;
     }
     
+    @Transactional
+    @Override
+    public List<Friend> getFriendsByYear(Long userid){
+        
+        List<Friend> friend = repository.findByUserid(userid);
+        List<Friend> timestampFriends = new ArrayList();
+        
+        Date currentDate = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+        String year = dateFormat.format(currentDate);
+        
+        for(Friend vLookUp:friend){
+            String timestampYear = dateFormat.format(vLookUp.getTimestamp());
+            if(Integer.parseInt(year)==Integer.parseInt(timestampYear)){
+                timestampFriends.add(vLookUp);
+            }
+        }
+        return timestampFriends;
+    }
 }

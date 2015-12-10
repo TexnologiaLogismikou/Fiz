@@ -128,4 +128,13 @@ public class FriendServiceTest extends AbstractTest
         service.getFriendsByMonth(2L);
         Assert.assertEquals("fail",service.getFriendsByMonth(2L).get(0).getFriendid(),friend.getFriendid());   
     }    
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetFriendsByYear(){
+        Friend friend = new Friend(2L,1L);
+        service.addFriend(friend);
+        service.getFriendsByYear(2L);
+        Assert.assertEquals("fail",service.getFriendsByYear(2L).get(0).getFriendid(),friend.getFriendid());
+    }
 }
