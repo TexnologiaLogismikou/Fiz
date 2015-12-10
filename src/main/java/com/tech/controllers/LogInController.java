@@ -30,7 +30,7 @@ public class LogInController extends BaseController {
     public HttpEntity<JSONObject> login(@RequestBody LoginUserDTO loginUserDTO) {
         JSONObject object = new JSONObject();
         
-        if (!Validator.usernameValidation(loginUserDTO.getUsername()) || !Validator.passwordValidator(loginUserDTO.getPassword())){
+        if (!Validator.nameValidation(loginUserDTO.getUsername()) || !Validator.passwordValidator(loginUserDTO.getPassword())){
             object.put("username",Responses.NOT_AUTHORIZED.getData());
             object.put("role",Responses.NOT_AUTHORIZED.getData());
             object.put("error",Responses.ERROR.getData());

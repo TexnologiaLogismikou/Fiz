@@ -54,7 +54,7 @@ public class ImagesController extends BaseController{
     @RequestMapping(method = RequestMethod.POST)
     public HttpEntity<String> loadImages(@RequestParam("file") MultipartFile file,@RequestParam("username") String name){
         
-        if (!Validator.usernameValidation(name)){
+        if (!Validator.nameValidation(name)){
             return new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(),HttpStatus.NOT_ACCEPTABLE);
         }
         

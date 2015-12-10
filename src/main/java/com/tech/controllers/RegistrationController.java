@@ -40,7 +40,7 @@ public class RegistrationController extends BaseController{
      */
     @RequestMapping(method = RequestMethod.POST)
     public HttpEntity<String> register(@RequestBody RegisteredUserDTO userDTO) {
-        if(!Validator.usernameValidation(userDTO.getUsername())){
+        if(!Validator.nameValidation(userDTO.getUsername())){
             return new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(),HttpStatus.NOT_ACCEPTABLE);
         }
         if(!Validator.passwordValidator(userDTO.getPassword())){

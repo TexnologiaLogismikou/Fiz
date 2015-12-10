@@ -7,6 +7,14 @@ package com.tech.controllers;
 
 import com.tech.configurations.tools.Host;
 import com.tech.configurations.tools.Responses;
+import com.tech.configurations.tools.Validator;
+import com.tech.models.dtos.ChatroomCreationDTO;
+import com.tech.models.entities.User;
+import com.tech.services.interfaces.IChatroomBlacklistService;
+import com.tech.services.interfaces.IChatroomEntitiesService;
+import com.tech.services.interfaces.IChatroomMembersService;
+import com.tech.services.interfaces.IChatroomPrivilegesService;
+import com.tech.services.interfaces.IChatroomWhitelistService;
 import com.tech.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -29,13 +37,34 @@ public class ChatroomController {
     @Autowired
     IUserService userService;
     
+    @Autowired 
+    IChatroomEntitiesService chatroomEntitesService;
+    
+    @Autowired 
+    IChatroomBlacklistService chatroomBlacklistService; 
+    
+    @Autowired 
+    IChatroomWhitelistService chatroomWhitelistService; 
+    
+    @Autowired 
+    IChatroomPrivilegesService chatroomPrivilegesService; 
+    
+    @Autowired 
+    IChatroomMembersService chatroomMembersService;
+    
     /** 
      * Chatroom = ChatRoom code , Chatroom name , Chatroom Creator, Chatroom member! 
      * @param newChatroom
      * @return 
      */
    @RequestMapping(value = "/newChatroom",method = RequestMethod.POST)
-   public HttpEntity<String> handleNewChatroom(/*@RequestBody ChatroomCreatorDTO newChatroom*/){
+   public HttpEntity<String> handleNewChatroom(@RequestBody ChatroomCreationDTO newChatroom){
+       
+       if(!Validator.validateDTO(newChatroom)) {
+           return Validator.getResponse();
+       }
+
+       
        return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);
    }
    

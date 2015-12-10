@@ -5,20 +5,20 @@
  */
 package com.tech.services;
 
-import com.tech.services.interfaces.IChatRoomBlacklistService;
 import com.tech.models.entities.ChatroomBlacklist;
 import com.tech.repositories.ICRBlacklist;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.tech.services.interfaces.IChatroomBlacklistService;
 
 /**
  *
  * @author iwann
  */
 @Service
-public class ChatroomBlacklistService implements IChatRoomBlacklistService{
+public class ChatroomBlacklistService implements IChatroomBlacklistService{
     @Autowired
     private ICRBlacklist repository;
     

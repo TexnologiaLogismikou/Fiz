@@ -5,7 +5,7 @@
  */
 package com.tech.services.interfaces;
 
-import com.tech.models.entities.ChatroomMembers;
+import com.tech.models.entities.ChatroomBlacklist;
 import java.util.List;
 import javax.transaction.Transactional;
 
@@ -13,10 +13,10 @@ import javax.transaction.Transactional;
  *
  * @author iwann
  */
-public interface IChatrooMembersService {
+public interface IChatroomBlacklistService {
 
     @Transactional
-    void addUserToBlacklist(ChatroomMembers newRecord);
+    void addUserToBlacklist(ChatroomBlacklist newRecord);
 
     @Transactional
     Long countRecords();
@@ -28,12 +28,15 @@ public interface IChatrooMembersService {
     Long countRecordsOfRoom(Long room_id);
 
     @Transactional
-    boolean deleteUserFromChatEntities(ChatroomMembers deleteRecord);
+    boolean deleteUserFromBlacklist(ChatroomBlacklist deleteRecord);
 
     @Transactional
-    List<ChatroomMembers> findByRoomId(Long room_id);
+    List<ChatroomBlacklist> findByRoomID(Long room_id);
 
     @Transactional
-    List<ChatroomMembers> findByRoomMember(Long room_member);
+    ChatroomBlacklist findByRoomIDAndRoomMember(Long room_id, Long room_member);
+
+    @Transactional
+    List<ChatroomBlacklist> findByRoomMember(Long room_member);
     
 }

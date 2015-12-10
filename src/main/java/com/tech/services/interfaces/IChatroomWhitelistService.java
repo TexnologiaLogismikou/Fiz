@@ -29,7 +29,7 @@ public interface IChatroomWhitelistService {
     Long countRecordsOfRoom(Long room_id);
 
     @Transactional
-    boolean deleteUserFromBlacklist(ChatroomWhitelist deleteRecord);
+    boolean deleteUserFromWhitelist(ChatroomWhitelist deleteRecord);
 
     @Transactional
     List<ChatroomWhitelist> findByRoomID(Long room_id);

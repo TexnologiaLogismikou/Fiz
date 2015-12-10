@@ -5,15 +5,22 @@
  */
 package com.tech.models.dtos;
 
+import com.tech.models.dtos.superclass.BaseDTO;
+
 /**
  *
  * @author milena
  */
-public class FriendDTO
+public class FriendDTO extends BaseDTO
 {
     private String username;
     private String friendname;
 
+    @Override
+    public String getDTOName() {
+        return "FriendDTO";
+    }
+    
     public String getUsername() 
     {
         return username;

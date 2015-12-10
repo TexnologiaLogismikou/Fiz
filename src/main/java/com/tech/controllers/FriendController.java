@@ -47,7 +47,7 @@ public class FriendController extends BaseController
    public HttpEntity<String> addFriend(@RequestBody FriendDTO friendDTO)
    {
       
-        if (!Validator.usernameValidation(friendDTO.getFriendname()))
+        if (!Validator.nameValidation(friendDTO.getFriendname()))
         {
             return new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(),HttpStatus.NOT_ACCEPTABLE);
         }
@@ -74,7 +74,7 @@ public class FriendController extends BaseController
    @RequestMapping(value = "/deletefriend",method = RequestMethod.POST)
    public HttpEntity<String> deleteFriend(@RequestBody FriendDTO friendDTO)
    {
-       if(!Validator.usernameValidation(friendDTO.getFriendname())){
+       if(!Validator.nameValidation(friendDTO.getFriendname())){
            return new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(),HttpStatus.NOT_ACCEPTABLE);
        }
        

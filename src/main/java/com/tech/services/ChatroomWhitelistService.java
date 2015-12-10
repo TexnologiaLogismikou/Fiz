@@ -6,7 +6,6 @@
 package com.tech.services;
 
 import com.tech.services.interfaces.IChatroomWhitelistService;
-import com.tech.models.entities.ChatroomBlacklist;
 import com.tech.models.entities.ChatroomWhitelist;
 import com.tech.repositories.ICRWhitelist;
 import java.util.List;
@@ -32,7 +31,7 @@ public class ChatroomWhitelistService implements IChatroomWhitelistService {
     
     @Transactional
     @Override
-    public boolean deleteUserFromBlacklist(ChatroomWhitelist deleteRecord){
+    public boolean deleteUserFromWhitelist(ChatroomWhitelist deleteRecord){
         repository.delete(deleteRecord);
         return true;
     }

@@ -16,7 +16,11 @@ public enum Responses {
     FRIEND_ALREADY_EXIST("friend already exists"),
     FRIEND_DOES_NOT_EXIST("friend does not exist"),
     SUCCESS("success"),
+    VALIDATOR_NOT_FOUND("validator not found"),
+    ACCESS_METHOD_NOT_ALLOWED("access method is not allowed"),
+    ACCESS_METHOD_NOT_FOUND("access method was not found"),
     STRING_INAPPROPRIATE_FORMAT("string format was wrong"),
+    ID_INAPPROPRIATE_FORMAT("ID format was wrong"),
     NOT_AUTHORIZED("not authorized"),
     NOT_AVAILABLE("not available"),
     AVAILABLE("available");
