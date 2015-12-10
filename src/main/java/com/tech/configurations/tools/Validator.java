@@ -24,9 +24,6 @@ public class Validator {
         return response;
     }
     
-    private static void setResposne(ResponseEntity r) {
-        response = r;
-    }
     /**
      * Tests a name if the formations / data are acceptable for the program
      * General nameValidator. for specific validations write your own :)
@@ -109,15 +106,14 @@ public class Validator {
         return true;
     }
     
-    public static boolean validateDTO (BaseDTO DTO) {
+    public static Pair validateDTO (BaseDTO DTO) {
         int code = DTO.getDTOName().toLowerCase().hashCode();
         if (AVAILABLE_VALIDATORS.containsKey(code)) {
             response = new ResponseEntity(Responses.VALIDATOR_NOT_FOUND.getData(),HttpStatus.NOT_FOUND);
-            return false;
+            return new Pair(false, response);
         }
         boolean booleanResponse = AVAILABLE_VALIDATORS.get(code).validate(DTO);
-        setResposne(AVAILABLE_VALIDATORS.get(code).response());
-        return booleanResponse;
+        return new Pair(booleanResponse, AVAILABLE_VALIDATORS.get(code).response());
     }
     
     public static boolean registerDTOValidator(CustomValidator DTOvalidator) {
