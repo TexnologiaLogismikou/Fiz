@@ -82,15 +82,22 @@ public class FriendService implements IFriendService
         List<Friend> tmstampFriends = new ArrayList();
         
         Date currentDate = new Date(); 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM");
-        String month = dateFormat.format(currentDate);
-       
+        SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MM");
+        SimpleDateFormat dateFormatYear = new SimpleDateFormat("yyyy");
+        String month = dateFormatMonth.format(currentDate);
+        System.out.println(month);
+        String year = dateFormatYear.format(currentDate);
+        System.out.println(year);
         for(Friend vLookUp:friend)
         {
-            String tmstampMonth = dateFormat.format(vLookUp.getTimestamp());
-            if(Integer.parseInt(month)==Integer.parseInt(tmstampMonth))
+            String tmstampMonth = dateFormatMonth.format(vLookUp.getTimestamp());
+            String tmstampYear = dateFormatYear.format(vLookUp.getTimestamp());
+            if(Integer.parseInt(year)==Integer.parseInt(tmstampYear))
             {
-               tmstampFriends.add(vLookUp);
+                if(Integer.parseInt(month)==Integer.parseInt(tmstampMonth))
+                {
+                    tmstampFriends.add(vLookUp);
+                }
             }
         }
         return tmstampFriends;
