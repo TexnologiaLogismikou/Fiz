@@ -82,7 +82,7 @@ public class FriendService implements IFriendService
         List<Friend> tmstampFriends = new ArrayList();
         
         Date currentDate = new Date(); 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM");
         String month = dateFormat.format(currentDate);
        
         for(Friend vLookUp:friend)
