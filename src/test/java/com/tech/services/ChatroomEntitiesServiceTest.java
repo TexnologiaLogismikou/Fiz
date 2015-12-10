@@ -86,23 +86,22 @@ public class ChatroomEntitiesServiceTest extends AbstractTest {
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testFindByRoomID() {
-//            ChatroomEntities chatroomEntities = new ChatroomEntities(1L, room_creator, room_name, room_creation_date, room_last_activity);
-//            service.findByRoomID(1L);
-//            Assert.assertTrue("fail", service.checkFriendIfExists(friend.getUserid(), friend.getFriendid()));
-
+        ChatroomEntities testRoom = service.findByRoomID(1L);
+        Assert.assertTrue("Failed to find room by room_id",testRoom.getRoom_id().equals(1L));
     }
 
 
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testFindByRoomCreator() {
-
+        Assert.assertTrue("Failed to find rooms by room creator",service.findByRoomCreator(1L).size()==2);
     }
 
 
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testCountRecords() {
+        Assert.assertTrue("Failed to count rooms",service.countRecords()==3);
 
     }
 
@@ -110,6 +109,7 @@ public class ChatroomEntitiesServiceTest extends AbstractTest {
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testCountRecordsOfMember() {
+        Assert.assertTrue("Failed to count rooms created by user",service.countRecordsOfMember(1L)==2);
 
     }
 
