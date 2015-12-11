@@ -3,55 +3,55 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tech.services;
+package com.tech.services.chatroom;
 
-import com.tech.services.interfaces.IChatroomWhitelistService;
-import com.tech.models.entities.ChatroomWhitelist;
-import com.tech.repositories.ICRWhitelist;
+import com.tech.models.entities.chatroom.ChatroomBlacklist;
+import com.tech.repositories.ICRBlacklist;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.tech.services.interfaces.IChatroomBlacklistService;
+import java.util.Date;
 
 /**
  *
  * @author iwann
  */
 @Service
-public class ChatroomWhitelistService implements IChatroomWhitelistService {
-
+public class ChatroomBlacklistService implements IChatroomBlacklistService{
     @Autowired
-    private ICRWhitelist repository;
+    private ICRBlacklist repository;
     
     @Transactional
     @Override
-    public void add(ChatroomWhitelist newRecord){
+    public void add(ChatroomBlacklist newRecord){
         repository.save(newRecord);
     }  
     
     @Transactional
     @Override
-    public boolean delete(ChatroomWhitelist deleteRecord){
+    public boolean delete(ChatroomBlacklist deleteRecord){
         repository.delete(deleteRecord);
         return true;
     }
     
     @Transactional
     @Override
-    public List<ChatroomWhitelist> findByRoomID(Long room_id){
+    public List<ChatroomBlacklist> findByRoomID(Long room_id){
         return repository.findByRoomID(room_id);
     }
     
     @Transactional
     @Override
-    public List<ChatroomWhitelist> findByRoomMember(Long room_member){
+    public List<ChatroomBlacklist> findByRoomMember(Long room_member){
         return repository.findByRoomMember(room_member);
     }
     
     @Transactional
     @Override
-    public ChatroomWhitelist findByRoomIDAndRoomMember(Long room_id,Long room_member){
-        return repository.findByRoomIDAndRoomName(room_id, room_member);
+    public ChatroomBlacklist findByRoomIDAndRoomMember(Long room_id,Long room_member){
+        return repository.findByRoomIDAndRoomMember(room_id, room_member);
     }
     
     @Transactional
@@ -64,7 +64,7 @@ public class ChatroomWhitelistService implements IChatroomWhitelistService {
     @Override
     public Long countRecordsOfRoom(Long room_id){
         long i = 0;
-        for (ChatroomWhitelist vLookUp:repository.findByRoomID(room_id)){
+        for (ChatroomBlacklist vLookUp:repository.findByRoomID(room_id)){
             i++;
         }
         return i;
@@ -74,12 +74,15 @@ public class ChatroomWhitelistService implements IChatroomWhitelistService {
     @Override
     public Long countRecordsOfMember(Long member_id) {
         long i = 0;
-        for(ChatroomWhitelist vLookUp:repository.findByRoomMember(member_id)){
+        for(ChatroomBlacklist vLookUp:repository.findByRoomMember(member_id)){
             i++;
         }
         return i;
     }
+
+    @Transactional
+    @Override
+    public void setNewTime(Long room_id,Long member_id,Date room_expiration_time){
+        repository.setChatroomBlacklist(room_expiration_time, room_id, member_id);
+    }
 }
-
-    
-

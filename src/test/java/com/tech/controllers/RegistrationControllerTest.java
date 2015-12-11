@@ -6,12 +6,12 @@
 package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
-import com.tech.models.entities.User;
-import com.tech.models.entities.UserInfo;
-import com.tech.models.entities.UserRole;
-import com.tech.services.UserInfoService;
-import com.tech.services.UserRoleService;
-import com.tech.services.UserService;
+import com.tech.models.entities.user.User;
+import com.tech.models.entities.user.UserInfo;
+import com.tech.models.entities.user.UserRole;
+import com.tech.services.user.UserInfoService;
+import com.tech.services.user.UserRoleService;
+import com.tech.services.user.UserService;
 import java.util.Date;
 import javax.transaction.Transactional;
 import org.junit.After;

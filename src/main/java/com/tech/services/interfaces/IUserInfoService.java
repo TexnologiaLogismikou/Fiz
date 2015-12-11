@@ -5,7 +5,7 @@
  */
 package com.tech.services.interfaces;
 
-import com.tech.models.entities.UserInfo;
+import com.tech.models.entities.user.UserInfo;
 import javax.transaction.Transactional;
 
 /**

@@ -6,8 +6,8 @@
 package com.tech.services;
 
 import com.tech.AbstractTest;
-import com.tech.models.entities.ChatroomEntities;
-import com.tech.models.entities.ChatroomMembers;
+import com.tech.models.entities.chatroom.ChatroomEntities;
+import com.tech.models.entities.chatroom.ChatroomMembers;
 import com.tech.services.interfaces.IChatroomBlacklistService;
 import com.tech.services.interfaces.IChatroomMembersService;
 import org.junit.*;

@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tech.services;
+package com.tech.services.user;
 
 import com.tech.services.interfaces.IUserInfoService;
-import com.tech.models.entities.UserInfo;
+import com.tech.models.entities.user.UserInfo;
 import com.tech.repositories.IUserInfoRepository;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

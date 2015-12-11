@@ -1,6 +1,6 @@
 package com.tech.repositories;
 
-import com.tech.models.entities.UserRole;
+import com.tech.models.entities.user.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

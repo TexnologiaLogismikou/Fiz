@@ -5,7 +5,7 @@
  */
 package com.tech.repositories;
 
-import com.tech.models.entities.ChatroomEntities;
+import com.tech.models.entities.chatroom.ChatroomEntities;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

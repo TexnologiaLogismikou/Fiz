@@ -1,7 +1,7 @@
-package com.tech.services;
+package com.tech.services.user;
 
 import com.tech.services.interfaces.IUserService;
-import com.tech.models.entities.User;
+import com.tech.models.entities.user.User;
 import com.tech.repositories.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;

@@ -5,9 +5,10 @@
  */
 package com.tech.services;
 
+import com.tech.services.user.UserInfoService;
 import com.tech.AbstractTest;
 import com.tech.configurations.tools.Attr;
-import com.tech.models.entities.UserInfo;
+import com.tech.models.entities.user.UserInfo;
 import com.tech.repositories.IUserInfoRepository;
 import com.tech.services.interfaces.IUserInfoService;
 import javax.transaction.Transactional;

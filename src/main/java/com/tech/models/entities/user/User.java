@@ -1,8 +1,8 @@
-package com.tech.models.entities;
+package com.tech.models.entities.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tech.models.dtos.RegisteredUserDTO;
-import com.tech.models.dtos.UserDTO;
+import com.tech.models.dtos.user.RegisteredUserDTO;
+import com.tech.models.dtos.user.UserDTO;
 
 import javax.persistence.*;
 import java.io.Serializable;

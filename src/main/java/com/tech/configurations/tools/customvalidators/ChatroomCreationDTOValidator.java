@@ -9,7 +9,7 @@ import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.Validator;
 import com.tech.configurations.tools.customvalidators.interfaces.CustomValidator;
 import com.tech.configurations.tools.customvalidators.superclass.BaseValidator;
-import com.tech.models.dtos.ChatroomCreationDTO;
+import com.tech.models.dtos.chatroom.ChatroomCreationDTO;
 import com.tech.models.dtos.superclass.BaseDTO;
 import org.springframework.http.HttpStatus;
 

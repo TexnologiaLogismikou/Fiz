@@ -6,7 +6,7 @@
 package com.tech.services;
 
 import com.tech.AbstractTest;
-import com.tech.models.entities.ChatroomEntities;
+import com.tech.models.entities.chatroom.ChatroomEntities;
 import com.tech.services.interfaces.IChatroomEntitiesService;
 import org.junit.*;
 import org.springframework.beans.factory.annotation.Autowired;

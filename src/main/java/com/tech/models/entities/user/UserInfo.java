@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tech.models.entities;
+package com.tech.models.entities.user;
 
 import com.tech.configurations.tools.Attr;
-import com.tech.models.dtos.RegisteredUserDTO;
-import com.tech.models.dtos.UserDTO;
+import com.tech.models.dtos.user.RegisteredUserDTO;
+import com.tech.models.dtos.user.UserDTO;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;

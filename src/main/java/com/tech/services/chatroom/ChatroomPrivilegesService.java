@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tech.services;
+package com.tech.services.chatroom;
 
 import com.tech.services.interfaces.IChatroomPrivilegesService;
-import com.tech.models.entities.ChatroomPrivileges;
+import com.tech.models.entities.chatroom.ChatroomPrivileges;
 import com.tech.repositories.IChatroomPrivilegesRepository;
 import java.util.List;
 import javax.transaction.Transactional;

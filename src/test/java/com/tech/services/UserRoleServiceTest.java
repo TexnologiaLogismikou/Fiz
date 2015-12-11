@@ -8,7 +8,7 @@ package com.tech.services;
 import com.tech.AbstractTest;
 import com.tech.configurations.tools.AvailableRoles;
 import com.tech.configurations.tools.Responses;
-import com.tech.models.entities.UserRole;
+import com.tech.models.entities.user.UserRole;
 import com.tech.services.interfaces.IUserRoleService;
 import javax.transaction.Transactional;
 import org.junit.After;

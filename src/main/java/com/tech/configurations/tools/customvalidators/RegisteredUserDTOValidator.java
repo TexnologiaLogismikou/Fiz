@@ -9,7 +9,7 @@ import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.Validator;
 import com.tech.configurations.tools.customvalidators.interfaces.CustomValidator;
 import com.tech.configurations.tools.customvalidators.superclass.BaseValidator;
-import com.tech.models.dtos.RegisteredUserDTO;
+import com.tech.models.dtos.user.RegisteredUserDTO;
 import com.tech.models.dtos.superclass.BaseDTO;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
