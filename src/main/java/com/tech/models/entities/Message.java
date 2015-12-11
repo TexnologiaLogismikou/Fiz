@@ -1,14 +1,18 @@
 package com.tech.models.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Message.findByMessageId", query = "SELECT p FROM Message p WHERE p.id = ?1"),
+        @NamedQuery(name = "Message.findBySenderId",query = "SELECT p FROM Message p WHERE p.userid = ?1"),
+        @NamedQuery(name = "Message.findByChatRoom",query = "SELECT p FROM Message p WHERE p.chatroom_id = ?1")
+//    @NamedQuery(named = "Message.FindByDateOfSend", query = "SELECT p FROM Message p WHERE p.dateSent = ?1")
+})
 @Table (name = "messages")
-public class Message {
+public class Message implements Serializable{
     @Id
     @Column(name = "id")
     private Long id;
@@ -19,16 +23,21 @@ public class Message {
     @Column(name = "message")
     private String message;
 
-    @Column(name = "date")
-    private Date date;
+    @Column(name = "datesent")
+    private Date dateSent;
+    //TODO : Anazitisi kai leitourgies me basi
+
+    @Column(name = "chatroom_id")
+    private Long chatroom_id;
 
     protected Message() {}
 
-    public Message(Long id, Long userid, String message) {
+    public Message(Long id, Long userid, String message, Long chatroom) {
         this.message = message;
         this.id = id;
         this.userid = userid;
-        this.date = new Date();
+        this.dateSent = new Date();
+        this.chatroom_id = chatroom;
     }
 
     public Long getId() {
@@ -56,10 +65,18 @@ public class Message {
     }
 
     public Date getDate() {
-        return date;
+        return dateSent;
     }
 
     public void setDate() {
-        this.date = new Date();
+        this.dateSent = new Date();
+    }
+
+    public Long getChatroom() {
+        return chatroom_id;
+    }
+
+    public void setChatroom(Long chatroom) {
+        this.chatroom_id = chatroom;
     }
 }

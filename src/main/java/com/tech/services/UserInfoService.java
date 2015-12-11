@@ -18,24 +18,25 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserInfoService implements IUserInfoService {
-    
+
     @Autowired
     private IUserInfoRepository repository;
-    
-    @Override 
+
+    @Override
     @Transactional
     public void modifyUserInfo(UserInfo modifiedUser) {
-        repository.setUserInfoById(modifiedUser.getEmail(),modifiedUser.getProfilePhoto(),modifiedUser.getStatus(),
-                modifiedUser.getLastName(),modifiedUser.getBirthday(),modifiedUser.getHometown(), modifiedUser.getUserid());
+        repository.setUserInfoById(modifiedUser.getFirstName(),modifiedUser.getLastName(),modifiedUser.getBirthday(),
+                modifiedUser.getEmail(),modifiedUser.getStatus(),modifiedUser.getProfilePhoto(),
+                modifiedUser.getHometown(), modifiedUser.getUserid());
     }
-    
-    @Override 
+
+    @Override
     @Transactional
-     public void addUserInfo(UserInfo userInfo) {
+    public void addUserInfo(UserInfo userInfo) {
         repository.save(userInfo);
     }
-     
-    @Override 
+
+    @Override
     @Transactional
     public UserInfo getUserInfoByUserId(Long userId){
         return repository.findByUserid(userId);

@@ -5,11 +5,13 @@
  */
 package com.tech.models.dtos;
 
+import com.tech.models.dtos.superclass.BaseDTO;
+
 /**
  *
  * @author bill5_000
  */
-public class UserDTO {
+public class UserDTO extends BaseDTO {
     private String username;
     private String password;
     private boolean enabled;
@@ -19,6 +21,12 @@ public class UserDTO {
     private String last_name;
     private String birthday;
     private String hometown;
+    private String firstname;
+    
+    @Override
+    public String getDTOName() {
+        return "UserDTO";
+    }
     
     public String getEmail(){
         return email;
@@ -53,6 +61,10 @@ public class UserDTO {
     
     public boolean getEnabled(){
         return enabled;
+    }
+    
+    public String getFirstName(){
+        return firstname;
     }
             
 }

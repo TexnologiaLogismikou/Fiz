@@ -115,13 +115,16 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public long getNextID() {
-        return getCount() + 1L ;
+        Long i = getCount();
+        Long x = repository.getOne(i).getId();
+        return x + 1L ;
     }
     
     @Override    
     @Transactional
     public User getLastRecord(){
-        throw new UnsupportedOperationException("Not working yet");
+        Long i = getCount();
+        return repository.getOne(i);
     }
 
     @Override

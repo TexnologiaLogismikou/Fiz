@@ -73,7 +73,7 @@ public class UserServiceTest extends AbstractTest{
         list.add(new User(6L,"milena2","milena2",true));
         
         userNotExist = new User(2L,"vasilis","vasilis",true);
-        userExist = new User (2L,"iwanna","iwanna",true);
+        userExist = new User (2L,"iwannaFot","iwanna",true);
     }
     
     @After
@@ -114,7 +114,7 @@ public class UserServiceTest extends AbstractTest{
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testModifyUserByPassword(){
-        User mockedModifyUser = new User (2L,"iwanna","vasilis",true);
+        User mockedModifyUser = new User (2L,"iwannaFot","vasilis",true);
         
         User userOrigin = service.getUserById(userExist.getId());
         when(mockService.getUserById(2L)).thenReturn(mockedModifyUser);
@@ -142,7 +142,7 @@ public class UserServiceTest extends AbstractTest{
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testModifyUserByStatus(){
-        User mockedModifyUser = new User (2L,"iwanna","iwanna",false);
+        User mockedModifyUser = new User (2L,"iwannaFot","iwanna",false);
         
         User userOrigin = service.getUserById(userExist.getId());
         when(mockService.getUserById(2L)).thenReturn(mockedModifyUser);
@@ -234,7 +234,7 @@ public class UserServiceTest extends AbstractTest{
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testModifyUserByPasswordAndStatus(){
-        User mockedModifyUser = new User (2L,"iwanna","vasilis",false);
+        User mockedModifyUser = new User (2L,"iwannaFot","vasilis",false);
          
         User userOrigin = service.getUserById(userExist.getId());
         when(mockService.getUserById(2L)).thenReturn(mockedModifyUser);
@@ -322,9 +322,9 @@ public class UserServiceTest extends AbstractTest{
     @Sql(scripts = "classpath:populateDB.sql")
     public void testGetAllUsers(){
         list = new ArrayList();
-        list.add(new User(1L,"mixalis","mixalis",true));
-        list.add(new User(2L,"iwanna","iwanna",true));
-        list.add(new User(3L,"milena","milena",true));
+        list.add(new User(1L,"mixalisMix","mixalis",true));
+        list.add(new User(2L,"iwannaFot","iwanna",true));
+        list.add(new User(3L,"milenaAz","milena",true));
         
         List<User> list2 = service.getAllUsers();
         

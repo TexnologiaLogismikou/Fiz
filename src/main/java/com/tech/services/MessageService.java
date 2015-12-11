@@ -10,7 +10,8 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class MessageService implements IMessageService {
+public class MessageService implements IMessageService 
+{
 
     @Autowired
     private IMessageRepository repository;
@@ -18,7 +19,7 @@ public class MessageService implements IMessageService {
     @Override
     @Transactional
     public Message getMessageById(Long id) {
-        return repository.getOne(id);
+        return repository.findByMessageId(id);
     }
 
     @Override
@@ -29,14 +30,9 @@ public class MessageService implements IMessageService {
 
     @Override
     @Transactional
-    public void addMessages(List<Message> messages) {
-        repository.save(messages);
-    }
-
-    @Override
-    @Transactional
-    public void deleteMessage(Message message) {
-        repository.delete(message);
+    public void modifyMessage(Message message) 
+    {
+        repository.setMessageById(message.getUserid(), message.getMessage(), message.getDate(), message.getChatroom(), message.getId());
     }
 
     @Override
@@ -45,4 +41,49 @@ public class MessageService implements IMessageService {
         return repository.findAll();
     }
 
+    @Override
+    @Transactional
+    public List <Message> getByChatRoom(Long chatroom_id)
+    {
+        return repository.findByChatRoom(chatroom_id);
+    }
+    
+    @Override
+    @Transactional
+    public List<Message> getBySenderId(Long userid)
+    {
+        return repository.findBySenderId(userid);
+    }
+    
+    @Override
+    @Transactional
+    public Long getCount()
+    {
+        return repository.count();
+    }
+    
+    @Override
+    @Transactional
+    public Long getCountBySenderId(Long userid)
+    {
+        //Kanoume Casting dioti h size() epistrefei int
+        return Integer.toUnsignedLong(repository.findBySenderId(userid).size());
+    }
+    
+    @Override
+    @Transactional
+    public Long getCountByChatroomId(Long chatroom_id)
+    {
+        //Kanoume Casting dioti h size() epistrefei int
+        return Integer.toUnsignedLong(repository.findByChatRoom(chatroom_id).size());
+    }
+    
+    @Override
+    @Transactional
+    public Long getNextId()
+    {
+        Long i = getCount();
+        Long x = repository.getOne(i).getId();
+        return x + 1L ;
+    }
 }

@@ -37,7 +37,7 @@ public class Friend implements Serializable
     @Id
     private Long friendid;
     
-    @Column(name = "date")
+    @Column(name = "added_date")
     private Date tmstamp;
     
     public Friend() {}

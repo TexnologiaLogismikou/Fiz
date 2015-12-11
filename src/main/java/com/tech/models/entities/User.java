@@ -5,6 +5,7 @@ import com.tech.models.dtos.RegisteredUserDTO;
 import com.tech.models.dtos.UserDTO;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Model for database Table "Usersdata"
@@ -12,9 +13,13 @@ import javax.persistence.*;
  * @author KuroiTenshi
  */
 @Entity
-@NamedQuery(name = "User.findByUserid", query = "SELECT p FROM User p WHERE p.id = ?1")
+@NamedQueries({
+        @NamedQuery(name = "User.findByUserid", query = "SELECT p FROM User p WHERE p.id = ?1"),
+        @NamedQuery(name = "User.findByUsername", query = "SELECT p FROM User p WHERE p.username = ?1"),
+        @NamedQuery(name = "User.findByUsernameAndPassword", query = "SELECT p FROM User p WHERE p.username = ?1 AND p.password = ?2")
+})
 @Table (name = "Usersdata")
-public class User {
+public class User implements Serializable{
 
     @Id //id = primary key
     @Column(name = "id") //column that the variable belongs

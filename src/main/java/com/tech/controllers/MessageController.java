@@ -43,7 +43,6 @@ public class MessageController extends BaseController {
         object.put("user", messageDTO.getUser());
         object.put("message", messageDTO.getMessage());
         object.put("date", dateFormat.format(date));
-        object.put("color", messageDTO.getColor());
 
         return object;
     }
