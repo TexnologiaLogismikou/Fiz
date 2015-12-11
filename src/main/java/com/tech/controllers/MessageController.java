@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class MessageController extends BaseController {
@@ -27,28 +29,44 @@ public class MessageController extends BaseController {
     @Autowired
     IUserService userService;
 
-    @MessageMapping("/chat")
-    @SendTo("/topic/chat")
-    public JSONObject chat(MessageDTO messageDTO) {
-
-//        User user = userService.getUserByUsername(messageDTO.getUser());
-//        Long id = 1000L;
-//        Message message = new Message(id, user.getId(), messageDTO.getMessage());
-//        TODO Add to DB after profile implementation
-
+    @MessageMapping("/{chatroom}")
+    @SendTo("/topic/{chatroom}")
+    public JSONObject chat(MessageDTO messageDTO, @DestinationVariable ("chatroom") String chatroom_name){
+        System.out.println(chatroom_name);
+        
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
-
+        
         JSONObject object = new JSONObject();
         object.put("user", messageDTO.getUser());
         object.put("message", messageDTO.getMessage());
         object.put("date", dateFormat.format(date));
 
-        return object;
+        return object; 
     }
-
-    @RequestMapping(value = "/chat",method = RequestMethod.GET)
-    public String loadChat(){
-        return "chat";
-    }
+    
+//    @MessageMapping("/chat")
+//    @SendTo("/topic/chat")
+//    public JSONObject chat(MessageDTO messageDTO) {
+//
+////        User user = userService.getUserByUsername(messageDTO.getUser());
+////        Long id = 1000L;
+////        Message message = new Message(id, user.getId(), messageDTO.getMessage());
+////        TODO Add to DB after profile implementation
+//
+//        Date date = new Date();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
+//
+//        JSONObject object = new JSONObject();
+//        object.put("user", messageDTO.getUser());
+//        object.put("message", messageDTO.getMessage());
+//        object.put("date", dateFormat.format(date));
+//
+//        return object;
+//    }
+//
+//    @RequestMapping(value = "/chat",method = RequestMethod.GET)
+//    public String loadChat(){
+//        return "chat";
+//    }
 }
