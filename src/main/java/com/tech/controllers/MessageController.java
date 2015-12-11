@@ -13,15 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class MessageController extends BaseController {
-    /*
-        This Class DOESNT extend BaseController . Testing of this class will be different from the rest. 
-        if testing has problems this ca nextend BaseController. BUT BaseController must be refactored and 
-        remove @RestController annotation
-    */
 
     //@Autowired
     //IMessageService messageService;
