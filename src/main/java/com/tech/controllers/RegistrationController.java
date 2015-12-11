@@ -42,9 +42,9 @@ public class RegistrationController extends BaseController{
      */
     @RequestMapping(method = RequestMethod.POST)
     public HttpEntity<String> register(@RequestBody RegisteredUserDTO userDTO) {
-        Pair p = ValidatorFactory.validateDTO(userDTO);
-        if(!p.getBoolean()) {
-            return p.getResponse();
+        Pair<Boolean,ResponseEntity> p = ValidatorFactory.validateDTO(userDTO);
+        if(!p.getLeft()) {
+            return p.getRight();
         }
         
         if(service.checkUsername(userDTO.getUsername())) {

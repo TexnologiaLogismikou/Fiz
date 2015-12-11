@@ -75,9 +75,9 @@ public class ChatroomController {
      */
     @RequestMapping(value = "/newChatroom",method = RequestMethod.POST)
     public HttpEntity<String> handleNewChatroom(@RequestBody ChatroomCreationDTO newChatroom){
-        Pair p = ValidatorFactory.validateDTO(newChatroom);
-        if(!p.getBoolean()) {
-            return p.getResponse();
+        Pair<Boolean,ResponseEntity> p = ValidatorFactory.validateDTO(newChatroom);
+        if(!p.getLeft()) {
+            return p.getRight();
         }
         
         if(userService.getUserById(newChatroom.getUserid())==null){
