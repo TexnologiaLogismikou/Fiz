@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 
 /**
- * @author iwann
+ * @author Aenaos
  */
 @Transactional
 @WebAppConfiguration
@@ -63,33 +63,35 @@ public class ChatroomMembersServiceTest extends AbstractTest {
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testAddChatroomMember() {
-        //service.add(new ChatroomMembers(1L, 1L));
-       // Assert.assertTrue("Could not add member", service.checkIfChatroomEntityExists(4L));
+        service.add(new ChatroomMembers(3L, 1L));
+        Assert.assertTrue("Could not add member", service.checkIfMemberExistsInChatroom(3L, 1L));
     }
 
 
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testDeleteChatMember() {
-
-//        service.delete(service.findByRoomId(1L));
-//
-//        service.delete(testRoom);
-//        Assert.assertFalse("Could not delete chatroom", service.checkIfChatroomEntityExists(1L);
-
+        service.delete(service.findByRoomIdAndMember(1L, 1L));
+        Assert.assertFalse("Could not delete member", service.checkIfMemberExistsInChatroom(1L, 1L));
     }
 
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testFindByRoomIdAndMember() {
+        Assert.assertTrue("Failed to find member in room",service.findByRoomIdAndMember(1L,1L).getRoom_id().equals(1L));
+    }
 
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testFindByRoomId() {
-
+        Assert.assertTrue("Failed to find members by room id",service.findByRoomId(1L).size()==2);
     }
 
 
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testFindByRoomMember() {
+        Assert.assertTrue("Failed to find members by room id",service.findByRoomMember(1L).size()==2);
 
     }
 
@@ -97,19 +99,21 @@ public class ChatroomMembersServiceTest extends AbstractTest {
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testCountRecords() {
+        Assert.assertTrue("Failed to count records",service.countRecords()==5);
     }
 
 
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testCountRecordsOfRoom() {
-
+        Assert.assertTrue("Failed to count rooms",service.countRecordsOfRoom(1L)==2);
     }
 
 
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testCountRecordsOfMember() {
+        Assert.assertTrue("Failed to count members",service.countRecordsOfMember(1L)==2);
 
     }
 

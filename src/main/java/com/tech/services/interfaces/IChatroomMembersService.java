@@ -38,5 +38,8 @@ public interface IChatroomMembersService {
 
     @Transactional
     boolean checkIfMemberExistsInChatroom(Long member_id,Long room_id);
+
+    @Transactional
+    ChatroomMembers findByRoomIdAndMember(Long member_id, Long room_id);
     
 }
