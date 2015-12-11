@@ -7,6 +7,7 @@ package com.tech.configurations.tools.customvalidators.superclass;
 
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.Validator;
+import com.tech.configurations.tools.ValidatorFactory;
 import com.tech.configurations.tools.customvalidators.interfaces.CustomValidator;
 import java.util.Objects;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public abstract class BaseValidator implements CustomValidator{
     
     protected BaseValidator(String myName){
         this.myName = myName;
-        Validator.registerDTOValidator(this);
+        ValidatorFactory.registerDTOValidator(this);
     }
    
     protected void setResponseEntity(Responses response, HttpStatus status){
