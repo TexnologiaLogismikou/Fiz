@@ -101,6 +101,6 @@ public class ChatroomEntitiesService implements IChatroomEntitiesService {
     @Transactional
     @Override
     public void updateLastActivity(Date last_activity,Long room_id){
-        repository.updateLastActivity(last_activity, room_id);
+        repository.setRoomLastActivityByRoomID(last_activity, room_id);
     }
 }
