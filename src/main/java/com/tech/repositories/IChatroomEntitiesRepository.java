@@ -6,6 +6,7 @@
 package com.tech.repositories;
 
 import com.tech.models.entities.chatroom.ChatroomEntities;
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,4 +25,7 @@ public interface IChatroomEntitiesRepository extends JpaRepository<ChatroomEntit
     @Modifying
     @Query("update ChatroomEntities u set u.room_name = ?1 where u.room_id = ?2")
     void setChatroomEntity(String room_name, Long room_id);   
+    @Modifying
+    @Query("update ChatroomEnitites u set u.room_last_activity = ?1 where u.room_id = ?2")
+    void updateLastActivity(Date last_activity, Long room_id);
 }

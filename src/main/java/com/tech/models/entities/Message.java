@@ -1,5 +1,6 @@
 package com.tech.models.entities;
 
+import com.tech.models.dtos.MessageDTO;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -32,6 +33,10 @@ public class Message implements Serializable{
 
     protected Message() {}
 
+    public Message(Long id,Long userid, MessageDTO DTO ){
+        this(id,userid,DTO.getMessage(),DTO.getChatroom_id());
+    }
+    
     public Message(Long id, Long userid, String message, Long chatroom) {
         this.message = message;
         this.id = id;
