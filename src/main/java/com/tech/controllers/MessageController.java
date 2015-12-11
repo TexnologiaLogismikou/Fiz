@@ -56,6 +56,7 @@ public class MessageController extends BaseController {
 
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
+        System.out.println("im here!");
 
         JSONObject object = new JSONObject();
         object.put("user", messageDTO.getUser());
