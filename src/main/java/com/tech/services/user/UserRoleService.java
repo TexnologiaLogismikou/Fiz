@@ -1,6 +1,6 @@
-package com.tech.services;
+package com.tech.services.user;
 
-import com.tech.models.entities.UserRole;
+import com.tech.models.entities.user.UserRole;
 import com.tech.repositories.IUserRolesRepository;
 import com.tech.services.interfaces.IUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;

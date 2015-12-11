@@ -5,7 +5,7 @@
  */
 package com.tech.services.interfaces;
 
-import com.tech.models.entities.UserRole;
+import com.tech.models.entities.user.UserRole;
 import java.util.List;
 
 /**

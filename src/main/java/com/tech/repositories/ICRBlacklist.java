@@ -5,7 +5,7 @@
  */
 package com.tech.repositories;
 
-import com.tech.models.entities.ChatroomBlacklist;
+import com.tech.models.entities.chatroom.ChatroomBlacklist;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

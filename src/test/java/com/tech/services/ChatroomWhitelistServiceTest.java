@@ -6,7 +6,7 @@
 package com.tech.services;
 
 import com.tech.AbstractTest;
-import com.tech.models.entities.ChatroomWhitelist;
+import com.tech.models.entities.chatroom.ChatroomWhitelist;
 import com.tech.services.interfaces.IChatroomWhitelistService;
 import java.sql.Date;
 import org.junit.After;

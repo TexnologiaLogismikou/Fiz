@@ -1,4 +1,4 @@
-package com.tech.models.entities;
+package com.tech.models.entities.user;
 
 import javax.persistence.*;
 import java.io.Serializable;

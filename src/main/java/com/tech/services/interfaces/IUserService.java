@@ -1,6 +1,6 @@
 package com.tech.services.interfaces;
 
-import com.tech.models.entities.User;
+import com.tech.models.entities.user.User;
 
 import javax.transaction.Transactional;
 import java.util.List;

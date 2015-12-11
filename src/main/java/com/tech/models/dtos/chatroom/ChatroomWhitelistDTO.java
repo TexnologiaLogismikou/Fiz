@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tech.models.dtos;
+package com.tech.models.dtos.chatroom;
 
 import com.tech.models.dtos.superclass.BaseDTO;
 
@@ -11,25 +11,25 @@ import com.tech.models.dtos.superclass.BaseDTO;
  *
  * @author KuroiTenshi
  */
-public class ChatroomDeleteDTO extends BaseDTO{
-    private Long creator_id;
+public class ChatroomWhitelistDTO extends BaseDTO{
     private String room_name;
-    private String room_password;
+    private Long member_id;
+    private String mode;//ADD or DELETE
     
     @Override
     public String getDTOName() {
-        return "ChatroomDeleteDTO";
-    }
-
-    public Long getCreator_id() {
-        return creator_id;
+        return "ChatroomWhitelistDTO";
     }
 
     public String getRoom_name() {
         return room_name;
     }
 
-    public String getRoom_password() {
-        return room_password;
+    public Long getMember_id() {
+        return member_id;
+    }
+    
+    public String getMode(){
+        return mode;
     }
 }

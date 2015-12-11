@@ -5,7 +5,7 @@
  */
 package com.tech.services.interfaces;
 
-import com.tech.models.entities.ChatroomBlacklist;
+import com.tech.models.entities.chatroom.ChatroomBlacklist;
 import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;

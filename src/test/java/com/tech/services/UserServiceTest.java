@@ -5,8 +5,9 @@
  */
 package com.tech.services;
 
+import com.tech.services.user.UserService;
 import com.tech.AbstractTest;
-import com.tech.models.entities.User;
+import com.tech.models.entities.user.User;
 import com.tech.repositories.IUserRepository;
 import com.tech.services.interfaces.IUserService;
 import java.util.ArrayList;

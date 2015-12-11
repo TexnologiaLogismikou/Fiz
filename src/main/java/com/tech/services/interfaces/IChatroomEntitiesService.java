@@ -5,7 +5,7 @@
  */
 package com.tech.services.interfaces;
 
-import com.tech.models.entities.ChatroomEntities;
+import com.tech.models.entities.chatroom.ChatroomEntities;
 
 import java.util.List;
 import javax.transaction.Transactional;
