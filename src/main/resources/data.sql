@@ -14,7 +14,7 @@ CREATE TABLE "usersdata" ( --table#1
     "id" bigint NOT NULL,
     "username" text NOT NULL,
     "password" text NOT NULL,
-    "enabled" boolean NOT NULL,
+    "enabled" BOOLEAN NOT NULL,
     CONSTRAINT pk_usersdata PRIMARY KEY (id),
     CONSTRAINT uniq_username UNIQUE (username)    
 );
@@ -59,7 +59,8 @@ CREATE TABLE "chatrooms_entities" ( --table#6.1
     "room_name" text NOT NULL,
     "room_creation_date" TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
     "room_last_activity" TIMESTAMP WITHOUT TIME ZONE NOT NULL CHECK (room_creation_date < room_last_activity),
-    CONSTRAINT pk_chatroom_entities PRIMARY KEY (room_id,room_creator)
+    CONSTRAINT pk_chatroom_entities PRIMARY KEY (room_id,room_creator),
+    CONSTRAINT uniq_room_name UNIQUE (room_name)
 );
 
 CREATE TABLE "chatrooms_members" ( --table#6.2
@@ -125,11 +126,6 @@ ALTER TABLE "friendlist" ADD --table#5.1
 ALTER TABLE "friendlist" ADD --table#5.2
     CONSTRAINT "fk_userid_friendlist_friendid" 
     FOREIGN KEY (friendid) REFERENCES "usersdata" (id)
-    ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "chatrooms_entities" ADD --table#6.1
-    CONSTRAINT "fk_chatroom_entities_userid" 
-    FOREIGN KEY (room_id) REFERENCES "usersdata" (id)
     ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE "chatrooms_entities" ADD --table#6.1

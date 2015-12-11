@@ -36,7 +36,7 @@ public class UserController extends BaseController{
     @RequestMapping(value = "/{username}",method = RequestMethod.GET)
     public HttpEntity<JSONObject> loadUserProfile(@PathVariable String username){
         JSONObject json = new JSONObject();
-        if(!Validator.usernameValidation(username)) {
+        if(!Validator.nameValidation(username)) {
             json.put("response",Responses.NOT_AVAILABLE.getData());
             return new ResponseEntity<>(json,HttpStatus.NOT_FOUND);
         }
@@ -69,7 +69,7 @@ public class UserController extends BaseController{
      */
    @RequestMapping(value="/{username}/modify",method = RequestMethod.POST)
     public HttpEntity<String> deactivateUser(@PathVariable String username,@RequestBody UserDTO userDTO){
-        if(!Validator.usernameValidation(username)) {
+        if(!Validator.nameValidation(username)) {
             return new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(),HttpStatus.NOT_ACCEPTABLE);
         }
         if(!service.checkUsername(username)){

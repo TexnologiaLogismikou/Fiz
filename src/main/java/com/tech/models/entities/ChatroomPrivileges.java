@@ -5,6 +5,7 @@
  */
 package com.tech.models.entities;
 
+import com.tech.models.dtos.ChatroomCreationDTO;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,7 +47,13 @@ public class ChatroomPrivileges implements Serializable {
     public ChatroomPrivileges() {
     }
 
-    public ChatroomPrivileges(Long room_id, String room_privileges, boolean room_password_protected, String room_password, String room_access_method) {
+    public ChatroomPrivileges(Long room_id,ChatroomCreationDTO DTO) {
+        this(room_id,DTO.getRoom_privilege(),DTO.hasPassword(),
+                DTO.getPassword(),DTO.getAccess_method());
+    }
+    
+    public ChatroomPrivileges(Long room_id, String room_privileges, 
+            boolean room_password_protected, String room_password, String room_access_method) {
         this.room_id = room_id;
         this.room_privileges = room_privileges;
         this.room_password_protected = room_password_protected;

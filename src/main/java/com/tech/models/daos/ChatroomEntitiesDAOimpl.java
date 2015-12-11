@@ -39,7 +39,7 @@ public class ChatroomEntitiesDAOimpl implements IDAO{
     @Override
     public List<IDAO> list() {
         Session session = this.sessionFactory.openSession();
-        List<IDAO> userRolesDAO = session.createQuery("from chatrooms_entities").list();//takes a list of Image IDAOs from the session
+        List<IDAO> userRolesDAO = session.createQuery("from chatrooms_entities").list();
         session.close();
         return userRolesDAO;
     }

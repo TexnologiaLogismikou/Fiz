@@ -33,6 +33,7 @@ INSERT INTO user_info VALUES (3,'Mixalis','Mixailidis','17/10/1994','mixalis@gma
 
 INSERT INTO friendlist VALUES (1, 2,TO_TIMESTAMP('16-05-2011 12:00:00', 'dd-mm-yyyy hh24:mi:ss')); --table#5
 INSERT INTO friendlist VALUES (1, 3,TO_TIMESTAMP('16-05-2011 13:00:00', 'dd-mm-yyyy hh24:mi:ss')); --table#5
+INSERT INTO friendlist VALUES (2, 1,TO_TIMESTAMP('10-12-2015 13:00:00', 'dd-mm-yyyy hh24:mi:ss')); --table#5
 
 INSERT INTO chatrooms_entities VALUES (1,1,'first testing room','20/1/2010','7/12/2015'); --table#6.1
 INSERT INTO chatrooms_entities VALUES (2,1, 'second testing room','21/2/2011','7/12/2015'); --table#6.1

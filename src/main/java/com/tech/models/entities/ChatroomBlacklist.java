@@ -5,6 +5,7 @@
  */
 package com.tech.models.entities;
 
+import com.tech.models.dtos.ChatroomBlacklistDTO;
 import com.tech.models.entities.embeddedIds.CRBlacklistComposite;
 import java.io.Serializable;
 import java.util.Date;
@@ -44,10 +45,14 @@ public class ChatroomBlacklist implements Serializable {
     public ChatroomBlacklist() {
     }
 
-    public ChatroomBlacklist(Long room_id, Long room_member, Date room_ban_time, Date room_expiration_time) {
+    public ChatroomBlacklist(Long room_id,ChatroomBlacklistDTO DTO){
+        this(room_id,DTO.getMember_id(),DTO.getExpiration_date());
+    }
+    
+    public ChatroomBlacklist(Long room_id, Long room_member, Date room_expiration_time) {
         this.room_id = room_id;
         this.room_member = room_member;
-        this.room_ban_time = room_ban_time;
+        this.room_ban_time = new Date();
         this.room_expiration_time = room_expiration_time;
     }
 

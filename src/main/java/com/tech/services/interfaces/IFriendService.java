@@ -32,6 +32,9 @@ public interface IFriendService
     List<Friend> getAllFriends();
     
     @Transactional
-    public List<Friend> getFriendsByMonth(Date date);
+    public List<Friend> getFriendsByMonth(Long userid);
+    
+    @Transactional
+    public List<Friend> getFriendsByYear(Long userid);
     
 }
