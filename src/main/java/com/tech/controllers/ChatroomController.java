@@ -9,6 +9,7 @@ import com.tech.configurations.tools.Host;
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.Validator;
+import com.tech.configurations.tools.ValidatorFactory;
 import com.tech.models.dtos.chatroom.ChatroomBlacklistDTO;
 import com.tech.models.dtos.chatroom.ChatroomCreationDTO;
 import com.tech.models.dtos.chatroom.ChatroomDeleteDTO;
@@ -74,7 +75,7 @@ public class ChatroomController {
      */
     @RequestMapping(value = "/newChatroom",method = RequestMethod.POST)
     public HttpEntity<String> handleNewChatroom(@RequestBody ChatroomCreationDTO newChatroom){
-        Pair p = Validator.validateDTO(newChatroom);
+        Pair p = ValidatorFactory.validateDTO(newChatroom);
         if(!p.getBoolean()) {
             return p.getResponse();
         }

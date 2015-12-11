@@ -5,6 +5,7 @@ import com.tech.configurations.tools.Host;
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.Validator;
+import com.tech.configurations.tools.ValidatorFactory;
 import com.tech.controllers.superclass.BaseController;
 import com.tech.models.dtos.user.RegisteredUserDTO;
 import com.tech.models.entities.user.User;
@@ -41,7 +42,7 @@ public class RegistrationController extends BaseController{
      */
     @RequestMapping(method = RequestMethod.POST)
     public HttpEntity<String> register(@RequestBody RegisteredUserDTO userDTO) {
-        Pair p = Validator.validateDTO(userDTO);
+        Pair p = ValidatorFactory.validateDTO(userDTO);
         if(!p.getBoolean()) {
             return p.getResponse();
         }
