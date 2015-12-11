@@ -68,4 +68,13 @@ public class ChatroomPrivilegesService implements IChatroomPrivilegesService {
         }
         return i;
     }
+    
+    @Transactional
+    @Override
+    public void setChatroomPrivileges(String room_privileges,Boolean room_password_protected,
+            String room_password,String room_access_method, Long room_id){
+        
+        repository.setChatroomEntity(room_privileges, room_password_protected, 
+                room_password, room_access_method,room_id);
+    }
 }

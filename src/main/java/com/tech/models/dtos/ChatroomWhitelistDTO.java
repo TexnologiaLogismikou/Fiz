@@ -12,20 +12,24 @@ import com.tech.models.dtos.superclass.BaseDTO;
  * @author KuroiTenshi
  */
 public class ChatroomWhitelistDTO extends BaseDTO{
-    private Long room_id;
+    private String room_name;
     private Long member_id;
+    private String mode;//ADD or DELETE
     
     @Override
     public String getDTOName() {
         return "ChatroomWhitelistDTO";
     }
 
-    public Long getRoom_id() {
-        return room_id;
+    public String getRoom_name() {
+        return room_name;
     }
 
     public Long getMember_id() {
         return member_id;
     }
     
+    public String getMode(){
+        return mode;
+    }
 }

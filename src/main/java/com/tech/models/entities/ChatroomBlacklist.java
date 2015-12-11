@@ -45,8 +45,8 @@ public class ChatroomBlacklist implements Serializable {
     public ChatroomBlacklist() {
     }
 
-    public ChatroomBlacklist(ChatroomBlacklistDTO DTO){
-        this(DTO.getRoom_id(),DTO.getMember_id(),DTO.getExpiration_date());
+    public ChatroomBlacklist(Long room_id,ChatroomBlacklistDTO DTO){
+        this(room_id,DTO.getMember_id(),DTO.getExpiration_date());
     }
     
     public ChatroomBlacklist(Long room_id, Long room_member, Date room_expiration_time) {

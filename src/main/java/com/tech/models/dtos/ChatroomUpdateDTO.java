@@ -12,10 +12,11 @@ import com.tech.models.dtos.superclass.BaseDTO;
  * @author KuroiTenshi
  */
 public class ChatroomUpdateDTO extends BaseDTO{
-    private String room_name;
+    private String room_name;//WONT CHANGE
+    private String new_room_name;
     private String room_privilege;
     private String access_method;
-    private boolean hasPassword;
+    private boolean passwordProtection;
     private String password;
 
     @Override
@@ -27,6 +28,10 @@ public class ChatroomUpdateDTO extends BaseDTO{
         return room_name;
     }
 
+    public String getNew_room_name() {
+        return new_room_name;
+    }
+
     public String getRoom_privilege() {
         return room_privilege;
     }
@@ -35,8 +40,8 @@ public class ChatroomUpdateDTO extends BaseDTO{
         return access_method;
     }
 
-    public boolean isHasPassword() {
-        return hasPassword;
+    public boolean isPasswordProtected() {
+        return passwordProtection;
     }
 
     public String getPassword() {

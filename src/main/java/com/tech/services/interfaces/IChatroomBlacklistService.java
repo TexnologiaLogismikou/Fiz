@@ -6,6 +6,7 @@
 package com.tech.services.interfaces;
 
 import com.tech.models.entities.ChatroomBlacklist;
+import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
 
@@ -39,4 +40,6 @@ public interface IChatroomBlacklistService {
     @Transactional
     List<ChatroomBlacklist> findByRoomMember(Long room_member);
     
+    @Transactional
+    void setNewTime(Long room_id,Long member_id,Date room_expiration_time);
 }

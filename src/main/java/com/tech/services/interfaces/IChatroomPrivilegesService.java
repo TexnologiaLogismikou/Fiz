@@ -31,8 +31,11 @@ public interface IChatroomPrivilegesService {
     ChatroomPrivileges validateAccess(Long room_id, String room_password);
     
     @Transactional
-    public Long countRecords();
+    Long countRecords();
     
     @Transactional
-    public Long countRecordsOfPrivileges(String room_privileges);
+    Long countRecordsOfPrivileges(String room_privileges);
+    
+    @Transactional
+    void setChatroomPrivileges(String room_privileges,Boolean room_password_protected,String room_password,String room_access_method, Long room_id);
 }

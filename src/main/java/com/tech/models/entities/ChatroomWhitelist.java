@@ -42,8 +42,8 @@ public class ChatroomWhitelist implements Serializable {
     public ChatroomWhitelist() {
     }
 
-    public ChatroomWhitelist(ChatroomWhitelistDTO DTO){
-        this(DTO.getRoom_id(),DTO.getMember_id());
+    public ChatroomWhitelist(Long room_id,ChatroomWhitelistDTO DTO){
+        this(room_id,DTO.getMember_id());
     }
     
     public ChatroomWhitelist(Long room_id, Long room_member) {

@@ -11,6 +11,7 @@ package com.tech.configurations.tools;
  */
 public enum Responses {
     ERROR("error"),
+    ALREADY_EXISTS("already exists"),
     FILE_ERROR("file error"),
     FILE_WAS_EMPTY("empty file"),
     FRIEND_ALREADY_EXIST("friend already exists"),

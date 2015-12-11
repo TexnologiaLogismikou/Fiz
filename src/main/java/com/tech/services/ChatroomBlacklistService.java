@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.tech.services.interfaces.IChatroomBlacklistService;
+import java.util.Date;
 
 /**
  *
@@ -77,5 +78,11 @@ public class ChatroomBlacklistService implements IChatroomBlacklistService{
             i++;
         }
         return i;
+    }
+
+    @Transactional
+    @Override
+    public void setNewTime(Long room_id,Long member_id,Date room_expiration_time){
+        repository.setChatroomBlacklist(room_expiration_time, room_id, member_id);
     }
 }

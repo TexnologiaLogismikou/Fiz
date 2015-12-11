@@ -13,7 +13,7 @@ import java.util.Date;
  * @author KuroiTenshi
  */
 public class ChatroomBlacklistDTO extends BaseDTO{
-    private Long room_id;
+    private String room_name;
     private Long member_id;
     private Date expiration_date;
     
@@ -22,8 +22,8 @@ public class ChatroomBlacklistDTO extends BaseDTO{
         return "ChatroomBlacklistDTO";
     }
 
-    public Long getRoom_id() {
-        return room_id;
+    public String getRoom_name() {
+        return room_name;
     }
 
     public Long getMember_id() {

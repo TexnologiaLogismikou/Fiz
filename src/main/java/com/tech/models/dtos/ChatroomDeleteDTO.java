@@ -14,6 +14,7 @@ import com.tech.models.dtos.superclass.BaseDTO;
 public class ChatroomDeleteDTO extends BaseDTO{
     private Long creator_id;
     private String room_name;
+    private String room_password;
     
     @Override
     public String getDTOName() {
@@ -26,5 +27,9 @@ public class ChatroomDeleteDTO extends BaseDTO{
 
     public String getRoom_name() {
         return room_name;
+    }
+
+    public String getRoom_password() {
+        return room_password;
     }
 }

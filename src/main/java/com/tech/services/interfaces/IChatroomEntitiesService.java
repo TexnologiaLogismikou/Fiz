@@ -28,20 +28,23 @@ public interface IChatroomEntitiesService {
     ChatroomEntities findByRoomID(Long room_id);
 
     @Transactional
-    public Long countRecords();
+    Long countRecords();
 
     @Transactional
-    public Long countRecordsOfMember(Long member_id);
+    Long countRecordsOfMember(Long member_id);
 
     @Transactional
-    public boolean checkIfChatroomEntityExists(Long room_id);
+    boolean checkIfChatroomEntityExists(Long room_id);
 
     @Transactional
-    public Long getNextID();
+    Long getNextID();
     
     @Transactional
-    public boolean validateRoomnameExistance(String room_name);
+    boolean validateRoomnameExistance(String room_name);
     
     @Transactional
-    public ChatroomEntities getRoomByName(String room_name);
+    ChatroomEntities getRoomByName(String room_name);
+    
+    @Transactional
+    void setChatroomEntities(String room_name,Long room_id);
 }

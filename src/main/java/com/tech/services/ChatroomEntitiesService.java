@@ -85,8 +85,15 @@ public class ChatroomEntitiesService implements IChatroomEntitiesService {
         return repository.findByRoomName(room_name) != null;
     }
 
+    @Transactional
     @Override
     public ChatroomEntities getRoomByName(String room_name) {
         return repository.findByRoomName(room_name);
+    }    
+    
+    @Transactional
+    @Override
+    public void setChatroomEntities(String room_name,Long room_id){
+        repository.setChatroomEntity(room_name, room_id);
     }
 }
