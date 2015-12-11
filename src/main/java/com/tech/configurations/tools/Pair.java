@@ -6,31 +6,30 @@
 package com.tech.configurations.tools;
 
 import java.util.Objects;
-import org.springframework.http.ResponseEntity;
 
 /**
  *
  * @author KuroiTenshi
  */
-public class Pair  implements java.io.Serializable
+public class Pair<L,R>  implements java.io.Serializable
 {
-    private final Boolean left;
-    private final ResponseEntity right;
+    private final L left;
+    private final R right;
 
-    public Pair(Boolean left, ResponseEntity right) {
+    public Pair(L left, R right) {
         this.left = left;
         this.right = right;
     }
 
-    static Pair of(Boolean left, ResponseEntity right){
+    static <L,R>  Pair<L,R>  of(L left, R right){
         return new Pair(left, right);
     }
     
-    public Boolean getBoolean(){
+    public L getLeft(){
         return left;
     }
     
-    public ResponseEntity getResponse(){
+    public R getRight(){
         return right;
     }
     
@@ -39,13 +38,14 @@ public class Pair  implements java.io.Serializable
     {
         if (!(o instanceof Pair)) return false;
         Pair pairo = (Pair) o;
-        return this.left.equals(pairo.getBoolean());
+        return this.left.equals(pairo.getLeft()) && this.right.equals((pairo.getRight()));
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
         hash = 37 * hash + Objects.hashCode(this.left);
+        hash = 37 * hash + Objects.hashCode(this.right);
         return hash;
     }
 }
