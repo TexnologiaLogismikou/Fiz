@@ -80,17 +80,24 @@ public class ChatroomController {
             return p.getRight();
         }
         
-        if(userService.getUserById(newChatroom.getUserid())==null){
+        if(!userService.checkUsername(newChatroom.getUsername())){ //validates if the user exists or not
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);
         }
         
-        if(chatroomEntitesService.validateRoomnameExistance(newChatroom.getRoom_name())){
+        if(chatroomEntitesService.validateRoomnameExistance(newChatroom.getRoom_name())){ //validates if the the name already exists or not
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.FOUND);
         }
         
-        ChatroomEntities CE = new ChatroomEntities(chatroomEntitesService.getNextID(), newChatroom);
+        Long userid = userService.getUserByUsername(newChatroom.getUsername()).getId();
+        
+        if(userService.getUserById(userid).isHasRoom() == true){
+            return new ResponseEntity<>(Responses.ALREADY_HAS_A_ROOM.getData(),HttpStatus.FOUND);
+        }
+        
+        userService.updateUserRoom(true,userid);
+        ChatroomEntities CE = new ChatroomEntities(chatroomEntitesService.getNextID(),userid, newChatroom);
         ChatroomPrivileges CP = new ChatroomPrivileges(CE.getRoom_id(), newChatroom);
-        ChatroomMembers CM = new ChatroomMembers(CE.getRoom_id(), newChatroom);
+        ChatroomMembers CM = new ChatroomMembers(CE.getRoom_id(), userid);
         
         chatroomEntitesService.add(CE);
         chatroomMembersService.add(CM);
@@ -180,7 +187,7 @@ public class ChatroomController {
     @RequestMapping(value ="/deleteChatroom",method = RequestMethod.POST)
     public HttpEntity<String> deleteChatroom(@RequestBody ChatroomDeleteDTO deleteRoom) {
         //TODO call sto validator
-        if(chatroomEntitesService.validateRoomnameExistance(deleteRoom.getRoom_name())){
+        if(!chatroomEntitesService.validateRoomnameExistance(deleteRoom.getRoom_name())){
             return new ResponseEntity<>(Responses.ROOM_NOT_FOUND.getData(),HttpStatus.NOT_FOUND);            
         }
         

@@ -34,24 +34,31 @@ public class User implements Serializable{
     @Column(name = "enabled")
     private boolean enabled;
 
+    @Column(name = "hasRoom")
+    private boolean hasRoom;
+    
     public User() {
     }
     
     public User(Long id,UserDTO userDTO){
         this(id,userDTO.getUsername(),
-                userDTO.getPassword(),userDTO.getEnabled());
+                userDTO.getPassword(),userDTO.getEnabled(),userDTO.getHasRoom());
     }
     
     public User(Long id,RegisteredUserDTO userDTO) {
-        this(id,userDTO.getUsername(),userDTO.getPassword(),true);
+        this(id,userDTO.getUsername(),userDTO.getPassword(),true,false);
     }
     
     public User(Long id, String username, String password, boolean enabled) {
-
+        this(id,username,password,enabled,false);
+    }
+    
+    public User(Long id, String username, String password, boolean enabled,boolean hasRoom) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.enabled = enabled;
+        this.hasRoom = hasRoom;
     }
 
     @JsonProperty
@@ -90,8 +97,17 @@ public class User implements Serializable{
         this.enabled = enabled;
     }
 
+    public boolean isHasRoom() {
+        return hasRoom;
+    }
+
+    public void setHasRoom(boolean hasRoom) {
+        this.hasRoom = hasRoom;
+    }
+
     @Override
     public String toString(){
-        return " id : " + this.id + " username : " + this.username + " password : " + this.password;
+        return " id : " + this.id + " username : " + this.username + " password : " 
+                + this.password + " isEnabled : " + this.enabled + " hasRoom : " + this.hasRoom;
     }
 }

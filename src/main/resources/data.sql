@@ -16,6 +16,7 @@ CREATE TABLE "usersdata" ( --table#1
     "username" text NOT NULL,
     "password" text NOT NULL,
     "enabled" BOOLEAN NOT NULL,
+    "hasRoom" BOOLEAN NOT NULL DEFAULT FALSE,
     CONSTRAINT pk_usersdata PRIMARY KEY (id),
     CONSTRAINT uniq_username UNIQUE (username)    
 );
@@ -104,6 +105,19 @@ CREATE TABLE "messages" ( --table#7
     CONSTRAINT pk_message PRIMARY KEY (id)
 );
 
+CREATE TABLE chatroom_location(
+    room_id bigint NOT NULL,
+    room_lat FLOAT NOT NULL,
+    room_lng FLOAT NOT NULL,
+    "room_max_range" INTEGER NOT NULL DEFAULT '20000',
+    CONSTRAINT pk_location_id PRIMARY KEY (room_id)    
+);
+
+ALTER TABLE "chatroom_location" ADD --table#6.2
+    CONSTRAINT "fk_chatroom_location_room_id" 
+    FOREIGN KEY (room_id) REFERENCES "chatrooms_entities" (room_id)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+
 ALTER TABLE "user_roles" ADD --table#2
     CONSTRAINT "fk_userid_user_role" 
     FOREIGN KEY (user_role_userid) REFERENCES "usersdata" (id)
@@ -179,9 +193,9 @@ ALTER TABLE "messages" ADD --table#7
     FOREIGN KEY (chatroom_id) REFERENCES "chatrooms_entities" (room_id)
     ON DELETE CASCADE ON UPDATE CASCADE;
 
-INSERT INTO usersdata  VALUES (1,'milenaAz','milena',TRUE); --table#1
-INSERT INTO usersdata VALUES (2,'iwannaFot','iwanna',TRUE); --table#1
-INSERT INTO usersdata VALUES (3,'mixalisMix','mixalis',TRUE); --table#1
+INSERT INTO usersdata  VALUES (1,'milenaAz','milena',TRUE,TRUE); --table#1
+INSERT INTO usersdata VALUES (2,'iwannaFot','iwanna',TRUE,TRUE); --table#1
+INSERT INTO usersdata VALUES (3,'mixalisMix','mixalis',TRUE,TRUE); --table#1
 
 INSERT INTO user_roles VALUES(1,'ROLE_USER'); --table#2
 INSERT INTO user_roles VALUES(2,'ROLE_USER'); --table#2
@@ -219,15 +233,4 @@ INSERT INTO messages VALUES (2, 2,'second message',TO_TIMESTAMP('16-05-2011 13:3
 INSERT INTO messages VALUES (3, 2,'third message',TO_TIMESTAMP('16-05-2011 14:30:00', 'dd-mm-yyyy hh24:mi:ss'),'1'); --table#7
 INSERT INTO messages VALUES (4, 3,'forth message',TO_TIMESTAMP('16-05-2011 13:30:00', 'dd-mm-yyyy hh24:mi:ss'),'2'); --table#7
 
-create table chatroom_location(
-    room_id bigint NOT NULL,
-    room_lat float not null,
-    room_lng float not null,
-    "room_max_range" INTEGER NOT NULL DEFAULT '20000',
-    CONSTRAINT pk_location_id PRIMARY KEY (room_id)    
-);
 
-ALTER TABLE "chatroom_location" ADD --table#6.2
-    CONSTRAINT "fk_chatroom_location_room_id" 
-    FOREIGN KEY (room_id) REFERENCES "chatrooms_entities" (room_id)
-    ON DELETE CASCADE ON UPDATE CASCADE;

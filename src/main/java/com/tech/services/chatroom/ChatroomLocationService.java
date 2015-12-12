@@ -5,20 +5,20 @@
  */
 package com.tech.services.chatroom;
 
-import com.tech.services.interfaces.IchatroomLocationService;
 import com.tech.models.entities.chatroom.ChatroomLocation;
 import com.tech.repositories.IChatroomLocationRepository;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.tech.services.interfaces.IChatroomLocationService;
 
 /**
  *
  * @author iwann
  */
 @Service
-public class ChatroomLocationService implements IchatroomLocationService {
+public class ChatroomLocationService implements IChatroomLocationService {
     
     @Autowired
     private IChatroomLocationRepository repository;
@@ -46,6 +46,24 @@ public class ChatroomLocationService implements IchatroomLocationService {
     @Override
     public List<ChatroomLocation> findIfNear(float lng,float lat){
         return repository.findIfNear(lng, lat);
+    }
+    
+    @Transactional
+    @Override
+    public void setNewMaxRange(int room_max_range, Long room_id){
+        repository.setChatroomLocationMaxRangeById(room_max_range, room_id);
+    }
+    
+    @Transactional
+    @Override
+    public void setNewLngLat(float lng, float lat, Long room_id){
+        repository.setChatroomLocationLngAndLatById(lng,lat, room_id);
+    }
+    
+    @Transactional
+    @Override
+    public boolean checkIfStillInside(Long room_id, float lng, float lat){
+        return repository.checkIfNear(room_id, lng, lat) != null;
     }
     
 }

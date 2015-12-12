@@ -24,7 +24,10 @@ import javax.persistence.Table;
                                                               "WHERE u.room_id IN ( SELECT p.room_id \n" +
                                                               "FROM ChatroomLocation p WHERE earth_distance(ll_to_earth( ?1, ?2 ), \n" +
                                                               "ll_to_earth(p.room_lng, p.room_lat)) < p.room_max_range )"),
-    @NamedQuery(name = "ChatroomLocation.findByMaxRange", query = "SELECT u FROM ChatroomLocation u WHERE u.room_max_range = ?1")
+    @NamedQuery(name = "ChatroomLocation.findByMaxRange", query = "SELECT u FROM ChatroomLocation u WHERE u.room_max_range = ?1"),
+    @NamedQuery(name = "ChatroomLocation.checkIfNear" , query = "select u from ChatroomLocation u where u.room_id=?1 and "
+                                                                + "earth_distance(ll_to_earth( ?2, ?3 ) ,"
+                                                                + "ll_to_earth(u.room_lng, u.room_lat)) < u.room_max_range ")
 })
 @Table(name = "chatroom_location")
 public class ChatroomLocation implements Serializable {

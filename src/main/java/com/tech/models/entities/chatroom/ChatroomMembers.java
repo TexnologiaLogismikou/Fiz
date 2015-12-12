@@ -47,10 +47,6 @@ public class ChatroomMembers implements Serializable {
     public ChatroomMembers(Long room_id, ChatroomMemberDTO DTO){
         this(room_id,DTO.getMember_id());
     }
-    
-    public ChatroomMembers(Long room_id, ChatroomCreationDTO DTO){
-        this(room_id,DTO.getUserid());
-    }
 
     public ChatroomMembers(Long room_id, Long room_member) {
         this.room_id = room_id;

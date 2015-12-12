@@ -11,6 +11,7 @@ package com.tech.configurations.tools;
  */
 public enum Responses {
     ERROR("error"),
+    ALREADY_HAS_A_ROOM("user already has a room"),
     ALREADY_EXISTS("already exists"),
     FILE_ERROR("file error"),
     FILE_WAS_EMPTY("empty file"),

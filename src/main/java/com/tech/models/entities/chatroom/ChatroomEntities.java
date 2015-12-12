@@ -51,8 +51,8 @@ public class ChatroomEntities implements Serializable {
     public ChatroomEntities() {
     }
 
-    public ChatroomEntities(Long room_id, ChatroomCreationDTO DTO){
-        this(room_id,DTO.getUserid(),DTO.getRoom_name());
+    public ChatroomEntities(Long room_id,Long user_id, ChatroomCreationDTO DTO){
+        this(room_id,user_id,DTO.getRoom_name());
     }
     
     public ChatroomEntities(Long room_id, Long room_creator, String room_name) {

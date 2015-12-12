@@ -35,7 +35,9 @@
 --                                             geography(ST_MakePoint(12, 10))) < 5000000  );
 -- WHERE "chatroom_location"."username" = $3
 
-SELECT * from chatroom_location 
-where chatroom_location.room_id in ( select chatroom_location.room_id 
-from chatroom_location where earth_distance(ll_to_earth( 12, 10 ), 
-ll_to_earth(chatroom_location.lng, chatroom_location.lat)) < chatroom_location.room_max_range );
+-- SELECT * from chatroom_location 
+-- where chatroom_location.room_id in ( select chatroom_location.room_id 
+-- from chatroom_location where earth_distance(ll_to_earth( 12, 10 ), 
+-- ll_to_earth(chatroom_location.lng, chatroom_location.lat)) < chatroom_location.room_max_range );
+
+select * from chatroom_location where room_id=1 and earth_distance(ll_to_earth( 12, 10 ) ,ll_to_earth(chatroom_location.lng, chatroom_location.lat)) < 5000000 ;

@@ -21,12 +21,13 @@ public interface IChatroomLocationRepository  extends JpaRepository<ChatroomLoca
     List<ChatroomLocation> findByRoomID(Long room_id);
     List<ChatroomLocation> findByMaxRange(Integer room_range);
     List<ChatroomLocation> findIfNear(float lng,float lat);
+    ChatroomLocation checkIfNear(Long room_id,float lng, float lat);
     
     @Modifying
     @Query("update ChatroomLocation u set u.room_max_range = ?1 where u.room_id = ?2")
-    void setChatroomLocationMaxRangeById(Long id ,Integer  room_max_range); 
+    void setChatroomLocationMaxRangeById(Integer  room_max_range, Long id ); 
     
+    @Modifying
     @Query("update ChatroomLocation u set u.room_lng = ?1,u.room_lat = ?2 where u.room_id = ?3")
-    void setChatroomLocationLngAndLatById(Long id ,float lng , float lat);
-    
+    void setChatroomLocationLngAndLatById(float lng , float lat, Long room_id );    
 }
