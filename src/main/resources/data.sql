@@ -1,4 +1,5 @@
 DROP TABLE "user_roles"; --table#2
+-- drop table chatroom_location;
 DROP TABLE "user_info"; --table#3
 DROP TABLE "images"; --table#4
 DROP TABLE "friendlist"; --table#5
