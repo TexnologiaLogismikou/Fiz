@@ -24,7 +24,7 @@ public class ValidatorFactory {
      
     public static Pair<Boolean,ResponseEntity> validateDTO (BaseDTO DTO) {
         int code = DTO.getDTOName().toLowerCase().hashCode();
-        if (AVAILABLE_VALIDATORS.containsKey(code)) {
+        if (!AVAILABLE_VALIDATORS.containsKey(code)) {
             response = new ResponseEntity(Responses.VALIDATOR_NOT_FOUND.getData(),HttpStatus.NOT_FOUND);
             return new Pair<>(false, response);
         }
