@@ -23,7 +23,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import static org.mockito.Matchers.any;
 import org.mockito.Mock;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -80,14 +79,9 @@ public class RegistrationControllerTest extends AbstractControllerTest{
         uri = null;
     }
     
-    /**
-     * @author milena
-     * @throws Exception 
-     */
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void testRegister() throws Exception
-    {
+    public void testRegister() throws Exception{
 //        json.put("username","milena4");
 //        json.put("password","milena12312314");
 //        json.put("last_name","iwanna");
@@ -95,13 +89,13 @@ public class RegistrationControllerTest extends AbstractControllerTest{
 //        json.put("email","douleuei@teicm.gr");
 //        json.put("birthday","23/11/94");
 //        
-//        when(userService.checkUsername("milena4")).thenReturn(false);
 //        when(userService.getNextID()).thenReturn(4L);
-//        doNothing().when(userService).addUser(any(User.class));
-//        doNothing().when(userInfoService).addUserInfo(any(UserInfo.class));
-//        doNothing().when(userRoleService).addUserRole(any(UserRole.class));
+//        when(userService.checkUsername("milena4")).thenReturn(false);
 //        
-//    
+//        System.out.println(json.toString());
+//        System.out.println("asdasdasDASDASDasdasdasDAS");
+//        System.out.println(json.toJSONString());
+//        
 //        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri)
 //                .content(json.toJSONString())
 //                .contentType(MediaType.APPLICATION_JSON))
@@ -110,9 +104,9 @@ public class RegistrationControllerTest extends AbstractControllerTest{
 //        String content = result.getResponse().getContentAsString();
 //        int status = result.getResponse().getStatus();
 //        
-//        verify(userService, times(1)).checkUsername("milena4");
 //        verify(userService, times(1)).getNextID();
-//        verify(userService, times(1)).addUser(any(User.class));   
+//        verify(userService, times(1)).addUser(any(User.class));
+//        verify(userService, times(1)).checkUsername("milena4");
 //        verify(userInfoService, times(1)).addUserInfo(any(UserInfo.class));      
 //        verify(userRoleService,times(1)).addUserRole(any(UserRole.class));
 //        
