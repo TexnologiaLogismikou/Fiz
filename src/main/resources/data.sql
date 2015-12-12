@@ -1,5 +1,5 @@
 DROP TABLE "user_roles"; --table#2
--- drop table chatroom_location;
+drop table chatroom_location;
 DROP TABLE "user_info"; --table#3
 DROP TABLE "images"; --table#4
 DROP TABLE "friendlist"; --table#5
@@ -28,7 +28,7 @@ CREATE TABLE "user_roles" ( --table#2
 
 CREATE TABLE "user_info" ( --table#3
     "userid" bigint NOT NULL,
-    "first_name" text,
+    "first_name" text NOT NULL,
     "last_name" text,
     "birthday" DATE NOT NULL,
     "email" text NOT NULL,
@@ -218,3 +218,16 @@ INSERT INTO messages VALUES (1, 1,'initial message',TO_TIMESTAMP('16-05-2011 12:
 INSERT INTO messages VALUES (2, 2,'second message',TO_TIMESTAMP('16-05-2011 13:30:00', 'dd-mm-yyyy hh24:mi:ss'),'1'); --table#7
 INSERT INTO messages VALUES (3, 2,'third message',TO_TIMESTAMP('16-05-2011 14:30:00', 'dd-mm-yyyy hh24:mi:ss'),'1'); --table#7
 INSERT INTO messages VALUES (4, 3,'forth message',TO_TIMESTAMP('16-05-2011 13:30:00', 'dd-mm-yyyy hh24:mi:ss'),'2'); --table#7
+
+create table chatroom_location(
+    room_id bigint NOT NULL,
+    room_lat float not null,
+    room_lng float not null,
+    "room_max_range" INTEGER NOT NULL DEFAULT '20000',
+    CONSTRAINT pk_location_id PRIMARY KEY (room_id)    
+);
+
+ALTER TABLE "chatroom_location" ADD --table#6.2
+    CONSTRAINT "fk_chatroom_location_room_id" 
+    FOREIGN KEY (room_id) REFERENCES "chatrooms_entities" (room_id)
+    ON DELETE CASCADE ON UPDATE CASCADE;
