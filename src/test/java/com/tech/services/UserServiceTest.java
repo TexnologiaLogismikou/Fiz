@@ -385,4 +385,16 @@ public class UserServiceTest extends AbstractTest{
         Assert.assertEquals("Counting was wrong",4,service.getNextID());        
     }
     
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetLastRecord(){
+        
+        User user = new User (4L,"vasilis","vasilis",true);
+        service.addUser(user);
+        
+        Assert.assertEquals("Id is good",user.getId(), service.getLastRecord().getId());
+        Assert.assertEquals("Username is good",user.getUsername(), service.getLastRecord().getUsername());
+        Assert.assertEquals("Password is good",user.getPassword(), service.getLastRecord().getPassword());
+    }
+    
 }
