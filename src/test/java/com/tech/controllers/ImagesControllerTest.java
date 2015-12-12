@@ -31,6 +31,7 @@ import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import org.mockito.Mock;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -117,7 +118,7 @@ public class ImagesControllerTest extends AbstractControllerTest{
     }   
     
     @Test
-    public void testLoadImagesNull() throws Exception{
+    public void gesNtestLoadImaull() throws Exception{
         byte[] f = null;
         MockMultipartFile MF = new MockMultipartFile("file","psaraki.jpg", "multipart/form-data", f);     
         
@@ -311,4 +312,36 @@ public class ImagesControllerTest extends AbstractControllerTest{
         Assert.assertTrue("Failure - expected response body to be null",content.isEmpty());
         Assert.assertTrue("Failure - expected response status to be '200'",status == 200);      
     }
+    
+    @Test
+    public void testIOException() throws Exception{
+        byte[] f = Files.readAllBytes(new File(Attr.TESTING_IMAGES.getData() + "\\testImg.jpg").toPath());
+            MockMultipartFile MF = new MockMultipartFile("file","psaraki.jpg", "multipart/form-data", f);  
+            
+            
+            when(userService.checkUsername("iwanna")).thenReturn(true);
+            when(userService.getUserByUsername("iwanna")).thenReturn(new User(2L,"iwanna","iwanna",true));
+            doNothing().when(imagesService).addImage(any(ImagesMod.class));
+            
+            doThrow(new IOException()).when(imagesService).addImage(any(ImagesMod.class));
+            
+            MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .fileUpload(uri)
+                .file(MF)
+                .param("username", "iwanna"))
+                .andReturn();
+        
+            String content = result.getResponse().getContentAsString();
+            int status = result.getResponse().getStatus();
+             
+            verify(userService,times(1)).checkUsername("iwanna");
+            verify(imagesService,times(1)).addImage(any(ImagesMod.class));
+            verify(userService,times(1)).getUserByUsername("iwanna");
+        
+            Assert.assertEquals("Fail expected status 304 but was " + status, 304, status);
+            Assert.assertTrue("Fail expected Response Body to be '" + Responses.SUCCESS.getData() + "'",
+            content.equals(Responses.SUCCESS.getData()));  
+         
+    }
+  
 }
