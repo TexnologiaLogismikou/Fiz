@@ -70,6 +70,10 @@
     <bean id="cRWhitelistDAO" class="com.tech.models.daos.CRWhitelistDAOimpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
+    
+    <bean id="chatroolistDAO" class="com.tech.models.daos.ChatroomLocationDAOimpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
 
 
 </beans>
