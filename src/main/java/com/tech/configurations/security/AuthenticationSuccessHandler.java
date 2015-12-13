@@ -16,7 +16,8 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws ServletException, IOException {
 
-        response.getWriter().print(response.getHeader("Origin"));
+
+        response.getWriter().print(request.getHeader("Origin"));
         clearAuthenticationAttributes(request);
     }
 }
