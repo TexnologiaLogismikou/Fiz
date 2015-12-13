@@ -86,4 +86,10 @@ public class MessageService implements IMessageService
         Long x = repository.getOne(i).getId();
         return x + 1L ;
     }
+    
+    @Override
+    @Transactional
+    public void delete(Message message){
+        repository.delete(message);
+    }
 }

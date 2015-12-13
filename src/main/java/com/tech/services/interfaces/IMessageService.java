@@ -36,4 +36,7 @@ public interface IMessageService
     
     @Transactional
     Long getNextId();
+    
+    @Transactional
+    void delete(Message message);
 }
