@@ -8,6 +8,7 @@ package com.tech.services.chatroom;
 import com.tech.services.interfaces.IChatroomEntitiesService;
 import com.tech.models.entities.chatroom.ChatroomEntities;
 import com.tech.repositories.IChatroomEntitiesRepository;
+import java.util.Date;
 
 import java.util.List;
 import javax.transaction.Transactional;
@@ -95,5 +96,11 @@ public class ChatroomEntitiesService implements IChatroomEntitiesService {
     @Override
     public void setChatroomEntities(String room_name,Long room_id){
         repository.setChatroomEntity(room_name, room_id);
+    }
+    
+    @Transactional
+    @Override
+    public void updateLastActivity(Date last_activity,Long room_id){
+        repository.setRoomLastActivityByRoomID(last_activity, room_id);
     }
 }

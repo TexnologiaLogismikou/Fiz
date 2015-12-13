@@ -6,6 +6,7 @@
 package com.tech.services.interfaces;
 
 import com.tech.models.entities.chatroom.ChatroomEntities;
+import java.util.Date;
 
 import java.util.List;
 import javax.transaction.Transactional;
@@ -46,5 +47,8 @@ public interface IChatroomEntitiesService {
     ChatroomEntities getRoomByName(String room_name);
     
     @Transactional
-    void setChatroomEntities(String room_name,Long room_id);
+    void setChatroomEntities(String room_name,Long room_id);    
+    
+    @Transactional    
+    void updateLastActivity(Date last_activity,Long room_id);
 }

@@ -41,7 +41,7 @@ public class RegisteredUserDTOValidator extends BaseValidator implements CustomV
             setResponseEntity(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE);
             return false;
         }
-        if (!Validator.nameValidation(RUDTO.getFirstName())){
+        if (!Validator.nameValidation(RUDTO.getFirstname())){
             setResponseEntity(Responses.FIRST_NAME_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE);
             return false;            
         }
