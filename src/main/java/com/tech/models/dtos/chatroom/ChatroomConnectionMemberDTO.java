@@ -11,25 +11,40 @@ import com.tech.models.dtos.superclass.BaseDTO;
  *
  * @author KuroiTenshi
  */
-public class ChatroomWhitelistDTO extends BaseDTO{
+public class ChatroomConnectionMemberDTO extends BaseDTO{
     private String room_name;
     private String member_name;
-    private String mode;//ADD or DELETE
+    private String password;
+    private String method;
+    private float lat;
+    private float lng;
     
     @Override
     public String getDTOName() {
-        return "ChatroomWhitelistDTO";
+        return "ChatroomConnectionMemberDTO";
     }
 
     public String getRoom_name() {
         return room_name;
     }
 
-    public String getMember_name() {
+    public String getMember_id() {
         return member_name;
     }
     
-    public String getMode(){
-        return mode;
+    public String getMethod(){
+        return method;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public float getLat() {
+        return lat;
+    }
+
+    public float getLng() {
+        return lng;
     }
 }
