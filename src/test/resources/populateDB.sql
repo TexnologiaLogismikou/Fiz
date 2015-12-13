@@ -16,7 +16,7 @@ DELETE FROM "chatroom_blacklist"; --table#6.4
 DELETE FROM "chatroom_whitelist"; --table#6.5
 DELETE FROM "chatrooms_members"; --table#6.2
 DELETE FROM "chatroom_privileges"; --table#6.3
-DELETE FROM "chatroom_location"
+DELETE FROM "chatroom_location";
 DELETE FROM "chatrooms_entities"; --table#6.1
 DELETE FROM "usersdata"; --table#1
 

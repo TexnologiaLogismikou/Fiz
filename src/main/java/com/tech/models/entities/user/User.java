@@ -34,7 +34,7 @@ public class User implements Serializable{
     @Column(name = "enabled")
     private boolean enabled;
 
-    @Column(name = "hasRoom")
+    @Column(name = "hasroom")
     private boolean hasRoom;
     
     public User() {

@@ -16,7 +16,7 @@ CREATE TABLE "usersdata" ( --table#1
     "username" text NOT NULL,
     "password" text NOT NULL,
     "enabled" BOOLEAN NOT NULL,
-    "hasRoom" BOOLEAN NOT NULL DEFAULT FALSE,
+    "hasroom" BOOLEAN NOT NULL DEFAULT FALSE,
     CONSTRAINT pk_usersdata PRIMARY KEY (id),
     CONSTRAINT uniq_username UNIQUE (username)    
 );

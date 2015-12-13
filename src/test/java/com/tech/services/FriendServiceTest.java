@@ -116,7 +116,7 @@ public class FriendServiceTest extends AbstractTest
     public void testGetAllFriends() 
     {
        //Assert.assertTrue("fail",!service.getAllFriends().isEmpty());
-       Assert.assertTrue("fail",service.getAllFriends().size()==3); //size-> to megethos ts listas
+       Assert.assertTrue("fail",service.getAllFriends().size()==2); //size-> to megethos ts listas
     }
     
     @Test
