@@ -28,7 +28,7 @@ import com.tech.models.entities.chatroom.ChatroomPrivileges;
 import com.tech.models.entities.chatroom.ChatroomWhitelist;
 import com.tech.services.interfaces.IChatroomBlacklistService;
 import com.tech.services.interfaces.IChatroomEntitiesService;
-import com.tech.services.interfaces.IChatroomLocationService;
+import com.tech.services.interfaces.ICRLocationService;
 import com.tech.services.interfaces.IChatroomMembersService;
 import com.tech.services.interfaces.IChatroomPrivilegesService;
 import com.tech.services.interfaces.IChatroomWhitelistService;
@@ -75,7 +75,7 @@ public class ChatroomController {
     IChatroomMembersService chatroomMembersService;
     
     @Autowired
-    IChatroomLocationService chatroomLocationService;
+    ICRLocationService chatroomLocationService;
     
     /** 
      * Validates that the chatroom name doesn't already exist before creating the entity and all the peripheral data that the 

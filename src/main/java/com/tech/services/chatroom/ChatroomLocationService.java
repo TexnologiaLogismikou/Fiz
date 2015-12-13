@@ -5,20 +5,20 @@
  */
 package com.tech.services.chatroom;
 
+import com.tech.services.interfaces.ICRLocationService;
 import com.tech.models.entities.chatroom.ChatroomLocation;
 import com.tech.repositories.IChatroomLocationRepository;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.tech.services.interfaces.IChatroomLocationService;
 
 /**
  *
  * @author iwann
  */
 @Service
-public class ChatroomLocationService implements IChatroomLocationService {
+public class ChatroomLocationService implements ICRLocationService {
     
     @Autowired
     private IChatroomLocationRepository repository;
