@@ -1,9 +1,12 @@
 package com.tech.controllers;
 
+import com.tech.configurations.tools.Responses;
 import com.tech.controllers.superclass.BaseController;
 import com.tech.models.dtos.MessageDTO;
 import com.tech.models.entities.Message;
+import com.tech.services.interfaces.ICRLocationService;
 import com.tech.services.interfaces.IChatroomEntitiesService;
+import com.tech.services.interfaces.IChatroomMembersService;
 import com.tech.services.interfaces.IMessageService;
 import com.tech.services.interfaces.IUserService;
 import org.json.simple.JSONObject;
@@ -11,12 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.servlet.http.HttpServletRequest;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
 
 @Controller
 public class MessageController extends BaseController {
@@ -29,7 +28,44 @@ public class MessageController extends BaseController {
     
     @Autowired
     IUserService userService;
-
+    
+    @Autowired
+    ICRLocationService locationService;
+    
+    @Autowired
+    IChatroomMembersService memberService;
+    
+    @MessageMapping("/chat")
+    @SendTo("/topic/chat")
+    public JSONObject incomingMessage(MessageDTO messageDTO){
+        //TODO call sto validator
+        JSONObject json = new JSONObject();
+        
+        if(!userService.checkUsername(messageDTO.getUsername())){
+            json.put("response",Responses.NOT_AUTHORIZED.getData());
+            return json;
+        }
+        
+        if(!chatroomEntitieService.validateRoomnameExistance(messageDTO.getChatroom_name())){
+            json.put("response",Responses.NOT_AUTHORIZED.getData());
+            return json;
+        }
+        
+        Long userID = userService.getUserByUsername(messageDTO.getUsername()).getId();
+        Long roomID = chatroomEntitieService.getRoomByName(messageDTO.getChatroom_name()).getRoom_id();
+        
+        if(!memberService.checkIfMemberExistsInChatroom(userID, roomID)){
+            json.put("response",Responses.NOT_AUTHORIZED.getData());
+            return json;
+        }
+        
+        if(!locationService.checkIfStillInside(roomID, messageDTO.getLng(), messageDTO.getLat())){
+            json.put("response",Responses.OUTSIDE_RANGE.getData());
+            return json;
+        }
+            
+    }
+    
     @MessageMapping("/chat")
     @SendTo("/topic/chat")
     public JSONObject chat(MessageDTO messageDTO/*, @DestinationVariable ("chatroom") String chatroom_name*/){
