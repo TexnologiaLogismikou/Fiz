@@ -28,9 +28,10 @@ public class ChatroomConnectionMemberDTO extends BaseDTO{
         return room_name;
     }
 
-    public String getMember_id() {
+    public String getMember_name() {
         return member_name;
     }
+
     
     public String getMethod(){
         return method;
