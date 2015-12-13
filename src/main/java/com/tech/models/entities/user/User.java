@@ -97,7 +97,7 @@ public class User implements Serializable{
         this.enabled = enabled;
     }
 
-    public boolean isHasRoom() {
+    public boolean hasRoom() {
         return hasRoom;
     }
 

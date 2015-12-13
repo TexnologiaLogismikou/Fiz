@@ -25,7 +25,7 @@ public class ChatroomLocationService implements ICRLocationService {
     
     @Transactional
     @Override
-    public void save(ChatroomLocation saveRecord){
+    public void add(ChatroomLocation saveRecord){
         repository.save(saveRecord);
     }
     

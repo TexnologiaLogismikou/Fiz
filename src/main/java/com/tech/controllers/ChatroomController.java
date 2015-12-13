@@ -78,8 +78,8 @@ public class ChatroomController {
     ICRLocationService chatroomLocationService;
     
     /** 
-     * Validates that the chatroom name doesn't already exist before creating the entity and all the peripheral data that the 
-     * new chatroom will need
+     * Validates that the chatroom name doesn't already exist and that the user doesn't have a room on his name already 
+     * before creating the entity and all the peripheral data that the new chatroom will need
      * @param newChatroom
      * @return Returns success only after completing the creation of the new chatroom else a NOT_AVAILABLE / FOUND response 
      *         will be returned if the chatroom name was found
@@ -101,7 +101,7 @@ public class ChatroomController {
         
         Long userid = userService.getUserByUsername(newChatroom.getUsername()).getId();
         
-        if(userService.getUserById(userid).isHasRoom() == true){
+        if(userService.getUserById(userid).hasRoom()){ //if he has room he cant make more
             return new ResponseEntity<>(Responses.ALREADY_HAS_A_ROOM.getData(),HttpStatus.FOUND);
         }
         
@@ -109,10 +109,12 @@ public class ChatroomController {
         ChatroomEntities CE = new ChatroomEntities(chatroomEntitesService.getNextID(),userid, newChatroom);
         ChatroomPrivileges CP = new ChatroomPrivileges(CE.getRoom_id(), newChatroom);
         ChatroomMembers CM = new ChatroomMembers(CE.getRoom_id(), userid);
+        ChatroomLocation CL = new ChatroomLocation(CE.getRoom_id(),newChatroom);
         
         chatroomEntitesService.add(CE);
         chatroomMembersService.add(CM);
         chatroomPrivilegesService.add(CP);
+        chatroomLocationService.add(CL);
         
         return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);
     }
@@ -210,6 +212,10 @@ public class ChatroomController {
         
         ChatroomEntities CE = chatroomEntitesService.getRoomByName(deleteRoom.getRoom_name());
         Long creator_id = userService.getUserByUsername(deleteRoom.getCreator_name()).getId();
+        
+        if(!userService.getUserById(creator_id).hasRoom()) {
+            return new ResponseEntity<>(Responses.NOT_AUTHORIZED.getData(),HttpStatus.UNAUTHORIZED);  
+        }
         
         if(!Objects.equals(CE.getRoom_creator(),creator_id)) { //<- TODO  Verify
             return new ResponseEntity<>(Responses.NOT_AUTHORIZED.getData(),HttpStatus.UNAUTHORIZED);               

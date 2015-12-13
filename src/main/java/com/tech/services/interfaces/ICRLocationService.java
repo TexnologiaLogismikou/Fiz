@@ -28,7 +28,7 @@ public interface ICRLocationService {
     List<ChatroomLocation> findIfNear(float lng, float lat);
 
     @Transactional
-    void save(ChatroomLocation saveRecord);
+    void add(ChatroomLocation saveRecord);
 
     @Transactional
     void setNewLngLat(float lng, float lat, Long room_id);

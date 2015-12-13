@@ -131,7 +131,7 @@ public class UserService implements IUserService {
     @Transactional
     public void modifyUser(User modifiedUser) {
         repository.setUserInfoById(modifiedUser.getUsername(), modifiedUser.getPassword(),
-                modifiedUser.isEnabled(),modifiedUser.isHasRoom(), modifiedUser.getId());  
+                modifiedUser.isEnabled(),modifiedUser.hasRoom(), modifiedUser.getId());  
     }
     
     @Override

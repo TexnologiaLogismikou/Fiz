@@ -33,6 +33,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 
 /**
  *

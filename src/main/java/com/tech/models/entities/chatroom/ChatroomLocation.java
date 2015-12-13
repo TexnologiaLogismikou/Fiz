@@ -5,6 +5,7 @@
  */
 package com.tech.models.entities.chatroom;
 
+import com.tech.models.dtos.chatroom.ChatroomCreationDTO;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,6 +48,10 @@ public class ChatroomLocation implements Serializable {
     public ChatroomLocation() {
     }
 
+    public ChatroomLocation(Long room_id, ChatroomCreationDTO DTO ){
+        this(room_id,DTO.getRoom_lat(),DTO.getRoom_lng(),DTO.getRoom_max_range());
+    }
+    
     public ChatroomLocation(Long room_id, float room_lat, 
             float room_lng, int room_max_range) {
         this.room_id = room_id;
