@@ -67,8 +67,20 @@ public class MessageController extends BaseController {
         if(!locationService.checkIfStillInside(roomID, messageDTO.getLng(), messageDTO.getLat())){
             json.put("response",Responses.OUTSIDE_RANGE.getData());
             return json;
-        }
-            throw new UnsupportedOperationException();
+        } //mexri edw elenxw ta paidia pou pira apo to DTO an einai swsta 
+        
+        Message message = new Message(messageService.getNextId(),userID,roomID,messageDTO);
+        messageService.addMessage(message); //pernaw to minima mesa sti basi
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm"); 
+        
+        json.put("username",messageDTO.getUsername()); //edw ftiaxnei json opou tha epistrafei me autes ts times
+        json.put("message",messageDTO.getMessage());
+        json.put("date",dateFormat.format(new Date()));
+        json.put("chatroom",messageDTO.getChatroom_name());
+        json.put("response",Responses.SUCCESS.getData());
+        
+        return json;
     }
     
     /**
@@ -121,21 +133,22 @@ public class MessageController extends BaseController {
         List<Message> list = messageService.getByChatRoom(roomID);        
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
         
-        int i = 0;
+        int count = 0;
         for(Message vLookUp:list){
             Date newDate = new Date(vLookUp.getDate().getTime() + (vLookUp.getTtl() * minuteInMillis));
             if(newDate.before(new Date())){
                 messageService.delete(vLookUp);
                 continue;
             }
-            i++;
+            count++;
             JSONObject json = new JSONObject();
             json.put("username", userService.getUserById(vLookUp.getUserid()).getUsername());//TODO check if the messages are deleted after the user is deleted
             json.put("message",vLookUp.getMessage());
             json.put("date",dateFormat.format(vLookUp.getDate()));
             jsonArray.add(json);
         }
-        jsonResponse.put("size",i);
+        jsonResponse.put("size",count);
+        jsonResponse.put("response",Responses.SUCCESS.getData());
         jsonArray.add(jsonResponse);
         
         return jsonArray;
