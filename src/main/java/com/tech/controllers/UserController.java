@@ -37,15 +37,15 @@ public class UserController extends BaseController{
     public HttpEntity<JSONObject> loadUserProfile(@PathVariable String username){
         JSONObject json = new JSONObject();
         if(!Validator.nameValidation(username)) {
-            json.put("response",Responses.NOT_AVAILABLE.getData());
-            return new ResponseEntity<>(json,HttpStatus.NOT_FOUND);
+            json.put("response",Responses.STRING_INAPPROPRIATE_FORMAT.getData());
+            return new ResponseEntity<>(json,HttpStatus.NOT_ACCEPTABLE);
         }
         if(!service.checkUsername(username)){
             json.put("response",Responses.NOT_AVAILABLE.getData());
             return new ResponseEntity<>(json,HttpStatus.NOT_FOUND);
         }
         
-        User user = service.getUserByUsername(username.toLowerCase());
+        User user = service.getUserByUsername(username);
         UserInfo userInfo = infoService.getUserInfoByUserId(user.getId());
         
         json.put("username", user.getUsername());
