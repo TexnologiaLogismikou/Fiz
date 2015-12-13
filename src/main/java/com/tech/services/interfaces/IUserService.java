@@ -38,4 +38,7 @@ public interface IUserService {
     
     @Transactional
     void modifyUser(User modifiedUser);
+    
+    @Transactional
+    public void updateUserRoom(boolean hasRoom, Long userid);
 }

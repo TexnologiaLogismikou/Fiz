@@ -16,12 +16,13 @@ DELETE FROM "chatroom_blacklist"; --table#6.4
 DELETE FROM "chatroom_whitelist"; --table#6.5
 DELETE FROM "chatrooms_members"; --table#6.2
 DELETE FROM "chatroom_privileges"; --table#6.3
+DELETE FROM "chatroom_location";
 DELETE FROM "chatrooms_entities"; --table#6.1
 DELETE FROM "usersdata"; --table#1
 
-INSERT INTO usersdata  VALUES (1,'milenaAz','milena',TRUE); --table#1
-INSERT INTO usersdata VALUES (2,'iwannaFot','iwanna',TRUE); --table#1
-INSERT INTO usersdata VALUES (3,'mixalisMix','mixalis',TRUE); --table#1
+INSERT INTO usersdata  VALUES (1,'milenaAz','milena',TRUE,TRUE); --table#1
+INSERT INTO usersdata VALUES (2,'iwannaFot','iwanna',TRUE,TRUE); --table#1
+INSERT INTO usersdata VALUES (3,'mixalisMix','mixalis',TRUE,TRUE); --table#1
 
 INSERT INTO user_roles VALUES(1,'ROLE_USER'); --table#2
 INSERT INTO user_roles VALUES(2,'ROLE_USER'); --table#2
@@ -33,7 +34,6 @@ INSERT INTO user_info VALUES (3,'Mixalis','Mixailidis','17/10/1994','mixalis@gma
 
 INSERT INTO friendlist VALUES (1, 2,TO_TIMESTAMP('16-05-2011 12:00:00', 'dd-mm-yyyy hh24:mi:ss')); --table#5
 INSERT INTO friendlist VALUES (1, 3,TO_TIMESTAMP('16-05-2011 13:00:00', 'dd-mm-yyyy hh24:mi:ss')); --table#5
-INSERT INTO friendlist VALUES (2, 1,TO_TIMESTAMP('10-12-2015 13:00:00', 'dd-mm-yyyy hh24:mi:ss')); --table#5
 
 INSERT INTO chatrooms_entities VALUES (1,1,'first testing room','20/1/2010','7/12/2015'); --table#6.1
 INSERT INTO chatrooms_entities VALUES (2,1, 'second testing room','21/2/2011','7/12/2015'); --table#6.1
@@ -59,3 +59,5 @@ INSERT INTO messages VALUES (1, 1,'initial message',TO_TIMESTAMP('16-05-2011 12:
 INSERT INTO messages VALUES (2, 2,'second message',TO_TIMESTAMP('16-05-2011 13:30:00', 'dd-mm-yyyy hh24:mi:ss'),'1'); --table#7
 INSERT INTO messages VALUES (3, 2,'third message',TO_TIMESTAMP('16-05-2011 14:30:00', 'dd-mm-yyyy hh24:mi:ss'),'1'); --table#7
 INSERT INTO messages VALUES (4, 3,'forth message',TO_TIMESTAMP('16-05-2011 13:30:00', 'dd-mm-yyyy hh24:mi:ss'),'2'); --table#7
+
+

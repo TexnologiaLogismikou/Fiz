@@ -1,4 +1,5 @@
 DROP TABLE "user_roles"; --table#2
+DROP TABLE "chatroom_location";
 DROP TABLE "user_info"; --table#3
 DROP TABLE "images"; --table#4
 DROP TABLE "friendlist"; --table#5
@@ -15,6 +16,7 @@ CREATE TABLE "usersdata" ( --table#1
     "username" text NOT NULL,
     "password" text NOT NULL,
     "enabled" BOOLEAN NOT NULL,
+    "hasroom" BOOLEAN NOT NULL DEFAULT FALSE,
     CONSTRAINT pk_usersdata PRIMARY KEY (id),
     CONSTRAINT uniq_username UNIQUE (username)    
 );
@@ -27,7 +29,7 @@ CREATE TABLE "user_roles" ( --table#2
 
 CREATE TABLE "user_info" ( --table#3
     "userid" bigint NOT NULL,
-    "first_name" text,
+    "first_name" text NOT NULL,
     "last_name" text,
     "birthday" DATE NOT NULL,
     "email" text NOT NULL,
@@ -102,6 +104,19 @@ CREATE TABLE "messages" ( --table#7
     "chatroom_id" bigint NOT NULL,
     CONSTRAINT pk_message PRIMARY KEY (id)
 );
+
+CREATE TABLE chatroom_location(
+    room_id bigint NOT NULL,
+    room_lat FLOAT NOT NULL,
+    room_lng FLOAT NOT NULL,
+    "room_max_range" INTEGER NOT NULL DEFAULT '20000',
+    CONSTRAINT pk_location_id PRIMARY KEY (room_id)    
+);
+
+ALTER TABLE "chatroom_location" ADD --table#6.2
+    CONSTRAINT "fk_chatroom_location_room_id" 
+    FOREIGN KEY (room_id) REFERENCES "chatrooms_entities" (room_id)
+    ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE "user_roles" ADD --table#2
     CONSTRAINT "fk_userid_user_role" 
@@ -178,9 +193,9 @@ ALTER TABLE "messages" ADD --table#7
     FOREIGN KEY (chatroom_id) REFERENCES "chatrooms_entities" (room_id)
     ON DELETE CASCADE ON UPDATE CASCADE;
 
-INSERT INTO usersdata  VALUES (1,'milenaAz','milena',TRUE); --table#1
-INSERT INTO usersdata VALUES (2,'iwannaFot','iwanna',TRUE); --table#1
-INSERT INTO usersdata VALUES (3,'mixalisMix','mixalis',TRUE); --table#1
+INSERT INTO usersdata  VALUES (1,'milenaAz','milena',TRUE,TRUE); --table#1
+INSERT INTO usersdata VALUES (2,'iwannaFot','iwanna',TRUE,TRUE); --table#1
+INSERT INTO usersdata VALUES (3,'mixalisMix','mixalis',TRUE,TRUE); --table#1
 
 INSERT INTO user_roles VALUES(1,'ROLE_USER'); --table#2
 INSERT INTO user_roles VALUES(2,'ROLE_USER'); --table#2
@@ -217,3 +232,5 @@ INSERT INTO messages VALUES (1, 1,'initial message',TO_TIMESTAMP('16-05-2011 12:
 INSERT INTO messages VALUES (2, 2,'second message',TO_TIMESTAMP('16-05-2011 13:30:00', 'dd-mm-yyyy hh24:mi:ss'),'1'); --table#7
 INSERT INTO messages VALUES (3, 2,'third message',TO_TIMESTAMP('16-05-2011 14:30:00', 'dd-mm-yyyy hh24:mi:ss'),'1'); --table#7
 INSERT INTO messages VALUES (4, 3,'forth message',TO_TIMESTAMP('16-05-2011 13:30:00', 'dd-mm-yyyy hh24:mi:ss'),'2'); --table#7
+
+

@@ -131,8 +131,12 @@ public class UserService implements IUserService {
     @Transactional
     public void modifyUser(User modifiedUser) {
         repository.setUserInfoById(modifiedUser.getUsername(), modifiedUser.getPassword(),
-                modifiedUser.isEnabled(), modifiedUser.getId());  
+                modifiedUser.isEnabled(),modifiedUser.isHasRoom(), modifiedUser.getId());  
     }
-
     
+    @Override
+    @Transactional
+    public void updateUserRoom(boolean hasRoom, Long userid){
+        repository.setUserRoom(hasRoom, userid);
+    }
 }
