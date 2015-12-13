@@ -12,7 +12,7 @@ import com.tech.models.dtos.superclass.BaseDTO;
  * @author KuroiTenshi
  */
 public class ChatroomDeleteDTO extends BaseDTO{
-    private Long creator_id;
+    private String creator_name;
     private String room_name;
     private String room_password;
     
@@ -21,8 +21,8 @@ public class ChatroomDeleteDTO extends BaseDTO{
         return "ChatroomDeleteDTO";
     }
 
-    public Long getCreator_id() {
-        return creator_id;
+    public String getCreator_name() {
+        return creator_name;
     }
 
     public String getRoom_name() {

@@ -5,6 +5,8 @@
  */
 package com.tech.configurations.tools;
 
+import com.tech.configurations.InitializeValidators;
+import static com.tech.configurations.InitializeValidators.InitializeCustomValidators;
 import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -35,7 +37,12 @@ public class ValidatorTest
     private final String stringWithSpecialChars1 = "user!n%*@ame";
     private final String stringWithSpecialChars2 = "1234user!n%*@ame";
     private final String stringWithNumbers = "1234username";
+    private final String accessMethodWrong = "justlist";
+    private final String accessMethodRight1 = "blacklist";
+    private final String accessMethodRight2 = "whitelist";
+    
     private List<String> accessMethods = new ArrayList();
+    
     
     public ValidatorTest() {
     }
@@ -53,6 +60,7 @@ public class ValidatorTest
     @Before
     public void setUp() 
     {
+        InitializeCustomValidators();
         accessMethods.add("blacklist");
         accessMethods.add("whitelist");
     }
@@ -95,5 +103,16 @@ public class ValidatorTest
         Assert.assertFalse(Responses.ERROR.getData(),Validator.passwordValidator(stringWithSpacesLeft));
         Assert.assertFalse(Responses.ERROR.getData(),Validator.passwordValidator(LargeStringFactory.getLargeString()));
         Assert.assertFalse(Responses.ERROR.getData(),Validator.passwordValidator(smallString));
+    }
+    
+    @Test
+    public void testaAccessMethodValidator()
+    {
+        InitializeCustomValidators();
+
+        Assert.assertFalse(Responses.ACCESS_METHOD_NOT_ALLOWED.getData(),Validator.accessMethodValidator(emptyString));
+        Assert.assertFalse(Responses.ACCESS_METHOD_NOT_FOUND.getData(),Validator.accessMethodValidator(accessMethodWrong));
+//        Assert.assertTrue(Responses.ERROR.getData(),Validator.accessMethodValidator(accessMethods.get(0)));
+//        Assert.assertTrue(Responses.ERROR.getData(),Validator.accessMethodValidator(accessMethods.get(1))); 
     }
 }

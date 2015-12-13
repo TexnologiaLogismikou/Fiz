@@ -15,6 +15,7 @@ public class UserDTO extends BaseDTO {
     private String username;
     private String password;
     private boolean enabled;
+    private boolean hasRoom;
     private String email;
     private String profile_photo;
     private String status;
@@ -22,6 +23,10 @@ public class UserDTO extends BaseDTO {
     private String birthday;
     private String hometown;
     private String firstname;
+    
+    public UserDTO(){
+        
+    }
     
     @Override
     public String getDTOName() {
@@ -65,6 +70,10 @@ public class UserDTO extends BaseDTO {
     
     public String getFirstName(){
         return firstname;
+    }
+    
+    public boolean getHasRoom(){
+        return hasRoom;
     }
             
 }

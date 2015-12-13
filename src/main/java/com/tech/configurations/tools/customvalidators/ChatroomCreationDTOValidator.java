@@ -47,10 +47,10 @@ public class ChatroomCreationDTOValidator extends BaseValidator implements Custo
             setResponseEntity(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE);
             return false;
         }
-        if(!Validator.idValidator(CCDTO.getUserid())){
-            setResponseEntity(Responses.ID_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE);
-            return false;
-        }
+//        if(!Validator.idValidator(CCDTO.getUsername())){
+//            setResponseEntity(Responses.ID_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE);
+//            return false;
+//        }
         if(!Validator.roomPrivilegeValidator(CCDTO.getRoom_privilege())){
             setResponseEntity(Responses.ID_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE);
             return false;

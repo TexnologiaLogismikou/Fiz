@@ -8,10 +8,7 @@ package com.tech.services;
 import com.tech.AbstractTest;
 import com.tech.configurations.tools.Attr;
 import com.tech.models.entities.ImagesMod;
-import com.tech.repositories.IImagesRepository;
-import com.tech.repositories.IUserRepository;
 import com.tech.services.interfaces.IImagesService;
-import com.tech.services.interfaces.IUserService;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,9 +20,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
@@ -138,12 +132,11 @@ public class ImagesServiceTest extends AbstractTest{
     @Sql(scripts = "classpath:clearImages.sql")
     public void testGetAllImages() {
         ImagesMod tmp = null ;
-        for(ImagesMod vLookUp:service.getImageByUserID(1L)){
-            if (vLookUp.getHashtag() == imagesExist.getHashtag()) {
+        for(ImagesMod vLookUp:service.getAllImages()){
+            
                 tmp = vLookUp;
-            }
         }
-        Assert.assertNotNull("Fail Get all Images",tmp);
+        Assert.assertNotEquals("Fail to Get all images",tmp);
     }
 
     @Test

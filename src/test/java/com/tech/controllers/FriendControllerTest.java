@@ -7,7 +7,6 @@ package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
 import com.tech.configurations.tools.Responses;
-import com.tech.configurations.tools.Validator;
 import com.tech.models.entities.Friend;
 import com.tech.models.entities.user.User;
 import com.tech.services.FriendService;
@@ -34,6 +33,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 
 /**
  *
@@ -352,5 +353,32 @@ public class FriendControllerTest extends AbstractControllerTest
         
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.FRIEND_ALREADY_EXIST.getData() + "'",
                     content.equals(Responses.FRIEND_ALREADY_EXIST.getData()));
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testUsernameNotFound() throws Exception {
+        
+        json.put("username","milena");
+        json.put("friendname","vasilis"); 
+       
+       when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","milena",true));
+       //when(userService.getUserByUsername("iwanna")).thenReturn(new User(2L,"iwanna","iwanna",true));
+       when(userService.checkUsername("vasilis")).thenReturn(false);
+       
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/addfriend")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        
+      String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+        
+        verify(userService,times(1)).checkUsername(anyString());
+        
+        Assert.assertEquals("failure - expected HTTP status to be '404'", 404, status); 
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.NOT_AVAILABLE.getData() + "'",
+                    content.equals(Responses.NOT_AVAILABLE.getData()));
     }
 }

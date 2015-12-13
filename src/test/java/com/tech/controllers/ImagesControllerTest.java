@@ -9,6 +9,7 @@ import com.tech.AbstractControllerTest;
 import com.tech.configurations.tools.Attr;
 import com.tech.configurations.tools.FileTools;
 import com.tech.configurations.tools.Responses;
+import com.tech.controllers.methodcontainer.FileWorkAround;
 import com.tech.models.entities.ImagesMod;
 import com.tech.models.entities.user.User;
 import com.tech.services.ImagesService;
@@ -16,6 +17,8 @@ import com.tech.services.user.UserService;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.transaction.Transactional;
@@ -26,19 +29,34 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import org.mockito.Mock;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  *
@@ -46,6 +64,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
  */
 @Transactional
 @ActiveProfiles({"iwanna","iwanna"})
+@PrepareForTest(FileWorkAround.class)
 public class ImagesControllerTest extends AbstractControllerTest{
     String uri;
     
@@ -117,7 +136,7 @@ public class ImagesControllerTest extends AbstractControllerTest{
     }   
     
     @Test
-    public void testLoadImagesNull() throws Exception{
+    public void gesNtestLoadImaull() throws Exception{
         byte[] f = null;
         MockMultipartFile MF = new MockMultipartFile("file","psaraki.jpg", "multipart/form-data", f);     
         
@@ -281,7 +300,7 @@ public class ImagesControllerTest extends AbstractControllerTest{
         Assert.assertTrue("Failure - expected response status to be '200'",status == 200);
     }
     
-    @Test
+    @Test 
     public void testHandleWrongImage() throws Exception {        
         when(imagesService.checkImagesByHashtag(12345678L)).thenReturn(false);     
 
@@ -311,4 +330,35 @@ public class ImagesControllerTest extends AbstractControllerTest{
         Assert.assertTrue("Failure - expected response body to be null",content.isEmpty());
         Assert.assertTrue("Failure - expected response status to be '200'",status == 200);      
     }
+    
+    @Test
+    public void testIOException() throws Exception{
+            byte[] f = Files.readAllBytes(new File(Attr.TESTING_IMAGES.getData() + "\\testImg.jpg").toPath());
+            MockMultipartFile MF = new MockMultipartFile("file","psaraki.jpg", "multipart/form-data", f);              
+            
+            when(userService.checkUsername("iwanna")).thenReturn(true);
+            when(userService.getUserByUsername("iwanna")).thenReturn(new User(2L,"iwanna","iwanna",true));
+            doNothing().when(imagesService).addImage(any(ImagesMod.class));
+            
+            FileWorkAround FWA = mock(FileWorkAround.class);
+            when(FWA.fileWorkAroundCall(anyString(),any(byte[].class), any(StandardOpenOption.class))).thenThrow(IOException.class);
+            controller.setFileWorkAround(FWA);
+            
+            MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .fileUpload(uri)
+                .file(MF)
+                .param("username", "iwanna"))
+                .andReturn();
+        
+            String content = result.getResponse().getContentAsString();
+            int status = result.getResponse().getStatus();
+             
+            verify(userService,times(1)).checkUsername("iwanna");
+            verify(imagesService,times(0)).addImage(any(ImagesMod.class));
+            verify(userService,times(1)).getUserByUsername("iwanna");
+        
+            Assert.assertEquals("Fail expected status 304 but was " + status, 304, status);
+            Assert.assertTrue("Fail expected Response Body to be '" + Responses.FILE_ERROR.getData() + "'",
+                content.equals(Responses.FILE_ERROR.getData()));           
+    }  
 }

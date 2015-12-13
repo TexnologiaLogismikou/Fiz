@@ -5,7 +5,6 @@
  */
 package com.tech.models.entities.chatroom;
 
-import com.tech.models.dtos.chatroom.ChatroomWhitelistDTO;
 import com.tech.models.entities.embeddedIds.CRWhitelistComposite;
 import java.io.Serializable;
 import java.util.Date;
@@ -40,10 +39,6 @@ public class ChatroomWhitelist implements Serializable {
     private Date room_invitation_time;
 
     public ChatroomWhitelist() {
-    }
-
-    public ChatroomWhitelist(Long room_id,ChatroomWhitelistDTO DTO){
-        this(room_id,DTO.getMember_id());
     }
     
     public ChatroomWhitelist(Long room_id, Long room_member) {

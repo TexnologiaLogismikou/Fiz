@@ -22,14 +22,14 @@ public class ValidatorFactory {
         return response;
     }
      
-    public static Pair validateDTO (BaseDTO DTO) {
+    public static Pair<Boolean,ResponseEntity> validateDTO (BaseDTO DTO) {
         int code = DTO.getDTOName().toLowerCase().hashCode();
-        if (AVAILABLE_VALIDATORS.containsKey(code)) {
+        if (!AVAILABLE_VALIDATORS.containsKey(code)) {
             response = new ResponseEntity(Responses.VALIDATOR_NOT_FOUND.getData(),HttpStatus.NOT_FOUND);
-            return new Pair(false, response);
+            return new Pair<>(false, response);
         }
         boolean booleanResponse = AVAILABLE_VALIDATORS.get(code).validate(DTO);
-        return new Pair(booleanResponse, AVAILABLE_VALIDATORS.get(code).response());
+        return new Pair<>(booleanResponse, AVAILABLE_VALIDATORS.get(code).response());
     }
     
     public static boolean registerDTOValidator(CustomValidator DTOvalidator) {

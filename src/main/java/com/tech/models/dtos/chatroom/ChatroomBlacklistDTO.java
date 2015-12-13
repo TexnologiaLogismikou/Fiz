@@ -14,7 +14,7 @@ import java.util.Date;
  */
 public class ChatroomBlacklistDTO extends BaseDTO{
     private String room_name;
-    private Long member_id;
+    private String member_name;
     private Date expiration_date;
     
     @Override
@@ -26,8 +26,8 @@ public class ChatroomBlacklistDTO extends BaseDTO{
         return room_name;
     }
 
-    public Long getMember_id() {
-        return member_id;
+    public String getMember_name() {
+        return member_name;
     }
 
     public Date getExpiration_date() {

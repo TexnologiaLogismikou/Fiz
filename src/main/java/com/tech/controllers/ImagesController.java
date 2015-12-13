@@ -9,6 +9,7 @@ import com.tech.configurations.tools.Attr;
 import com.tech.configurations.tools.Host;
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.Validator;
+import com.tech.controllers.methodcontainer.FileWorkAround;
 import com.tech.controllers.superclass.BaseController;
 import com.tech.models.entities.ImagesMod;
 import com.tech.services.interfaces.IImagesService;
@@ -39,11 +40,22 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/images")
 public class ImagesController extends BaseController{
 
+    private FileWorkAround fileWorkAround;
+    public void setFileWorkAround(FileWorkAround fWA){
+        fileWorkAround = fWA;
+    }
+    
     @Autowired
     IImagesService service;
 
     @Autowired
     IUserService userService;
+
+    public ImagesController() {
+        fileWorkAround = new FileWorkAround();
+    }
+    
+    
     
     /**
      *
@@ -68,11 +80,7 @@ public class ImagesController extends BaseController{
                 byte[] bytes = file.getBytes();
                 ImagesMod img = new ImagesMod(sm);
 
-                File newFile = new File(img.getImagePath());
-                if (!newFile.getParentFile().exists()){
-                    newFile.getParentFile().mkdirs(); //need check if creation fails?
-                }
-                Files.write(newFile.toPath(), bytes, StandardOpenOption.CREATE);//if file exists?
+                fileWorkAround.fileWorkAroundCall(img.getImagePath(), bytes, StandardOpenOption.CREATE);
 
                 service.addImage(img);
 

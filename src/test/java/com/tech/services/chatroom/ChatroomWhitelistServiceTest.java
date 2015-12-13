@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tech.services;
+package com.tech.services.chatroom;
 
 import com.tech.AbstractTest;
-import com.tech.models.entities.chatroom.ChatroomBlacklist;
-import com.tech.services.interfaces.IChatroomBlacklistService;
+import com.tech.models.entities.chatroom.ChatroomWhitelist;
+import com.tech.services.interfaces.IChatroomWhitelistService;
 import java.sql.Date;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
@@ -28,14 +28,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @WebAppConfiguration
 @ActiveProfiles({"iwanna","iwanna"})
-public class ChatroomBlacklistServiceTest extends AbstractTest{
+public class ChatroomWhitelistServiceTest extends AbstractTest{
     
-    @Autowired
-    private IChatroomBlacklistService service;
+     @Autowired
+    private IChatroomWhitelistService service;
     
-    private ChatroomBlacklist blacklistExist ;
-    private ChatroomBlacklist blacklistNotExist;
-            
+    private ChatroomWhitelist whitelistExist ;
+    //private ChatroomWhitelist whitelistNotExist;
+    
+    public ChatroomWhitelistServiceTest() {
+    }
+    
     @BeforeClass
     public static void setUpClass() {
     }
@@ -46,57 +49,57 @@ public class ChatroomBlacklistServiceTest extends AbstractTest{
     
     @Before
     public void setUp() {
-        blacklistExist= new ChatroomBlacklist(2L, 3L, Date.valueOf("2015-12-28"));
-        blacklistNotExist= new ChatroomBlacklist(3L, 2L, Date.valueOf("2016-11-30"));
-        
+        whitelistExist = new ChatroomWhitelist(1L, 1L);
+       
     }
     
     @After
     public void tearDown() {
     }
 
+    
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void testAddUserToBlacklist() {
-        service.add(blacklistNotExist);
-        
-        Assert.assertEquals("Failure - fail add user to blacklist",
-                blacklistNotExist.getRoom_id(),
-                service.findByRoomID(blacklistNotExist.getRoom_id()).get(0).getRoom_id());
+    public void testAddUserToWhitelist() {
+        service.delete(whitelistExist);
+        Assert.assertNull(service.findByRoomIDAndRoomMember(1L, 1L));
+        service.add(whitelistExist);
+        Assert.assertNotNull(service.findByRoomIDAndRoomMember(1L, 1L));
+       
     }
 
+    
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testDeleteUserFromBlacklist() {
-       Boolean bool = service.delete(blacklistExist);
-       
-       Assert.assertTrue("Fail delete User From Blacklist",bool);
+        Assert.assertNotNull(service.findByRoomIDAndRoomMember(1L, 1L));
+        service.delete(whitelistExist);
+        Assert.assertNull(service.findByRoomIDAndRoomMember(1L, 1L));
     }
 
     
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testFindByRoomID() {
-       Assert.assertEquals("Fail to find User by id",blacklistExist.getRoom_id(),
-               service.findByRoomID(2L).get(0).getRoom_id());
+        Assert.assertEquals("Fail to find User by id",whitelistExist.getRoom_id(),
+               service.findByRoomID(1L).get(0).getRoom_id());
     }
 
    
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testFindByRoomMember() {
-        Assert.assertEquals("Fail to find User by room Member",blacklistExist.getRoom_member(),
-                service.findByRoomIDAndRoomMember(2L, 3L).getRoom_member());
+         Assert.assertEquals("Fail to find User by room Member",whitelistExist.getRoom_member(),
+            service.findByRoomMember(1L).get(0).getRoom_member());
     }
 
     
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testFindByRoomIDAndRoomMember() {
-        ChatroomBlacklist cr = service.findByRoomIDAndRoomMember(2L,3L);
-        Assert.assertEquals("Fail find by romm ID and room member",blacklistExist.getRoom_expiration_time(),cr.getRoom_expiration_time());
-        Assert.assertEquals("Fail find by romm ID and room member",blacklistExist.getRoom_id(),cr.getRoom_id());
-        Assert.assertEquals("Fail find by romm ID and room member",blacklistExist.getRoom_member(),cr.getRoom_member());
+        ChatroomWhitelist cr = service.findByRoomIDAndRoomMember(1L,1L);
+        Assert.assertEquals("Fail find by romm ID and room member",whitelistExist.getRoom_member(),cr.getRoom_member());
+       
     }
 
     
@@ -112,16 +115,16 @@ public class ChatroomBlacklistServiceTest extends AbstractTest{
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testCountRecordsOfRoom() {
-        Long cr = service.countRecordsOfRoom(2L);
-        Long i = 1L;
+        Long cr = service.countRecordsOfRoom(1L);
+        Long i = 2L;
         Assert.assertEquals("Fail count record of room",i,cr);
     }
 
-   
+    
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testCountRecordsOfMember() {
-        Long cr = service.countRecordsOfMember(3L);
+        Long cr = service.countRecordsOfMember(1L);
         Long i = 1L;
         Assert.assertEquals("Fail count record of room",i,cr);
     }

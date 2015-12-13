@@ -18,6 +18,7 @@ public class ChatroomUpdateDTO extends BaseDTO{
     private String access_method;
     private boolean passwordProtection;
     private String password;
+    private Integer max_range;
 
     @Override
     public String getDTOName() {
@@ -47,4 +48,8 @@ public class ChatroomUpdateDTO extends BaseDTO{
     public String getPassword() {
         return password;
     }    
+
+    public Integer getMax_range() {
+        return max_range;
+    }
 }
