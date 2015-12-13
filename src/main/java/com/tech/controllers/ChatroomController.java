@@ -9,6 +9,7 @@ import com.tech.configurations.tools.Host;
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.ValidatorFactory;
+import com.tech.controllers.superclass.BaseController;
 import com.tech.models.dtos.chatroom.ChatroomBlacklistDTO;
 import com.tech.models.dtos.chatroom.ChatroomCheckInsideDTO;
 import com.tech.models.dtos.chatroom.ChatroomConnectionMemberDTO;
@@ -54,7 +55,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = Host.apache)
 @RestController
 @RequestMapping("/chatroom")
-public class ChatroomController {
+public class ChatroomController extends BaseController{
     
     @Autowired
     IUserService userService;
