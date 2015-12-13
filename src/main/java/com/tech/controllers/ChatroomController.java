@@ -8,7 +8,6 @@ package com.tech.controllers;
 import com.tech.configurations.tools.Host;
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
-import com.tech.configurations.tools.ValidatorFactory;
 import com.tech.models.dtos.chatroom.ChatroomBlacklistDTO;
 import com.tech.models.dtos.chatroom.ChatroomCheckInsideDTO;
 import com.tech.models.dtos.chatroom.ChatroomConnectionMemberDTO;
@@ -86,10 +85,7 @@ public class ChatroomController {
      */
     @RequestMapping(value = "/newChatroom",method = RequestMethod.POST)
     public HttpEntity<String> handleNewChatroom(@RequestBody ChatroomCreationDTO newChatroom){
-        Pair<Boolean,ResponseEntity> p = ValidatorFactory.validateDTO(newChatroom);
-        if(!p.getLeft()) {
-            return p.getRight();
-        }
+        //Todo call sto validator
         
         if(!userService.checkUsername(newChatroom.getUsername())){ //validates if the user exists or not
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);

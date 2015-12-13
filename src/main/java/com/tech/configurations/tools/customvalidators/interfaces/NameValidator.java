@@ -5,12 +5,14 @@
  */
 package com.tech.configurations.tools.customvalidators.interfaces;
 
+import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.ValidationScopes;
+import org.springframework.http.ResponseEntity;
 
 /**
  *
  * @author KuroiTenshi
  */
-public interface CustomValidator {
-    ValidationScopes scope();    
+public interface NameValidator {
+    Pair<Boolean,ResponseEntity> validate(String str);
 }

@@ -5,13 +5,21 @@
  */
 package com.tech.models.dtos.chatroom;
 
+import com.tech.configurations.tools.customvalidators.interfaces.CustomValidator;
 import com.tech.models.dtos.superclass.BaseDTO;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author KuroiTenshi
  */
 public class ChatroomUpdateDTO extends BaseDTO{
+    private static final List<CustomValidator> VALIDATION = new ArrayList<>();
+    public static void registerValidator(CustomValidator newValidator){
+        VALIDATION.add(newValidator);
+    }
+    
     private String room_name;//WONT CHANGE
     private String new_room_name;
     private String room_privilege;

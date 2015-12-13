@@ -4,8 +4,6 @@ import com.tech.configurations.tools.AvailableRoles;
 import com.tech.configurations.tools.Host;
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
-import com.tech.configurations.tools.Validator;
-import com.tech.configurations.tools.ValidatorFactory;
 import com.tech.controllers.superclass.BaseController;
 import com.tech.models.dtos.user.RegisteredUserDTO;
 import com.tech.models.entities.user.User;
@@ -42,11 +40,7 @@ public class RegistrationController extends BaseController{
      */
     @RequestMapping(method = RequestMethod.POST)
     public HttpEntity<String> register(@RequestBody RegisteredUserDTO userDTO) {
-        Pair<Boolean,ResponseEntity> p = ValidatorFactory.validateDTO(userDTO);
-        if(!p.getLeft()) {
-            return p.getRight();
-        }
-        
+        //TODO call sto validator        
         if(service.checkUsername(userDTO.getUsername())) {
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.FOUND);            
         }
