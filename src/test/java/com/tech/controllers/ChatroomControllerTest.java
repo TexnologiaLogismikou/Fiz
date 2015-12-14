@@ -110,7 +110,7 @@ public class ChatroomControllerTest extends AbstractControllerTest{
     @Test
     public void testRemoveMember() 
     {
-        
+        //argargrghthth
     }
 
     @Test
