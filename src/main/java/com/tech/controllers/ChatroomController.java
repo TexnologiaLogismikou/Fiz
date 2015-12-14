@@ -161,9 +161,9 @@ public class ChatroomController extends BaseController{
             return new ResponseEntity<>(Responses.OUTSIDE_RANGE.getData(),HttpStatus.GONE);
         }
         
-        ChatroomPrivileges CP = chatroomPrivilegesService.findByRoomId(roomId);
+        ChatroomPrivileges CP = chatroomPrivilegesService.findByRoomId(roomId); //tha balw verify
         
-        if(CP.isRoom_password_protected()){
+        if(CP.isRoom_password_protected()){  //einai antikeimeno CP kai gi auto den mporw na kanw elenxo
             if(!CP.getRoom_password().equals(newMember.getPassword())){
                 return new ResponseEntity<>(Responses.NOT_AUTHORIZED.getData(),HttpStatus.UNAUTHORIZED);
             }

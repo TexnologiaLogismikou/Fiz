@@ -7,6 +7,9 @@ package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
 import com.tech.configurations.tools.Responses;
+import com.tech.models.entities.chatroom.ChatroomEntities;
+import com.tech.models.entities.chatroom.ChatroomPrivileges;
+import com.tech.models.entities.user.User;
 import com.tech.services.chatroom.ChatroomBlacklistService;
 import com.tech.services.chatroom.ChatroomEntitiesService;
 import com.tech.services.chatroom.ChatroomLocationService;
@@ -181,6 +184,78 @@ public class ChatroomControllerTest extends AbstractControllerTest{
         
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
                     content.equals(Responses.NOT_AVAILABLE.getData()));
+    }
+    
+    @Test//TODO
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testConnectToChatroomWrongPassword() throws Exception{
+        json.put("method","ADD");
+        json.put("member_name","CorrectUserName");
+        json.put("room_name","CorrectRoomName");
+        json.put("password","A");
+        json.put("lat","1");
+        json.put("lng","1");
+        
+        when(userService.checkUsername("CorrectUserName")).thenReturn(true);
+        when(chatroomEntitesService.validateRoomnameExistance("CorrectRoomName")).thenReturn(true);
+        when(chatroomEntitesService.getRoomByName("CorrectRoomName")).thenReturn(new ChatroomEntities(4L, 4L, "CorrectRoomName"));
+        when(userService.getUserByUsername("CorrectUserName")).thenReturn(new User());
+        when(chatroomLocationService.checkIfStillInside(4L,1, 1)).thenReturn(true);
+        when(chatroomPrivilegesService.findByRoomId(4L)).thenReturn(new ChatroomPrivileges( /*tha dinw kwdiko*/));
+       
+        
+        
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/connectChatroom")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+        
+        verify(userService,times(1)).checkUsername("CorrectUserName");
+        verify(chatroomEntitesService,times(1)).validateRoomnameExistance("CorrectRoomName");
+        verify(chatroomLocationService,times(1)).checkIfStillInside(4L,1,1);
+        
+        
+        Assert.assertEquals("failure not OK", 410, status); 
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+                    content.equals(Responses.OUTSIDE_RANGE.getData()));
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testConnectToChatroom() throws Exception{
+        json.put("method","ADD");
+        json.put("member_name","CorrectUserName");
+        json.put("room_name","CorrectRoomName");
+        json.put("password","A");
+        json.put("lat","1");
+        json.put("lng","1");
+        
+        when(userService.checkUsername("CorrectUserName")).thenReturn(true);
+        when(chatroomEntitesService.validateRoomnameExistance("CorrectRoomName")).thenReturn(true);
+        when(chatroomEntitesService.getRoomByName("CorrectRoomName")).thenReturn(new ChatroomEntities(4L, 4L, "CorrectRoomName"));
+        when(userService.getUserByUsername("CorrectUserName")).thenReturn(new User());
+        when(chatroomLocationService.checkIfStillInside(4L,1, 1)).thenReturn(false);
+        
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/connectChatroom")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+        
+        verify(userService,times(1)).checkUsername("CorrectUserName");
+        verify(chatroomEntitesService,times(1)).validateRoomnameExistance("CorrectRoomName");
+        verify(chatroomLocationService,times(1)).checkIfStillInside(4L,1,1);
+        
+        Assert.assertEquals("failure not OK", 410, status); 
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+                    content.equals(Responses.OUTSIDE_RANGE.getData()));
     }
 
     @Test
