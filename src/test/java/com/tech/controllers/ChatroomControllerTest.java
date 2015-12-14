@@ -8,6 +8,7 @@ package com.tech.controllers;
 import com.tech.AbstractControllerTest;
 import com.tech.configurations.tools.Responses;
 import com.tech.models.entities.chatroom.ChatroomEntities;
+import com.tech.models.entities.chatroom.ChatroomPrivileges;
 import com.tech.models.entities.user.User;
 import com.tech.services.chatroom.ChatroomBlacklistService;
 import com.tech.services.chatroom.ChatroomEntitiesService;
@@ -29,6 +30,7 @@ import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -188,9 +190,9 @@ public class ChatroomControllerTest extends AbstractControllerTest{
     
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void testDeleteChatroomWrongMember() throws Exception 
+    public void testDeleteChatroomWrongCreator() throws Exception 
     {
-         json.put("creator_name", "iwannaFot");
+        json.put("creator_name", "iwannaFot");
         json.put("room_name", "first testing room");
         json.put("room_password", "");
         
@@ -220,9 +222,91 @@ public class ChatroomControllerTest extends AbstractControllerTest{
                 401, status);
    
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.NOT_AUTHORIZED.getData() + "'",
-                    content.equals(Responses.NOT_AUTHORIZED.getData()));
-       
+                    content.equals(Responses.NOT_AUTHORIZED.getData()));  
     }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testDeleteChatroomWrongPassword() throws Exception 
+    {
+        json.put("creator_name", "mixalisMix");
+        json.put("room_name", "third testing room");
+        json.put("room_password", "xaxa");
+        
+        when(chatroomEntitesService.validateRoomnameExistance("third testing room")).thenReturn(true);
+        when(chatroomEntitesService.getRoomByName("third testing room")).thenReturn(new ChatroomEntities(3L,3L,"third testing room"));
+        when(userService.getUserByUsername("mixalisMix")).thenReturn(new User(3L,"mixalisMix","mixalis",true,true));
+        when(userService.getUserById(3L)).thenReturn(new User(3L,"mixalisMix","mixalis",true,true));
+        when(chatroomPrivilegesService.findByRoomId(3L)).thenReturn(new ChatroomPrivileges(3L,"PUBLIC",true,"password","blacklist"));
+        
+        
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/deleteChatroom")
+                .content(json.toJSONString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+         
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+        Assert.assertNotNull(content);
+        
+        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("third testing room");
+        verify(chatroomEntitesService, times(1)).getRoomByName("third testing room");
+        verify(userService, times(1)).getUserByUsername("mixalisMix");
+        verify(userService, times(1)).getUserById(3L);
+        verify(chatroomPrivilegesService, times(1)).findByRoomId(3L);
+        verify(chatroomEntitesService, times(0)).delete(any(ChatroomEntities.class));
+        verify(userService, times(0)).updateUserRoom(anyBoolean(), anyLong());
+        
+        Assert.assertEquals("failure - expected HTTP response UNAUTHORIZED",
+                401, status);
+   
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.NOT_AUTHORIZED.getData() + "'",
+                    content.equals(Responses.NOT_AUTHORIZED.getData()));  
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testDeleteChatroom() throws Exception 
+    {
+        json.put("creator_name", "mixalisMix");
+        json.put("room_name", "third testing room");
+        json.put("room_password", "password");
+        
+        ChatroomEntities CE = new ChatroomEntities(3L,3L,"third testing room");
+                
+        when(chatroomEntitesService.validateRoomnameExistance("third testing room")).thenReturn(true);
+        when(chatroomEntitesService.getRoomByName("third testing room")).thenReturn(CE);
+        when(userService.getUserByUsername("mixalisMix")).thenReturn(new User(3L,"mixalisMix","mixalis",true,true));
+        when(userService.getUserById(3L)).thenReturn(new User(3L,"mixalisMix","mixalis",true,true));
+        when(chatroomPrivilegesService.findByRoomId(3L)).thenReturn(new ChatroomPrivileges(3L,"PUBLIC",true,"password","blacklist"));
+        when(chatroomEntitesService.delete(CE)).thenReturn(true);
+        doNothing().when(userService).updateUserRoom(false, 3L);
+        
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/deleteChatroom")
+                .content(json.toJSONString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+         
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+        Assert.assertNotNull(content);
+        
+        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("third testing room");
+        verify(chatroomEntitesService, times(1)).getRoomByName("third testing room");
+        verify(userService, times(1)).getUserByUsername("mixalisMix");
+        verify(userService, times(1)).getUserById(3L);
+        verify(chatroomPrivilegesService, times(1)).findByRoomId(3L);
+        verify(chatroomEntitesService, times(1)).delete(CE);
+        verify(userService, times(1)).updateUserRoom(false, 3L);
+        
+        Assert.assertEquals("failure - expected HTTP response OK",
+                200, status);
+   
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+                    content.equals(Responses.SUCCESS.getData())); 
+        
+    }
+    
     @Test
     public void testHandleBans() {
     }
