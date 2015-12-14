@@ -395,6 +395,7 @@ public class ChatroomController extends BaseController{
     @RequestMapping(value = "/quitChatroom", method = RequestMethod.POST)
     public HttpEntity<String> quitChatroom(@RequestBody ChatroomQuitMemberDTO quitMember){
         //TODO call sto Validator
+        //TODO if admin quits
         
         if(!chatroomEntitesService.validateRoomnameExistance(quitMember.getRoom_name())){
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);            
