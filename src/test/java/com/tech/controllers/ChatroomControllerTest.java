@@ -149,7 +149,48 @@ public class ChatroomControllerTest extends AbstractControllerTest{
     @Sql(scripts = "classpath:populateDB.sql")
     public void testDeleteChatroomMemberDoesntHaveRoom() throws Exception 
     {
-        json.put("creator_name", "iwannaFot");
+        json.put("creator_name", "vasilis");
+        json.put("room_name", "hi");
+        json.put("room_password", "");
+       
+        User user = new User(4L,"vasilis","paok",true,false);
+        
+        when(chatroomEntitesService.validateRoomnameExistance("hi")).thenReturn(true);
+        when(chatroomEntitesService.getRoomByName("hi")).thenReturn(new ChatroomEntities(4L,2L,"hi"));
+        when(userService.getUserByUsername("vasilis")).thenReturn(user);
+        when(userService.getUserById(4L)).thenReturn(user);
+  
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/deleteChatroom")
+                .content(json.toJSONString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+         
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+        Assert.assertNotNull(content);
+        
+        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("hi");
+        verify(chatroomEntitesService, times(1)).getRoomByName("hi");
+        verify(userService, times(1)).getUserByUsername("vasilis");
+        verify(userService, times(1)).getUserById(4L);
+        verify(chatroomPrivilegesService, times(0)).findByRoomId(anyLong());
+        verify(chatroomEntitesService, times(0)).delete(any(ChatroomEntities.class));
+        verify(userService, times(0)).updateUserRoom(anyBoolean(), anyLong());
+        
+        Assert.assertEquals("failure - expected HTTP response UNAUTHORIZED",
+                401, status);
+   
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.NOT_AUTHORIZED.getData() + "'",
+                    content.equals(Responses.NOT_AUTHORIZED.getData()));
+       
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testDeleteChatroomWrongMember() throws Exception 
+    {
+         json.put("creator_name", "iwannaFot");
         json.put("room_name", "first testing room");
         json.put("room_password", "");
         
@@ -169,7 +210,7 @@ public class ChatroomControllerTest extends AbstractControllerTest{
         
         verify(chatroomEntitesService, times(1)).validateRoomnameExistance("first testing room");
         verify(chatroomEntitesService, times(1)).getRoomByName("first testing room");
-        verify(userService, times(1)).getUserByUsername(anyString());
+        verify(userService, times(1)).getUserByUsername("iwannaFot");
         verify(userService, times(1)).getUserById(2L);
         verify(chatroomPrivilegesService, times(0)).findByRoomId(anyLong());
         verify(chatroomEntitesService, times(0)).delete(any(ChatroomEntities.class));
@@ -181,14 +222,6 @@ public class ChatroomControllerTest extends AbstractControllerTest{
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.NOT_AUTHORIZED.getData() + "'",
                     content.equals(Responses.NOT_AUTHORIZED.getData()));
        
-    }
-    
-    @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    public void testDeleteChatroomWrongRoomAndMember() throws Exception 
-    {
-        
-        
     }
     @Test
     public void testHandleBans() {
