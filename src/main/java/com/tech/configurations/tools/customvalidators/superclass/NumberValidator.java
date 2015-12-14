@@ -26,6 +26,10 @@ public abstract class NumberValidator extends BaseValidator implements ICustomVa
         if(!(next instanceof INumberValidator)) {     
             throw new InappropriateValidatorException();
         } 
-        this.next = (INumberValidator)next;         
+        if(this.next != null){
+            this.next.setNext(next);
+        } else {
+            this.next = (INumberValidator)next;         
+        }      
     }   
 }
