@@ -5,23 +5,41 @@ import com.tech.models.dtos.superclass.BaseDTO;
 
 public class MessageDTO extends BaseDTO {
     private String message;
-    private Long user;
-    private Long chatroom_id;
+    private String username;
+    private String chatroom_name;
+    private float lng;
+    private float lat;
+    private int ttl;
     
     @Override
     public String getDTOName() {
         return "MessageDTO";
     }
-    
+
+    public MessageDTO() {
+    }
+
     public String getMessage() {
         return message;
     }
 
-    public Long getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
-    
-    public Long getChatroom_id(){
-        return chatroom_id;
+
+    public String getChatroom_name() {
+        return chatroom_name;
+    }
+
+    public float getLng() {
+        return lng;
+    }
+
+    public float getLat() {
+        return lat;
+    }
+
+    public int getTtl() {
+        return ttl;
     }
 }

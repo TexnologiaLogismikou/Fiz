@@ -102,6 +102,7 @@ CREATE TABLE "messages" ( --table#7
     "message" text NOT NULL,
     "datesent" TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     "chatroom_id" bigint NOT NULL,
+    "ttl" INTEGER NOT NULL DEFAULT '10', --in minutes
     CONSTRAINT pk_message PRIMARY KEY (id)
 );
 

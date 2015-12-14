@@ -23,6 +23,9 @@ public class RegisteredUserDTO extends BaseDTO {
     public String getDTOName() {
         return "RegisteredUserDTO";
     }
+
+    public RegisteredUserDTO() {
+    }
     
     public String getEmail(){
         return email;
@@ -43,8 +46,8 @@ public class RegisteredUserDTO extends BaseDTO {
     public String getPassword(){
         return password;
     }
-    
-    public String getFirstName(){
+
+    public String getFirstname() {
         return firstname;
     }
 }
