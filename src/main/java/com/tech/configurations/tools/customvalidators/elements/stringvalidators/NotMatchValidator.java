@@ -24,7 +24,7 @@ public class NotMatchValidator extends StringValidator implements ICustomValidat
     private Matcher m;
     
     public NotMatchValidator(String p) {
-        super(new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE));
+        super(new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE),"NotMatchValidator");
         this.P = Pattern.compile(p);
     }
     

@@ -19,7 +19,7 @@ import org.springframework.http.ResponseEntity;
  */
 public class EmptyStringValidator extends StringValidator implements ICustomValidator,IStringValidator {
     public EmptyStringValidator() {
-        super(new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE));
+        super(new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE),"Empty");
     }
 
     @Override

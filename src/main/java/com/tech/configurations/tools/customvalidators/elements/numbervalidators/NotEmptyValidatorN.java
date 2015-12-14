@@ -19,7 +19,7 @@ import com.tech.configurations.tools.customvalidators.interfaces.INumberValidato
  */
 public class NotEmptyValidatorN extends NumberValidator implements ICustomValidator,INumberValidator{
     public NotEmptyValidatorN() {
-        super( new ResponseEntity<>(Responses.ID_INAPPROPRIATE_FORMAT,HttpStatus.UNPROCESSABLE_ENTITY));
+        super( new ResponseEntity<>(Responses.ID_INAPPROPRIATE_FORMAT,HttpStatus.UNPROCESSABLE_ENTITY), "NotEmptyValidatorN");
     }    
     
     @Override

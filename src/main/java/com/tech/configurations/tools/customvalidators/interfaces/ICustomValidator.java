@@ -12,5 +12,8 @@ import com.tech.exceptions.customexceptions.InappropriateValidatorException;
  * @author KuroiTenshi
  */
 public interface ICustomValidator {    
-    void setNext(ICustomValidator next) throws InappropriateValidatorException;    
+    void setNext(ICustomValidator next) throws InappropriateValidatorException;
+    ICustomValidator getNext();
+    void replaceNext(ICustomValidator next) throws InappropriateValidatorException;
+    String getName();
 }

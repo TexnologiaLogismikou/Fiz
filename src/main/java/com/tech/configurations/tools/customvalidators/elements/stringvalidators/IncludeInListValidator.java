@@ -21,7 +21,7 @@ import org.springframework.http.ResponseEntity;
 public class IncludeInListValidator extends StringValidator implements ICustomValidator,IStringValidator{
     private final List<String> LIST;
     public IncludeInListValidator(List<String> list) {
-        super(new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE));
+        super(new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE),"IncludeInListValidator");
         this.LIST = list;
     }
 

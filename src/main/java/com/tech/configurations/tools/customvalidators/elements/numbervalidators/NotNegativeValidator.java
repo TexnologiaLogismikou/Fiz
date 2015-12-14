@@ -19,7 +19,7 @@ import org.springframework.http.ResponseEntity;
  */
 public class NotNegativeValidator extends NumberValidator implements ICustomValidator,INumberValidator{
     public NotNegativeValidator() {
-        super( new ResponseEntity<>(Responses.ID_INAPPROPRIATE_FORMAT,HttpStatus.UNPROCESSABLE_ENTITY));
+        super( new ResponseEntity<>(Responses.ID_INAPPROPRIATE_FORMAT,HttpStatus.UNPROCESSABLE_ENTITY), "NotNegativeValidator");
     }    
     
     @Override

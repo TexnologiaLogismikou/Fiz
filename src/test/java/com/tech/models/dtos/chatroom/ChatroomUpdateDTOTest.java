@@ -14,18 +14,17 @@ import com.tech.configurations.tools.customvalidators.elements.stringvalidators.
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.MaxLengthValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.MinLenghtValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotMatchValidator;
-import com.tech.configurations.tools.customvalidators.interfaces.ICustomValidator;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
 import com.tech.exceptions.customexceptions.NoValidatorsAssignedException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
 import java.io.IOException;
+import java.util.List;
 import net.minidev.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -74,8 +73,35 @@ public class ChatroomUpdateDTOTest {
         ChatroomUpdateDTO dto = (ChatroomUpdateDTO)mapFromJson(json.toJSONString(),ChatroomUpdateDTO.class);
         
         Pair<Boolean,ResponseEntity> a = dto.validate();
+    }
+    
+    @Test
+    public void testAddingPrintingAndRemovingValidators() throws ValidatorNotListedException, InappropriateValidatorException{
+        ChatroomUpdateDTO.cleanValidator();
+        printList();
         
-        System.out.println("a");
+        ChatroomUpdateDTO.registerValidator(new MaxLengthValidator(15), ValidationScopes.ROOM_NAME);
+        printList();
+        
+        ChatroomUpdateDTO.registerValidator(new MatchValidator("[^A-Za-z0-9]"), ValidationScopes.ROOM_NAME);
+        ChatroomUpdateDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.ROOM_NAME);
+        printList();
+        
+        ChatroomUpdateDTO.removeValidator(ValidationScopes.ROOM_NAME,2);
+        printList();        
+    }
+    
+    
+    private void printList() throws ValidatorNotListedException{        
+        List<String> list = ChatroomUpdateDTO.getValidatorList(ValidationScopes.ROOM_NAME);
+        System.out.println("Print starting :\n");
+        if(!list.isEmpty()){
+            for(String vLookUp:list){
+                System.out.println(vLookUp);
+            }
+        }
+        System.out.println("\nPrint ended...\n");
+        
     }
     
     private <T> T mapFromJson(String json,Class<T> clazz) throws JsonParseException,JsonMappingException,IOException{

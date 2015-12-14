@@ -19,7 +19,7 @@ import org.springframework.http.ResponseEntity;
  */
 public class EmptyNumberValidator extends NumberValidator implements ICustomValidator,INumberValidator{
     public EmptyNumberValidator() {
-        super( new ResponseEntity<>(Responses.BAD_COORDINATES,HttpStatus.UNPROCESSABLE_ENTITY));
+        super( new ResponseEntity<>(Responses.BAD_COORDINATES,HttpStatus.UNPROCESSABLE_ENTITY),"Empty");
     }    
     
     @Override

@@ -32,6 +32,20 @@ public class ChatroomUpdateDTO extends BaseDTO{
     private static final List<IStringValidator> PASSWORD_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
     private static final List<INumberValidator> RANGE_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyNumberValidator()));
     
+    public static void cleanValidator(){
+        ROOM_ACCESS_METHOD_VALIDATORS.clear();
+        ROOM_NAME_VALIDATORS.clear();
+        ROOM_PRIVILEGE_VALIDATORS.clear();
+        PASSWORD_VALIDATORS.clear();
+        RANGE_VALIDATORS.clear();
+        
+        ROOM_ACCESS_METHOD_VALIDATORS.add(new EmptyStringValidator());
+        ROOM_NAME_VALIDATORS.add(new EmptyStringValidator());
+        ROOM_PRIVILEGE_VALIDATORS.add(new EmptyStringValidator());
+        PASSWORD_VALIDATORS.add(new EmptyStringValidator());
+        RANGE_VALIDATORS.add(new EmptyNumberValidator());        
+    }
+    
     private static void registerStringValidator(IStringValidator strVal, ValidationScopes scope)
             throws ValidatorNotListedException, InappropriateValidatorException{
         
@@ -79,6 +93,95 @@ public class ChatroomUpdateDTO extends BaseDTO{
             registerNumberValidator((INumberValidator)newValidator, scope);
         } else {
             throw new InappropriateValidatorException();
+        }
+    }
+    
+    public static List<String> getValidatorList(ValidationScopes scope) throws ValidatorNotListedException{
+        List<String> list = new ArrayList<>();
+        int i = 0;
+        switch(scope){
+            case ROOM_NAME:
+                for(ICustomValidator vLookUp:ROOM_NAME_VALIDATORS){
+                    if(vLookUp.getName().equals("Empty")) { continue; }
+                    i++;
+                    list.add(i + ": " + vLookUp.getName());
+                }
+                return list;
+            case PASSWORD:
+                for(ICustomValidator vLookUp:PASSWORD_VALIDATORS){
+                    if(vLookUp.getName().equals("Empty")) { continue; }
+                    i++;
+                    list.add(i + ": " + vLookUp.getName());
+                }
+                return list;
+            case ROOM_PRIVILEGE:
+                for(ICustomValidator vLookUp:ROOM_PRIVILEGE_VALIDATORS){
+                    if(vLookUp.getName().equals("Empty")) { continue; }
+                    i++;
+                    list.add(i + ": " + vLookUp.getName());
+                }
+                return list;
+            case ROOM_ACCESS_METHOD: 
+                for(ICustomValidator vLookUp:ROOM_ACCESS_METHOD_VALIDATORS){
+                    if(vLookUp.getName().equals("Empty")) { continue; }
+                    i++;
+                    list.add(i + ": " + vLookUp.getName());
+                }
+                return list;
+            case RANGE:
+                for(ICustomValidator vLookUp:RANGE_VALIDATORS){
+                    if(vLookUp.getName().equals("Empty")) { continue; }
+                    i++;
+                    list.add(i + ": " + vLookUp.getName());
+                }
+                return list;
+            default:
+                throw new ValidatorNotListedException();                    
+        }
+    }
+    
+    public static boolean removeValidator(ValidationScopes scope, int i) throws ValidatorNotListedException, InappropriateValidatorException{
+        if(i==0){
+            return false;
+        }
+        switch(scope){
+            case ROOM_NAME:
+                if(ROOM_NAME_VALIDATORS.get(i) != null){
+                    ROOM_NAME_VALIDATORS.get(i-1).replaceNext(ROOM_NAME_VALIDATORS.get(i).getNext());
+                    ROOM_NAME_VALIDATORS.remove(i);
+                    return true;
+                }
+                return false;
+            case PASSWORD:
+                if(PASSWORD_VALIDATORS.get(i) != null){
+                    PASSWORD_VALIDATORS.get(i-1).replaceNext(PASSWORD_VALIDATORS.get(i).getNext());
+                    PASSWORD_VALIDATORS.remove(i);
+                    return true;
+                }
+                return false;
+            case ROOM_PRIVILEGE:
+                if(ROOM_PRIVILEGE_VALIDATORS.get(i) != null){
+                    ROOM_PRIVILEGE_VALIDATORS.get(i-1).replaceNext(ROOM_PRIVILEGE_VALIDATORS.get(i).getNext());
+                    ROOM_PRIVILEGE_VALIDATORS.remove(i);
+                    return true;
+                }
+                return false;
+            case ROOM_ACCESS_METHOD: 
+                if(ROOM_ACCESS_METHOD_VALIDATORS.get(i) != null){
+                    ROOM_ACCESS_METHOD_VALIDATORS.get(i-1).replaceNext(ROOM_ACCESS_METHOD_VALIDATORS.get(i).getNext());
+                    ROOM_ACCESS_METHOD_VALIDATORS.remove(i);
+                    return true;
+                }
+                return false;
+            case RANGE:
+                if(RANGE_VALIDATORS.get(i) != null){
+                    RANGE_VALIDATORS.get(i-1).replaceNext(RANGE_VALIDATORS.get(i).getNext());
+                    RANGE_VALIDATORS.remove(i);
+                    return true;
+                }
+                return false;
+            default:
+                throw new ValidatorNotListedException();                    
         }
     }
     
