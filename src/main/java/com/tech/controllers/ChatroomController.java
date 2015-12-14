@@ -8,6 +8,7 @@ package com.tech.controllers;
 import com.tech.configurations.tools.Host;
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
+import com.tech.controllers.superclass.BaseController;
 import com.tech.models.dtos.chatroom.ChatroomBlacklistDTO;
 import com.tech.models.dtos.chatroom.ChatroomCheckInsideDTO;
 import com.tech.models.dtos.chatroom.ChatroomConnectionMemberDTO;
@@ -53,7 +54,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = Host.apache)
 @RestController
 @RequestMapping("/chatroom")
-public class ChatroomController {
+public class ChatroomController extends BaseController{
     
     @Autowired
     IUserService userService;
@@ -92,7 +93,7 @@ public class ChatroomController {
         }
         
         if(chatroomEntitesService.validateRoomnameExistance(newChatroom.getRoom_name())){ //validates if the the name already exists or not
-            return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.FOUND);
+            return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.FOUND); //CONFLICT 8a eprepe na exei edw
         }
         
         Long userid = userService.getUserByUsername(newChatroom.getUsername()).getId();

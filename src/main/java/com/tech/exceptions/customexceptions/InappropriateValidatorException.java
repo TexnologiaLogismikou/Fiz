@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tech.configurations.tools.customvalidators.interfaces;
-
-import com.tech.configurations.tools.ValidationScopes;
+package com.tech.exceptions.customexceptions;
 
 /**
  *
  * @author KuroiTenshi
  */
-public interface CustomValidator {
-    ValidationScopes scope();    
+public class InappropriateValidatorException extends Exception{
+    public InappropriateValidatorException(){
+        super("Validator format was inappropriate");
+    }
 }

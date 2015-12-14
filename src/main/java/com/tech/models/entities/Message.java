@@ -1,5 +1,6 @@
 package com.tech.models.entities;
 
+import com.tech.models.dtos.MessageDTO;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -29,15 +30,23 @@ public class Message implements Serializable{
 
     @Column(name = "chatroom_id")
     private Long chatroom_id;
+    
+    @Column(name = "ttl")
+    private Integer ttl;
 
     protected Message() {}
 
-    public Message(Long id, Long userid, String message, Long chatroom) {
+    public Message(Long id,Long userid, Long chatroom_id ,MessageDTO DTO ){
+        this(id,userid,DTO.getMessage(),chatroom_id,DTO.getTtl());
+    }
+    
+    public Message(Long id, Long userid, String message, Long chatroom, Integer ttl) {
         this.message = message;
         this.id = id;
         this.userid = userid;
         this.dateSent = new Date();
         this.chatroom_id = chatroom;
+        this.ttl = ttl;
     }
 
     public Long getId() {
@@ -78,5 +87,13 @@ public class Message implements Serializable{
 
     public void setChatroom(Long chatroom) {
         this.chatroom_id = chatroom;
+    }
+
+    public Integer getTtl() {
+        return ttl;
+    }
+
+    public void setTtl(Integer ttl) {
+        this.ttl = ttl;
     }
 }

@@ -10,18 +10,19 @@ package com.tech.configurations.tools;
  * @author KuroiTenshi
  */
 public enum ValidationScopes {
-    NAME("name"),
-    PASSWORD("password"),
-    EMAIL("email"),
-    METHOD("method");
+    STRING,
+    NUMBER,
+    RANGE,
+    LAT_LNG,
+    METHOD;
     
-    private final String str;
-    ValidationScopes(String str) {
-        this.str = str;        
-    }
-    
-    public String getData(){
-        return str;
-    }
-    
+//    private final String str;
+//    ValidationScopes(String str) {
+//        this.str = str;        
+//    }
+//    
+//    public String getData(){
+//        return str;
+//    }
+//    
 }

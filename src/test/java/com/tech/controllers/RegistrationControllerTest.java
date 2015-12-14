@@ -6,6 +6,7 @@
 package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
+import com.tech.configurations.InitializeValidators;
 import com.tech.models.entities.user.User;
 import com.tech.models.entities.user.UserInfo;
 import com.tech.models.entities.user.UserRole;
@@ -68,6 +69,7 @@ public class RegistrationControllerTest extends AbstractControllerTest{
         MockitoAnnotations.initMocks(this);
         
         super.setUp(controller);
+        InitializeValidators.InitializeCustomValidators();
         
         uri = "/register";
     }
@@ -82,36 +84,36 @@ public class RegistrationControllerTest extends AbstractControllerTest{
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testRegister() throws Exception{
-//        json.put("username","milena4");
-//        json.put("password","milena12312314");
-//        json.put("last_name","iwanna");
-//        json.put("firstname","milenref34a");
-//        json.put("email","douleuei@teicm.gr");
-//        json.put("birthday","23/11/94");
-//        
-//        when(userService.getNextID()).thenReturn(4L);
-//        when(userService.checkUsername("milena4")).thenReturn(false);
-//        
-//        System.out.println(json.toString());
-//        System.out.println("asdasdasDASDASDasdasdasDAS");
-//        System.out.println(json.toJSONString());
-//        
-//        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri)
-//                .content(json.toJSONString())
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andReturn();
-//         
-//        String content = result.getResponse().getContentAsString();
-//        int status = result.getResponse().getStatus();
-//        
-//        verify(userService, times(1)).getNextID();
-//        verify(userService, times(1)).addUser(any(User.class));
-//        verify(userService, times(1)).checkUsername("milena4");
-//        verify(userInfoService, times(1)).addUserInfo(any(UserInfo.class));      
-//        verify(userRoleService,times(1)).addUserRole(any(UserRole.class));
-//        
-//        Assert.assertEquals("failure - expected HTTP status 200", 200, status);
-//        Assert.assertTrue("failure - expected HTTP response body to not be empty",
-//                content.trim().length() > 0);     
+        json.put("username","milena4");
+        json.put("password","milena12312314");
+        json.put("last_name","iwanna");
+        json.put("firstname","milenref34a");
+        json.put("email","douleuei@teicm.gr");
+        json.put("birthday","23/11/94");
+        
+        when(userService.getNextID()).thenReturn(4L);
+        when(userService.checkUsername("milena4")).thenReturn(false);
+        
+        System.out.println(json.toString());
+        System.out.println("asdasdasDASDASDasdasdasDAS");
+        System.out.println(json.toJSONString());
+        
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri)
+                .content(json.toJSONString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+         
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+        
+        verify(userService, times(1)).getNextID();
+        verify(userService, times(1)).addUser(any(User.class));
+        verify(userService, times(1)).checkUsername("milena4");
+        verify(userInfoService, times(1)).addUserInfo(any(UserInfo.class));      
+        verify(userRoleService,times(1)).addUserRole(any(UserRole.class));
+        
+        Assert.assertEquals("failure - expected HTTP status 200", 200, status);
+        Assert.assertTrue("failure - expected HTTP response body to not be empty",
+                content.trim().length() > 0);     
     } 
 }
