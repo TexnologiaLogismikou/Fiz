@@ -26,6 +26,10 @@ public abstract class StringValidator extends  BaseValidator implements ICustomV
         if(!(next instanceof IStringValidator)) {     
             throw new InappropriateValidatorException();
         } 
-        this.next = (IStringValidator)next;         
+        if(this.next != null){
+            this.next.setNext(next);
+        } else {
+            this.next = (IStringValidator)next;         
+        }
     }
 }

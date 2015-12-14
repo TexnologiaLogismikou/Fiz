@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tech.configurations.tools.customvalidators.elements.stringvalidators;
+package com.tech.configurations.tools.customvalidators.elements;
 
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
@@ -17,20 +17,18 @@ import org.springframework.http.ResponseEntity;
  *
  * @author KuroiTenshi
  */
-public class NoSpacesValidator extends StringValidator implements ICustomValidator,IStringValidator{ 
-    public NoSpacesValidator() {
+public class EmptyStringValidator extends StringValidator implements ICustomValidator,IStringValidator {
+    public EmptyStringValidator() {
         super(new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE));
     }
 
     @Override
     public Pair<Boolean, ResponseEntity> validate(String str) {
-        if(str.trim().length() != str.length()){
-            return Pair.of(Boolean.FALSE,getErrorResponse());
-        }
         if (next != null){
             return next.validate(str);
         } else {
             return Pair.of(Boolean.TRUE, getSuccessResponse());
         }
-    }     
+    }    
+    
 }

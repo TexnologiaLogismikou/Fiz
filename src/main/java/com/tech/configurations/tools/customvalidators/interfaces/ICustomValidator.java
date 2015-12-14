@@ -5,7 +5,6 @@
  */
 package com.tech.configurations.tools.customvalidators.interfaces;
 
-import com.tech.configurations.tools.ValidationScopes;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
 
 /**

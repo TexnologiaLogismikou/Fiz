@@ -21,12 +21,12 @@ import java.util.logging.Logger;
  */
 public class InitializeValidators {
     public static void InitializeCustomValidators(){
-        try {
-            ChatroomUpdateDTO.registerValidator(new NotEmptyValidatorN(),ValidationScopes.NUMBER);
-            ChatroomUpdateDTO.registerValidator(new NotEmptyValidatorS(),ValidationScopes.STRING);
-            ChatroomUpdateDTO.registerValidator(new NoSpacesValidator(),ValidationScopes.STRING);
-        } catch (InappropriateValidatorException | ValidatorNotListedException ex) {
-            Logger.getLogger(InitializeValidators.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            ChatroomUpdateDTO.registerValidator(new NotEmptyValidatorN(),ValidationScopes.NUMBER);
+//            ChatroomUpdateDTO.registerValidator(new NotEmptyValidatorS(),ValidationScopes.STRING);
+//            ChatroomUpdateDTO.registerValidator(new NoSpacesValidator(),ValidationScopes.STRING);
+//        } catch (InappropriateValidatorException | ValidatorNotListedException ex) {
+//            Logger.getLogger(InitializeValidators.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 }

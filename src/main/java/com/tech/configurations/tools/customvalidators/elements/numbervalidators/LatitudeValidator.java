@@ -17,14 +17,14 @@ import org.springframework.http.ResponseEntity;
  *
  * @author KuroiTenshi
  */
-public class NotNegativeValidator extends NumberValidator implements ICustomValidator,INumberValidator{
-    public NotNegativeValidator() {
-        super( new ResponseEntity<>(Responses.ID_INAPPROPRIATE_FORMAT,HttpStatus.UNPROCESSABLE_ENTITY));
+public class LatitudeValidator extends NumberValidator implements ICustomValidator,INumberValidator{
+    public LatitudeValidator() {
+        super( new ResponseEntity<>(Responses.BAD_COORDINATES,HttpStatus.UNPROCESSABLE_ENTITY));
     }    
     
     @Override
     public Pair<Boolean, ResponseEntity> validate(Long n) {
-        if(n <= 0){
+        if(-90 > n || n > 90){
             return Pair.of(Boolean.FALSE, getErrorResponse());
         }
         if (next != null){

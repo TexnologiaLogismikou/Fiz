@@ -10,6 +10,7 @@ import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.customvalidators.interfaces.ICustomValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.IStringValidator;
 import com.tech.configurations.tools.customvalidators.superclass.StringValidator;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -17,20 +18,23 @@ import org.springframework.http.ResponseEntity;
  *
  * @author KuroiTenshi
  */
-public class NoSpacesValidator extends StringValidator implements ICustomValidator,IStringValidator{ 
-    public NoSpacesValidator() {
+public class IncludeInListValidator extends StringValidator implements ICustomValidator,IStringValidator{
+    private final List<String> LIST;
+    public IncludeInListValidator(List<String> list) {
         super(new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE));
+        this.LIST = list;
     }
 
     @Override
     public Pair<Boolean, ResponseEntity> validate(String str) {
-        if(str.trim().length() != str.length()){
-            return Pair.of(Boolean.FALSE,getErrorResponse());
+        if(!LIST.contains(str)){
+            return Pair.of(Boolean.FALSE,getErrorResponse());            
         }
         if (next != null){
             return next.validate(str);
         } else {
             return Pair.of(Boolean.TRUE, getSuccessResponse());
         }
-    }     
+    }  
+    
 }
