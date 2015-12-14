@@ -108,7 +108,9 @@ public class ChatroomControllerTest extends AbstractControllerTest{
     }
 
     @Test
-    public void testRemoveMember() {
+    public void testRemoveMember() 
+    {
+        
     }
 
     @Test
