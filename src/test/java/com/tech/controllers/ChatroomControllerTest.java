@@ -6,8 +6,6 @@
 package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
-import com.tech.configurations.tools.Responses;
-import com.tech.models.entities.chatroom.ChatroomEntities;
 import com.tech.services.chatroom.ChatroomBlacklistService;
 import com.tech.services.chatroom.ChatroomEntitiesService;
 import com.tech.services.chatroom.ChatroomLocationService;
@@ -18,27 +16,13 @@ import com.tech.services.user.UserService;
 import javax.transaction.Transactional;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyFloat;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyString;
 import org.mockito.Mock;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.controller;
 
 /**
@@ -981,9 +965,223 @@ public class ChatroomControllerTest extends AbstractControllerTest{
     }
 
     @Test
-    public void testRemoveMember() {
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testRemoveMember_Ok() throws Exception
+    {
+        json.put("room_name","first testing room");
+        json.put("member_name","milenaAz");
+        json.put("password","");
+        json.put("method","DELETE");
+
+        when(userService.checkUsername("milenaAz")).thenReturn(true);
+        when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
+        when(userService.getUserByUsername("milenaAz")).thenReturn(new User(1L,"milenaAz","milena",true,true));
+        when(chatroomPrivilegesService.findByRoomId(1L)).thenReturn(new ChatroomPrivileges(1L,"PUBLIC",false,null,"whitelist"));
+        when(chatroomMembersService.checkIfMemberExistsInChatroom(1L,1L)).thenReturn(true);
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/removeMember")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+
+        verify(userService,times(1)).checkUsername(anyString());
+        verify(chatroomEntitesService,times(2)).getRoomByName(anyString());
+        verify(userService,times(1)).getUserByUsername(anyString());
+        verify(chatroomPrivilegesService,times(1)).findByRoomId(anyLong());
+        verify(chatroomMembersService,times(1)).checkIfMemberExistsInChatroom(anyLong(),anyLong());
+        verify(chatroomMembersService,times(1)).delete(any(ChatroomMembers.class));
+
+        Assert.assertEquals("failure - expected HTTP status to be '200'", 200, status);
+
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+                    content.equals(Responses.SUCCESS.getData()));
     }
-    
+
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testRemoveMember_WrongMethod() throws Exception
+    {
+        json.put("room_name","first testing room");
+        json.put("member_name","milenaAz");
+        json.put("password","");
+        json.put("method","ADD"); // 'ADD' Method is WRONG
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/removeMember")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+
+        Assert.assertEquals("failure - expected HTTP status to be '400'", 400, status);
+
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+                    content.equals(Responses.ACCESS_METHOD_NOT_FOUND.getData()));
+    }
+
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testRemoveMember_UnavailableUsername() throws Exception
+    {
+        json.put("room_name","first testing room");
+        json.put("member_name","Arxa"); // 'Arxa' does not exist
+        json.put("password","");
+        json.put("method","DELETE");
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/removeMember")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+
+        verify(userService,times(1)).checkUsername(anyString());
+
+        Assert.assertEquals("failure - expected HTTP status to be '404'", 404, status);
+
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+                    content.equals(Responses.NOT_AVAILABLE.getData()));
+    }
+
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testRemoveMember_NoRoomName() throws Exception
+    {
+        json.put("room_name","fourth testing room"); // 'fourth testing room' does not exist
+        json.put("member_name","milenaAz");
+        json.put("password","");
+        json.put("method","DELETE");
+
+        when(userService.checkUsername("milenaAz")).thenReturn(true);
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/removeMember")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+
+        verify(userService,times(1)).checkUsername(anyString());
+        verify(chatroomEntitesService,times(1)).getRoomByName(anyString());
+
+        Assert.assertEquals("failure - expected HTTP status to be '404'", 404, status);
+
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+                    content.equals(Responses.NOT_AVAILABLE.getData()));
+    }
+
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testRemoveMember_MemberDoesNotExistInChatroom() throws Exception
+    {
+        json.put("room_name","first testing room");
+        json.put("member_name","milenaAz");
+        json.put("password","");
+        json.put("method","DELETE");
+
+        when(userService.checkUsername("milenaAz")).thenReturn(true);
+        when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
+        when(userService.getUserByUsername("milenaAz")).thenReturn(new User(1L,"milenaAz","milena",true,true));
+        when(chatroomPrivilegesService.findByRoomId(1L)).thenReturn(new ChatroomPrivileges(1L,"PUBLIC",false,null,"whitelist"));
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/removeMember")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+
+        chatroomMembersService.checkIfMemberExistsInChatroom(2L,2L);
+
+        verify(userService,times(1)).checkUsername(anyString());
+        verify(chatroomEntitesService,times(2)).getRoomByName(anyString());
+        verify(userService,times(1)).getUserByUsername(anyString());
+        verify(chatroomPrivilegesService,times(1)).findByRoomId(anyLong());
+        verify(chatroomMembersService,times(2)).checkIfMemberExistsInChatroom(anyLong(),anyLong());
+
+        Assert.assertEquals("failure - expected HTTP status to be '404'", 404, status);
+
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+                    content.equals(Responses.NOT_AVAILABLE.getData()));
+    }
+
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testRemoveMember_PasswordAuthorizationFail() throws Exception
+    {
+        json.put("room_name","first testing room");
+        json.put("member_name","milenaAz");
+        json.put("password","wrong_password");
+        json.put("method","DELETE");
+
+        when(userService.checkUsername("milenaAz")).thenReturn(true);
+        when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
+        when(userService.getUserByUsername("milenaAz")).thenReturn(new User(1L,"milenaAz","milena",true,true));
+        when(chatroomPrivilegesService.findByRoomId(1L)).thenReturn(new ChatroomPrivileges(3L,"PUBLIC",true,"password","blacklist"));
+        when(chatroomMembersService.checkIfMemberExistsInChatroom(1L,1L)).thenReturn(true);
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/removeMember")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+
+        verify(userService,times(1)).checkUsername(anyString());
+        verify(chatroomEntitesService,times(2)).getRoomByName(anyString());
+        verify(userService,times(1)).getUserByUsername(anyString());
+        verify(chatroomPrivilegesService,times(1)).findByRoomId(anyLong());
+        verify(chatroomMembersService,times(1)).checkIfMemberExistsInChatroom(anyLong(),anyLong());
+
+        Assert.assertEquals("failure - expected HTTP status to be '401'", 401, status);
+
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+                    content.equals(Responses.NOT_AUTHORIZED.getData()));
+    }
+
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testRemoveMember_PasswordAuthorizationOk() throws Exception
+    {
+        json.put("room_name","first testing room");
+        json.put("member_name","milenaAz");
+        json.put("password","password");
+        json.put("method","DELETE");
+
+        when(userService.checkUsername("milenaAz")).thenReturn(true);
+        when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
+        when(userService.getUserByUsername("milenaAz")).thenReturn(new User(1L,"milenaAz","milena",true,true));
+        when(chatroomPrivilegesService.findByRoomId(1L)).thenReturn(new ChatroomPrivileges(3L,"PUBLIC",true,"password","blacklist"));
+        when(chatroomMembersService.checkIfMemberExistsInChatroom(1L,1L)).thenReturn(true);
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/removeMember")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+
+        verify(userService,times(1)).checkUsername(anyString());
+        verify(chatroomEntitesService,times(2)).getRoomByName(anyString());
+        verify(userService,times(1)).getUserByUsername(anyString());
+        verify(chatroomPrivilegesService,times(1)).findByRoomId(anyLong());
+        verify(chatroomMembersService,times(1)).checkIfMemberExistsInChatroom(anyLong(),anyLong());
+
+        Assert.assertEquals("failure - expected HTTP status to be '200'", 200, status);
+
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+                    content.equals(Responses.SUCCESS.getData()));
+    }
+
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void updateChatroomRoomNotExist() throws Exception
@@ -995,31 +1193,31 @@ public class ChatroomControllerTest extends AbstractControllerTest{
         json.put("passwordProtection",false);
         json.put("password", "");
         json.put("max_range", "5");
-        
+
         when(chatroomEntitesService.validateRoomnameExistance("hi")).thenReturn(false);
-        
+
           MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/updateChatroom")
                 .content(json.toJSONString())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
-         
+
         String content = result.getResponse().getContentAsString();
         int status = result.getResponse().getStatus();
         Assert.assertNotNull(content);
-        
+
         verify(chatroomEntitesService, times(1)).validateRoomnameExistance("hi");
         verify(chatroomEntitesService, times(0)).getRoomByName(anyString());
         verify(chatroomEntitesService, times(0)).setChatroomEntities(anyString(),anyLong());
         verify(chatroomPrivilegesService, times(0)).setChatroomPrivileges(anyString(),anyBoolean(),anyString(),anyString(),anyLong());
         verify(chatroomLocationService, times(0)).setNewMaxRange(anyInt(),anyLong());
-        
+
         Assert.assertEquals("failure - expected HTTP response NOT_FOUND",
                 404, status);
-   
+
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.NOT_AVAILABLE.getData() + "'",
-                    content.equals(Responses.NOT_AVAILABLE.getData()));  
+                    content.equals(Responses.NOT_AVAILABLE.getData()));
     }
-    
+
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void updateChatroom() throws Exception
@@ -1031,35 +1229,35 @@ public class ChatroomControllerTest extends AbstractControllerTest{
         json.put("passwordProtection",true);
         json.put("password", "123");
         json.put("max_range", "5");
-        
+
         when(chatroomEntitesService.validateRoomnameExistance("first testing room")).thenReturn(true);
         when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
         doNothing().when(chatroomEntitesService).setChatroomEntities("hi",1L);
         doNothing().when(chatroomPrivilegesService).setChatroomPrivileges("PUBLIC",true,"123","whitelist",1L);
         doNothing().when(chatroomLocationService).setNewMaxRange(5,1L);
-        
+
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/updateChatroom")
                 .content(json.toJSONString())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
-         
+
         String content = result.getResponse().getContentAsString();
         int status = result.getResponse().getStatus();
         Assert.assertNotNull(content);
-        
+
         verify(chatroomEntitesService, times(1)).validateRoomnameExistance("first testing room");
         verify(chatroomEntitesService, times(1)).getRoomByName("first testing room");
         verify(chatroomEntitesService, times(1)).setChatroomEntities("hi",1L);
         verify(chatroomPrivilegesService, times(1)).setChatroomPrivileges("PUBLIC",true,"123","whitelist",1L); //why not true?
         verify(chatroomLocationService, times(1)).setNewMaxRange(5,1L);
-        
+
         Assert.assertEquals("failure - expected HTTP response OK",
                 200, status);
-   
+
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
                     content.equals(Responses.SUCCESS.getData()));
     }
-   
+
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testUpdateLocationRoomNameNotExist() throws Exception
@@ -1067,29 +1265,29 @@ public class ChatroomControllerTest extends AbstractControllerTest{
         json.put("lng", "6.7");
         json.put("lat", "5.6");
         json.put("room_name", "hi");
-        
+
          when(chatroomEntitesService.validateRoomnameExistance("hi")).thenReturn(false);
-        
+
           MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/updateChatroomLocation")
                 .content(json.toJSONString())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
-         
+
         String content = result.getResponse().getContentAsString();
         int status = result.getResponse().getStatus();
         Assert.assertNotNull(content);
-        
+
         verify(chatroomEntitesService, times(1)).validateRoomnameExistance("hi");
         verify(chatroomEntitesService, times(0)).getRoomByName(anyString());
         verify(chatroomLocationService, times(0)).setNewLngLat(anyFloat(),anyFloat(),anyLong());
-        
+
         Assert.assertEquals("failure - expected HTTP response NOT_FOUND",
                 404, status);
-   
+
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.NOT_AVAILABLE.getData() + "'",
-                    content.equals(Responses.NOT_AVAILABLE.getData()));  
+                    content.equals(Responses.NOT_AVAILABLE.getData()));
     }
-    
+
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testQuitChatroomUserExistance() throws Exception{
@@ -1230,35 +1428,35 @@ public class ChatroomControllerTest extends AbstractControllerTest{
     @Sql(scripts = "classpath:populateDB.sql")
     public void testUpdateLocation() throws Exception
     {
-        json.put("lng", "6.7"); // not sure about this 
+        json.put("lng", "6.7"); // not sure about this
         json.put("lat", "5.6");
         json.put("room_name", "first testing room");
-        
+
         when(chatroomEntitesService.validateRoomnameExistance("first testing room")).thenReturn(true);
         when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
         doNothing().when(chatroomLocationService).setNewLngLat(67,56,1L);
-        
-        
+
+
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/updateChatroomLocation")
                 .content(json.toJSONString())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
-         
+
         String content = result.getResponse().getContentAsString();
         int status = result.getResponse().getStatus();
         Assert.assertNotNull(content);
-        
+
         verify(chatroomEntitesService, times(1)).validateRoomnameExistance("first testing room");
         verify(chatroomEntitesService, times(1)).getRoomByName("first testing room");
         verify(chatroomLocationService, times(1)).setNewLngLat(6.7f,5.6f,1L);
-        
+
         Assert.assertEquals("failure - expected HTTP response OK",
                 200, status);
-   
+
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
                     content.equals(Responses.SUCCESS.getData()));
-        
-        
+
+
     }
 
     @Test
