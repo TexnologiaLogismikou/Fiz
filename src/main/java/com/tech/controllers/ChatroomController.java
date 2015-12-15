@@ -161,9 +161,9 @@ public class ChatroomController extends BaseController{
             return new ResponseEntity<>(Responses.OUTSIDE_RANGE.getData(),HttpStatus.GONE);
         }
         
-        ChatroomPrivileges CP = chatroomPrivilegesService.findByRoomId(roomId); //tha balw verify
+        ChatroomPrivileges CP = chatroomPrivilegesService.findByRoomId(roomId);
         
-        if(CP.isRoom_password_protected()){  //einai antikeimeno CP kai gi auto den mporw na kanw elenxo
+        if(CP.isRoom_password_protected()){
             if(!CP.getRoom_password().equals(newMember.getPassword())){
                 return new ResponseEntity<>(Responses.NOT_AUTHORIZED.getData(),HttpStatus.UNAUTHORIZED);
             }
@@ -502,8 +502,8 @@ public class ChatroomController extends BaseController{
         
         if(!chatroomLocationService.checkIfStillInside(roomID,myLocation.getLng(),myLocation.getLat())){
             if(chatroomMembersService.checkIfMemberExistsInChatroom(userID, roomID)){
-                ChatroomMembers CE = new ChatroomMembers(roomID, roomID);
-                chatroomMembersService.delete(CE);
+                ChatroomMembers CM = new ChatroomMembers(roomID, userID);
+                chatroomMembersService.delete(CM);
             }
             return new ResponseEntity<>(Responses.OUTSIDE_RANGE.getData(),HttpStatus.GONE);
         } else {
