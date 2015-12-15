@@ -87,11 +87,11 @@ public class ChatroomController extends BaseController{
      */
     @RequestMapping(value = "/newChatroom",method = RequestMethod.POST)
     public HttpEntity<String> handleNewChatroom(@RequestBody ChatroomCreationDTO newChatroom){
-        Pair<Boolean,ResponseEntity> p = ValidatorFactory.validateDTO(newChatroom);
-        if(!p.getLeft()) {
-            return p.getRight();
-        }
-        
+//        Pair<Boolean,ResponseEntity> p = newChatroom.validate();
+//        if(!p.getLeft()) {
+//            return p.getRight();
+//        }
+
         if(!userService.checkUsername(newChatroom.getUsername())){ //validates if the user exists or not
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);
         }
@@ -99,9 +99,9 @@ public class ChatroomController extends BaseController{
         if(chatroomEntitesService.validateRoomnameExistance(newChatroom.getRoom_name())){ //validates if the the name already exists or not
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.FOUND);
         }
-        
+
         Long userid = userService.getUserByUsername(newChatroom.getUsername()).getId();
-        
+
         if(userService.getUserById(userid).hasRoom()){ //if he has room he cant make more
             return new ResponseEntity<>(Responses.ALREADY_HAS_A_ROOM.getData(),HttpStatus.FOUND);
         }
@@ -249,10 +249,10 @@ public class ChatroomController extends BaseController{
     @RequestMapping(value = "/banFromChatroom",method = RequestMethod.POST)
     public HttpEntity<String> handleBans(@RequestBody ChatroomBlacklistDTO banDTO){
         //TODO call sto Validator
-        if (!userService.checkUsername(banDTO.getMember_name())){ //if user doesnt exist
+        if (!userService.checkUsername(banDTO.getMember_name())){ //if user doesn't exist
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);            
         }
-        if(chatroomEntitesService.validateRoomnameExistance(banDTO.getRoom_name())){
+        if(!chatroomEntitesService.validateRoomnameExistance(banDTO.getRoom_name())){
             return new ResponseEntity<>(Responses.ROOM_NOT_FOUND.getData(),HttpStatus.NOT_FOUND);            
         }
         
