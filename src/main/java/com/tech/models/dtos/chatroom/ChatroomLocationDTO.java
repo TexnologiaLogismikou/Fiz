@@ -56,8 +56,7 @@ public class ChatroomLocationDTO extends BaseDTO{
     }     
     
     @Override
-    public Pair<Boolean,ResponseEntity> validate() 
-            throws InappropriateValidatorException, NoValidatorsAssignedException{  
+    public Pair<Boolean,ResponseEntity> validate() {  
         
         throw new UnsupportedOperationException();        
     }

@@ -186,7 +186,7 @@ public class ChatroomUpdateDTO extends BaseDTO{
     }
     
     @Override
-    public Pair<Boolean,ResponseEntity> validate() throws InappropriateValidatorException, NoValidatorsAssignedException{
+    public Pair<Boolean,ResponseEntity> validate(){
         Pair<Boolean,ResponseEntity> currentTest = RANGE_VALIDATORS.get(0).validate((long)max_range);
         if(!currentTest.getLeft()){
             return currentTest;

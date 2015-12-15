@@ -99,7 +99,7 @@ public class FriendDTO extends BaseDTO{
     }     
 
     @Override
-    public Pair<Boolean,ResponseEntity> validate() throws InappropriateValidatorException, NoValidatorsAssignedException
+    public Pair<Boolean,ResponseEntity> validate()
     {
         Pair<Boolean,ResponseEntity> currentTest;
         
