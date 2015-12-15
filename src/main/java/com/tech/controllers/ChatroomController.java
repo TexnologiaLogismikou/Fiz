@@ -249,10 +249,10 @@ public class ChatroomController extends BaseController{
     @RequestMapping(value = "/banFromChatroom",method = RequestMethod.POST)
     public HttpEntity<String> handleBans(@RequestBody ChatroomBlacklistDTO banDTO){
         //TODO call sto Validator
-        if (!userService.checkUsername(banDTO.getMember_name())){ //if user doesnt exist
+        if (!userService.checkUsername(banDTO.getMember_name())){ //if user doesn't exist
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);            
         }
-        if(chatroomEntitesService.validateRoomnameExistance(banDTO.getRoom_name())){
+        if(!chatroomEntitesService.validateRoomnameExistance(banDTO.getRoom_name())){
             return new ResponseEntity<>(Responses.ROOM_NOT_FOUND.getData(),HttpStatus.NOT_FOUND);            
         }
         
