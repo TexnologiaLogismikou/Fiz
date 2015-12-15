@@ -37,6 +37,7 @@ import com.tech.services.interfaces.IUserService;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -434,13 +435,13 @@ public class ChatroomController extends BaseController{
     @RequestMapping(value = "/findAvailableChatrooms", method = RequestMethod.POST)
     public HttpEntity<JSONObject> availableChatrooms(@RequestBody ChatroomLocationDTO myLocation){
         //TODO call sto validator
-        
+        JSONArray ajson = new JSONArray();
         JSONObject json = new JSONObject();
-        
         List<ChatroomLocation> CL = chatroomLocationService.findIfNear(myLocation.getLng(),myLocation.getLat());        
         
         if (CL.size()<=0){
             json.put("size",0);
+            json.put("list", ajson);
             json.put("error","no errors");
             return new ResponseEntity<>(json,HttpStatus.OK);
         }
@@ -448,10 +449,11 @@ public class ChatroomController extends BaseController{
         int i = 0;
         for(ChatroomLocation vLookUp:CL){
             i++;
-            json.put(i, chatroomEntitesService.findByRoomID(vLookUp.getRoom_id()).getRoom_name());
+            ajson.add(i, chatroomEntitesService.findByRoomID(vLookUp.getRoom_id()).getRoom_name());
         }
         
         json.put("size", i);
+        json.put("list", ajson);
         json.put("error","no errors");
         
         return new ResponseEntity<>(json,HttpStatus.OK);
