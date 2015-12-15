@@ -146,7 +146,7 @@ public class ChatroomController extends BaseController{
             return new ResponseEntity<>(Responses.ACCESS_METHOD_NOT_FOUND.getData(),HttpStatus.BAD_REQUEST);
         }
         
-        if(userService.checkUsername(newMember.getMember_id())){
+        if(userService.checkUsername(newMember.getMember_name())){
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);
         }
         
@@ -155,7 +155,7 @@ public class ChatroomController extends BaseController{
         }
         
         Long roomId = chatroomEntitesService.getRoomByName(newMember.getRoom_name()).getRoom_id();
-        Long userID = userService.getUserByUsername(newMember.getMember_id()).getId();
+        Long userID = userService.getUserByUsername(newMember.getMember_name()).getId();
         
         if(!chatroomLocationService.checkIfStillInside(roomId,newMember.getLng(), newMember.getLat())){
             return new ResponseEntity<>(Responses.OUTSIDE_RANGE.getData(),HttpStatus.GONE);
@@ -501,8 +501,8 @@ public class ChatroomController extends BaseController{
         
         if(!chatroomLocationService.checkIfStillInside(roomID,myLocation.getLng(),myLocation.getLat())){
             if(chatroomMembersService.checkIfMemberExistsInChatroom(userID, roomID)){
-                ChatroomMembers CE = new ChatroomMembers(roomID, roomID);
-                chatroomMembersService.delete(CE);
+                ChatroomMembers CM = new ChatroomMembers(roomID, userID);
+                chatroomMembersService.delete(CM);
             }
             return new ResponseEntity<>(Responses.OUTSIDE_RANGE.getData(),HttpStatus.GONE);
         } else {
