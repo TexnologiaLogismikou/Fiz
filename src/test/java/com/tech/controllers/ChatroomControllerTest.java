@@ -6,24 +6,15 @@
 package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
-import com.tech.services.chatroom.ChatroomBlacklistService;
-import com.tech.services.chatroom.ChatroomEntitiesService;
-import com.tech.services.chatroom.ChatroomLocationService;
-import com.tech.services.chatroom.ChatroomMembersService;
-import com.tech.services.chatroom.ChatroomPrivilegesService;
-import com.tech.services.chatroom.ChatroomWhitelistService;
+import com.tech.services.chatroom.*;
 import com.tech.services.user.UserService;
-import javax.transaction.Transactional;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ActiveProfiles;
-import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.controller;
+
+import javax.transaction.Transactional;
 
 /**
  *
@@ -1460,167 +1451,7 @@ public class ChatroomControllerTest extends AbstractControllerTest{
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    public void testCheckIfStillInside() throws Exception {
-        json.put("lng" , 23.7629689);
-        json.put("lat" , 37.9837928);
-        json.put("room_name" , "testRoom");
-        json.put("user_name" , "testUser");
-
-        when(userService.checkUsername("testUser")).thenReturn(true);
-        when(chatroomEntitesService.validateRoomnameExistance("testRoom")).thenReturn(true);
-        when(userService.getUserByUsername("testUser")).thenReturn(new User(1L, "testUser", "123", true, false));
-        when(chatroomEntitesService.getRoomByName("testRoom")).thenReturn(new ChatroomEntities(1L, 2L, "testRoom"));
-        when(chatroomLocationService.checkIfStillInside(1L,23.7629689F,37.9837928F)).thenReturn(true);
-        when(chatroomMembersService.checkIfMemberExistsInChatroom(1L, 1L)).thenReturn(true);
-
-        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/checkIfStillInside")
-                .content(json.toString())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
-
-        String content = result.getResponse().getContentAsString();
-        int status = result.getResponse().getStatus();
-        Assert.assertNotNull(content);
-
-        Assert.assertEquals(Responses.SUCCESS.getData(),content);
-        Assert.assertEquals(200,status);
+    public void testCheckIfStillInside() {
     }
 
-    @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    public void testCheckIfStillInsideNotConnected() throws Exception {
-        json.put("lng" , 23.7629689);
-        json.put("lat" , 37.9837928);
-        json.put("room_name" , "testRoom");
-        json.put("user_name" , "testUser");
-
-        when(userService.checkUsername("testUser")).thenReturn(true);
-        when(chatroomEntitesService.validateRoomnameExistance("testRoom")).thenReturn(true);
-        when(userService.getUserByUsername("testUser")).thenReturn(new User(1L, "testUser", "123", true, false));
-        when(chatroomEntitesService.getRoomByName("testRoom")).thenReturn(new ChatroomEntities(1L, 2L, "testRoom"));
-        when(chatroomLocationService.checkIfStillInside(1L,23.7629689F,37.9837928F)).thenReturn(true);
-        when(chatroomMembersService.checkIfMemberExistsInChatroom(1L, 1L)).thenReturn(false);
-
-        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/checkIfStillInside")
-                .content(json.toString())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
-
-        String content = result.getResponse().getContentAsString();
-        int status = result.getResponse().getStatus();
-        Assert.assertNotNull(content);
-
-        Assert.assertEquals(Responses.NOT_CONNECTED_TO_THE_ROOM.getData(),content);
-        Assert.assertEquals(401,status);
-    }
-
-    @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    public void testCheckIfStillInsideOutside() throws Exception {
-        json.put("lng" , 23.7629689);
-        json.put("lat" , 37.9837928);
-        json.put("room_name" , "testRoom");
-        json.put("user_name" , "testUser");
-
-        when(userService.checkUsername("testUser")).thenReturn(true);
-        when(chatroomEntitesService.validateRoomnameExistance("testRoom")).thenReturn(true);
-        when(userService.getUserByUsername("testUser")).thenReturn(new User(1L, "testUser", "123", true, false));
-        when(chatroomEntitesService.getRoomByName("testRoom")).thenReturn(new ChatroomEntities(1L, 2L, "testRoom"));
-        when(chatroomLocationService.checkIfStillInside(1L,23.7629689F,37.9837928F)).thenReturn(false);
-        when(chatroomMembersService.checkIfMemberExistsInChatroom(1L, 1L)).thenReturn(false);
-
-        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/checkIfStillInside")
-                .content(json.toString())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
-
-        String content = result.getResponse().getContentAsString();
-        int status = result.getResponse().getStatus();
-        Assert.assertNotNull(content);
-
-        Assert.assertEquals(Responses.OUTSIDE_RANGE.getData(),content);
-        Assert.assertEquals(410,status);
-    }
-
-    @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    public void testCheckIfStillInsideOutside2() throws Exception {
-        json.put("lng" , 23.7629689);
-        json.put("lat" , 37.9837928);
-        json.put("room_name" , "testRoom");
-        json.put("user_name" , "testUser");
-
-        when(userService.checkUsername("testUser")).thenReturn(true);
-        when(chatroomEntitesService.validateRoomnameExistance("testRoom")).thenReturn(true);
-        when(userService.getUserByUsername("testUser")).thenReturn(new User(1L, "testUser", "123", true, false));
-        when(chatroomEntitesService.getRoomByName("testRoom")).thenReturn(new ChatroomEntities(1L, 2L, "testRoom"));
-        when(chatroomLocationService.checkIfStillInside(1L,23.7629689F,37.9837928F)).thenReturn(false);
-        when(chatroomMembersService.checkIfMemberExistsInChatroom(1L, 1L)).thenReturn(true);
-
-        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/checkIfStillInside")
-                .content(json.toString())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
-
-        String content = result.getResponse().getContentAsString();
-        int status = result.getResponse().getStatus();
-        Assert.assertNotNull(content);
-
-        verify(chatroomMembersService, times(1)).delete(any(ChatroomMembers.class));
-
-        Assert.assertEquals(Responses.OUTSIDE_RANGE.getData(),content);
-        Assert.assertEquals(410,status);
-    }
-
-    @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    public void testCheckIfStillInsideNoRoom() throws Exception {
-        json.put("lng" , 23.7629689);
-        json.put("lat" , 37.9837928);
-        json.put("room_name" , "testRoom");
-        json.put("user_name" , "testUser");
-
-        when(userService.checkUsername("testUser")).thenReturn(true);
-        when(chatroomEntitesService.validateRoomnameExistance("testRoom")).thenReturn(false);
-
-
-        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/checkIfStillInside")
-                .content(json.toString())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
-
-        String content = result.getResponse().getContentAsString();
-        int status = result.getResponse().getStatus();
-        Assert.assertNotNull(content);
-
-
-        Assert.assertEquals(Responses.NOT_AVAILABLE.getData(),content);
-        Assert.assertEquals(404,status);
-    }
-
-    @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    public void testCheckIfStillInsideNoName() throws Exception {
-        json.put("lng" , 23.7629689);
-        json.put("lat" , 37.9837928);
-        json.put("room_name" , "testRoom");
-        json.put("user_name" , "testUser");
-
-        when(userService.checkUsername("testUser")).thenReturn(false);
-
-
-        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/checkIfStillInside")
-                .content(json.toString())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
-
-        String content = result.getResponse().getContentAsString();
-        int status = result.getResponse().getStatus();
-        Assert.assertNotNull(content);
-
-
-        Assert.assertEquals(Responses.NOT_AVAILABLE.getData(),content);
-        Assert.assertEquals(404,status);
-    }
 }
