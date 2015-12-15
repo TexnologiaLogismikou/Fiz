@@ -6,24 +6,45 @@
 package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
+import com.tech.configurations.tools.Responses;
+import com.tech.models.entities.chatroom.ChatroomBlacklist;
+import com.tech.models.entities.chatroom.ChatroomEntities;
+import com.tech.models.entities.chatroom.ChatroomMembers;
+import com.tech.models.entities.chatroom.ChatroomPrivileges;
+import com.tech.models.entities.chatroom.ChatroomWhitelist;
+import com.tech.models.entities.user.User;
 import com.tech.services.chatroom.ChatroomBlacklistService;
 import com.tech.services.chatroom.ChatroomEntitiesService;
 import com.tech.services.chatroom.ChatroomLocationService;
 import com.tech.services.chatroom.ChatroomMembersService;
 import com.tech.services.chatroom.ChatroomPrivilegesService;
 import com.tech.services.chatroom.ChatroomWhitelistService;
-import com.tech.services.user.UserService;
+import com.tech.services.user.UserService;import java.util.Date;
 import javax.transaction.Transactional;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyFloat;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyString;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.controller;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 /**
  *
@@ -416,7 +437,7 @@ public class ChatroomControllerTest extends AbstractControllerTest{
         when(userService.getUserByUsername("CorrectUserName")).thenReturn(new User(4L,"CorrectUserName","WrongPassword",true));
         when(chatroomLocationService.checkIfStillInside(4L,1, 1)).thenReturn(true);
         when(chatroomPrivilegesService.findByRoomId(4L)).thenReturn(new ChatroomPrivileges(4L,"public",true,"CorrectPassword","blacklist"));
-        when(chatroomBlacklistService.findByRoomIDAndRoomMember(4L,4L)).thenReturn(new ChatroomBlacklist(4L,4L,Date.valueOf("2100-12-28")));
+        when(chatroomBlacklistService.findByRoomIDAndRoomMember(4L,4L)).thenReturn(new ChatroomBlacklist(4L,4L,java.sql.Date.valueOf("2100-12-28")));
 
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/connectChatroom")
@@ -455,7 +476,7 @@ public class ChatroomControllerTest extends AbstractControllerTest{
         when(userService.getUserByUsername("CorrectUserName")).thenReturn(new User(4L,"CorrectUserName","WrongPassword",true));
         when(chatroomLocationService.checkIfStillInside(4L,1, 1)).thenReturn(true);
         when(chatroomPrivilegesService.findByRoomId(4L)).thenReturn(new ChatroomPrivileges(4L,"public",true,"CorrectPassword","blacklist"));
-        when(chatroomBlacklistService.findByRoomIDAndRoomMember(4L,4L)).thenReturn(new ChatroomBlacklist(4L,4L,Date.valueOf("2000-12-28")));
+        when(chatroomBlacklistService.findByRoomIDAndRoomMember(4L,4L)).thenReturn(new ChatroomBlacklist(4L,4L,java.sql.Date.valueOf("2000-12-28")));
         when(chatroomBlacklistService.delete(any (ChatroomBlacklist.class))).thenReturn(true);
 
         doNothing().when(chatroomMembersService).add(any(ChatroomMembers.class));
