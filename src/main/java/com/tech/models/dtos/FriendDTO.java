@@ -7,15 +7,14 @@ package com.tech.models.dtos;
 
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.ValidationScopes;
-import com.tech.configurations.tools.customvalidators.elements.EmptyStringValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.ICustomValidator;
+import com.tech.configurations.tools.customvalidators.interfaces.IFloatValidator;
+import com.tech.configurations.tools.customvalidators.interfaces.INumberValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.IStringValidator;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
 import com.tech.exceptions.customexceptions.NoValidatorsAssignedException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
 import com.tech.models.dtos.superclass.BaseDTO;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 
@@ -25,92 +24,59 @@ import org.springframework.http.ResponseEntity;
  */
 public class FriendDTO extends BaseDTO{
     
-    private static final List<IStringValidator> USERNAME_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
-    
-    public static void cleanValidator()
-    {
-        USERNAME_VALIDATORS.clear();
-              
-        USERNAME_VALIDATORS.add(new EmptyStringValidator());
-    }
-    
-    private static void registerStringValidator(IStringValidator strVal , ValidationScopes scope)  throws ValidatorNotListedException, InappropriateValidatorException
-    {  
-         switch(scope)
-         {
-            case USER_NAME:
-                USERNAME_VALIDATORS.add(strVal);
-                USERNAME_VALIDATORS.get(0).setNext(strVal);
-                break;
-            default: 
-                throw new ValidatorNotListedException(); 
-         }
-    }
-    
-     public static void registerValidator(ICustomValidator newValidator,ValidationScopes scope) throws InappropriateValidatorException, ValidatorNotListedException{
+    public static void registerValidator(ICustomValidator newValidator,ValidationScopes scope) 
+            throws InappropriateValidatorException, ValidatorNotListedException{
 
-        if(newValidator instanceof IStringValidator)
-        {
+        if(newValidator instanceof IStringValidator){
             registerStringValidator((IStringValidator)newValidator, scope);
         } 
-        else
-        {
+        else if (newValidator instanceof INumberValidator){
+            registerNumberValidator((INumberValidator)newValidator, scope);
+        }
+        else if (newValidator instanceof IFloatValidator){
+            registerFloatValidator((IFloatValidator)newValidator, scope);
+        } else {
             throw new InappropriateValidatorException();
         }
     }    
     
-    public static List<String> getValidatorList(ValidationScopes scope) throws ValidatorNotListedException
-    {
-       List<String> list = new ArrayList<>();
-        int i = 0;
-        switch(scope){
-            case USER_NAME:
-                for(ICustomValidator vLookUp:USERNAME_VALIDATORS)
-                {
-                    if(vLookUp.getName().equals("Empty")) { continue; }
-                    i++;
-                    list.add(i + ": " + vLookUp.getName());
-                }
-                return list;
-            default:
-                throw new ValidatorNotListedException();                    
-        }      
+    public static void cleanValidator(){
+        throw new UnsupportedOperationException();
+    }
+    
+    public static List<String> getValidatorList(ValidationScopes scope) 
+            throws ValidatorNotListedException{
+        
+        throw new UnsupportedOperationException();        
     }  
-    public static boolean removeValidator(ValidationScopes scope, int i) throws ValidatorNotListedException, InappropriateValidatorException
-    {   
-        if(i==0)
-        {
-            return false;
-        }
-        switch(scope)
-        {
-            case USER_NAME:
-                if(USERNAME_VALIDATORS.get(i) != null)
-                {
-                    USERNAME_VALIDATORS.get(i-1).replaceNext(USERNAME_VALIDATORS.get(i).getNext());
-                    USERNAME_VALIDATORS.remove(i);
-                    return true;
-                }
-                return false;
-
-            default:
-                throw new ValidatorNotListedException();                    
-        }
+    public static boolean removeValidator(ValidationScopes scope, int i) 
+            throws ValidatorNotListedException, InappropriateValidatorException{
+        
+        throw new UnsupportedOperationException();                
     }     
-
+    
     @Override
-    public Pair<Boolean,ResponseEntity> validate() throws InappropriateValidatorException, NoValidatorsAssignedException
-    {
-        Pair<Boolean,ResponseEntity> currentTest;
+    public Pair<Boolean,ResponseEntity> validate() 
+            throws InappropriateValidatorException, NoValidatorsAssignedException{  
         
-        currentTest = USERNAME_VALIDATORS.get(0).validate(username);
-        if(!currentTest.getLeft())
-        {
-            return currentTest;
-        }
+        throw new UnsupportedOperationException();        
+    }
+    
+    private static void registerStringValidator(IStringValidator strVal , ValidationScopes scope)
+            throws ValidatorNotListedException, InappropriateValidatorException{  
         
-        currentTest = USERNAME_VALIDATORS.get(0).validate(friendname);
-            return currentTest;
+        throw new UnsupportedOperationException();                
+    }
+    
+    private static void registerFloatValidator(IFloatValidator strVal , ValidationScopes scope)
+            throws ValidatorNotListedException, InappropriateValidatorException{   
+        
+        throw new UnsupportedOperationException();                
+    }
+    private static void registerNumberValidator(INumberValidator strVal , ValidationScopes scope)
+            throws ValidatorNotListedException, InappropriateValidatorException{ 
+        
+        throw new UnsupportedOperationException();                
     }
     
     /* Start of DTO */
