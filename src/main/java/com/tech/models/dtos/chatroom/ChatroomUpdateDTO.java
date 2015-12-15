@@ -215,6 +215,8 @@ public class ChatroomUpdateDTO extends BaseDTO{
         return currentTest;
     }
     
+    /* Start of DTO */
+    
     private String room_name;
     private String new_room_name;
     private String room_privilege;
