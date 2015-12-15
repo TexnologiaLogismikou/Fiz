@@ -23,7 +23,8 @@ public enum ValidationScopes {
 /*11*/EXPIRATION_DATE("expiration_date"),
 /*12*/BIRTHDAY("birthday"),
 /*13*/MODE("mode"),
-/*14*/PASSWORD("password");
+/*14*/PASSWORD("password"),
+/*15*/STRING("string");
     
     private final String str;
     ValidationScopes(String str) {
