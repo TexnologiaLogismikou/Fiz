@@ -171,14 +171,14 @@ public class ChatroomControllerTest extends AbstractControllerTest{
         json.put("new_room_name", "hi");
         json.put("room_privilege", "PUBLIC");
         json.put("access_method", "whitelist");
-        json.put("passwordProtection",false);
+        json.put("passwordProtection",true);
         json.put("password", "123");
         json.put("max_range", "5");
         
         when(chatroomEntitesService.validateRoomnameExistance("first testing room")).thenReturn(true);
         when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
         doNothing().when(chatroomEntitesService).setChatroomEntities("hi",1L);
-        doNothing().when(chatroomPrivilegesService).setChatroomPrivileges("PUBLIC",false,"123","whitelist",1L);
+        doNothing().when(chatroomPrivilegesService).setChatroomPrivileges("PUBLIC",true,"123","whitelist",1L);
         doNothing().when(chatroomLocationService).setNewMaxRange(5,1L);
         
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/updateChatroom")
@@ -193,7 +193,7 @@ public class ChatroomControllerTest extends AbstractControllerTest{
         verify(chatroomEntitesService, times(1)).validateRoomnameExistance("first testing room");
         verify(chatroomEntitesService, times(1)).getRoomByName("first testing room");
         verify(chatroomEntitesService, times(1)).setChatroomEntities("hi",1L);
-        verify(chatroomPrivilegesService, times(1)).setChatroomPrivileges("PUBLIC",false,"123","whitelist",1L); //why not true?
+        verify(chatroomPrivilegesService, times(1)).setChatroomPrivileges("PUBLIC",true,"123","whitelist",1L); //why not true?
         verify(chatroomLocationService, times(1)).setNewMaxRange(5,1L);
         
         Assert.assertEquals("failure - expected HTTP response OK",
@@ -245,8 +245,8 @@ public class ChatroomControllerTest extends AbstractControllerTest{
     @Sql(scripts = "classpath:populateDB.sql")
     public void testUpdateLocation() throws Exception
     {
-        json.put("lng", "67"); // not sure about this 
-        json.put("lat", "56");
+        json.put("lng", "6.7"); // not sure about this 
+        json.put("lat", "5.6");
         json.put("room_name", "first testing room");
         
         when(chatroomEntitesService.validateRoomnameExistance("first testing room")).thenReturn(true);
@@ -265,7 +265,7 @@ public class ChatroomControllerTest extends AbstractControllerTest{
         
         verify(chatroomEntitesService, times(1)).validateRoomnameExistance("first testing room");
         verify(chatroomEntitesService, times(1)).getRoomByName("first testing room");
-        verify(chatroomLocationService, times(1)).setNewLngLat(67,56,1L);
+        verify(chatroomLocationService, times(1)).setNewLngLat(6.7f,5.6f,1L);
         
         Assert.assertEquals("failure - expected HTTP response OK",
                 200, status);

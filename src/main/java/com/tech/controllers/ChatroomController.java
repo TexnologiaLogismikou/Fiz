@@ -380,7 +380,7 @@ public class ChatroomController extends BaseController{
         
         chatroomEntitesService.setChatroomEntities(updateDTO.getNew_room_name(), roomID);
         chatroomPrivilegesService.setChatroomPrivileges(updateDTO.getRoom_privilege(),
-                updateDTO.isPasswordProtected(), updateDTO.getPassword(), updateDTO.getAccess_method(),roomID);
+                updateDTO.isPasswordProtection(), updateDTO.getPassword(), updateDTO.getAccess_method(),roomID);
         chatroomLocationService.setNewMaxRange(updateDTO.getMax_range(), roomID);
         
         return new ResponseEntity<>(Responses.SUCCESS.getData(),HttpStatus.OK); 
