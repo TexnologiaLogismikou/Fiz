@@ -212,6 +212,7 @@ public class ChatroomController extends BaseController{
         }
         
         ChatroomEntities CE = chatroomEntitesService.getRoomByName(deleteRoom.getRoom_name());
+
         Long creator_id = userService.getUserByUsername(deleteRoom.getCreator_name()).getId();
         
         if(!userService.getUserById(creator_id).hasRoom()) {
