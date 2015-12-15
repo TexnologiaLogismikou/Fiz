@@ -293,16 +293,16 @@ public class ChatroomController extends BaseController{
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);              
         }
         
-        if(chatroomEntitesService.validateRoomnameExistance(whiteDTO.getRoom_name())){
-            return new ResponseEntity<>(Responses.ROOM_NOT_FOUND.getData(),HttpStatus.NOT_FOUND);            
+        if(!chatroomEntitesService.validateRoomnameExistance(whiteDTO.getRoom_name())){
+            return new ResponseEntity<>(Responses.ROOM_NOT_FOUND.getData(),HttpStatus.NOT_FOUND);
         }
         
         Long roomID = chatroomEntitesService.getRoomByName(whiteDTO.getRoom_name()).getRoom_id();
         Long userID = userService.getUserByUsername(whiteDTO.getMember_name()).getId();
         
         ChatroomWhitelist CW ;
-        
-        switch(whiteDTO.getMode()){
+
+        switch (whiteDTO.getMode()) {
             case "ADD":
                 CW = new ChatroomWhitelist(roomID,userID);
                 if (chatroomWhitelistService.findByRoomIDAndRoomMember(roomID,userID) != null) {
