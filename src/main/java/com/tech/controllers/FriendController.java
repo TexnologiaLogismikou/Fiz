@@ -6,6 +6,7 @@
 package com.tech.controllers;
 
 import com.tech.configurations.tools.Host;
+import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.Validator;
 import com.tech.models.dtos.FriendDTO;
@@ -46,11 +47,10 @@ public class FriendController extends BaseController
    @RequestMapping(value = "/addfriend",method = RequestMethod.POST)
    public HttpEntity<String> addFriend(@RequestBody FriendDTO friendDTO)
    {
-      
-        if (!Validator.nameValidation(friendDTO.getFriendname()))
-        {
-            return new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(),HttpStatus.NOT_ACCEPTABLE);
-        }
+       Pair<Boolean,ResponseEntity> response = friendDTO.validate();
+       if(!response.getLeft()){
+           return response.getRight();
+       }
          
        if(!userService.checkUsername(friendDTO.getFriendname()))
        {
@@ -74,10 +74,11 @@ public class FriendController extends BaseController
    @RequestMapping(value = "/deletefriend",method = RequestMethod.POST)
    public HttpEntity<String> deleteFriend(@RequestBody FriendDTO friendDTO)
    {
-       if(!Validator.nameValidation(friendDTO.getFriendname())){
-           return new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(),HttpStatus.NOT_ACCEPTABLE);
+       Pair<Boolean,ResponseEntity> response = friendDTO.validate();
+       if(!response.getLeft()){
+           return response.getRight();
        }
-       
+
        if(!userService.checkUsername(friendDTO.getFriendname())){
            return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);
        }

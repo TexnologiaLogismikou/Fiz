@@ -161,8 +161,7 @@ public class UserDTO extends BaseDTO
     }     
     
     @Override
-    public Pair<Boolean,ResponseEntity> validate() 
-            throws InappropriateValidatorException, NoValidatorsAssignedException
+    public Pair<Boolean,ResponseEntity> validate()
     {
         Pair<Boolean,ResponseEntity> currentTest = USER_NAME_VALIDATORS.get(0).validate(username);
         if(!currentTest.getLeft())

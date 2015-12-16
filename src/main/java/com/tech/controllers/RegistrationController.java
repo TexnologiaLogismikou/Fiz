@@ -40,7 +40,11 @@ public class RegistrationController extends BaseController{
      */
     @RequestMapping(method = RequestMethod.POST)
     public HttpEntity<String> register(@RequestBody RegisteredUserDTO userDTO) {
-        //TODO call sto validator        
+        Pair<Boolean,ResponseEntity> response = userDTO.validate();
+        if(!response.getLeft()){
+            return response.getRight();
+        }
+
         if(service.checkUsername(userDTO.getUsername())) {
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.FOUND);            
         }

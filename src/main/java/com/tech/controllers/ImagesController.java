@@ -5,10 +5,7 @@
  */
 package com.tech.controllers;
 
-import com.tech.configurations.tools.Attr;
-import com.tech.configurations.tools.Host;
-import com.tech.configurations.tools.Responses;
-import com.tech.configurations.tools.Validator;
+import com.tech.configurations.tools.*;
 import com.tech.controllers.methodcontainer.FileWorkAround;
 import com.tech.controllers.superclass.BaseController;
 import com.tech.models.entities.ImagesMod;
@@ -64,11 +61,12 @@ public class ImagesController extends BaseController{
      * @return http status depending on the validations
      */
     @RequestMapping(method = RequestMethod.POST)
-    public HttpEntity<String> loadImages(@RequestParam("file") MultipartFile file,@RequestParam("username") String name){        
-        if (!Validator.nameValidation(name)){
-            return new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(),HttpStatus.NOT_ACCEPTABLE);
-        }
-        
+    public HttpEntity<String> loadImages(@RequestParam("file") MultipartFile file,@RequestParam("username") String name){
+//        Pair<Boolean,ResponseEntity> response = name.validate();
+//        if(!response.getLeft()){
+//            return response.getRight();
+//        } todo the above ^^^^^^^^^^^^^^^^^^^
+
         if (!userService.checkUsername(name)) {
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);            
         }  

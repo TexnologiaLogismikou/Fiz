@@ -1,5 +1,6 @@
 package com.tech.controllers;
 
+import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
 import com.tech.controllers.superclass.BaseController;
 import com.tech.models.dtos.MessageDTO;
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -43,9 +45,14 @@ public class MessageController extends BaseController {
     @MessageMapping("/chat")
     @SendTo("/topic/chat")
     public JSONObject incomingMessage(MessageDTO messageDTO){
-        //TODO call sto validator
         JSONObject json = new JSONObject();
-        
+
+        Pair<Boolean,ResponseEntity> response = messageDTO.validate();
+        if(!response.getLeft()){
+            json.put("response",Responses.STRING_INAPPROPRIATE_FORMAT.getData());
+            return json;
+        }
+
         if(!userService.checkUsername(messageDTO.getUsername())){
             json.put("response",Responses.NOT_AUTHORIZED.getData());
             return json;
@@ -98,7 +105,15 @@ public class MessageController extends BaseController {
     public JSONArray messageHistory(@RequestBody MessageHistoryRequestDTO DTO){
         JSONArray jsonArray = new JSONArray(); 
         JSONObject jsonResponse = new JSONObject();
-        
+
+        Pair<Boolean,ResponseEntity> response = DTO.validate();
+        if(!response.getLeft()){
+            jsonResponse.put("response",Responses.NOT_AVAILABLE.getData());
+            jsonResponse.put("size","0");
+            jsonArray.add(jsonResponse);
+            return jsonArray;
+        }
+
         if(!chatroomEntitieService.validateRoomnameExistance(DTO.getRoom_name())){
             jsonResponse.put("response",Responses.NOT_AVAILABLE.getData());
             jsonResponse.put("size","0");

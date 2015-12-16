@@ -1,5 +1,6 @@
 package com.tech.controllers;
 
+import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.Validator;
 import com.tech.controllers.superclass.BaseController;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/user")
-public class UserController extends BaseController{
+public class UserController extends BaseController {
 
     @Autowired
     IUserService service;
@@ -30,61 +31,71 @@ public class UserController extends BaseController{
 
     /**
      * not tested
+     *
      * @param username
-     * @return 
+     * @return
      */
-    @RequestMapping(value = "/{username}",method = RequestMethod.GET)
-    public HttpEntity<JSONObject> loadUserProfile(@PathVariable String username){
+    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
+    public HttpEntity<JSONObject> loadUserProfile(@PathVariable String username) {
+//        Pair<Boolean,ResponseEntity> response = name.validate();
+//        if(!response.getLeft()){
+//            return response.getRight();
+//        } TODO ABOVE VALIDATOR ^^^^^^^^^^^
+
         JSONObject json = new JSONObject();
-        if(!Validator.nameValidation(username)) {
-            json.put("response",Responses.STRING_INAPPROPRIATE_FORMAT.getData());
-            return new ResponseEntity<>(json,HttpStatus.NOT_ACCEPTABLE);
+        if (!Validator.nameValidation(username)) {
+            json.put("response", Responses.STRING_INAPPROPRIATE_FORMAT.getData());
+            return new ResponseEntity<>(json, HttpStatus.NOT_ACCEPTABLE);
         }
-        if(!service.checkUsername(username)){
-            json.put("response",Responses.NOT_AVAILABLE.getData());
-            return new ResponseEntity<>(json,HttpStatus.NOT_FOUND);
+        if (!service.checkUsername(username)) {
+            json.put("response", Responses.NOT_AVAILABLE.getData());
+            return new ResponseEntity<>(json, HttpStatus.NOT_FOUND);
         }
-        
+
         User user = service.getUserByUsername(username);
         UserInfo userInfo = infoService.getUserInfoByUserId(user.getId());
-        
+
         json.put("username", user.getUsername());
-        json.put("firstname",userInfo.getFirstName());
-        json.put("last_name",userInfo.getLastName());
-        json.put("profile_photo",userInfo.getProfilePhoto());
-        json.put("email",userInfo.getEmail());
-        json.put("birthday",userInfo.getBirthday());
-        json.put("hometown",userInfo.getHometown());
-        json.put("status",userInfo.getStatus());
-        json.put("response",Responses.SUCCESS.getData());
-        
-        return new ResponseEntity<>(json,HttpStatus.OK);
-        
+        json.put("firstname", userInfo.getFirstName());
+        json.put("last_name", userInfo.getLastName());
+        json.put("profile_photo", userInfo.getProfilePhoto());
+        json.put("email", userInfo.getEmail());
+        json.put("birthday", userInfo.getBirthday());
+        json.put("hometown", userInfo.getHometown());
+        json.put("status", userInfo.getStatus());
+        json.put("response", Responses.SUCCESS.getData());
+
+        return new ResponseEntity<>(json, HttpStatus.OK);
+
     }
+
     /**
      * not tested
+     *
      * @param username
      * @param userDTO
-     * @return 
+     * @return
      */
-   @RequestMapping(value="/{username}/modify",method = RequestMethod.POST)
-    public HttpEntity<String> deactivateUser(@PathVariable String username,@RequestBody UserDTO userDTO){
-        if(!Validator.nameValidation(username)) {
-            return new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(),HttpStatus.NOT_ACCEPTABLE);
+    @RequestMapping(value = "/{username}/modify", method = RequestMethod.POST)
+    public HttpEntity<String> deactivateUser(@PathVariable String username, @RequestBody UserDTO userDTO) {
+        Pair<Boolean, ResponseEntity> response = userDTO.validate();
+        if (!response.getLeft()) {
+            return response.getRight();
         }
-        if(!service.checkUsername(username)){
-            return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);
+
+        if (!service.checkUsername(username)) {
+            return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(), HttpStatus.NOT_FOUND);
         }
-        
+
         Long userId = service.getUserByUsername(username).getId();
-        
-        User user = new User(userId,userDTO);
-        UserInfo userInfo = new UserInfo(userId,userDTO);
-                
+
+        User user = new User(userId, userDTO);
+        UserInfo userInfo = new UserInfo(userId, userDTO);
+
         service.modifyUser(user);
         infoService.modifyUserInfo(userInfo);
-        
-        return new ResponseEntity<>(Responses.SUCCESS.getData(),HttpStatus.OK);
+
+        return new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK);
     }
 
 }

@@ -137,12 +137,10 @@ public class ChatroomController extends BaseController{
      */
     @RequestMapping(value = "/connectChatroom",method = RequestMethod.POST)
     public HttpEntity<String> connectToChatroom(@RequestBody ChatroomConnectionMemberDTO newMember){
-        //TODO call to validator
-        
-        /*
-            8a itan kali idea na kanw implement ena factory me register / kai lista wste na mporw na balw kai extra 
-            login methods? ektos apo blacklist / whitelist. wste na min anaptisw polla if
-        */
+        Pair<Boolean,ResponseEntity> response = newMember.validate();
+        if(!response.getLeft()){
+            return response.getRight();
+        }
         
         if(!newMember.getMethod().equals("ADD")){
             return new ResponseEntity<>(Responses.ACCESS_METHOD_NOT_FOUND.getData(),HttpStatus.BAD_REQUEST);
@@ -208,7 +206,11 @@ public class ChatroomController extends BaseController{
      */
     @RequestMapping(value ="/deleteChatroom",method = RequestMethod.POST)
     public HttpEntity<String> deleteChatroom(@RequestBody ChatroomDeleteDTO deleteRoom) {
-        //TODO call sto validator
+        Pair<Boolean,ResponseEntity> response = deleteRoom.validate();
+        if(!response.getLeft()){
+            return response.getRight();
+        }
+
         if(!chatroomEntitesService.validateRoomnameExistance(deleteRoom.getRoom_name())){
             return new ResponseEntity<>(Responses.ROOM_NOT_FOUND.getData(),HttpStatus.NOT_FOUND);            
         }
@@ -251,7 +253,11 @@ public class ChatroomController extends BaseController{
      */
     @RequestMapping(value = "/banFromChatroom",method = RequestMethod.POST)
     public HttpEntity<String> handleBans(@RequestBody ChatroomBlacklistDTO banDTO){
-        //TODO call sto Validator
+        Pair<Boolean,ResponseEntity> response = banDTO.validate();
+        if(!response.getLeft()){
+            return response.getRight();
+        }
+
         if (!userService.checkUsername(banDTO.getMember_name())){ //if user doesn't exist
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);            
         }
@@ -290,7 +296,10 @@ public class ChatroomController extends BaseController{
      */
     @RequestMapping(value = "/handleWhitelist",method = RequestMethod.POST)
     public HttpEntity<String> handleWhitelist(@RequestBody ChatroomWhitelistDTO whiteDTO){
-        //TODO call sto Validator
+        Pair<Boolean,ResponseEntity> response = whiteDTO.validate();
+        if(!response.getLeft()){
+            return response.getRight();
+        }
         
         if(!userService.checkUsername(whiteDTO.getMember_name())){
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);              
@@ -334,7 +343,11 @@ public class ChatroomController extends BaseController{
      */
     @RequestMapping(value = "/removeMember",method = RequestMethod.POST)
     public HttpEntity<String> removeMember(@RequestBody ChatroomMemberDTO memberDTO){
-        //TODO call sto Validator
+        Pair<Boolean,ResponseEntity> response = memberDTO.validate();
+        if(!response.getLeft()){
+            return response.getRight();
+        }
+
         if(!memberDTO.getMethod().equals("DELETE")){
             return new ResponseEntity<>(Responses.ACCESS_METHOD_NOT_FOUND.getData(),HttpStatus.BAD_REQUEST);
         }
@@ -374,7 +387,11 @@ public class ChatroomController extends BaseController{
      */
     @RequestMapping(value = "/updateChatroom", method = RequestMethod.POST)
     public HttpEntity<String> updateChatroom(@RequestBody ChatroomUpdateDTO updateDTO){
-        //TODO call sto Validator
+        Pair<Boolean,ResponseEntity> response = updateDTO.validate();
+        if(!response.getLeft()){
+            return response.getRight();
+        }
+
         if(!chatroomEntitesService.validateRoomnameExistance(updateDTO.getRoom_name())){
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);
         }
@@ -397,7 +414,11 @@ public class ChatroomController extends BaseController{
      */
     @RequestMapping(value = "/quitChatroom", method = RequestMethod.POST)
     public HttpEntity<String> quitChatroom(@RequestBody ChatroomQuitMemberDTO quitMember){
-        //TODO call sto Validator
+        Pair<Boolean,ResponseEntity> response = quitMember.validate();
+        if(!response.getLeft()){
+            return response.getRight();
+        }
+
         //TODO if admin quits
         
         if(!chatroomEntitesService.validateRoomnameExistance(quitMember.getRoom_name())){
@@ -436,7 +457,11 @@ public class ChatroomController extends BaseController{
      */
     @RequestMapping(value = "/findAvailableChatrooms", method = RequestMethod.POST)
     public HttpEntity<JSONObject> availableChatrooms(@RequestBody ChatroomLocationDTO myLocation){
-        //TODO call sto validator
+        Pair<Boolean,ResponseEntity> response = myLocation.validate();
+        if(!response.getLeft()){
+            return response.getRight();
+        }
+
         JSONArray ajson = new JSONArray();
         JSONObject json = new JSONObject();
         List<ChatroomLocation> CL = chatroomLocationService.findIfNear(myLocation.getLng(),myLocation.getLat());        
@@ -471,7 +496,11 @@ public class ChatroomController extends BaseController{
      */
     @RequestMapping(value = "/updateChatroomLocation", method = RequestMethod.POST)
     public HttpEntity<String> updateLocation(@RequestBody ChatroomLocationUpdateDTO roomLocation){
-        //TODO call ston validator
+        Pair<Boolean,ResponseEntity> response = roomLocation.validate();
+        if(!response.getLeft()){
+            return response.getRight();
+        }
+
         if(!chatroomEntitesService.validateRoomnameExistance(roomLocation.getRoom_name())){
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);              
         }
@@ -493,7 +522,11 @@ public class ChatroomController extends BaseController{
      */
     @RequestMapping(value = "/checkIfStillInside", method = RequestMethod.POST)
     public HttpEntity<String> checkIfStillInside(@RequestBody ChatroomCheckInsideDTO myLocation){
-        //TODO call ston validator
+        Pair<Boolean,ResponseEntity> response = myLocation.validate();
+        if(!response.getLeft()){
+            return response.getRight();
+        }
+
         if(!userService.checkUsername(myLocation.getUser_name())){
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);                    
         }
