@@ -21,6 +21,7 @@ public enum Responses {
     OUTSIDE_RANGE("outside range"),
     VALIDATOR_NOT_FOUND("validator not found"),
     ACCESS_METHOD_NOT_ALLOWED("access method is not allowed"),
+    BAD_COORDINATES("bad coordinates"),
     ACCESS_METHOD_NOT_FOUND("access method was not found"),
     STRING_INAPPROPRIATE_FORMAT("string format was wrong"),
     NOT_CONNECTED_TO_THE_ROOM("not connected to the room"),
@@ -31,7 +32,8 @@ public enum Responses {
     ID_INAPPROPRIATE_FORMAT("ID format was wrong"),
     NOT_AUTHORIZED("not authorized"),
     NOT_AVAILABLE("not available"),
-    AVAILABLE("available");
+    AVAILABLE("available"),
+    NO_ERRORS("no errors");
     
     private final String str;
     Responses(String str) {

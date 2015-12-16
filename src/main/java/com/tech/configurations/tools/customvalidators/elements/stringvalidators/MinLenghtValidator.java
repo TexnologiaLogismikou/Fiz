@@ -20,7 +20,7 @@ import org.springframework.http.ResponseEntity;
 public class MinLenghtValidator  extends StringValidator implements ICustomValidator,IStringValidator{
     private final int LENGTH;
     public MinLenghtValidator(int length) {
-        super(new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE));
+        super(new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE) , "MinLenghtValidator");
         this.LENGTH = length;
     }
 

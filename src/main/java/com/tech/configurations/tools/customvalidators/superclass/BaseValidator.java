@@ -17,8 +17,10 @@ import org.springframework.http.ResponseEntity;
 public abstract class BaseValidator implements ICustomValidator{    
     private final ResponseEntity RESPONSE_ERROR;
     private final ResponseEntity RESPONSE_DONE = new ResponseEntity<>(Responses.SUCCESS,HttpStatus.OK);
+    private final String name;
     
-    protected BaseValidator(ResponseEntity RESPONSE_ERROR){
+    protected BaseValidator(ResponseEntity RESPONSE_ERROR,String name){
+        this.name = name;
         this.RESPONSE_ERROR = RESPONSE_ERROR;
     }
     
@@ -27,6 +29,10 @@ public abstract class BaseValidator implements ICustomValidator{
     }
     protected ResponseEntity getSuccessResponse(){
         return RESPONSE_DONE;
+    }
+    
+    public String getName(){
+        return name;
     }
     
 }

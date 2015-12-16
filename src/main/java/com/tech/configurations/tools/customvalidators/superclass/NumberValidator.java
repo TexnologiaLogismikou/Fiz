@@ -17,8 +17,8 @@ import org.springframework.http.ResponseEntity;
 public abstract class NumberValidator extends BaseValidator implements ICustomValidator{
     protected INumberValidator next;
 
-    public NumberValidator(ResponseEntity RESPONSE_ERROR) {
-        super(RESPONSE_ERROR);
+    public NumberValidator(ResponseEntity RESPONSE_ERROR, String name) {
+        super(RESPONSE_ERROR,name);
     }
     
     @Override
@@ -26,6 +26,23 @@ public abstract class NumberValidator extends BaseValidator implements ICustomVa
         if(!(next instanceof INumberValidator)) {     
             throw new InappropriateValidatorException();
         } 
-        this.next = (INumberValidator)next;         
+        if(this.next != null){
+            this.next.setNext(next);
+        } else {
+            this.next = (INumberValidator)next;         
+        }      
     }   
+    
+    @Override
+    public ICustomValidator getNext(){
+        return next;
+    }
+    
+    @Override
+    public void replaceNext(ICustomValidator next) throws InappropriateValidatorException{
+        if(!(next instanceof INumberValidator)){
+            throw new InappropriateValidatorException();
+        }
+        this.next = (INumberValidator)next;
+    }
 }

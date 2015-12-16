@@ -19,12 +19,12 @@ import org.springframework.http.ResponseEntity;
  */
 public class NotNegativeValidator extends NumberValidator implements ICustomValidator,INumberValidator{
     public NotNegativeValidator() {
-        super( new ResponseEntity<>(Responses.ID_INAPPROPRIATE_FORMAT,HttpStatus.UNPROCESSABLE_ENTITY));
+        super( new ResponseEntity<>(Responses.ID_INAPPROPRIATE_FORMAT,HttpStatus.UNPROCESSABLE_ENTITY), "NotNegativeValidator");
     }    
     
     @Override
     public Pair<Boolean, ResponseEntity> validate(Long n) {
-        if(n <= 0){
+        if( n <= 0 ){
             return Pair.of(Boolean.FALSE, getErrorResponse());
         }
         if (next != null){
@@ -32,6 +32,5 @@ public class NotNegativeValidator extends NumberValidator implements ICustomVali
         } else {
             return Pair.of(Boolean.TRUE, getSuccessResponse());
         }
-    }    
-    
+    }        
 }

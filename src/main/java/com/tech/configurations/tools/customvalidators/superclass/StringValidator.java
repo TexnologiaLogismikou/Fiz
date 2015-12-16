@@ -17,8 +17,8 @@ import org.springframework.http.ResponseEntity;
 public abstract class StringValidator extends  BaseValidator implements ICustomValidator,IStringValidator{
     protected IStringValidator next;
 
-    public StringValidator(ResponseEntity RESPONSE_ERROR) {
-        super(RESPONSE_ERROR);
+    public StringValidator(ResponseEntity RESPONSE_ERROR, String name) {
+        super(RESPONSE_ERROR,name);
     }
     
     @Override
@@ -26,6 +26,23 @@ public abstract class StringValidator extends  BaseValidator implements ICustomV
         if(!(next instanceof IStringValidator)) {     
             throw new InappropriateValidatorException();
         } 
-        this.next = (IStringValidator)next;         
+        if(this.next != null){
+            this.next.setNext(next);
+        } else {
+            this.next = (IStringValidator)next;         
+        }
+    }
+     
+    @Override
+    public ICustomValidator getNext(){
+        return next;
+    }
+    
+    @Override
+    public void replaceNext(ICustomValidator next) throws InappropriateValidatorException{
+        if(!(next instanceof IStringValidator)){
+            throw new InappropriateValidatorException();
+        }
+        this.next = (IStringValidator)next;
     }
 }
