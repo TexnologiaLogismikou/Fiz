@@ -5,12 +5,18 @@
  */
 package com.tech.configurations.tools.customvalidators.elements;
 
+import com.tech.configurations.tools.Pair;
+import com.tech.configurations.tools.Responses;
+import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotEmptyValidatorN;
+import com.tech.configurations.tools.customvalidators.interfaces.INumberValidator;
+import org.junit.Assert;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 /**
  *
@@ -36,9 +42,28 @@ public class EmptyNumberValidatorTest {
     @After
     public void tearDown() {
     }
-
     @Test
-    public void testValidate() {
+    public void testValidateSuccess() {
+
+        INumberValidator numberValidator = new EmptyNumberValidator();
+
+        Long i = 100L;
+        Pair<Boolean,ResponseEntity> answer = numberValidator.validate(i);
+
+        Assert.assertEquals("Failure - expected True but the answer was False",answer.getLeft(), Boolean.TRUE);
+        Assert.assertEquals("Failure - expected '"+ Responses.SUCCESS.getData()+"' but the answer was '"+answer.getRight().getBody()+"'",
+                answer.getRight(), new ResponseEntity<>(Responses.SUCCESS, HttpStatus.OK));
     }
-    
+    @Test
+    public void testValidateFail() {
+
+        INumberValidator numberValidator = new EmptyNumberValidator();
+
+        Long i = null;
+        Pair<Boolean,ResponseEntity> answer = numberValidator.validate(i);
+
+        Assert.assertEquals("Failure - expected False but the answer was True",answer.getLeft(), Boolean.FALSE);
+        Assert.assertEquals("Failure - expected '"+Responses.BAD_COORDINATES.getData()+"' but the answer was '"+answer.getRight().getBody()+"'",
+                answer.getRight(), new ResponseEntity<>(Responses.BAD_COORDINATES,HttpStatus.UNPROCESSABLE_ENTITY));
+    }
 }
