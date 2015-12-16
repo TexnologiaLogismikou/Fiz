@@ -18,6 +18,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addMapping("/**")
                 .allowedOrigins(Host.apache)
                 .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
-                .allowedHeaders("X-Ajax-call","X-requested-with","Content-Type");
+                .allowedHeaders("Origin, X-Requested-With, Content-Type, Accept, X-Ajax-Call");
     }
 }
