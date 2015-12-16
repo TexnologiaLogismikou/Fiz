@@ -10,7 +10,7 @@
     <packaging>war</packaging>
 
     <groupId>com.tech</groupId>
-    <artifactId>Fiz</artifactId>
+    <artifactId>ROOT</artifactId>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
