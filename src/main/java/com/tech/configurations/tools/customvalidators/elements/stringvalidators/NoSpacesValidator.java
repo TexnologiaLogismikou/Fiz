@@ -24,7 +24,7 @@ public class NoSpacesValidator extends StringValidator implements IStringValidat
 
     @Override
     public Pair<Boolean, ResponseEntity> validate(String str) {
-        if(str.trim().length() != str.length()){
+        if(str.replaceAll("\\s+","").length() != str.length()){
             return Pair.of(Boolean.FALSE,getErrorResponse());
         }
         if (next != null){
