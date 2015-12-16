@@ -10,7 +10,7 @@
     <packaging>war</packaging>
 
     <groupId>com.tech</groupId>
-    <artifactId>ROOT</artifactId>
+    <artifactId>Fiz</artifactId>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -262,6 +262,8 @@
     </dependencies>
 
     <build>
+
+        <finalName>ROOT</finalName>
 
         <plugins>
             <plugin>
