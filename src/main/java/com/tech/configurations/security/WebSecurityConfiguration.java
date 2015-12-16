@@ -68,7 +68,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .deleteCookies("JSESSIONID")
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .and()
-//                    .csrf().disable()
+                    .csrf().disable()
                 .exceptionHandling()
                     .authenticationEntryPoint(restAuthenticationEntryPoint);
     }
