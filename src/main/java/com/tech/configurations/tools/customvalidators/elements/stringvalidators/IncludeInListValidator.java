@@ -18,23 +18,32 @@ import org.springframework.http.ResponseEntity;
  *
  * @author KuroiTenshi
  */
-public class IncludeInListValidator extends StringValidator implements ICustomValidator,IStringValidator{
+public class IncludeInListValidator extends StringValidator implements ICustomValidator,IStringValidator
+{
     private final List<String> LIST;
-    public IncludeInListValidator(List<String> list) {
+    public IncludeInListValidator(List<String> list) 
+    {
         super(new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE),"IncludeInListValidator");
         this.LIST = list;
     }
 
     @Override
-    public Pair<Boolean, ResponseEntity> validate(String str) {
-        if(str.isEmpty() || !LIST.contains(str)){
+    public Pair<Boolean, ResponseEntity> validate(String str) 
+    {
+        if(!LIST.contains(str))
+        {
             return Pair.of(Boolean.FALSE,getErrorResponse());            
         }
-        if (next != null){
+        
+        if (next != null)
+        {
             return next.validate(str);
-        } else {
+        } 
+        else 
+        {
             return Pair.of(Boolean.TRUE, getSuccessResponse());
         }
-    }  
+    } 
+
     
 }
