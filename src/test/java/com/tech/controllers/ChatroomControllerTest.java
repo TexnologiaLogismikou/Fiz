@@ -8,11 +8,21 @@ package com.tech.controllers;
 import com.tech.AbstractControllerTest;
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.ValidationScopes;
+import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LatitudeValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotMatchValidator;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
 import com.tech.models.dtos.AvailableChatroomResponseDTO;
+import com.tech.models.dtos.chatroom.ChatroomBlacklistDTO;
+import com.tech.models.dtos.chatroom.ChatroomCheckInsideDTO;
+import com.tech.models.dtos.chatroom.ChatroomCreationDTO;
+import com.tech.models.dtos.chatroom.ChatroomDeleteDTO;
+import com.tech.models.dtos.chatroom.ChatroomLocationDTO;
+import com.tech.models.dtos.chatroom.ChatroomLocationUpdateDTO;
 import com.tech.models.dtos.chatroom.ChatroomMemberDTO;
+import com.tech.models.dtos.chatroom.ChatroomQuitMemberDTO;
+import com.tech.models.dtos.chatroom.ChatroomUpdateDTO;
+import com.tech.models.dtos.chatroom.ChatroomWhitelistDTO;
 import com.tech.models.entities.chatroom.*;
 import com.tech.models.entities.user.User;
 import com.tech.services.chatroom.*;
@@ -95,11 +105,6 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         super.tearDown();
 
         uri = null;
-    }
-
-    @Test
-    public void testHandleNewChatroomInvalidDTO() throws Exception {
-        //TODO invalid DTO after validator is done
     }
 
     @Test
@@ -949,9 +954,11 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         String uri = this.uri+"/banFromChatroom";
         Date date = new Date(); //new ban date
         date.setTime(date.getTime()+3600000);
+        
         json.put("room_name","room");
         json.put("member_name","user");
         json.put("expiration_date",date.getTime());
+        
         when(userService.checkUsername("user")).thenReturn(true);
         when(chatroomEntitesService.validateRoomnameExistance("room")).thenReturn(true);
         when(chatroomEntitesService.getRoomByName("room")).thenReturn(new ChatroomEntities(10L,1L,"room"));
@@ -1240,8 +1247,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testRemoveMember_ValidationFail() throws Exception
-    {
-     
+    {     
         try 
         {
             ChatroomMemberDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.ROOM_NAME);
@@ -1269,6 +1275,8 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
                     content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+        
+        ChatroomMemberDTO.cleanValidator();
     }
 
     @Test
@@ -1455,7 +1463,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
 
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void updateChatroomRoomNotExist() throws Exception
+    public void testUpdateChatroomRoomNotExist() throws Exception
     {
         json.put("room_name", "hi");
         json.put("new_room_name", "new room");
@@ -1491,7 +1499,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
 
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void updateChatroom() throws Exception
+    public void testUpdateChatroom() throws Exception
     {
         json.put("room_name", "first testing room");
         json.put("new_room_name", "hi");
@@ -1619,8 +1627,6 @@ public class ChatroomControllerTest extends AbstractControllerTest {
                 content.equals(Responses.NOT_AVAILABLE.getData() ));
     }
 
-
-
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testQuitChatroomMembersService() throws Exception{
@@ -1666,8 +1672,8 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         when(chatroomEntitesService.validateRoomnameExistance("first testing room")).thenReturn(true);
         when(userService.checkUsername("milenaAz")).thenReturn(true);
         when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
-        when(userService.getUserByUsername("milenaAz")).thenReturn(new User (1L,"milenaAz","milena",true,true));
-        when(chatroomMembersService.checkIfMemberExistsInChatroom(1L,1L)).thenReturn(true);
+        when(userService.getUserByUsername("milenaAz")).thenReturn(new User (2L,"milenaAz","milena",true,true));
+        when(chatroomMembersService.checkIfMemberExistsInChatroom(2L,1L)).thenReturn(true);
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/quitChatroom")
                 .content(json.toJSONString())
@@ -1682,7 +1688,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         verify(userService, times(1)).checkUsername("milenaAz");
         verify(chatroomEntitesService, times(1)).getRoomByName("first testing room");
         verify(userService, times(1)).getUserByUsername("milenaAz");
-        verify(chatroomMembersService, times(1)).checkIfMemberExistsInChatroom(1L,1L);
+        verify(chatroomMembersService, times(1)).checkIfMemberExistsInChatroom(2L,1L);
         //verify(chatroomMembersService, times(0)).delete(CM);
 
         Assert.assertEquals("failure - expected HTTP response OK",200, status);
@@ -1791,8 +1797,6 @@ public class ChatroomControllerTest extends AbstractControllerTest {
 
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
                     content.equals(Responses.SUCCESS.getData()));
-
-
     }
 
     @Test
@@ -1958,5 +1962,378 @@ public class ChatroomControllerTest extends AbstractControllerTest {
 
         Assert.assertEquals(Responses.NOT_AVAILABLE.getData(),content);
         Assert.assertEquals(404,status);
+    }
+    
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testAvailableChatrooms_ValidationFail() throws Exception
+    {     
+        try 
+        {
+            ChatroomLocationDTO.registerValidator(new LatitudeValidator(), ValidationScopes.LATITUDE);
+        } 
+        catch (InappropriateValidatorException | ValidatorNotListedException ex) 
+        {
+            Logger.getLogger(ChatroomLocationDTO.class.getName()).log(Level.SEVERE, null, ex);
+            Assert.fail("something went wrong while registering");
+        }
+        
+        json.put("lng", 250);
+        json.put("lat", 240);
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/findAvailableChatrooms")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+
+        Assert.assertEquals("failure - expected HTTP status to be '422'", 422, status);
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.BAD_COORDINATES.getData() + "'",
+                    content.equals(Responses.BAD_COORDINATES.getData()));
+        
+        ChatroomCreationDTO.cleanValidator();
+    }
+     
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testCheckIfStillInside_ValidationFail() throws Exception
+    {     
+        try 
+        {
+            ChatroomCheckInsideDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.ROOM_NAME);
+        } 
+        catch (InappropriateValidatorException | ValidatorNotListedException ex) 
+        {
+            Logger.getLogger(ChatroomCheckInsideDTO.class.getName()).log(Level.SEVERE, null, ex);
+            Assert.fail("something went wrong while registering");
+        }
+                
+        json.put("lng" , 23.7629689);
+        json.put("lat" , 37.9837928);
+        json.put("room_name" , "@testRoom");
+        json.put("user_name" , "testUser");
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/checkIfStillInside")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+
+        Assert.assertEquals("failure - expected HTTP status to be '406'", 406, status);
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
+                    content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+    }
+    
+     @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testConnectToChatroom_ValidationFail() throws Exception
+    {     
+        try 
+        {
+            ChatroomMemberDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.ROOM_NAME);
+        } 
+        catch (InappropriateValidatorException | ValidatorNotListedException ex) 
+        {
+            Logger.getLogger(ChatroomControllerTest.class.getName()).log(Level.SEVERE, null, ex);
+            Assert.fail("something went wrong while registering");
+        }        
+        
+        json.put("method","ADD");
+        json.put("member_name","CorrectUserName");
+        json.put("room_name","@CorrectRoomName");
+        json.put("password","A");
+        json.put("lat","1");
+        json.put("lng","1");
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/connectChatroom")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+
+        Assert.assertEquals("failure - expected HTTP status to be '406'", 406, status);
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
+                    content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+    }
+    
+     @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testDeleteChatroom_ValidationFail() throws Exception
+    {     
+        try 
+        {
+            ChatroomDeleteDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.ROOM_NAME);
+        } 
+        catch (InappropriateValidatorException | ValidatorNotListedException ex) 
+        {
+            Logger.getLogger(ChatroomControllerTest.class.getName()).log(Level.SEVERE, null, ex);
+            Assert.fail("something went wrong while registering");
+        }
+                
+        json.put("creator_name", "mixalisMix");
+        json.put("room_name", "@third testing room");
+        json.put("room_password", "password");
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/deleteChatroom")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+
+        Assert.assertEquals("failure - expected HTTP status to be '406'", 406, status);
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
+                    content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+    }
+    
+     @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testHandleBans_ValidationFail() throws Exception
+    {     
+        try 
+        {
+            ChatroomBlacklistDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.ROOM_NAME);
+        } 
+        catch (InappropriateValidatorException | ValidatorNotListedException ex) 
+        {
+            Logger.getLogger(ChatroomBlacklistDTO.class.getName()).log(Level.SEVERE, null, ex);
+            Assert.fail("something went wrong while registering");
+        }
+        
+        Date date = new Date();
+        date.setTime(date.getTime()+3600000);
+        
+        json.put("room_name","@room");
+        json.put("member_name","user");
+        json.put("expiration_date",date.getTime());
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/banFromChatroom")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+
+        Assert.assertEquals("failure - expected HTTP status to be '406'", 406, status);
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
+                    content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+    }
+    
+     @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testHandleNewChatroom_ValidationFail() throws Exception
+    {     
+        try 
+        {
+            ChatroomCreationDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.ROOM_NAME);
+        } 
+        catch (InappropriateValidatorException | ValidatorNotListedException ex) 
+        {
+            Logger.getLogger(ChatroomCreationDTO.class.getName()).log(Level.SEVERE, null, ex);
+            Assert.fail("something went wrong while registering");
+        }
+        
+        json.put("username","user");
+        json.put("room_name","@room");
+        json.put("room_privilege","all");
+        json.put("access_method","abc");
+        json.put("room_lat",200.5);
+        json.put("room_lng",100.5);
+        json.put("room_max_range",50);
+        json.put("hasPassword",false);
+        json.put("password","");
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/newChatroom")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+
+        Assert.assertEquals("failure - expected HTTP status to be '406'", 406, status);
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
+                    content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testHandleWhitelist_ValidationFail() throws Exception
+    {     
+        try 
+        {
+            ChatroomWhitelistDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.ROOM_NAME);
+        } 
+        catch (InappropriateValidatorException | ValidatorNotListedException ex) 
+        {
+            Logger.getLogger(ChatroomWhitelistDTO.class.getName()).log(Level.SEVERE, null, ex);
+            Assert.fail("something went wrong while registering");
+        }
+                
+        json.put("room_name", "@Room");
+        json.put("member_name", "Member");
+        json.put("mode", "ADD");
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/handleWhitelist")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+
+        Assert.assertEquals("failure - expected HTTP status to be '406'", 406, status);
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
+                    content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testQuitChatroom_ValidationFail() throws Exception
+    {     
+        try 
+        {
+            ChatroomQuitMemberDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.ROOM_NAME);
+        } 
+        catch (InappropriateValidatorException | ValidatorNotListedException ex) 
+        {
+            Logger.getLogger(ChatroomQuitMemberDTO.class.getName()).log(Level.SEVERE, null, ex);
+            Assert.fail("something went wrong while registering");
+        }        
+        
+        json.put("room_name", "@first testing room");
+        json.put("user_name", "milenaAz");
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/quitChatroom")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+
+        Assert.assertEquals("failure - expected HTTP status to be '406'", 406, status);
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
+                    content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+    }
+    
+     @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testUpdateChatroom_ValidationFail() throws Exception
+    {     
+        try 
+        {
+            ChatroomUpdateDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.ROOM_NAME);
+        } 
+        catch (InappropriateValidatorException | ValidatorNotListedException ex) 
+        {
+            Logger.getLogger(ChatroomUpdateDTO.class.getName()).log(Level.SEVERE, null, ex);
+            Assert.fail("something went wrong while registering");
+        }
+                
+        json.put("room_name", "@first testing room");
+        json.put("new_room_name", "hi");
+        json.put("room_privilege", "PUBLIC");
+        json.put("access_method", "whitelist");
+        json.put("passwordProtection",true);
+        json.put("password", "123");
+        json.put("max_range", "5");
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/updateChatroom")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+
+        Assert.assertEquals("failure - expected HTTP status to be '406'", 406, status);
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
+                    content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+    }
+    
+     @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testUpdateLocation_ValidationFail() throws Exception
+    {     
+        try 
+        {
+            ChatroomLocationUpdateDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.ROOM_NAME);
+        } 
+        catch (InappropriateValidatorException | ValidatorNotListedException ex) 
+        {
+            Logger.getLogger(ChatroomLocationUpdateDTO.class.getName()).log(Level.SEVERE, null, ex);
+            Assert.fail("something went wrong while registering");
+        }        
+        
+        json.put("lng", "6.7"); // not sure about this
+        json.put("lat", "5.6");
+        json.put("room_name", "@first testing room");
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/updateChatroomLocation")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+
+        Assert.assertEquals("failure - expected HTTP status to be '406'", 406, status);
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
+                    content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testQuitChatroomAdminQuiting() throws Exception{
+        json.put("room_name", "first testing room");
+        json.put("user_name","milenaAz");
+
+
+        when(chatroomEntitesService.validateRoomnameExistance("first testing room")).thenReturn(true);
+        when(userService.checkUsername("milenaAz")).thenReturn(true);
+        when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
+        when(userService.getUserByUsername("milenaAz")).thenReturn(new User (1L,"milenaAz","milena",true,true));
+        when(chatroomMembersService.checkIfMemberExistsInChatroom(1L,1L)).thenReturn(true);
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/quitChatroom")
+                .content(json.toJSONString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+        Assert.assertNotNull(content);
+
+        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("first testing room");
+        verify(userService, times(1)).checkUsername("milenaAz");
+        verify(chatroomEntitesService, times(1)).getRoomByName("first testing room");
+        verify(userService, times(1)).getUserByUsername("milenaAz");
+        verify(chatroomMembersService, times(1)).checkIfMemberExistsInChatroom(1L,1L);
+        //verify(chatroomMembersService, times(0)).delete(CM);
+
+        Assert.assertEquals("failure - expected HTTP response OK",200, status);
+
+        Assert.assertTrue("failure - expected HTTP response 'response' to be '" + Responses.SUCCESS.getData()  + " '",
+                content.equals(Responses.SUCCESS.getData()));
     }
 }

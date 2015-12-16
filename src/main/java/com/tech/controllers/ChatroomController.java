@@ -418,8 +418,6 @@ public class ChatroomController extends BaseController{
         if(!response.getLeft()){
             return response.getRight();
         }
-
-        //TODO if admin quits
         
         if(!chatroomEntitesService.validateRoomnameExistance(quitMember.getRoom_name())){
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);            
@@ -429,11 +427,18 @@ public class ChatroomController extends BaseController{
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);            
         }
         
-        Long roomID = chatroomEntitesService.getRoomByName(quitMember.getRoom_name()).getRoom_id();
+        ChatroomEntities CE = chatroomEntitesService.getRoomByName(quitMember.getRoom_name());
+        
+        Long roomID = CE.getRoom_id();
         Long userID = userService.getUserByUsername(quitMember.getUser_name()).getId();
         
         if(!chatroomMembersService.checkIfMemberExistsInChatroom(userID,roomID)){
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);              
+        }
+        /* If Admin quits. QQ room*/
+        if(Objects.equals(CE.getRoom_creator(), userID)){
+            chatroomEntitesService.delete(CE);
+            return new ResponseEntity<>(Responses.SUCCESS.getData(),HttpStatus.OK);             
         }
         
         ChatroomMembers CM = new ChatroomMembers(roomID, userID);
