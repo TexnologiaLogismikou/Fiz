@@ -69,9 +69,9 @@ public class EmptyStringValidatorTest
     public void testValidateFail_EmptyString() 
     {
         answer = stringValidator.validate(testStrings.get(1));
-        Assert.assertEquals("Failure - expected False but the answer was True",answer.getLeft(), Boolean.FALSE);
-        Assert.assertEquals("Failure - expected '"+Responses.STRING_INAPPROPRIATE_FORMAT.getData()+"' but the answer was '"+answer.getRight().getBody()+"'",
-                answer.getRight(), new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT,HttpStatus.NOT_ACCEPTABLE));
+        Assert.assertEquals("Failure - expected False but the answer was True",answer.getLeft(), Boolean.TRUE);
+        Assert.assertEquals("Failure - expected '"+Responses.SUCCESS.getData()+"' but the answer was '"+answer.getRight().getBody()+"'",
+                answer.getRight(), new ResponseEntity<>(Responses.SUCCESS,HttpStatus.OK));
     }
     
     @Test
