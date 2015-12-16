@@ -34,9 +34,12 @@ import com.tech.services.interfaces.IChatroomMembersService;
 import com.tech.services.interfaces.IChatroomPrivilegesService;
 import com.tech.services.interfaces.IChatroomWhitelistService;
 import com.tech.services.interfaces.IUserService;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -435,24 +438,30 @@ public class ChatroomController extends BaseController{
     @RequestMapping(value = "/findAvailableChatrooms", method = RequestMethod.POST)
     public HttpEntity<JSONObject> availableChatrooms(@RequestBody ChatroomLocationDTO myLocation){
         //TODO call sto validator
-        
+        JSONArray ajson = new JSONArray();
         JSONObject json = new JSONObject();
-        
         List<ChatroomLocation> CL = chatroomLocationService.findIfNear(myLocation.getLng(),myLocation.getLat());        
         
         if (CL.size()<=0){
             json.put("size",0);
+            json.put("list", ajson);
             json.put("error","no errors");
             return new ResponseEntity<>(json,HttpStatus.OK);
         }
         
         int i = 0;
+        //JSONObject tempObject = new JSONObject();
+        List<String> list = new ArrayList<>();
         for(ChatroomLocation vLookUp:CL){
             i++;
-            json.put(i, chatroomEntitesService.findByRoomID(vLookUp.getRoom_id()).getRoom_name());
+            //tempObject.put("room_name" + i, chatroomEntitesService.findByRoomID(vLookUp.getRoom_id()).getRoom_name());
+            list.add(chatroomEntitesService.findByRoomID(vLookUp.getRoom_id()).getRoom_name());
+
         }
+        //ajson.add(tempObject);
         
         json.put("size", i);
+        json.put("list", list);
         json.put("error","no errors");
         
         return new ResponseEntity<>(json,HttpStatus.OK);
