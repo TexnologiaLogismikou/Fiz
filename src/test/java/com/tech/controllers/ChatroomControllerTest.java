@@ -7,7 +7,12 @@ package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
 import com.tech.configurations.tools.Responses;
+import com.tech.configurations.tools.ValidationScopes;
+import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotMatchValidator;
+import com.tech.exceptions.customexceptions.InappropriateValidatorException;
+import com.tech.exceptions.customexceptions.ValidatorNotListedException;
 import com.tech.models.dtos.AvailableChatroomResponseDTO;
+import com.tech.models.dtos.chatroom.ChatroomMemberDTO;
 import com.tech.models.entities.chatroom.*;
 import com.tech.models.entities.user.User;
 import com.tech.services.chatroom.*;
@@ -26,13 +31,9 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyFloat;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 /**
@@ -1235,6 +1236,40 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
                     content.equals(Responses.SUCCESS.getData()));
     }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testRemoveMember_ValidationFail() throws Exception
+    {
+     
+        try 
+        {
+            ChatroomMemberDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.ROOM_NAME);
+        } 
+        catch (InappropriateValidatorException | ValidatorNotListedException ex) 
+        {
+            Logger.getLogger(ChatroomControllerTest.class.getName()).log(Level.SEVERE, null, ex);
+            Assert.fail("something went wrong while registering");
+        }
+        
+        json.put("room_name","@first testing room");
+        json.put("member_name","milenaAz");
+        json.put("password","");
+        json.put("method","ADD"); // 'ADD' Method is WRONG
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/removeMember")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+
+        Assert.assertEquals("failure - expected HTTP status to be '406'", 406, status);
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
+                    content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+    }
 
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
@@ -1255,7 +1290,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
 
         Assert.assertEquals("failure - expected HTTP status to be '400'", 400, status);
 
-        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.ACCESS_METHOD_NOT_FOUND.getData() + "'",
                     content.equals(Responses.ACCESS_METHOD_NOT_FOUND.getData()));
     }
 
@@ -1280,7 +1315,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
 
         Assert.assertEquals("failure - expected HTTP status to be '404'", 404, status);
 
-        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.NOT_AVAILABLE.getData() + "'",
                     content.equals(Responses.NOT_AVAILABLE.getData()));
     }
 
@@ -1308,7 +1343,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
 
         Assert.assertEquals("failure - expected HTTP status to be '404'", 404, status);
 
-        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.NOT_AVAILABLE.getData() + "'",
                     content.equals(Responses.NOT_AVAILABLE.getData()));
     }
 
@@ -1344,7 +1379,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
 
         Assert.assertEquals("failure - expected HTTP status to be '404'", 404, status);
 
-        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.NOT_AVAILABLE.getData() + "'",
                     content.equals(Responses.NOT_AVAILABLE.getData()));
     }
 
@@ -1379,7 +1414,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
 
         Assert.assertEquals("failure - expected HTTP status to be '401'", 401, status);
 
-        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.SUCCESS.getData() + "'",
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.NOT_AUTHORIZED.getData() + "'",
                     content.equals(Responses.NOT_AUTHORIZED.getData()));
     }
 
