@@ -6,86 +6,34 @@
 package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
-import com.tech.models.dtos.chatroom.ChatroomWhitelistDTO;
-import com.tech.models.entities.chatroom.ChatroomEntities;
-import com.tech.models.entities.chatroom.ChatroomWhitelist;
-import com.tech.models.entities.user.User;
 import com.tech.configurations.tools.Responses;
 import com.tech.models.dtos.AvailableChatroomResponseDTO;
-import com.tech.models.dtos.ChatRoomLocationResponseDTO;
-import com.tech.models.entities.chatroom.ChatroomEntities;
-import com.tech.models.entities.chatroom.ChatroomLocation;
-import com.tech.models.entities.user.User;
-import com.tech.services.chatroom.ChatroomBlacklistService;
-import com.tech.services.chatroom.ChatroomEntitiesService;
-import com.tech.services.chatroom.ChatroomLocationService;
-import com.tech.services.chatroom.ChatroomMembersService;
-import com.tech.services.chatroom.ChatroomPrivilegesService;
-import com.tech.services.chatroom.ChatroomWhitelistService;
-import com.tech.configurations.tools.Responses;
-import com.tech.models.entities.chatroom.ChatroomBlacklist;
-import com.tech.models.entities.chatroom.ChatroomEntities;
-import com.tech.models.entities.chatroom.ChatroomMembers;
-import com.tech.models.entities.chatroom.ChatroomPrivileges;
-import com.tech.models.entities.chatroom.ChatroomWhitelist;
+import com.tech.models.entities.chatroom.*;
 import com.tech.models.entities.user.User;
 import com.tech.services.chatroom.*;
 import com.tech.services.user.UserService;
-import java.util.ArrayList;
-import java.util.List;
-import com.tech.configurations.tools.Responses;
-
-import javax.transaction.Transactional;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import org.junit.*;
-import java.util.Date;
 import org.junit.*;
 import org.mockito.InjectMocks;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
 import org.mockito.Mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
-
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
-
-
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.controller;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.http.MediaType;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import static org.mockito.Mockito.*;
 
 /**
  * @author KuroiTenshi
@@ -1976,5 +1924,4 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         Assert.assertEquals(Responses.NOT_AVAILABLE.getData(),content);
         Assert.assertEquals(404,status);
     }
-
 }
