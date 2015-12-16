@@ -7,6 +7,7 @@ package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
 import com.tech.configurations.tools.Responses;
+import com.tech.models.dtos.AvailableChatroomResponseDTO;
 import com.tech.models.dtos.ChatRoomLocationResponseDTO;
 import com.tech.models.entities.chatroom.ChatroomEntities;
 import com.tech.models.entities.chatroom.ChatroomLocation;
@@ -165,7 +166,9 @@ public class ChatroomControllerTest extends AbstractControllerTest{
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testAvailableChatroomLocation() throws Exception{
-        
+
+        //{"size":2,"list":[{"room_name1":"chatroom","room_name2":"chatroom2"}],"error":"no errors"};
+
         json.put("lng", 50);
         json.put("lat",40);
         
@@ -188,8 +191,8 @@ public class ChatroomControllerTest extends AbstractControllerTest{
         String content = result.getResponse().getContentAsString();
         int status = result.getResponse().getStatus();
         Assert.assertNotNull(content);
-         
-        ChatRoomLocationResponseDTO CRLRDTO = super.mapFromJson(content,ChatRoomLocationResponseDTO.class);
+
+        AvailableChatroomResponseDTO chatroomResponseDTO = super.mapFromJson(content,AvailableChatroomResponseDTO.class);
         
         verify(chatroomLocationService, times(1)).findIfNear(50,40);
         verify(chatroomEntitesService,times(1)).findByRoomID(1L);
@@ -198,7 +201,10 @@ public class ChatroomControllerTest extends AbstractControllerTest{
         Assert.assertEquals("failure - expected HTTP response OK",200, status);
    
         Assert.assertTrue("failure - expected HTTP response 'response' to be '" + Responses.NO_ERRORS.getData()  + " '",
-                CRLRDTO.getResponse().equals(Responses.NO_ERRORS.getData()));
+                chatroomResponseDTO.getError().equals(Responses.NO_ERRORS.getData()));
+
+        Assert.assertTrue("failure - expected size to be 2 but was '" + chatroomResponseDTO.getSize()  + " '",
+                chatroomResponseDTO.getSize().equals("2"));
     }
 
     @Test

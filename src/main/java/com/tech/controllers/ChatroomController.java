@@ -34,6 +34,8 @@ import com.tech.services.interfaces.IChatroomMembersService;
 import com.tech.services.interfaces.IChatroomPrivilegesService;
 import com.tech.services.interfaces.IChatroomWhitelistService;
 import com.tech.services.interfaces.IUserService;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -447,13 +449,18 @@ public class ChatroomController extends BaseController{
         }
         
         int i = 0;
+        //JSONObject tempObject = new JSONObject();
+        List<String> list = new ArrayList<>();
         for(ChatroomLocation vLookUp:CL){
             i++;
-            ajson.add(i, chatroomEntitesService.findByRoomID(vLookUp.getRoom_id()).getRoom_name());
+            //tempObject.put("room_name" + i, chatroomEntitesService.findByRoomID(vLookUp.getRoom_id()).getRoom_name());
+            list.add(chatroomEntitesService.findByRoomID(vLookUp.getRoom_id()).getRoom_name());
+
         }
+        //ajson.add(tempObject);
         
         json.put("size", i);
-        json.put("list", ajson);
+        json.put("list", list);
         json.put("error","no errors");
         
         return new ResponseEntity<>(json,HttpStatus.OK);
