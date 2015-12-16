@@ -18,7 +18,5 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addMapping("/**")
                 .allowedOrigins(Host.apache,"http://localhost")
                 .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
-                .allowCredentials(true)
-                .allowedHeaders("Origin","X-Requested-With", "Content-Type","Accept");
     }
 }
