@@ -19,7 +19,7 @@ import org.springframework.http.ResponseEntity;
  *
  * @author KuroiTenshi
  */
-public class NotMatchValidator extends StringValidator implements ICustomValidator,IStringValidator{
+public class NotMatchValidator extends StringValidator implements IStringValidator{
     private final Pattern P;
     private Matcher m;
     
