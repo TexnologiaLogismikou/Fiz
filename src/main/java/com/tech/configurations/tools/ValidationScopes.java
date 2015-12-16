@@ -20,8 +20,8 @@ public enum ValidationScopes {
 /* 8*/LONGITUDE("longitude"),
 /* 9*/EMAIL("email"),
 /*10*/TTL("ttl"),
-/*11*/EXPIRATION_DATE("expiration_date"),
-/*12*/BIRTHDAY("birthday"),
+///*11*/EXPIRATION_DATE("expiration_date"),
+///*12*/BIRTHDAY("birthday"),
 /*13*/MODE("mode"),
 /*14*/PASSWORD("password"),
 /*15*/STRING("string");

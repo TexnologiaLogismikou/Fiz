@@ -16,6 +16,7 @@ import com.tech.exceptions.customexceptions.ValidatorNotListedException;
 import com.tech.models.dtos.superclass.BaseDTO;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 
@@ -29,7 +30,7 @@ public class UserDTO extends BaseDTO
     private static final List<IStringValidator> PASSWORD_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
     private static final List<IStringValidator> EMAIL_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
     private static final List<IStringValidator> STRING_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
-    private static final List<IStringValidator> BIRTHDAY_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
+//    private static final List<IStringValidator> BIRTHDAY_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
     
     public static void registerValidator(ICustomValidator newValidator,ValidationScopes scope) 
             throws InappropriateValidatorException, ValidatorNotListedException
@@ -50,13 +51,13 @@ public class UserDTO extends BaseDTO
         PASSWORD_VALIDATORS.clear();
         EMAIL_VALIDATORS.clear();
         STRING_VALIDATORS.clear();
-        BIRTHDAY_VALIDATORS.clear();
+//        BIRTHDAY_VALIDATORS.clear();
         
         USER_NAME_VALIDATORS.add(new EmptyStringValidator());
         PASSWORD_VALIDATORS.add(new EmptyStringValidator());
         EMAIL_VALIDATORS.add(new EmptyStringValidator());
         STRING_VALIDATORS.add(new EmptyStringValidator());
-        BIRTHDAY_VALIDATORS.add(new EmptyStringValidator());        
+//        BIRTHDAY_VALIDATORS.add(new EmptyStringValidator());        
     }
     
     public static List<String> getValidatorList(ValidationScopes scope) 
@@ -98,14 +99,14 @@ public class UserDTO extends BaseDTO
                     list.add(i + ": " + vLookUp.getName());
                 }
                 return list;
-            case BIRTHDAY:
-                for(ICustomValidator vLookUp:BIRTHDAY_VALIDATORS)
-                {
-                    if(vLookUp.getName().equals("Empty")) { continue; }
-                    i++;
-                    list.add(i + ": " + vLookUp.getName());
-                }
-                return list;
+//            case BIRTHDAY:
+//                for(ICustomValidator vLookUp:BIRTHDAY_VALIDATORS)
+//                {
+//                    if(vLookUp.getName().equals("Empty")) { continue; }
+//                    i++;
+//                    list.add(i + ": " + vLookUp.getName());
+//                }
+//                return list;
             default:
                 throw new ValidatorNotListedException();                    
         }  
@@ -147,13 +148,13 @@ public class UserDTO extends BaseDTO
                     return true;
                 }
                 return false;
-            case BIRTHDAY:
-                if(BIRTHDAY_VALIDATORS.get(i) != null){
-                    BIRTHDAY_VALIDATORS.get(i-1).replaceNext(BIRTHDAY_VALIDATORS.get(i).getNext());
-                    BIRTHDAY_VALIDATORS.remove(i);
-                    return true;
-                }
-                return false;
+//            case BIRTHDAY:
+//                if(BIRTHDAY_VALIDATORS.get(i) != null){
+//                    BIRTHDAY_VALIDATORS.get(i-1).replaceNext(BIRTHDAY_VALIDATORS.get(i).getNext());
+//                    BIRTHDAY_VALIDATORS.remove(i);
+//                    return true;
+//                }
+//                return false;
             default:
                 throw new ValidatorNotListedException();                    
         } 
@@ -199,11 +200,11 @@ public class UserDTO extends BaseDTO
             return currentTest;
         }
         
-        currentTest = BIRTHDAY_VALIDATORS.get(0).validate(birthday);
-        if(!currentTest.getLeft())
-        {
-            return currentTest;
-        }
+//        currentTest = BIRTHDAY_VALIDATORS.get(0).validate(birthday);
+//        if(!currentTest.getLeft())
+//        {
+//            return currentTest;
+//        }
         
         currentTest = STRING_VALIDATORS.get(0).validate(hometown);
         if(!currentTest.getLeft())
@@ -236,10 +237,10 @@ public class UserDTO extends BaseDTO
                 STRING_VALIDATORS.add(strVal);             
                 STRING_VALIDATORS.get(0).setNext(strVal);
                 break;
-            case BIRTHDAY:   
-                BIRTHDAY_VALIDATORS.add(strVal);             
-                BIRTHDAY_VALIDATORS.get(0).setNext(strVal);
-                break;
+//            case BIRTHDAY:   
+//                BIRTHDAY_VALIDATORS.add(strVal);             
+//                BIRTHDAY_VALIDATORS.get(0).setNext(strVal);
+//                break;
             default: 
                 throw new ValidatorNotListedException();                    
         }              
@@ -255,7 +256,7 @@ public class UserDTO extends BaseDTO
     private String profile_photo;
     private String status;
     private String last_name;
-    private String birthday;
+    private Date birthday;
     private String hometown;
     private String firstname;
     
@@ -284,7 +285,7 @@ public class UserDTO extends BaseDTO
         return last_name;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
