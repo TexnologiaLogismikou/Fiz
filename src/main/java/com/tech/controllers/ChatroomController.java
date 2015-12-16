@@ -89,7 +89,10 @@ public class ChatroomController extends BaseController{
      */
     @RequestMapping(value = "/newChatroom",method = RequestMethod.POST)
     public HttpEntity<String> handleNewChatroom(@RequestBody ChatroomCreationDTO newChatroom){
-        //Todo call sto validator
+        Pair<Boolean,ResponseEntity> response = newChatroom.validate();
+        if(!response.getLeft()){
+            return response.getRight();
+        }
         
         if(!userService.checkUsername(newChatroom.getUsername())){ //validates if the user exists or not
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.NOT_FOUND);

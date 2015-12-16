@@ -82,21 +82,17 @@ public class RegistrationControllerTest extends AbstractControllerTest{
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testRegister() throws Exception{
         json.put("username","milena4");
         json.put("password","milena12312314");
         json.put("last_name","iwanna");
         json.put("firstname","milenref34a");
         json.put("email","douleuei@teicm.gr");
-        json.put("birthday","23/11/94");
+        json.put("birthday","1994-11-23");
         
         when(userService.getNextID()).thenReturn(4L);
         when(userService.checkUsername("milena4")).thenReturn(false);
-        
-        System.out.println(json.toString());
-        System.out.println("asdasdasDASDASDasdasdasDAS");
-        System.out.println(json.toJSONString());
         
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri)
                 .content(json.toJSONString())
