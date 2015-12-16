@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
  *
  * @author KuroiTenshi
  */
-public class LongitudeValidator extends FloatValidator implements ICustomValidator,IFloatValidator{
+public class LongitudeValidator extends FloatValidator implements IFloatValidator{
     public LongitudeValidator() {
         super( new ResponseEntity<>(Responses.BAD_COORDINATES,HttpStatus.UNPROCESSABLE_ENTITY), "LongitudeValidator");
     }    

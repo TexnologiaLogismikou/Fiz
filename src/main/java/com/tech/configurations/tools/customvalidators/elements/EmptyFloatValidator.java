@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
  *
  * @author KuroiTenshi
  */
-public class EmptyFloatValidator extends FloatValidator implements ICustomValidator,IFloatValidator{
+public class EmptyFloatValidator extends FloatValidator implements IFloatValidator{
     public EmptyFloatValidator() {
         super( new ResponseEntity<>(Responses.BAD_COORDINATES,HttpStatus.UNPROCESSABLE_ENTITY),"Empty");
     }    

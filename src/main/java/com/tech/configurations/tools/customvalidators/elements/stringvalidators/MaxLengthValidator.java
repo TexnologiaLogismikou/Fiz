@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
  *
  * @author KuroiTenshi
  */
-public class MaxLengthValidator extends StringValidator implements ICustomValidator,IStringValidator{
+public class MaxLengthValidator extends StringValidator implements IStringValidator{
     private final int LENGTH;
     public MaxLengthValidator(int length) {
         super(new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE), "MaxLengthValidator");

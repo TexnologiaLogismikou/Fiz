@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
  *
  * @author KuroiTenshi
  */
-public abstract class FloatValidator  extends BaseValidator implements ICustomValidator{
+public abstract class FloatValidator  extends BaseValidator{
     protected IFloatValidator next;
 
     public FloatValidator(ResponseEntity RESPONSE_ERROR, String name) {

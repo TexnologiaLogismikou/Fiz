@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
  *
  * @author KuroiTenshi
  */
-public abstract class StringValidator extends  BaseValidator implements ICustomValidator,IStringValidator{
+public abstract class StringValidator extends  BaseValidator implements IStringValidator{
     protected IStringValidator next;
 
     public StringValidator(ResponseEntity RESPONSE_ERROR, String name) {

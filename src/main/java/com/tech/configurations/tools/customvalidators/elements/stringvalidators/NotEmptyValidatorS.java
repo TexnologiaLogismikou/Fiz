@@ -17,7 +17,7 @@ import com.tech.configurations.tools.customvalidators.interfaces.IStringValidato
  *
  * @author KuroiTenshi
  */
-public class NotEmptyValidatorS extends StringValidator implements ICustomValidator,IStringValidator{
+public class NotEmptyValidatorS extends StringValidator implements IStringValidator{
     public NotEmptyValidatorS() {
         super(new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE),"NotEmptyValidatorS");
     }

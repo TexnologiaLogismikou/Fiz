@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
  *
  * @author KuroiTenshi
  */
-public class NoSpacesValidator extends StringValidator implements ICustomValidator,IStringValidator{ 
+public class NoSpacesValidator extends StringValidator implements IStringValidator{
     public NoSpacesValidator() {
         super(new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE), "NoSpacesValidator");
     }
