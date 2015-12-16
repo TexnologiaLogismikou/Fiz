@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tech.configurations.tools.customvalidators.elements.numbervalidators;
+package com.tech.configurations.tools.customvalidators.elements.floatvalidator;
 
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.customvalidators.interfaces.ICustomValidator;
-import com.tech.configurations.tools.customvalidators.interfaces.INumberValidator;
-import com.tech.configurations.tools.customvalidators.superclass.NumberValidator;
+import com.tech.configurations.tools.customvalidators.interfaces.IFloatValidator;
+import com.tech.configurations.tools.customvalidators.superclass.FloatValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -17,14 +17,14 @@ import org.springframework.http.ResponseEntity;
  *
  * @author KuroiTenshi
  */
-public class NotNegativeValidator extends NumberValidator implements ICustomValidator,INumberValidator{
-    public NotNegativeValidator() {
-        super( new ResponseEntity<>(Responses.ID_INAPPROPRIATE_FORMAT,HttpStatus.UNPROCESSABLE_ENTITY), "NotNegativeValidator");
+public class FloatNotNaNValidator extends FloatValidator implements ICustomValidator,IFloatValidator{
+    public FloatNotNaNValidator() {
+        super( new ResponseEntity<>(Responses.BAD_COORDINATES,HttpStatus.UNPROCESSABLE_ENTITY) , "FloatNotNaNValidator");
     }    
     
     @Override
-    public Pair<Boolean, ResponseEntity> validate(Long n) {
-        if( n <= 0 ){
+    public Pair<Boolean, ResponseEntity> validate(float n) {
+        if( Float.isNaN(n)){ 
             return Pair.of(Boolean.FALSE, getErrorResponse());
         }
         if (next != null){
@@ -32,5 +32,5 @@ public class NotNegativeValidator extends NumberValidator implements ICustomVali
         } else {
             return Pair.of(Boolean.TRUE, getSuccessResponse());
         }
-    }        
+    }            
 }

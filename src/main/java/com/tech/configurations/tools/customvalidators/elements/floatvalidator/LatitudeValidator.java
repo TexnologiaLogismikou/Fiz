@@ -24,7 +24,7 @@ public class LatitudeValidator extends FloatValidator implements ICustomValidato
     
     @Override
     public Pair<Boolean, ResponseEntity> validate(float n) {
-        if(-90 > n || n > 90){
+        if( -90 > n || n > 90){
             return Pair.of(Boolean.FALSE, getErrorResponse());
         }
         if (next != null){

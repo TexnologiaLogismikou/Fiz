@@ -247,15 +247,15 @@ public class ChatroomUpdateDTO extends BaseDTO{
         return access_method;
     }
     
-    public boolean isPasswordProtection() {
-        return passwordProtection;
-    }
-
     public String getPassword() {
         return password;
     }    
 
     public Integer getMax_range() {
         return max_range;
+    }
+
+    public boolean isPasswordProtection() {
+        return passwordProtection;
     }
 }

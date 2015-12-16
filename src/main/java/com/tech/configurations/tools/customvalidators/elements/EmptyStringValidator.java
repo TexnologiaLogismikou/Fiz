@@ -24,6 +24,9 @@ public class EmptyStringValidator extends StringValidator implements ICustomVali
 
     @Override
     public Pair<Boolean, ResponseEntity> validate(String str) {
+        if (str == null){            
+            return Pair.of(Boolean.FALSE, getErrorResponse());
+        }
         if (next != null){
             return next.validate(str);
         } else {

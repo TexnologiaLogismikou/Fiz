@@ -32,7 +32,8 @@ public enum Responses {
     ID_INAPPROPRIATE_FORMAT("ID format was wrong"),
     NOT_AUTHORIZED("not authorized"),
     NOT_AVAILABLE("not available"),
-    AVAILABLE("available");
+    AVAILABLE("available"),
+    NO_ERRORS("no errors");
     
     private final String str;
     Responses(String str) {

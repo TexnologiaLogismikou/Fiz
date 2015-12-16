@@ -24,6 +24,9 @@ public class EmptyNumberValidator extends NumberValidator implements ICustomVali
     
     @Override
     public Pair<Boolean, ResponseEntity> validate(Long n) {
+        if(n == null){
+            return Pair.of(Boolean.FALSE, getErrorResponse());
+        }
         if (next != null){
             return next.validate(n);
         } else {

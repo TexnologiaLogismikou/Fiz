@@ -27,7 +27,7 @@ public class IncludeInListValidator extends StringValidator implements ICustomVa
 
     @Override
     public Pair<Boolean, ResponseEntity> validate(String str) {
-        if(!LIST.contains(str)){
+        if(str.isEmpty() || !LIST.contains(str)){
             return Pair.of(Boolean.FALSE,getErrorResponse());            
         }
         if (next != null){

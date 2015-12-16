@@ -5,6 +5,7 @@
  */
 package com.tech.configurations.tools.customvalidators.superclass;
 
+import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.customvalidators.interfaces.ICustomValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.IFloatValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.INumberValidator;
@@ -46,4 +47,5 @@ public abstract class FloatValidator  extends BaseValidator implements ICustomVa
         }
         this.next = (IFloatValidator)next;
     }
+    
 }

@@ -2,11 +2,7 @@ package com.tech.configurations.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,38 +12,12 @@ import java.io.IOException;
 @Component
 public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private RequestCache requestCache = new HttpSessionRequestCache();
-
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws ServletException, IOException {
 
-        SavedRequest savedRequest = requestCache.getRequest(request, response);
 
-        //TODO some response text
-        //response.getWriter().print("OK");
-
-        if (savedRequest == null) {
-            clearAuthenticationAttributes(request);
-            return;
-        }
-        String targetUrlParam = getTargetUrlParameter();
-        if ("true".equals(request.getHeader("X-Ajax-call"))) {
-            try {
-                response.getWriter().print("OK");
-                response.getWriter().flush();
-            } catch (IOException e) {
-                System.out.println("Exception: cannot send data to ajax response");
-            }
-        } else if (isAlwaysUseDefaultTargetUrl() || (targetUrlParam != null && StringUtils.hasText(request.getParameter(targetUrlParam)))) {
-            requestCache.removeRequest(request, response);
-            clearAuthenticationAttributes(request);
-            return;
-        }
+        response.getWriter().print(request.getSession().getId());
         clearAuthenticationAttributes(request);
-    }
-
-    public void setRequestCache(RequestCache requestCache) {
-        this.requestCache = requestCache;
     }
 }
