@@ -146,7 +146,7 @@ public class ChatroomMemberDTO extends BaseDTO{
     @Override
     public Pair<Boolean,ResponseEntity> validate() {  
         
-        Pair<Boolean,ResponseEntity> currentTest = USER_NAME_VALIDATORS.get(0).validate(room_name);
+        Pair<Boolean,ResponseEntity> currentTest = USER_NAME_VALIDATORS.get(0).validate(member_name);
         if(!currentTest.getLeft())
         {
             return currentTest;
@@ -158,7 +158,7 @@ public class ChatroomMemberDTO extends BaseDTO{
             return currentTest;
         }
         
-        currentTest = ROOM_NAME_VALIDATORS.get(0).validate(member_name);
+        currentTest = ROOM_NAME_VALIDATORS.get(0).validate(room_name);
         if(!currentTest.getLeft())
         {
             return currentTest;
