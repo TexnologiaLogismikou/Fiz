@@ -46,6 +46,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.mockito.Mockito.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 /**
  * @author KuroiTenshi
@@ -85,13 +87,13 @@ public class ChatroomControllerTest extends AbstractControllerTest {
      @BeforeClass
     public static void setUpClass()
     {
-        InitializeValidators.InitializeCustomValidators();
+//        InitializeValidators.InitializeCustomValidators();
     }
     
     @AfterClass
     public static void tearDownClass()
     {     
-        InitializeValidators.CleanCustomValidators();
+//        InitializeValidators.CleanCustomValidators();
     } 
 
     @Before
@@ -681,7 +683,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         json.put("room_name", "techa");
         json.put("room_password", "12345");
 
-        when(chatroomEntitesService.validateRoomnameExistance("tech")).thenReturn(false);
+        when(chatroomEntitesService.validateRoomnameExistance("techa")).thenReturn(false);
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/deleteChatroom")
                 .content(json.toJSONString())
@@ -692,7 +694,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         int status = result.getResponse().getStatus();
         Assert.assertNotNull(content);
 
-        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("tech");
+        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("techa");
         verify(chatroomEntitesService, times(0)).getRoomByName(anyString());
         verify(userService, times(0)).getUserByUsername(anyString());
         verify(userService, times(0)).getUserById(anyLong());
@@ -972,7 +974,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         json.put("expiration_date",date.getTime());
         
         when(userService.checkUsername("userr")).thenReturn(true);
-        when(chatroomEntitesService.validateRoomnameExistance("room")).thenReturn(true);
+        when(chatroomEntitesService.validateRoomnameExistance("rooom")).thenReturn(true);
         when(chatroomEntitesService.getRoomByName("rooom")).thenReturn(new ChatroomEntities(10L,1L,"rooom"));
         when(userService.getUserByUsername("userr")).thenReturn(new User(1L,"userr","12345",true,true));
         when(chatroomBlacklistService.findByRoomIDAndRoomMember(10L,1L)).thenReturn(null); //current ban's date
@@ -2004,10 +2006,9 @@ public class ChatroomControllerTest extends AbstractControllerTest {
 
         Assert.assertEquals("failure - expected HTTP status to be '422'", 422, status);
         
-        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.BAD_COORDINATES.getData() + "'",
-                    content.equals(Responses.BAD_COORDINATES.getData()));
-        
-        ChatroomCreationDTO.cleanValidator();
+        Assert.assertEquals("failure - expected HTTP response body to be '" + Responses.BAD_COORDINATES.getData() + "'",
+                    content,Responses.BAD_COORDINATES.getData());
+        ChatroomLocationDTO.cleanValidator();
     }
      
     @Test
@@ -2039,8 +2040,10 @@ public class ChatroomControllerTest extends AbstractControllerTest {
 
         Assert.assertEquals("failure - expected HTTP status to be '406'", 406, status);
         
-        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
-                    content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+        Assert.assertEquals("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
+                content,Responses.STRING_INAPPROPRIATE_FORMAT.getData());
+        
+        ChatroomCheckInsideDTO.cleanValidator();
     }
     
      @Test
@@ -2060,7 +2063,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         json.put("method","ADD");
         json.put("member_name","CorrectUserName");
         json.put("room_name","@CorrectRoomName");
-        json.put("password","A");
+        json.put("password","Aaaaa");
         json.put("lat","1");
         json.put("lng","1");
 
@@ -2076,6 +2079,8 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
                     content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+        
+        ChatroomMemberDTO.cleanValidator();
     }
     
      @Test
@@ -2108,6 +2113,8 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
                     content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+        
+        ChatroomDeleteDTO.cleanValidator();
     }
     
      @Test
@@ -2128,7 +2135,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         date.setTime(date.getTime()+3600000);
         
         json.put("room_name","@room");
-        json.put("member_name","user");
+        json.put("member_name","userrr");
         json.put("expiration_date",date.getTime());
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/banFromChatroom")
@@ -2143,6 +2150,8 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
                     content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+        
+        ChatroomBlacklistDTO.cleanValidator();
     }
     
      @Test
@@ -2181,6 +2190,8 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
                     content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+        
+        ChatroomCreationDTO.cleanValidator();
     }
     
     @Test
@@ -2213,6 +2224,8 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
                     content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+        
+        ChatroomWhitelistDTO.cleanValidator();
     }
     
     @Test
@@ -2244,6 +2257,8 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
                     content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+        
+        ChatroomQuitMemberDTO.cleanValidator();
     }
     
      @Test
@@ -2280,6 +2295,8 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
                     content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+        
+        ChatroomUpdateDTO.cleanValidator();
     }
     
      @Test
@@ -2312,6 +2329,8 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
                     content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+        
+        ChatroomLocationUpdateDTO.cleanValidator();
     }
     
     @Test

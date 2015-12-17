@@ -22,7 +22,7 @@ public class IncludeInListValidator extends StringValidator implements IStringVa
     private final List<String> LIST;
     public IncludeInListValidator(List<String> list)
     {
-        super(new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE),"IncludeInListValidator");
+        super(new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(), HttpStatus.NOT_ACCEPTABLE),"IncludeInListValidator");
         this.LIST = list;
     }
 

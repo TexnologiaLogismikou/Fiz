@@ -19,7 +19,7 @@ import org.springframework.http.ResponseEntity;
  */
 public class LongitudeValidator extends FloatValidator implements IFloatValidator{
     public LongitudeValidator() {
-        super( new ResponseEntity<>(Responses.BAD_COORDINATES,HttpStatus.UNPROCESSABLE_ENTITY), "LongitudeValidator");
+        super( new ResponseEntity<>(Responses.BAD_COORDINATES.getData(),HttpStatus.UNPROCESSABLE_ENTITY), "LongitudeValidator");
     }    
     
     @Override

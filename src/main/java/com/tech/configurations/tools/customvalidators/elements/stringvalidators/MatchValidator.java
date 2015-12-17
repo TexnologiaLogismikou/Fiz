@@ -24,7 +24,7 @@ public class MatchValidator extends StringValidator implements IStringValidator{
     private Matcher m;
     
     public MatchValidator(String p) {
-        super(new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE),"MatchValidator");
+        super(new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(), HttpStatus.NOT_ACCEPTABLE),"MatchValidator");
         this.P = Pattern.compile(p);
     }
     

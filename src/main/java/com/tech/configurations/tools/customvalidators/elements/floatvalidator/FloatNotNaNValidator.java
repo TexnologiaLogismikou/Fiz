@@ -19,7 +19,7 @@ import org.springframework.http.ResponseEntity;
  */
 public class FloatNotNaNValidator extends FloatValidator implements IFloatValidator{
     public FloatNotNaNValidator() {
-        super( new ResponseEntity<>(Responses.BAD_COORDINATES,HttpStatus.UNPROCESSABLE_ENTITY) , "FloatNotNaNValidator");
+        super( new ResponseEntity<>(Responses.BAD_COORDINATES.getData(),HttpStatus.UNPROCESSABLE_ENTITY) , "FloatNotNaNValidator");
     }    
     
     @Override
