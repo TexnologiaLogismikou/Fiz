@@ -8,7 +8,7 @@ package com.tech.controllers;
 import com.tech.AbstractControllerTest;
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.Validator;
-import com.tech.models.dtos.UserResponseDTO;
+import com.tech.models.dtos.responses.UserResponseDTO;
 import com.tech.models.dtos.user.UserDTO;
 import com.tech.models.entities.user.User;
 import com.tech.models.entities.user.UserInfo;

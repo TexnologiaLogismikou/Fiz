@@ -7,11 +7,9 @@ package com.tech.models.dtos;
 
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.ValidationScopes;
-import com.tech.configurations.tools.customvalidators.elements.EmptyFloatValidator;
 import com.tech.configurations.tools.customvalidators.elements.EmptyNumberValidator;
 import com.tech.configurations.tools.customvalidators.elements.EmptyStringValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.ICustomValidator;
-import com.tech.configurations.tools.customvalidators.interfaces.IFloatValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.INumberValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.IStringValidator;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;

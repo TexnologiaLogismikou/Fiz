@@ -12,7 +12,7 @@ import com.tech.configurations.tools.customvalidators.elements.floatvalidator.La
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotMatchValidator;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
-import com.tech.models.dtos.AvailableChatroomResponseDTO;
+import com.tech.models.dtos.responses.AvailableChatroomResponseDTO;
 import com.tech.models.dtos.chatroom.ChatroomBlacklistDTO;
 import com.tech.models.dtos.chatroom.ChatroomCheckInsideDTO;
 import com.tech.models.dtos.chatroom.ChatroomCreationDTO;

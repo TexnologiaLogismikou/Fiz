@@ -108,5 +108,57 @@ public class ChatroomUpdateDTOTest {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(json, clazz);
     }
+
+    @Test
+    public void testCleanValidator() {
+    }
+
+    @Test
+    public void testRegisterValidator() throws Exception {
+    }
+
+    @Test
+    public void testGetValidatorList() throws Exception {
+    }
+
+    @Test
+    public void testRemoveValidator() throws Exception {
+    }
+
+    @Test
+    public void testValidate() {
+    }
+
+    @Test
+    public void testGetDTOName() {
+    }
+
+    @Test
+    public void testGetRoom_name() {
+    }
+
+    @Test
+    public void testGetNew_room_name() {
+    }
+
+    @Test
+    public void testGetRoom_privilege() {
+    }
+
+    @Test
+    public void testGetAccess_method() {
+    }
+
+    @Test
+    public void testGetPassword() {
+    }
+
+    @Test
+    public void testGetMax_range() {
+    }
+
+    @Test
+    public void testIsPasswordProtection() {
+    }
     
 }
