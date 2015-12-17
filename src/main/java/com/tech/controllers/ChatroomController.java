@@ -142,7 +142,7 @@ public class ChatroomController extends BaseController{
             return response.getRight();
         }
         
-        if(!newMember.getMethod().equals("ADD")){
+        if(!newMember.getMode().equals("ADD")){
             return new ResponseEntity<>(Responses.ACCESS_METHOD_NOT_FOUND.getData(),HttpStatus.BAD_REQUEST);
         }
         

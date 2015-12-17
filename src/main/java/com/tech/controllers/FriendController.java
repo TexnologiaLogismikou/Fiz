@@ -8,7 +8,6 @@ package com.tech.controllers;
 import com.tech.configurations.tools.Host;
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
-import com.tech.configurations.tools.Validator;
 import com.tech.models.dtos.FriendDTO;
 import com.tech.controllers.superclass.BaseController;
 import com.tech.models.entities.Friend;

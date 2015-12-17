@@ -31,7 +31,7 @@ public class ChatroomConnectionMemberDTO extends BaseDTO {
 
     private static final List<IStringValidator> MEMBERNAME_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
     private static final List<IStringValidator> ROOM_NAME_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
-    private static final List<IStringValidator> ACCESS_METHOD_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
+    private static final List<IStringValidator> MODE_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
     private static final List<IStringValidator> PASSWORD_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
     private static final List<IFloatValidator> LAT_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyFloatValidator()));
     private static final List<IFloatValidator> LNG_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyFloatValidator()));
@@ -51,14 +51,14 @@ public class ChatroomConnectionMemberDTO extends BaseDTO {
     public static void cleanValidator() {
         MEMBERNAME_VALIDATORS.clear();
         ROOM_NAME_VALIDATORS.clear();
-        ACCESS_METHOD_VALIDATORS.clear();
+        MODE_VALIDATORS.clear();
         PASSWORD_VALIDATORS.clear();
         LAT_VALIDATORS.clear();
         LNG_VALIDATORS.clear();
 
         MEMBERNAME_VALIDATORS.add(new EmptyStringValidator());
         ROOM_NAME_VALIDATORS.add(new EmptyStringValidator());
-        ACCESS_METHOD_VALIDATORS.add(new EmptyStringValidator());
+        MODE_VALIDATORS.add(new EmptyStringValidator());
         PASSWORD_VALIDATORS.add(new EmptyStringValidator());
         LAT_VALIDATORS.add(new EmptyFloatValidator());
         LNG_VALIDATORS.add(new EmptyFloatValidator());
@@ -88,8 +88,8 @@ public class ChatroomConnectionMemberDTO extends BaseDTO {
                     list.add(i + ": " + vLookUp.getName());
                 }
                 return list;
-            case ROOM_ACCESS_METHOD:
-                for (ICustomValidator vLookUp : ACCESS_METHOD_VALIDATORS) {
+            case MODE:
+                for (ICustomValidator vLookUp : MODE_VALIDATORS) {
                     if (vLookUp.getName().equals("Empty")) {
                         continue;
                     }
@@ -158,10 +158,10 @@ public class ChatroomConnectionMemberDTO extends BaseDTO {
                     return true;
                 }
                 return false;
-            case ROOM_ACCESS_METHOD:
-                if (ACCESS_METHOD_VALIDATORS.get(i) != null) {
-                    ACCESS_METHOD_VALIDATORS.get(i - 1).replaceNext(ACCESS_METHOD_VALIDATORS.get(i).getNext());
-                    ACCESS_METHOD_VALIDATORS.remove(i);
+            case MODE:
+                if (MODE_VALIDATORS.get(i) != null) {
+                    MODE_VALIDATORS.get(i - 1).replaceNext(MODE_VALIDATORS.get(i).getNext());
+                    MODE_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
@@ -197,7 +197,7 @@ public class ChatroomConnectionMemberDTO extends BaseDTO {
             return currentTest;
         }
 
-        currentTest = ACCESS_METHOD_VALIDATORS.get(0).validate(method);
+        currentTest = MODE_VALIDATORS.get(0).validate(mode);
         if (!currentTest.getLeft()) {
             return currentTest;
         }
@@ -228,9 +228,9 @@ public class ChatroomConnectionMemberDTO extends BaseDTO {
                 ROOM_NAME_VALIDATORS.add(newValidator);
                 ROOM_NAME_VALIDATORS.get(0).setNext(newValidator);
                 break;
-            case ROOM_ACCESS_METHOD:
-                ACCESS_METHOD_VALIDATORS.add(newValidator);
-                ACCESS_METHOD_VALIDATORS.get(0).setNext(newValidator);
+            case MODE:
+                MODE_VALIDATORS.add(newValidator);
+                MODE_VALIDATORS.get(0).setNext(newValidator);
                 break;
             case PASSWORD:
                 PASSWORD_VALIDATORS.add(newValidator);
@@ -264,7 +264,7 @@ public class ChatroomConnectionMemberDTO extends BaseDTO {
     private String room_name;
     private String member_name;
     private String password;
-    private String method;  //update,delete,add
+    private String mode;  //update,delete,add
     private float lat;
     private float lng;
 
@@ -281,8 +281,8 @@ public class ChatroomConnectionMemberDTO extends BaseDTO {
         return member_name;
     }
 
-    public String getMethod() {
-        return method;
+    public String getMode() {
+        return mode;
     }
 
     public String getPassword() {

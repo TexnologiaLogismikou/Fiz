@@ -116,20 +116,24 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     public void testHandleNewChatroomUsernameDoesNotExist() throws Exception {
 
         String uri = this.uri+"/newChatroom";
+        
         json.put("username","user");
         json.put("room_name","room");
-        json.put("room_privilege","all");
-        json.put("access_method","abc");
-        json.put("room_lat",200.5);
-        json.put("room_lng",100.5);
+        json.put("room_privilege","PUBLIC");
+        json.put("access_method","blacklist");
+        json.put("room_lat",80.5);
+        json.put("room_lng",60.5);
         json.put("room_max_range",50);
         json.put("hasPassword",false);
-        json.put("password","");
-        when(userService.checkUsername("abc")).thenReturn(false);
+        json.put("password","nopass");
+        
+        when(userService.checkUsername("user")).thenReturn(false);
+        
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri)
                 .content(json.toJSONString())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
+        
         String content = result.getResponse().getContentAsString();
         int status = result.getResponse().getStatus();
 
@@ -141,15 +145,16 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     public void testHandleNewChatroomRoomNameExistsExist() throws Exception {
 
         String uri = this.uri+"/newChatroom";
+        
         json.put("username","user");
         json.put("room_name","room");
-        json.put("room_privilege","all");
-        json.put("access_method","abc");
-        json.put("room_lat",200.5);
-        json.put("room_lng",100.5);
+        json.put("room_privilege","PUBLIC");
+        json.put("access_method","blacklist");
+        json.put("room_lat",80.5);
+        json.put("room_lng",60.5);
         json.put("room_max_range",50);
         json.put("hasPassword",false);
-        json.put("password","");
+        json.put("password","nopass");
 
         when(userService.checkUsername((String)json.get("username"))).thenReturn(true);
         when(chatroomEntitesService.validateRoomnameExistance((String)json.get("room_name"))).thenReturn(true);
@@ -169,17 +174,18 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     public void testHandleNewChatroomUserHasRoomAlready() throws Exception {
 
         String uri = this.uri+"/newChatroom";
+        
         json.put("username","user");
         json.put("room_name","room");
-        json.put("room_privilege","all");
-        json.put("access_method","abc");
-        json.put("room_lat",200.5);
-        json.put("room_lng",100.5);
+        json.put("room_privilege","PUBLIC");
+        json.put("access_method","blacklist");
+        json.put("room_lat",80.5);
+        json.put("room_lng",60.5);
         json.put("room_max_range",50);
         json.put("hasPassword",false);
-        json.put("password","");
-
-        User user = new User(1L,(String)json.get("username"),"123",true,true);
+        json.put("password","nopass");
+        
+        User user = new User(1L,(String)json.get("username"),"12345",true,true);
         when(userService.checkUsername((String)json.get("username"))).thenReturn(true);
         when(chatroomEntitesService.validateRoomnameExistance((String)json.get("room_name"))).thenReturn(false);
         when(userService.getUserByUsername((String)json.get("username"))).thenReturn(user);
@@ -200,17 +206,18 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     public void testHandleNewChatroomSuccess() throws Exception {
 
         String uri = this.uri+"/newChatroom";
+        
         json.put("username","user");
         json.put("room_name","room");
-        json.put("room_privilege","all");
-        json.put("access_method","abc");
-        json.put("room_lat",200.5);
-        json.put("room_lng",100.5);
+        json.put("room_privilege","PUBLIC");
+        json.put("access_method","blacklist");
+        json.put("room_lat",80.5);
+        json.put("room_lng",60.5);
         json.put("room_max_range",50);
         json.put("hasPassword",false);
-        json.put("password","");
+        json.put("password","nopass");
 
-        User user = new User(1L,(String)json.get("username"),"123",true,false);
+        User user = new User(1L,(String)json.get("username"),"12345",true,false);
         when(userService.checkUsername((String)json.get("username"))).thenReturn(true);
         when(chatroomEntitesService.validateRoomnameExistance((String)json.get("room_name"))).thenReturn(false);
         when(userService.getUserByUsername((String)json.get("username"))).thenReturn(user);
@@ -228,12 +235,12 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testConnectToChatroomWrongMethod() throws Exception{
-        json.put("method","NOT");
-        json.put("room_name","A");
-        json.put("member_name","A");
-        json.put("password","A");
+        json.put("mode","DELETE");
+        json.put("room_name","Aaaaaa");
+        json.put("member_name","Aaaaa");
+        json.put("password","Aaaaaa");
         json.put("lat","1");
         json.put("lng","1");
 
@@ -253,12 +260,12 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    ////@Sql(scripts = "classpath:populateDB.sql")
     public void testConnectToChatroomWrongMemberName() throws Exception{
-        json.put("method","ADD");
+        json.put("mode","ADD");
         json.put("member_name","wrongUserName");
-        json.put("room_name","A");
-        json.put("password","A");
+        json.put("room_name","Aaaaa");
+        json.put("password","Aaaaaa");
         json.put("lat","1");
         json.put("lng","1");
 
@@ -281,12 +288,12 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testConnectToChatroomWrongRoomName() throws Exception{
-        json.put("method","ADD");
+        json.put("mode","ADD");
         json.put("member_name","CorrectUserName");
         json.put("room_name","WrongRoomName");
-        json.put("password","A");
+        json.put("password","Aaaaaa");
         json.put("lat","1");
         json.put("lng","1");
 
@@ -311,12 +318,12 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testConnectToChatroom() throws Exception{
-        json.put("method","ADD");
+        json.put("mode","ADD");
         json.put("member_name","CorrectUserName");
         json.put("room_name","CorrectRoomName");
-        json.put("password","A");
+        json.put("password","Aaaaaa");
         json.put("lat","1");
         json.put("lng","1");
 
@@ -345,9 +352,9 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testConnectToChatroomNotPasswordInWhitelist() throws Exception{
-        json.put("method","ADD");
+        json.put("mode","ADD");
         json.put("member_name","CorrectUserName");
         json.put("room_name","CorrectRoomName");
         json.put("password","WrongPassword");
@@ -383,9 +390,9 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testConnectToChatroomWrongPasswordInBlacklist() throws Exception{
-        json.put("method","ADD");
+        json.put("mode","ADD");
         json.put("member_name","CorrectUserName");
         json.put("room_name","CorrectRoomName");
         json.put("password","WrongPassword");
@@ -421,9 +428,9 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testConnectToChatroomCorrectPasswordInBlacklist() throws Exception{
-        json.put("method","ADD");
+        json.put("mode","ADD");
         json.put("member_name","CorrectUserName");
         json.put("room_name","CorrectRoomName");
         json.put("password","CorrectPassword");
@@ -460,9 +467,9 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testConnectToChatroomDeleteFromBlacklist() throws Exception{
-        json.put("method","ADD");
+        json.put("mode","ADD");
         json.put("member_name","CorrectUserName");
         json.put("room_name","CorrectRoomName");
         json.put("password","CorrectPassword");
@@ -504,9 +511,9 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testConnectToChatroomCBNullFromBlacklist() throws Exception{
-        json.put("method","ADD");
+        json.put("mode","ADD");
         json.put("member_name","CorrectUserName");
         json.put("room_name","CorrectRoomName");
         json.put("password","CorrectPassword");
@@ -544,7 +551,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testConnectToCWChatroomWhitelist() throws Exception{
         json.put("method","ADD");
         json.put("member_name","CorrectUserName");
@@ -585,7 +592,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testConnectToCWNullChatroomWhitelist() throws Exception{
         json.put("method","ADD");
         json.put("member_name","CorrectUserName");
@@ -626,7 +633,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testConnectToNOCP() throws Exception{
         json.put("method","ADD");
         json.put("member_name","CorrectUserName");
@@ -667,11 +674,11 @@ public class ChatroomControllerTest extends AbstractControllerTest {
 
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testDeleteChatroomNotExist() throws Exception
     {
         json.put("creator_name", "milena");
-        json.put("room_name", "tech");
+        json.put("room_name", "techa");
         json.put("room_password", "12345");
 
         when(chatroomEntitesService.validateRoomnameExistance("tech")).thenReturn(false);
@@ -702,12 +709,12 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testDeleteChatroomMemberDoesntHaveRoom() throws Exception
     {
         json.put("creator_name", "vasilis");
-        json.put("room_name", "hi");
-        json.put("room_password", "");
+        json.put("room_name", "hiiii");
+        json.put("room_password", "nopass");
 
         User user = new User(4L,"vasilis","paok",true,false);
 
@@ -743,15 +750,15 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testDeleteChatroomWrongCreator() throws Exception
     {
         json.put("creator_name", "iwannaFot");
-        json.put("room_name", "first testing room");
+        json.put("room_name", "first_testing_room");
         json.put("room_password", "");
 
-        when(chatroomEntitesService.validateRoomnameExistance("first testing room")).thenReturn(true);
-        when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
+        when(chatroomEntitesService.validateRoomnameExistance("first_testing_room")).thenReturn(true);
+        when(chatroomEntitesService.getRoomByName("first_testing_room")).thenReturn(new ChatroomEntities(1L,1L,"first_testing_room"));
         when(userService.getUserByUsername("iwannaFot")).thenReturn(new User(2L,"iwannaFot","iwanna",true,true));
         when(userService.getUserById(2L)).thenReturn(new User(2L,"iwannaFot","iwanna",true,true));
 
@@ -764,8 +771,8 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         int status = result.getResponse().getStatus();
         Assert.assertNotNull(content);
 
-        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("first testing room");
-        verify(chatroomEntitesService, times(1)).getRoomByName("first testing room");
+        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("first_testing_room");
+        verify(chatroomEntitesService, times(1)).getRoomByName("first_testing_room");
         verify(userService, times(1)).getUserByUsername("iwannaFot");
         verify(userService, times(1)).getUserById(2L);
         verify(chatroomPrivilegesService, times(0)).findByRoomId(anyLong());
@@ -780,15 +787,15 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testDeleteChatroomWrongPassword() throws Exception
     {
         json.put("creator_name", "mixalisMix");
-        json.put("room_name", "third testing room");
+        json.put("room_name", "third_testing_room");
         json.put("room_password", "xaxa");
 
-        when(chatroomEntitesService.validateRoomnameExistance("third testing room")).thenReturn(true);
-        when(chatroomEntitesService.getRoomByName("third testing room")).thenReturn(new ChatroomEntities(3L,3L,"third testing room"));
+        when(chatroomEntitesService.validateRoomnameExistance("third_testing_room")).thenReturn(true);
+        when(chatroomEntitesService.getRoomByName("third_testing_room")).thenReturn(new ChatroomEntities(3L,3L,"third_testing_room"));
         when(userService.getUserByUsername("mixalisMix")).thenReturn(new User(3L,"mixalisMix","mixalis",true,true));
         when(userService.getUserById(3L)).thenReturn(new User(3L,"mixalisMix","mixalis",true,true));
         when(chatroomPrivilegesService.findByRoomId(3L)).thenReturn(new ChatroomPrivileges(3L,"PUBLIC",true,"password","blacklist"));
@@ -803,8 +810,8 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         int status = result.getResponse().getStatus();
         Assert.assertNotNull(content);
 
-        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("third testing room");
-        verify(chatroomEntitesService, times(1)).getRoomByName("third testing room");
+        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("third_testing_room");
+        verify(chatroomEntitesService, times(1)).getRoomByName("third_testing_room");
         verify(userService, times(1)).getUserByUsername("mixalisMix");
         verify(userService, times(1)).getUserById(3L);
         verify(chatroomPrivilegesService, times(1)).findByRoomId(3L);
@@ -819,17 +826,17 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testDeleteChatroom() throws Exception
     {
         json.put("creator_name", "mixalisMix");
-        json.put("room_name", "third testing room");
+        json.put("room_name", "third_testing_room");
         json.put("room_password", "password");
 
-        ChatroomEntities CE = new ChatroomEntities(3L,3L,"third testing room");
+        ChatroomEntities CE = new ChatroomEntities(3L,3L,"third_testing_room");
 
-        when(chatroomEntitesService.validateRoomnameExistance("third testing room")).thenReturn(true);
-        when(chatroomEntitesService.getRoomByName("third testing room")).thenReturn(CE);
+        when(chatroomEntitesService.validateRoomnameExistance("third_testing_room")).thenReturn(true);
+        when(chatroomEntitesService.getRoomByName("third_testing_room")).thenReturn(CE);
         when(userService.getUserByUsername("mixalisMix")).thenReturn(new User(3L,"mixalisMix","mixalis",true,true));
         when(userService.getUserById(3L)).thenReturn(new User(3L,"mixalisMix","mixalis",true,true));
         when(chatroomPrivilegesService.findByRoomId(3L)).thenReturn(new ChatroomPrivileges(3L,"PUBLIC",true,"password","blacklist"));
@@ -845,8 +852,8 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         int status = result.getResponse().getStatus();
         Assert.assertNotNull(content);
 
-        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("third testing room");
-        verify(chatroomEntitesService, times(1)).getRoomByName("third testing room");
+        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("third_testing_room");
+        verify(chatroomEntitesService, times(1)).getRoomByName("third_testing_room");
         verify(userService, times(1)).getUserByUsername("mixalisMix");
         verify(userService, times(1)).getUserById(3L);
         verify(chatroomPrivilegesService, times(1)).findByRoomId(3L);
@@ -866,10 +873,10 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         String uri = this.uri+"/banFromChatroom";
         Date date = new Date();
         date.setTime(date.getTime()+3600000); //1 hour
-        json.put("room_name","room");
-        json.put("member_name","user");
+        json.put("room_name","rooom");
+        json.put("member_name","userr");
         json.put("expiration_date",date.getTime()); //string constructor for Java.util.Date is deprecated
-        when(userService.checkUsername("user")).thenReturn(false);
+        when(userService.checkUsername("userr")).thenReturn(false);
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri)
                 .content(json.toJSONString())
@@ -887,11 +894,11 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         String uri = this.uri+"/banFromChatroom";
         Date date = new Date();
         date.setTime(date.getTime()+3600000);
-        json.put("room_name","room");
-        json.put("member_name","user");
+        json.put("room_name","rooom");
+        json.put("member_name","userr");
         json.put("expiration_date",date.getTime());
-        when(userService.checkUsername("user")).thenReturn(true);
-        when(chatroomEntitesService.validateRoomnameExistance("room")).thenReturn(false);
+        when(userService.checkUsername("userr")).thenReturn(true);
+        when(chatroomEntitesService.validateRoomnameExistance("rooom")).thenReturn(false);
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri)
                 .content(json.toJSONString())
@@ -909,13 +916,13 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         String uri = this.uri+"/banFromChatroom";
         Date date = new Date();
         date.setTime(date.getTime()-3600000);
-        json.put("room_name","room");
-        json.put("member_name","user");
+        json.put("room_name","rooom");
+        json.put("member_name","userr");
         json.put("expiration_date",date.getTime());
-        when(userService.checkUsername("user")).thenReturn(true);
+        when(userService.checkUsername("userr")).thenReturn(true);
         when(chatroomEntitesService.validateRoomnameExistance("room")).thenReturn(true);
-        when(chatroomEntitesService.getRoomByName("room")).thenReturn(new ChatroomEntities(10L,1L,"room"));
-        when(userService.getUserByUsername("user")).thenReturn(new User(1L,"user","123",true,true));
+        when(chatroomEntitesService.getRoomByName("rooom")).thenReturn(new ChatroomEntities(10L,1L,"rooom"));
+        when(userService.getUserByUsername("userr")).thenReturn(new User(1L,"userr","12345",true,true));
         when(chatroomBlacklistService.findByRoomIDAndRoomMember(10L,1L)).thenReturn(new ChatroomBlacklist(10L,1L,date)); //expired date
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri)
@@ -934,13 +941,13 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         String uri = this.uri+"/banFromChatroom";
         Date date = new Date(); //new ban date
         date.setTime(date.getTime()+3600000);
-        json.put("room_name","room");
-        json.put("member_name","user");
+        json.put("room_name","rooom");
+        json.put("member_name","userr");
         json.put("expiration_date",date.getTime());
-        when(userService.checkUsername("user")).thenReturn(true);
-        when(chatroomEntitesService.validateRoomnameExistance("room")).thenReturn(true);
-        when(chatroomEntitesService.getRoomByName("room")).thenReturn(new ChatroomEntities(10L,1L,"room"));
-        when(userService.getUserByUsername("user")).thenReturn(new User(1L,"user","123",true,true));
+        when(userService.checkUsername("userr")).thenReturn(true);
+        when(chatroomEntitesService.validateRoomnameExistance("rooom")).thenReturn(true);
+        when(chatroomEntitesService.getRoomByName("rooom")).thenReturn(new ChatroomEntities(10L,1L,"rooom"));
+        when(userService.getUserByUsername("userr")).thenReturn(new User(1L,"userr","12345",true,true));
         when(chatroomBlacklistService.findByRoomIDAndRoomMember(10L,1L)).thenReturn(new ChatroomBlacklist(10L,1L,new Date())); //current ban's date
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri)
@@ -960,14 +967,14 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         Date date = new Date(); //new ban date
         date.setTime(date.getTime()+3600000);
         
-        json.put("room_name","room");
-        json.put("member_name","user");
+        json.put("room_name","rooom");
+        json.put("member_name","userr");
         json.put("expiration_date",date.getTime());
         
-        when(userService.checkUsername("user")).thenReturn(true);
+        when(userService.checkUsername("userr")).thenReturn(true);
         when(chatroomEntitesService.validateRoomnameExistance("room")).thenReturn(true);
-        when(chatroomEntitesService.getRoomByName("room")).thenReturn(new ChatroomEntities(10L,1L,"room"));
-        when(userService.getUserByUsername("user")).thenReturn(new User(1L,"user","123",true,true));
+        when(chatroomEntitesService.getRoomByName("rooom")).thenReturn(new ChatroomEntities(10L,1L,"rooom"));
+        when(userService.getUserByUsername("userr")).thenReturn(new User(1L,"userr","12345",true,true));
         when(chatroomBlacklistService.findByRoomIDAndRoomMember(10L,1L)).thenReturn(null); //current ban's date
         doNothing().when(chatroomBlacklistService).add(any(ChatroomBlacklist.class));
 
@@ -985,7 +992,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     @Test
     public void testHandleWhitelistNoName() throws Exception {
         String uri = this.uri + "/handleWhitelist";
-        json.put("room_name", "Room");
+        json.put("room_name", "Rooom");
         json.put("member_name", "Member");
         json.put("mode", "ADD");
 
@@ -1214,16 +1221,16 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testRemoveMember_Ok() throws Exception
     {
-        json.put("room_name","first testing room");
+        json.put("room_name","first_testing_room");
         json.put("member_name","milenaAz");
         json.put("password","");
         json.put("method","DELETE");
 
         when(userService.checkUsername("milenaAz")).thenReturn(true);
-        when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
+        when(chatroomEntitesService.getRoomByName("first_testing_room")).thenReturn(new ChatroomEntities(1L,1L,"first_testing_room"));
         when(userService.getUserByUsername("milenaAz")).thenReturn(new User(1L,"milenaAz","milena",true,true));
         when(chatroomPrivilegesService.findByRoomId(1L)).thenReturn(new ChatroomPrivileges(1L,"PUBLIC",false,null,"whitelist"));
         when(chatroomMembersService.checkIfMemberExistsInChatroom(1L,1L)).thenReturn(true);
@@ -1250,7 +1257,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testRemoveMember_ValidationFail() throws Exception
     {     
         try 
@@ -1263,7 +1270,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
             Assert.fail("something went wrong while registering");
         }
         
-        json.put("room_name","@first testing room");
+        json.put("room_name","@first_testing_room");
         json.put("member_name","milenaAz");
         json.put("password","");
         json.put("method","ADD"); // 'ADD' Method is WRONG
@@ -1285,10 +1292,10 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testRemoveMember_WrongMethod() throws Exception
     {
-        json.put("room_name","first testing room");
+        json.put("room_name","first_testing_room");
         json.put("member_name","milenaAz");
         json.put("password","");
         json.put("method","ADD"); // 'ADD' Method is WRONG
@@ -1308,10 +1315,10 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testRemoveMember_UnavailableUsername() throws Exception
     {
-        json.put("room_name","first testing room");
+        json.put("room_name","first_testing_room");
         json.put("member_name","Arxa"); // 'Arxa' does not exist
         json.put("password","");
         json.put("method","DELETE");
@@ -1333,7 +1340,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testRemoveMember_NoRoomName() throws Exception
     {
         json.put("room_name","fourth testing room"); // 'fourth testing room' does not exist
@@ -1361,16 +1368,16 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testRemoveMember_MemberDoesNotExistInChatroom() throws Exception
     {
-        json.put("room_name","first testing room");
+        json.put("room_name","first_testing_room");
         json.put("member_name","milenaAz");
         json.put("password","");
         json.put("method","DELETE");
 
         when(userService.checkUsername("milenaAz")).thenReturn(true);
-        when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
+        when(chatroomEntitesService.getRoomByName("first_testing_room")).thenReturn(new ChatroomEntities(1L,1L,"first_testing_room"));
         when(userService.getUserByUsername("milenaAz")).thenReturn(new User(1L,"milenaAz","milena",true,true));
         when(chatroomPrivilegesService.findByRoomId(1L)).thenReturn(new ChatroomPrivileges(1L,"PUBLIC",false,null,"whitelist"));
 
@@ -1397,16 +1404,16 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testRemoveMember_PasswordAuthorizationFail() throws Exception
     {
-        json.put("room_name","first testing room");
+        json.put("room_name","first_testing_room");
         json.put("member_name","milenaAz");
         json.put("password","wrong_password");
         json.put("method","DELETE");
 
         when(userService.checkUsername("milenaAz")).thenReturn(true);
-        when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
+        when(chatroomEntitesService.getRoomByName("first_testing_room")).thenReturn(new ChatroomEntities(1L,1L,"first_testing_room"));
         when(userService.getUserByUsername("milenaAz")).thenReturn(new User(1L,"milenaAz","milena",true,true));
         when(chatroomPrivilegesService.findByRoomId(1L)).thenReturn(new ChatroomPrivileges(3L,"PUBLIC",true,"password","blacklist"));
         when(chatroomMembersService.checkIfMemberExistsInChatroom(1L,1L)).thenReturn(true);
@@ -1432,16 +1439,16 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testRemoveMember_PasswordAuthorizationOk() throws Exception
     {
-        json.put("room_name","first testing room");
+        json.put("room_name","first_testing_room");
         json.put("member_name","milenaAz");
         json.put("password","password");
         json.put("method","DELETE");
 
         when(userService.checkUsername("milenaAz")).thenReturn(true);
-        when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
+        when(chatroomEntitesService.getRoomByName("first_testing_room")).thenReturn(new ChatroomEntities(1L,1L,"first_testing_room"));
         when(userService.getUserByUsername("milenaAz")).thenReturn(new User(1L,"milenaAz","milena",true,true));
         when(chatroomPrivilegesService.findByRoomId(1L)).thenReturn(new ChatroomPrivileges(3L,"PUBLIC",true,"password","blacklist"));
         when(chatroomMembersService.checkIfMemberExistsInChatroom(1L,1L)).thenReturn(true);
@@ -1467,7 +1474,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testUpdateChatroomRoomNotExist() throws Exception
     {
         json.put("room_name", "hi");
@@ -1503,10 +1510,10 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testUpdateChatroom() throws Exception
     {
-        json.put("room_name", "first testing room");
+        json.put("room_name", "first_testing_room");
         json.put("new_room_name", "hi");
         json.put("room_privilege", "PUBLIC");
         json.put("access_method", "whitelist");
@@ -1514,8 +1521,8 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         json.put("password", "123");
         json.put("max_range", "5");
 
-        when(chatroomEntitesService.validateRoomnameExistance("first testing room")).thenReturn(true);
-        when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
+        when(chatroomEntitesService.validateRoomnameExistance("first_testing_room")).thenReturn(true);
+        when(chatroomEntitesService.getRoomByName("first_testing_room")).thenReturn(new ChatroomEntities(1L,1L,"first_testing_room"));
         doNothing().when(chatroomEntitesService).setChatroomEntities("hi",1L);
         doNothing().when(chatroomPrivilegesService).setChatroomPrivileges("PUBLIC",true,"123","whitelist",1L);
         doNothing().when(chatroomLocationService).setNewMaxRange(5,1L);
@@ -1529,8 +1536,8 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         int status = result.getResponse().getStatus();
         Assert.assertNotNull(content);
 
-        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("first testing room");
-        verify(chatroomEntitesService, times(1)).getRoomByName("first testing room");
+        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("first_testing_room");
+        verify(chatroomEntitesService, times(1)).getRoomByName("first_testing_room");
         verify(chatroomEntitesService, times(1)).setChatroomEntities("hi",1L);
         verify(chatroomPrivilegesService, times(1)).setChatroomPrivileges("PUBLIC",true,"123","whitelist",1L); //why not true?
         verify(chatroomLocationService, times(1)).setNewMaxRange(5,1L);
@@ -1543,7 +1550,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testUpdateLocationRoomNameNotExist() throws Exception
     {
         json.put("lng", "6.7");
@@ -1573,7 +1580,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testQuitChatroomUserExistance() throws Exception{
         json.put("room_name", "bill");
         json.put("user_name","vasilis");
@@ -1603,7 +1610,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testQuitChatroomCheckUsername() throws Exception{
         json.put("room_name", "bill");
         json.put("user_name","vasilis");
@@ -1633,15 +1640,15 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testQuitChatroomMembersService() throws Exception{
-        json.put("room_name", "first testing room");
+        json.put("room_name", "first_testing_room");
         json.put("user_name","mixalisMix");
 
 
-        when(chatroomEntitesService.validateRoomnameExistance("first testing room")).thenReturn(true);
+        when(chatroomEntitesService.validateRoomnameExistance("first_testing_room")).thenReturn(true);
         when(userService.checkUsername("mixalisMix")).thenReturn(true);
-        when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
+        when(chatroomEntitesService.getRoomByName("first_testing_room")).thenReturn(new ChatroomEntities(1L,1L,"first_testing_room"));
         when(userService.getUserByUsername("mixalisMix")).thenReturn(new User (3L,"mixalisMix","mixalis",true,true));
         when(chatroomMembersService.checkIfMemberExistsInChatroom(3L,1L)).thenReturn(false);
 
@@ -1654,9 +1661,9 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         int status = result.getResponse().getStatus();
         Assert.assertNotNull(content);
 
-        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("first testing room");
+        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("first_testing_room");
         verify(userService, times(1)).checkUsername("mixalisMix");
-        verify(chatroomEntitesService, times(1)).getRoomByName("first testing room");
+        verify(chatroomEntitesService, times(1)).getRoomByName("first_testing_room");
         verify(userService, times(1)).getUserByUsername("mixalisMix");
         verify(chatroomMembersService, times(1)).checkIfMemberExistsInChatroom(3L,1L);
         //verify(chatroomMembersService, times(0)).delete(CM);
@@ -1668,15 +1675,15 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testQuitChatroom() throws Exception{
-        json.put("room_name", "first testing room");
+        json.put("room_name", "first_testing_room");
         json.put("user_name","milenaAz");
 
 
-        when(chatroomEntitesService.validateRoomnameExistance("first testing room")).thenReturn(true);
+        when(chatroomEntitesService.validateRoomnameExistance("first_testing_room")).thenReturn(true);
         when(userService.checkUsername("milenaAz")).thenReturn(true);
-        when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
+        when(chatroomEntitesService.getRoomByName("first_testing_room")).thenReturn(new ChatroomEntities(1L,1L,"first_testing_room"));
         when(userService.getUserByUsername("milenaAz")).thenReturn(new User (2L,"milenaAz","milena",true,true));
         when(chatroomMembersService.checkIfMemberExistsInChatroom(2L,1L)).thenReturn(true);
 
@@ -1689,9 +1696,9 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         int status = result.getResponse().getStatus();
         Assert.assertNotNull(content);
 
-        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("first testing room");
+        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("first_testing_room");
         verify(userService, times(1)).checkUsername("milenaAz");
-        verify(chatroomEntitesService, times(1)).getRoomByName("first testing room");
+        verify(chatroomEntitesService, times(1)).getRoomByName("first_testing_room");
         verify(userService, times(1)).getUserByUsername("milenaAz");
         verify(chatroomMembersService, times(1)).checkIfMemberExistsInChatroom(2L,1L);
         //verify(chatroomMembersService, times(0)).delete(CM);
@@ -1703,7 +1710,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testAvailableChatroomsSizeOK() throws Exception{
 
         json.put("lng", 50);
@@ -1728,7 +1735,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testAvailableChatroomLocation() throws Exception{
 
         //{"size":2,"list":[{"room_name1":"chatroom","room_name2":"chatroom2"}],"error":"no errors"};
@@ -1772,15 +1779,15 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testUpdateLocation() throws Exception
     {
         json.put("lng", "6.7"); // not sure about this
         json.put("lat", "5.6");
-        json.put("room_name", "first testing room");
+        json.put("room_name", "first_testing_room");
 
-        when(chatroomEntitesService.validateRoomnameExistance("first testing room")).thenReturn(true);
-        when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
+        when(chatroomEntitesService.validateRoomnameExistance("first_testing_room")).thenReturn(true);
+        when(chatroomEntitesService.getRoomByName("first_testing_room")).thenReturn(new ChatroomEntities(1L,1L,"first_testing_room"));
         doNothing().when(chatroomLocationService).setNewLngLat(67,56,1L);
 
 
@@ -1793,8 +1800,8 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         int status = result.getResponse().getStatus();
         Assert.assertNotNull(content);
 
-        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("first testing room");
-        verify(chatroomEntitesService, times(1)).getRoomByName("first testing room");
+        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("first_testing_room");
+        verify(chatroomEntitesService, times(1)).getRoomByName("first_testing_room");
         verify(chatroomLocationService, times(1)).setNewLngLat(6.7f,5.6f,1L);
 
         Assert.assertEquals("failure - expected HTTP response OK",
@@ -1805,7 +1812,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testCheckIfStillInside() throws Exception {
         json.put("lng" , 23.7629689);
         json.put("lat" , 37.9837928);
@@ -1833,7 +1840,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testCheckIfStillInsideNotConnected() throws Exception {
         json.put("lng" , 23.7629689);
         json.put("lat" , 37.9837928);
@@ -1861,7 +1868,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testCheckIfStillInsideOutside() throws Exception {
         json.put("lng" , 23.7629689);
         json.put("lat" , 37.9837928);
@@ -1889,7 +1896,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testCheckIfStillInsideOutside2() throws Exception {
         json.put("lng" , 23.7629689);
         json.put("lat" , 37.9837928);
@@ -1919,7 +1926,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testCheckIfStillInsideNoRoom() throws Exception {
         json.put("lng" , 23.7629689);
         json.put("lat" , 37.9837928);
@@ -1945,7 +1952,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testCheckIfStillInsideNoName() throws Exception {
         json.put("lng" , 23.7629689);
         json.put("lat" , 37.9837928);
@@ -1971,7 +1978,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testAvailableChatrooms_ValidationFail() throws Exception
     {     
         try 
@@ -2004,7 +2011,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
      
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testCheckIfStillInside_ValidationFail() throws Exception
     {     
         try 
@@ -2037,7 +2044,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
     
      @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testConnectToChatroom_ValidationFail() throws Exception
     {     
         try 
@@ -2072,7 +2079,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
     
      @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testDeleteChatroom_ValidationFail() throws Exception
     {     
         try 
@@ -2086,7 +2093,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         }
                 
         json.put("creator_name", "mixalisMix");
-        json.put("room_name", "@third testing room");
+        json.put("room_name", "@third_testing_room");
         json.put("room_password", "password");
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/deleteChatroom")
@@ -2104,7 +2111,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
     
      @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testHandleBans_ValidationFail() throws Exception
     {     
         try 
@@ -2139,7 +2146,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
     
      @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testHandleNewChatroom_ValidationFail() throws Exception
     {     
         try 
@@ -2177,7 +2184,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testHandleWhitelist_ValidationFail() throws Exception
     {     
         try 
@@ -2209,7 +2216,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testQuitChatroom_ValidationFail() throws Exception
     {     
         try 
@@ -2222,7 +2229,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
             Assert.fail("something went wrong while registering");
         }        
         
-        json.put("room_name", "@first testing room");
+        json.put("room_name", "@first_testing_room");
         json.put("user_name", "milenaAz");
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/quitChatroom")
@@ -2240,7 +2247,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
     
      @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testUpdateChatroom_ValidationFail() throws Exception
     {     
         try 
@@ -2253,7 +2260,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
             Assert.fail("something went wrong while registering");
         }
                 
-        json.put("room_name", "@first testing room");
+        json.put("room_name", "@first_testing_room");
         json.put("new_room_name", "hi");
         json.put("room_privilege", "PUBLIC");
         json.put("access_method", "whitelist");
@@ -2276,7 +2283,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
     
      @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testUpdateLocation_ValidationFail() throws Exception
     {     
         try 
@@ -2291,7 +2298,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         
         json.put("lng", "6.7"); // not sure about this
         json.put("lat", "5.6");
-        json.put("room_name", "@first testing room");
+        json.put("room_name", "@first_testing_room");
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/updateChatroomLocation")
                 .content(json.toString())
@@ -2308,15 +2315,15 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     }
     
     @Test
-    @Sql(scripts = "classpath:populateDB.sql")
+    //@Sql(scripts = "classpath:populateDB.sql")
     public void testQuitChatroomAdminQuiting() throws Exception{
-        json.put("room_name", "first testing room");
+        json.put("room_name", "first_testing_room");
         json.put("user_name","milenaAz");
 
 
-        when(chatroomEntitesService.validateRoomnameExistance("first testing room")).thenReturn(true);
+        when(chatroomEntitesService.validateRoomnameExistance("first_testing_room")).thenReturn(true);
         when(userService.checkUsername("milenaAz")).thenReturn(true);
-        when(chatroomEntitesService.getRoomByName("first testing room")).thenReturn(new ChatroomEntities(1L,1L,"first testing room"));
+        when(chatroomEntitesService.getRoomByName("first_testing_room")).thenReturn(new ChatroomEntities(1L,1L,"first_testing_room"));
         when(userService.getUserByUsername("milenaAz")).thenReturn(new User (1L,"milenaAz","milena",true,true));
         when(chatroomMembersService.checkIfMemberExistsInChatroom(1L,1L)).thenReturn(true);
 
@@ -2329,9 +2336,9 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         int status = result.getResponse().getStatus();
         Assert.assertNotNull(content);
 
-        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("first testing room");
+        verify(chatroomEntitesService, times(1)).validateRoomnameExistance("first_testing_room");
         verify(userService, times(1)).checkUsername("milenaAz");
-        verify(chatroomEntitesService, times(1)).getRoomByName("first testing room");
+        verify(chatroomEntitesService, times(1)).getRoomByName("first_testing_room");
         verify(userService, times(1)).getUserByUsername("milenaAz");
         verify(chatroomMembersService, times(1)).checkIfMemberExistsInChatroom(1L,1L);
         //verify(chatroomMembersService, times(0)).delete(CM);

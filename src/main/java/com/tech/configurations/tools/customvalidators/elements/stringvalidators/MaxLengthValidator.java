@@ -26,7 +26,7 @@ public class MaxLengthValidator extends StringValidator implements IStringValida
 
     @Override
     public Pair<Boolean, ResponseEntity> validate(String str) {
-        if(str.length() > LENGTH){
+        if(str.length() >= LENGTH){
             return Pair.of(Boolean.FALSE,getErrorResponse());
         }
         if (next != null){

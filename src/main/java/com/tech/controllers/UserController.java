@@ -3,7 +3,6 @@ package com.tech.controllers;
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.ValidationScopes;
-import com.tech.configurations.tools.Validator;
 import com.tech.configurations.tools.customvalidators.elements.EmptyStringValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.ICustomValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.IStringValidator;

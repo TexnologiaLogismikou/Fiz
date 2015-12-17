@@ -12,21 +12,19 @@ package com.tech.configurations.tools;
 public enum ValidationScopes {
 /* 1*/ROOM_NAME("room_name"),
 /* 2*/USER_NAME("user_name"),
-/* 3*/ROOM_PRIVILEGE("room_privilege"),
-/* 4*/ROOM_ACCESS_METHOD("room_access_method"),
+/* 3*/ROOM_PRIVILEGE("room_privilege"), // -> PUBLIC , PRIVATE
+/* 4*/ROOM_ACCESS_METHOD("room_access_method"), // -> blacklist , Whitelist
 /* 5*/NUMBER("number"),
 /* 6*/RANGE("range"),
 /* 7*/LATITUDE("latitude"),
 /* 8*/LONGITUDE("longitude"),
 /* 9*/EMAIL("email"),
 /*10*/TTL("ttl"),
-///*11*/EXPIRATION_DATE("expiration_date"),
-///*12*/BIRTHDAY("birthday"),
-/*13*/MODE("mode"),
-/*14*/PASSWORD("password"),
-/*15*/STRING("string"),
-/*16*/PROFILE_PHOTO("profile_photo"),
-/*17*/STATUS("status");
+/*11*/MODE("mode"), // -> I allios Method , ADD - DELETE - UPDATE
+/*12*/PASSWORD("password"),
+/*13*/STRING("string"),
+/*14*/PROFILE_PHOTO("profile_photo"),
+/*15*/STATUS("status");
 
     
     private final String str;
