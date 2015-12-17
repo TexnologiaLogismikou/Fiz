@@ -7,11 +7,6 @@ package com.tech.configurations.tools.customvalidators.elements;
 
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
-import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotEmptyValidatorS;
-import com.tech.configurations.tools.customvalidators.interfaces.IStringValidator;
-import junit.framework.Assert;
-import com.tech.configurations.tools.Pair;
-import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.customvalidators.interfaces.IStringValidator;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +63,9 @@ public class EmptyStringValidatorTest
         Assert.assertEquals("Failure - expected False but the answer was True",answer.getLeft(), Boolean.FALSE);
         Assert.assertEquals("Failure - expected '"+Responses.STRING_INAPPROPRIATE_FORMAT.getData()+"' but the answer was '"+answer.getRight().getBody()+"'",
                 answer.getRight(), new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT,HttpStatus.NOT_ACCEPTABLE));
+    }
+
+    @Test
     public void testValidateNotEmpty() {
 
         IStringValidator stringValidator = new EmptyStringValidator();
