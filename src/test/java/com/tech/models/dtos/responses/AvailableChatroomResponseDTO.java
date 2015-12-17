@@ -1,4 +1,4 @@
-package com.tech.models.dtos;
+package com.tech.models.dtos.responses;
 
 import com.tech.configurations.tools.Pair;
 
