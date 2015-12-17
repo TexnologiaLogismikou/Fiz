@@ -28,5 +28,5 @@ public class InitializeValidators {
 //        } catch (InappropriateValidatorException | ValidatorNotListedException ex) {
 //            Logger.getLogger(InitializeValidators.class.getName()).log(Level.SEVERE, null, ex);
 //        }
+        }
     }
-}
