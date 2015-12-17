@@ -555,7 +555,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     @Test
     //@Sql(scripts = "classpath:populateDB.sql")
     public void testConnectToCWChatroomWhitelist() throws Exception{
-        json.put("method","ADD");
+        json.put("mode","ADD");
         json.put("member_name","CorrectUserName");
         json.put("room_name","CorrectRoomName");
         json.put("password","WrongPassword");
@@ -595,8 +595,8 @@ public class ChatroomControllerTest extends AbstractControllerTest {
 
     @Test
     //@Sql(scripts = "classpath:populateDB.sql")
-    public void testConnectToCWNullChatroomWhitelist() throws Exception{
-        json.put("method","ADD");
+    public void testConnectToCWNullChatroomWhitelist() throws Exception{ // Changed
+        json.put("mode","ADD");
         json.put("member_name","CorrectUserName");
         json.put("room_name","CorrectRoomName");
         json.put("password","WrongPassword");
@@ -637,7 +637,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     @Test
     //@Sql(scripts = "classpath:populateDB.sql")
     public void testConnectToNOCP() throws Exception{
-        json.put("method","ADD");
+        json.put("mode","ADD");
         json.put("member_name","CorrectUserName");
         json.put("room_name","CorrectRoomName");
         json.put("password","WrongPassword");
@@ -922,7 +922,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         json.put("member_name","userr");
         json.put("expiration_date",date.getTime());
         when(userService.checkUsername("userr")).thenReturn(true);
-        when(chatroomEntitesService.validateRoomnameExistance("room")).thenReturn(true);
+        when(chatroomEntitesService.validateRoomnameExistance("rooom")).thenReturn(true);
         when(chatroomEntitesService.getRoomByName("rooom")).thenReturn(new ChatroomEntities(10L,1L,"rooom"));
         when(userService.getUserByUsername("userr")).thenReturn(new User(1L,"userr","12345",true,true));
         when(chatroomBlacklistService.findByRoomIDAndRoomMember(10L,1L)).thenReturn(new ChatroomBlacklist(10L,1L,date)); //expired date
