@@ -30,6 +30,7 @@ import com.tech.models.dtos.chatroom.ChatroomDeleteDTO;
 import com.tech.models.dtos.chatroom.ChatroomLocationDTO;
 import com.tech.models.dtos.chatroom.ChatroomLocationUpdateDTO;
 import com.tech.models.dtos.chatroom.ChatroomMemberDTO;
+import com.tech.models.dtos.chatroom.ChatroomQuitMemberDTO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -258,6 +259,20 @@ public class InitializeValidators {
             ChatroomMemberDTO.registerValidator(new MinLenghtValidator(3), ValidationScopes.ROOM_ACCESS_METHOD);
             ChatroomMemberDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.ROOM_ACCESS_METHOD);
             ChatroomMemberDTO.registerValidator(new IncludeInListValidator(accessMethodList), ValidationScopes.ROOM_ACCESS_METHOD);
+            
+            ChatroomQuitMemberDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.ROOM_NAME);
+            ChatroomQuitMemberDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.ROOM_NAME);
+            ChatroomQuitMemberDTO.registerValidator(new MaxLengthValidator(16), ValidationScopes.ROOM_NAME);
+            ChatroomQuitMemberDTO.registerValidator(new MinLenghtValidator(4), ValidationScopes.ROOM_NAME);
+            ChatroomQuitMemberDTO.registerValidator(new MatchValidator("[^A-Za-z0-9]"), ValidationScopes.ROOM_NAME);
+            ChatroomQuitMemberDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.ROOM_NAME);
+            
+            ChatroomQuitMemberDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.USER_NAME);
+            ChatroomQuitMemberDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.USER_NAME);
+            ChatroomQuitMemberDTO.registerValidator(new MaxLengthValidator(16), ValidationScopes.USER_NAME);
+            ChatroomQuitMemberDTO.registerValidator(new MinLenghtValidator(4), ValidationScopes.USER_NAME);
+            ChatroomQuitMemberDTO.registerValidator(new MatchValidator("[^A-Za-z0-9]"), ValidationScopes.USER_NAME);
+            ChatroomQuitMemberDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.USER_NAME);
         } catch (InappropriateValidatorException | ValidatorNotListedException ex) {
             Logger.getLogger(InitializeValidators.class.getName()).log(Level.SEVERE, null, ex);
         }
