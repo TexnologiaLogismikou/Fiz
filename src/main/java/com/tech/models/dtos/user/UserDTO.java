@@ -30,7 +30,9 @@ public class UserDTO extends BaseDTO
     private static final List<IStringValidator> PASSWORD_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
     private static final List<IStringValidator> EMAIL_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
     private static final List<IStringValidator> STRING_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
-//    private static final List<IStringValidator> BIRTHDAY_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
+    private static final List<IStringValidator> PROFILE_PHOTO_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
+    private static final List<IStringValidator> STATUS_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
+
     
     public static void registerValidator(ICustomValidator newValidator,ValidationScopes scope) 
             throws InappropriateValidatorException, ValidatorNotListedException
@@ -51,13 +53,16 @@ public class UserDTO extends BaseDTO
         PASSWORD_VALIDATORS.clear();
         EMAIL_VALIDATORS.clear();
         STRING_VALIDATORS.clear();
-//        BIRTHDAY_VALIDATORS.clear();
+        PROFILE_PHOTO_VALIDATORS.clear();
+        STATUS_VALIDATORS.clear();
         
         USER_NAME_VALIDATORS.add(new EmptyStringValidator());
         PASSWORD_VALIDATORS.add(new EmptyStringValidator());
         EMAIL_VALIDATORS.add(new EmptyStringValidator());
         STRING_VALIDATORS.add(new EmptyStringValidator());
-//        BIRTHDAY_VALIDATORS.add(new EmptyStringValidator());        
+        PROFILE_PHOTO_VALIDATORS.add(new EmptyStringValidator()); 
+        STATUS_VALIDATORS.add(new EmptyStringValidator());
+
     }
     
     public static List<String> getValidatorList(ValidationScopes scope) 
@@ -99,14 +104,22 @@ public class UserDTO extends BaseDTO
                     list.add(i + ": " + vLookUp.getName());
                 }
                 return list;
-//            case BIRTHDAY:
-//                for(ICustomValidator vLookUp:BIRTHDAY_VALIDATORS)
-//                {
-//                    if(vLookUp.getName().equals("Empty")) { continue; }
-//                    i++;
-//                    list.add(i + ": " + vLookUp.getName());
-//                }
-//                return list;
+            case PROFILE_PHOTO:
+                for(ICustomValidator vLookUp:PROFILE_PHOTO_VALIDATORS)
+                {
+                    if(vLookUp.getName().equals("Empty")) { continue; }
+                    i++;
+                    list.add(i + ": " + vLookUp.getName());
+                }
+                return list;
+            case STATUS:
+                for(ICustomValidator vLookUp:STATUS_VALIDATORS)
+                {
+                    if(vLookUp.getName().equals("Empty")) { continue; }
+                    i++;
+                    list.add(i + ": " + vLookUp.getName());
+                }
+                return list;
             default:
                 throw new ValidatorNotListedException();                    
         }  
@@ -148,13 +161,20 @@ public class UserDTO extends BaseDTO
                     return true;
                 }
                 return false;
-//            case BIRTHDAY:
-//                if(BIRTHDAY_VALIDATORS.get(i) != null){
-//                    BIRTHDAY_VALIDATORS.get(i-1).replaceNext(BIRTHDAY_VALIDATORS.get(i).getNext());
-//                    BIRTHDAY_VALIDATORS.remove(i);
-//                    return true;
-//                }
-//                return false;
+            case PROFILE_PHOTO:
+                if(PROFILE_PHOTO_VALIDATORS.get(i) != null){
+                    PROFILE_PHOTO_VALIDATORS.get(i-1).replaceNext(PROFILE_PHOTO_VALIDATORS.get(i).getNext());
+                    PROFILE_PHOTO_VALIDATORS.remove(i);
+                    return true;
+                }
+                return false;
+            case STATUS:
+                if(STATUS_VALIDATORS.get(i) != null){
+                    STATUS_VALIDATORS.get(i-1).replaceNext(STATUS_VALIDATORS.get(i).getNext());
+                    STATUS_VALIDATORS.remove(i);
+                    return true;
+                }
+                return false;
             default:
                 throw new ValidatorNotListedException();                    
         } 
@@ -181,31 +201,25 @@ public class UserDTO extends BaseDTO
             return currentTest;
         }
         
-        currentTest = STRING_VALIDATORS.get(0).validate(profile_photo);
-        if(!currentTest.getLeft())
-        {
-            return currentTest;
-        }
-        
-        currentTest = STRING_VALIDATORS.get(0).validate(status);
-        if(!currentTest.getLeft())
-        {
-            return currentTest;
-        }
-        
         currentTest = USER_NAME_VALIDATORS.get(0).validate(last_name);
         if(!currentTest.getLeft())
         {
             return currentTest;
         }
         
-//        currentTest = BIRTHDAY_VALIDATORS.get(0).validate(birthday);
-//        if(!currentTest.getLeft())
-//        {
-//            return currentTest;
-//        }
+        currentTest = PROFILE_PHOTO_VALIDATORS.get(0).validate(profile_photo);
+        if(!currentTest.getLeft())
+        {
+            return currentTest;
+        }
         
         currentTest = STRING_VALIDATORS.get(0).validate(hometown);
+        if(!currentTest.getLeft())
+        {
+            return currentTest;
+        }
+        
+        currentTest = STATUS_VALIDATORS.get(0).validate(status);
         if(!currentTest.getLeft())
         {
             return currentTest;
@@ -236,10 +250,14 @@ public class UserDTO extends BaseDTO
                 STRING_VALIDATORS.add(strVal);             
                 STRING_VALIDATORS.get(0).setNext(strVal);
                 break;
-//            case BIRTHDAY:   
-//                BIRTHDAY_VALIDATORS.add(strVal);             
-//                BIRTHDAY_VALIDATORS.get(0).setNext(strVal);
-//                break;
+            case PROFILE_PHOTO:   
+                PROFILE_PHOTO_VALIDATORS.add(strVal);             
+                PROFILE_PHOTO_VALIDATORS.get(0).setNext(strVal);
+                break;
+            case STATUS:   
+                STATUS_VALIDATORS.add(strVal);             
+                STATUS_VALIDATORS.get(0).setNext(strVal);
+                break;
             default: 
                 throw new ValidatorNotListedException();                    
         }              

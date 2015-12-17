@@ -24,7 +24,10 @@ public enum ValidationScopes {
 ///*12*/BIRTHDAY("birthday"),
 /*13*/MODE("mode"),
 /*14*/PASSWORD("password"),
-/*15*/STRING("string");
+/*15*/STRING("string"),
+/*16*/PROFILE_PHOTO("profile_photo"),
+/*17*/STATUS("status");
+
     
     private final String str;
     ValidationScopes(String str) {
