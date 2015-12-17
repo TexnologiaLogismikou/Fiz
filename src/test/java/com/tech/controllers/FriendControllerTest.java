@@ -8,10 +8,17 @@ package com.tech.controllers;
 import com.tech.AbstractControllerTest;
 import com.tech.configurations.InitializeValidators;
 import com.tech.configurations.tools.Responses;
+import com.tech.configurations.tools.ValidationScopes;
+import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotMatchValidator;
+import com.tech.exceptions.customexceptions.InappropriateValidatorException;
+import com.tech.exceptions.customexceptions.ValidatorNotListedException;
+import com.tech.models.dtos.FriendDTO;
 import com.tech.models.entities.Friend;
 import com.tech.models.entities.user.User;
 import com.tech.services.FriendService;
 import com.tech.services.user.UserService;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.transaction.Transactional;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -158,8 +165,18 @@ public class FriendControllerTest extends AbstractControllerTest
      */
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void testAddFriendForInAppropriateFormat() throws Exception 
+    public void testAddFriendForInappropriateFormat() throws Exception 
     {
+        try 
+        {
+            FriendDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.USER_NAME);
+        } 
+        catch (InappropriateValidatorException | ValidatorNotListedException ex) 
+        {
+            Logger.getLogger(ImagesController.class.getName()).log(Level.SEVERE, null, ex);
+            Assert.fail("something went wrong while registering");
+        } 
+        
         json.put("username","5milena");
         json.put("friendname","!mixalis");
         
@@ -181,14 +198,25 @@ public class FriendControllerTest extends AbstractControllerTest
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
                     content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
         
+        FriendDTO.cleanValidator();
     }
     
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testDeleteFriendInappropiateFormatFriendname() throws Exception 
     {
+        try 
+        {
+            FriendDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.USER_NAME);
+        } 
+        catch (InappropriateValidatorException | ValidatorNotListedException ex) 
+        {
+            Logger.getLogger(ImagesController.class.getName()).log(Level.SEVERE, null, ex);
+            Assert.fail("something went wrong while registering");
+        } 
+        
         json.put("username","milena");
-        json.put("friendname","25mixalis");
+        json.put("friendname","@mixalis");
         
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/deletefriend")
                 .content(json.toString())
@@ -207,6 +235,8 @@ public class FriendControllerTest extends AbstractControllerTest
         
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
                     content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+        
+        FriendDTO.cleanValidator();
     }  
     
     @Test

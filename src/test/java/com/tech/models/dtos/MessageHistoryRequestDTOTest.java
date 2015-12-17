@@ -44,6 +44,7 @@ public class MessageHistoryRequestDTOTest {
     
     @BeforeClass
     public static void setUpClass() {
+        MessageHistoryRequestDTO.cleanValidator();        
     }
     
     @AfterClass

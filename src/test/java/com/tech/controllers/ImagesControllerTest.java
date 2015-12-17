@@ -10,7 +10,11 @@ import com.tech.configurations.InitializeValidators;
 import com.tech.configurations.tools.Attr;
 import com.tech.configurations.tools.FileTools;
 import com.tech.configurations.tools.Responses;
+import com.tech.configurations.tools.ValidationScopes;
+import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotMatchValidator;
 import com.tech.controllers.methodcontainer.FileWorkAround;
+import com.tech.exceptions.customexceptions.InappropriateValidatorException;
+import com.tech.exceptions.customexceptions.ValidatorNotListedException;
 import com.tech.models.entities.ImagesMod;
 import com.tech.models.entities.user.User;
 import com.tech.services.ImagesService;
@@ -127,7 +131,7 @@ public class ImagesControllerTest extends AbstractControllerTest{
     }   
     
     @Test
-    public void gesNtestLoadImaull() throws Exception{
+    public void testLoadImagesNull() throws Exception{
         byte[] f = null;
         MockMultipartFile MF = new MockMultipartFile("file","psaraki.jpg", "multipart/form-data", f);     
         
@@ -183,11 +187,20 @@ public class ImagesControllerTest extends AbstractControllerTest{
         byte[] f = Files.readAllBytes(new File(Attr.TESTING_IMAGES.getData() + "\\testImg.jpg").toPath());
         MockMultipartFile MF = new MockMultipartFile("file","psaraki.jpg", "multipart/form-data", f);     
         
+        try 
+        {
+            ImagesController.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.USER_NAME);
+        } 
+        catch (InappropriateValidatorException | ValidatorNotListedException ex) 
+        {
+            Logger.getLogger(ImagesController.class.getName()).log(Level.SEVERE, null, ex);
+            Assert.fail("something went wrong while registering");
+        } 
         
         MvcResult result = mvc.perform(MockMvcRequestBuilders
                 .fileUpload(uri)
                 .file(MF)
-                .param("username", "5Iwanna"))
+                .param("username", "@Iwanna"))
                 .andReturn();
         
         String content = result.getResponse().getContentAsString();
@@ -199,7 +212,9 @@ public class ImagesControllerTest extends AbstractControllerTest{
         
         Assert.assertEquals("Fail expected status 406 but was " + status, 406, status);
         Assert.assertTrue("Fail expected Response Body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
-                content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));        
+                content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData())); 
+        
+        ImagesController.cleanValidator();
     }
     
     @Test
