@@ -20,6 +20,7 @@ public class CorsFilter extends OncePerRequestFilter {
         response.setHeader("Access-Control-Allow-Headers", "X-Ajax-call");
         response.setHeader("Access-Control-Allow-Headers", "X-requested-with");
         response.setHeader("Access-Control-Expose-Headers", "x-requested-with");
+        response.setHeader("Access-Control-Expose-Headers", "Origin");
         filterChain.doFilter(request, response);
     }
 }
