@@ -715,7 +715,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     public void testDeleteChatroomMemberDoesntHaveRoom() throws Exception
     {
         json.put("creator_name", "vasilis");
-        json.put("room_name", "hiiii");
+        json.put("room_name", "hi");
         json.put("room_password", "nopass");
 
         User user = new User(4L,"vasilis","paok",true,false);
