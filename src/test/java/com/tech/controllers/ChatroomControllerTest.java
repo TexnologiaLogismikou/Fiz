@@ -2258,7 +2258,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         ChatroomQuitMemberDTO.cleanValidator();
     }
     
-     @Test
+    @Test
     //@Sql(scripts = "classpath:populateDB.sql")
     public void testUpdateChatroom_ValidationFail() throws Exception
     {     
@@ -2296,7 +2296,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
         ChatroomUpdateDTO.cleanValidator();
     }
     
-     @Test
+    @Test
     //@Sql(scripts = "classpath:populateDB.sql")
     public void testUpdateLocation_ValidationFail() throws Exception
     {     

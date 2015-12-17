@@ -26,7 +26,7 @@ public interface IChatroomEntitiesRepository extends JpaRepository<ChatroomEntit
     @Query("update ChatroomEntities u set u.room_name = ?1 where u.room_id = ?2")
     void setChatroomEntity(String room_name, Long room_id);   
     
-    List<ChatroomEntities> findByRoomCreator(Long room_creator); 
+    ChatroomEntities findByRoomCreator(Long room_creator); 
     
     @Modifying
     @Query("UPDATE ChatroomEntities c SET c.room_last_activity = ?1 WHERE c.room_id = ?2")

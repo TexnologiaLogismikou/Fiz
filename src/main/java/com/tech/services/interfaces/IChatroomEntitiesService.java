@@ -23,7 +23,7 @@ public interface IChatroomEntitiesService {
     boolean delete(ChatroomEntities deleteRecord);
 
     @Transactional
-    List<ChatroomEntities> findByRoomCreator(Long room_creator);
+    ChatroomEntities findByRoomCreator(Long room_creator);
 
     @Transactional
     ChatroomEntities findByRoomID(Long room_id);
@@ -31,8 +31,8 @@ public interface IChatroomEntitiesService {
     @Transactional
     Long countRecords();
 
-    @Transactional
-    Long countRecordsOfMember(Long member_id);
+//    @Transactional
+//    Long countRecordsOfMember(Long member_id);
 
     @Transactional
     boolean checkIfChatroomEntityExists(Long room_id);

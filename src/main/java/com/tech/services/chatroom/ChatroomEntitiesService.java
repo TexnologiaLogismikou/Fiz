@@ -10,7 +10,6 @@ import com.tech.models.entities.chatroom.ChatroomEntities;
 import com.tech.repositories.IChatroomEntitiesRepository;
 import java.util.Date;
 
-import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +44,7 @@ public class ChatroomEntitiesService implements IChatroomEntitiesService {
 
     @Transactional
     @Override
-    public List<ChatroomEntities> findByRoomCreator(Long room_creator) {
+    public ChatroomEntities findByRoomCreator(Long room_creator) {
         return repository.findByRoomCreator(room_creator);
     }
 
@@ -55,15 +54,15 @@ public class ChatroomEntitiesService implements IChatroomEntitiesService {
         return repository.count();
     }
 
-    @Transactional
-    @Override
-    public Long countRecordsOfMember(Long member_id) {
-        long i = 0;
-        for (ChatroomEntities vLookUp : repository.findByRoomCreator(member_id)) {
-            i++;
-        }
-        return i;
-    }
+//    @Transactional
+//    @Override
+//    public Long countRecordsOfMember(Long member_id) {
+//        long i = 0;
+//        for (ChatroomEntities vLookUp : repository.findByRoomCreator(member_id)) {
+//            i++;
+//        }
+//        return i;
+//    }
     
     @Transactional
     @Override
@@ -72,12 +71,24 @@ public class ChatroomEntitiesService implements IChatroomEntitiesService {
         return repository.findByRoomID(room_id) != null;
     }
     
+    /**
+     * TODO reCheck this code
+     * More Complex test for ValueInTheMiddle 1-2-4-5 will it return 3? 
+     * @return 
+     */
     @Transactional
     @Override
     public Long getNextID(){
-        Long i = countRecords();
-        Long x = repository.getOne(i).getRoom_id();
-        return x + 1L ;       
+        Long lastID = 0L;    
+        
+        for(ChatroomEntities vLookUp:repository.findAll()){
+            if((vLookUp.getRoom_id() - lastID) == 1){
+                lastID = vLookUp.getRoom_id();
+            }else{
+                return lastID + 1;
+            }            
+        }
+        return lastID + 1L ;       
     }
     
     @Transactional

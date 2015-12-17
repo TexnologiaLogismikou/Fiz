@@ -53,7 +53,7 @@ public class UserInfoService implements IUserInfoService {
     @Override
     @Transactional
     public boolean checkMail(String mail){
-        return repository.findByEmail(mail)!=null;
+        return repository.findByEmail(mail) != null;
     }
    
     @Override

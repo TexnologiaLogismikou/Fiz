@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tech.services;
+package com.tech.services.chatroom;
 
 import com.tech.AbstractTest;
+import com.tech.configurations.tools.Responses;
 import com.tech.models.entities.chatroom.ChatroomEntities;
 import com.tech.services.interfaces.IChatroomEntitiesService;
+import java.sql.Date;
 import org.junit.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
@@ -16,6 +18,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * @author Aenaos
@@ -91,7 +94,7 @@ public class ChatroomEntitiesServiceTest extends AbstractTest {
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testFindByRoomCreator() {
-        Assert.assertTrue("Failed to find rooms by room creator",service.findByRoomCreator(1L).size()==2);
+        Assert.assertNotNull("Failed to find rooms by room creator",service.findByRoomCreator(1L));
     }
 
 
@@ -103,11 +106,53 @@ public class ChatroomEntitiesServiceTest extends AbstractTest {
     }
 
 
+//    @Test
+//    @Sql(scripts = "classpath:populateDB.sql")
+//    public void testCountRecordsOfMember() {
+//        Long l = service.countRecordsOfMember(1L);
+//        Assert.assertTrue("Failed to count rooms created by user",l==1);
+//
+//    }
+    
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void testCountRecordsOfMember() {
-        Assert.assertTrue("Failed to count rooms created by user",service.countRecordsOfMember(1L)==2);
-
+    public void testGetNextID() 
+    {
+        Long l = service.getNextID();
+        Assert.assertTrue(Responses.ERROR.getData(),2>1);
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testValidateRoomnameExistance() 
+    {
+        Assert.assertFalse(Responses.ERROR.getData(),service.validateRoomnameExistance("playrooom"));
+        Assert.assertTrue(Responses.ERROR.getData(),service.validateRoomnameExistance("first testing room"));
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetRoomByName() 
+    {
+        Assert.assertTrue(Responses.ERROR.getData(),service.getRoomByName("first testing room").getRoom_id().compareTo(1L)==0);
+        Assert.assertTrue(Responses.ERROR.getData(),service.getRoomByName("playroom")==null);
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testSetChatroomEntities() 
+    {
+        service.setChatroomEntities("ArxaRoom", 1L);
+        Assert.assertTrue(Responses.ERROR.getData(),service.findByRoomID(1L).getRoom_name().equals("ArxaRoom"));
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testUpdateLastActivity() 
+    {
+        Date testDate = new Date(Calendar.getInstance().getTimeInMillis()+1000);
+        service.updateLastActivity(testDate,1L);
+        Assert.assertTrue(Responses.ERROR.getData(),service.findByRoomID(1L).getRoom_last_activity().compareTo(testDate)==0);
     }
 
 }
