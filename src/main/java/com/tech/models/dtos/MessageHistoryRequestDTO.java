@@ -7,9 +7,11 @@ package com.tech.models.dtos;
 
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.ValidationScopes;
+import com.tech.configurations.tools.customvalidators.elements.EmptyFloatValidator;
 import com.tech.configurations.tools.customvalidators.elements.EmptyNumberValidator;
 import com.tech.configurations.tools.customvalidators.elements.EmptyStringValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.ICustomValidator;
+import com.tech.configurations.tools.customvalidators.interfaces.IFloatValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.INumberValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.IStringValidator;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
@@ -28,8 +30,8 @@ public class MessageHistoryRequestDTO extends BaseDTO{
     
     private static final List<IStringValidator> ROOM_NAME_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
     private static final List<IStringValidator> MEMBER_NAME_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
-    private static final List<INumberValidator> LAT_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyNumberValidator()));
-    private static final List<INumberValidator> LNG_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyNumberValidator()));
+    private static final List<IFloatValidator> LAT_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyFloatValidator()));
+    private static final List<IFloatValidator> LNG_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyFloatValidator()));
    
     
     public static void registerValidator(ICustomValidator newValidator,ValidationScopes scope) 
@@ -38,8 +40,8 @@ public class MessageHistoryRequestDTO extends BaseDTO{
          if(newValidator instanceof IStringValidator){
             registerStringValidator((IStringValidator)newValidator, scope);
         } 
-        else if (newValidator instanceof INumberValidator){
-            registerNumberValidator((INumberValidator)newValidator, scope);
+        else if (newValidator instanceof IFloatValidator){
+            registerFloatValidator((IFloatValidator)newValidator, scope);
         } else {
             throw new InappropriateValidatorException();
         }
@@ -54,10 +56,10 @@ public class MessageHistoryRequestDTO extends BaseDTO{
         MEMBER_NAME_VALIDATORS.add(new EmptyStringValidator());
         
         LAT_VALIDATORS.clear();              
-        LAT_VALIDATORS.add(new EmptyNumberValidator());
+        LAT_VALIDATORS.add(new EmptyFloatValidator());
         
         LNG_VALIDATORS.clear();              
-        LNG_VALIDATORS.add(new EmptyNumberValidator());
+        LNG_VALIDATORS.add(new EmptyFloatValidator());
     }
     
     }
@@ -185,7 +187,7 @@ public class MessageHistoryRequestDTO extends BaseDTO{
         }
     }
     
-        private static void registerNumberValidator(INumberValidator strVal , ValidationScopes scope)
+        private static void registerFloatValidator(IFloatValidator strVal , ValidationScopes scope)
             throws ValidatorNotListedException, InappropriateValidatorException{ 
              switch(scope)
         {

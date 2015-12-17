@@ -8,6 +8,7 @@ package com.tech.models.dtos.chatroom;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tech.configurations.tools.JSONToolConverter;
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.ValidationScopes;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.MatchValidator;
@@ -70,7 +71,7 @@ public class ChatroomUpdateDTOTest {
         json.put("password", "mixalis");
         json.put("max_range", 300);
         
-        ChatroomUpdateDTO dto = (ChatroomUpdateDTO)mapFromJson(json.toJSONString(),ChatroomUpdateDTO.class);
+        ChatroomUpdateDTO dto = JSONToolConverter.mapFromJson(json.toJSONString(),ChatroomUpdateDTO.class);
         
         Pair<Boolean,ResponseEntity> a = dto.validate();
     }
@@ -103,62 +104,4 @@ public class ChatroomUpdateDTOTest {
         System.out.println("\nPrint ended...\n");
         
     }
-    
-    private <T> T mapFromJson(String json,Class<T> clazz) throws JsonParseException,JsonMappingException,IOException{
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(json, clazz);
-    }
-
-    @Test
-    public void testCleanValidator() {
-    }
-
-    @Test
-    public void testRegisterValidator() throws Exception {
-    }
-
-    @Test
-    public void testGetValidatorList() throws Exception {
-    }
-
-    @Test
-    public void testRemoveValidator() throws Exception {
-    }
-
-    @Test
-    public void testValidate() {
-    }
-
-    @Test
-    public void testGetDTOName() {
-    }
-
-    @Test
-    public void testGetRoom_name() {
-    }
-
-    @Test
-    public void testGetNew_room_name() {
-    }
-
-    @Test
-    public void testGetRoom_privilege() {
-    }
-
-    @Test
-    public void testGetAccess_method() {
-    }
-
-    @Test
-    public void testGetPassword() {
-    }
-
-    @Test
-    public void testGetMax_range() {
-    }
-
-    @Test
-    public void testIsPasswordProtection() {
-    }
-    
 }

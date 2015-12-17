@@ -40,37 +40,4 @@ public class ChatroomDeleteDTOTest {
     @Test
     public void testRegisterValidator() throws Exception {
     }
-
-    @Test
-    public void testCleanValidator() {
-    }
-
-    @Test
-    public void testGetValidatorList() throws Exception {
-    }
-
-    @Test
-    public void testRemoveValidator() throws Exception {
-    }
-
-    @Test
-    public void testValidate() {
-    }
-
-    @Test
-    public void testGetDTOName() {
-    }
-
-    @Test
-    public void testGetCreator_name() {
-    }
-
-    @Test
-    public void testGetRoom_name() {
-    }
-
-    @Test
-    public void testGetRoom_password() {
-    }
-    
 }
