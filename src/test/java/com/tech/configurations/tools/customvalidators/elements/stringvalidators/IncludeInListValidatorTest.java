@@ -69,7 +69,7 @@ public class IncludeInListValidatorTest
         answer = stringValidator.validate(testStrings.get(1));
         Assert.assertEquals("Failure - expected False but the answer was True",answer.getLeft(), Boolean.FALSE);
         Assert.assertEquals("Failure - expected '"+Responses.STRING_INAPPROPRIATE_FORMAT.getData()+"' but the answer was '"+answer.getRight().getBody()+"'",
-                answer.getRight(), new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT,HttpStatus.NOT_ACCEPTABLE)); 
+                answer.getRight(), new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(),HttpStatus.NOT_ACCEPTABLE)); 
     }
     
     @Test
@@ -78,7 +78,7 @@ public class IncludeInListValidatorTest
         answer = stringValidator.validate(testStrings.get(2));
         Assert.assertEquals("Failure - expected False but the answer was True",answer.getLeft(), Boolean.FALSE);
         Assert.assertEquals("Failure - expected '"+Responses.STRING_INAPPROPRIATE_FORMAT.getData()+"' but the answer was '"+answer.getRight().getBody()+"'",
-                answer.getRight(), new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT,HttpStatus.NOT_ACCEPTABLE));
+                answer.getRight(), new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(),HttpStatus.NOT_ACCEPTABLE));
     }
     
     @Test
@@ -87,6 +87,6 @@ public class IncludeInListValidatorTest
         answer = stringValidator.validate(testStrings.get(0));
         Assert.assertEquals("Failure - expected True but the answer was False",answer.getLeft(), Boolean.TRUE);
         Assert.assertEquals("Failure - expected '"+Responses.SUCCESS.getData()+"' but the answer was '"+answer.getRight().getBody()+"'",
-                answer.getRight(), new ResponseEntity<>(Responses.SUCCESS,HttpStatus.OK));
+                answer.getRight(), new ResponseEntity<>(Responses.SUCCESS.getData(),HttpStatus.OK));
     }
 }

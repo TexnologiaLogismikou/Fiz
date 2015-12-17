@@ -8,38 +8,38 @@ package com.tech.controllers;
 import com.tech.AbstractControllerTest;
 import com.tech.configurations.InitializeValidators;
 import com.tech.configurations.tools.Responses;
+import com.tech.configurations.tools.ValidationScopes;
+import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotMatchValidator;
+import com.tech.exceptions.customexceptions.InappropriateValidatorException;
+import com.tech.exceptions.customexceptions.ValidatorNotListedException;
+import com.tech.models.dtos.chatroom.ChatroomLocationUpdateDTO;
 import com.tech.models.dtos.responses.UserResponseDTO;
-import com.tech.models.dtos.user.UserDTO;
 import com.tech.models.entities.user.User;
 import com.tech.models.entities.user.UserInfo;
 import com.tech.services.user.UserInfoService;
 import com.tech.services.user.UserService;
 import java.sql.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.transaction.Transactional;
-import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.mockito.InjectMocks;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import org.mockito.Mock;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -67,14 +67,14 @@ public class UserControllerTest extends AbstractControllerTest
     @BeforeClass
     public static void setUpClass()
     {
-        InitializeValidators.InitializeCustomValidators();
+        InitializeValidators.CleanCustomValidators();
     }
     
     @AfterClass
     public static void tearDownClass()
     {     
-        InitializeValidators.CleanCustomValidators();
-    } 
+        InitializeValidators.InitializeCustomValidators();
+    }  
     
     @Before
     public void setUp()
@@ -189,11 +189,18 @@ public class UserControllerTest extends AbstractControllerTest
     @Sql(scripts = "classpath:populateDB.sql")
     public void testUserProfileInAppropriateFormat() throws Exception
     {
-//       json.put("username", "@45el");
+        try 
+        {
+            UserController.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.USER_NAME);
+        } 
+        catch (InappropriateValidatorException | ValidatorNotListedException ex) 
+        {
+            Logger.getLogger(ChatroomLocationUpdateDTO.class.getName()).log(Level.SEVERE, null, ex);
+            Assert.fail("something went wrong while registering");
+        } 
+        
     
         MvcResult result = mvc.perform(MockMvcRequestBuilders.get(uri + "/@45el"))
-//                .content(json.toJSONString())
-//                .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
          
         String content = result.getResponse().getContentAsString();
@@ -211,15 +218,7 @@ public class UserControllerTest extends AbstractControllerTest
    
         Assert.assertTrue("failure - expected HTTP response 'response' to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData()  + " '",
                 URDTO.getResponse().equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
-    }
-    /**
-     * Test of deactivateUser method, of class UserController.
-     */
-    @Test
-    @Sql(scripts = "classpath:populateDB.sql")
-    public void testDeactivateUser() 
-    {
-       
-    }
-    
+        
+        UserController.cleanValidator();
+    }    
 }

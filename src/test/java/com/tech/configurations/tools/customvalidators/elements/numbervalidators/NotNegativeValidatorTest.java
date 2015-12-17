@@ -66,7 +66,7 @@ public class NotNegativeValidatorTest {
         
         Assert.assertEquals("Failure - expected True but the answer was False",answer.getLeft(), Boolean.TRUE);
         Assert.assertEquals("Failure - expected '"+Responses.SUCCESS.getData()+"' but the answer was '"+answer.getRight().getBody()+"'",
-                answer.getRight(), new ResponseEntity<>(Responses.SUCCESS,HttpStatus.OK));
+                answer.getRight(), new ResponseEntity<>(Responses.SUCCESS.getData(),HttpStatus.OK));
     }
     
     @Test
@@ -79,7 +79,7 @@ public class NotNegativeValidatorTest {
         
         Assert.assertEquals("Failure - expected False but the answer was True",answer.getLeft(), Boolean.FALSE);
         Assert.assertEquals("Failure - expected '"+Responses.ID_INAPPROPRIATE_FORMAT.getData()+"' but the answer was '"+answer.getRight().getBody()+"'",
-                answer.getRight(), new ResponseEntity<>(Responses.ID_INAPPROPRIATE_FORMAT,HttpStatus.UNPROCESSABLE_ENTITY));
+                answer.getRight(), new ResponseEntity<>(Responses.ID_INAPPROPRIATE_FORMAT.getData(),HttpStatus.UNPROCESSABLE_ENTITY));
     }
     
 }

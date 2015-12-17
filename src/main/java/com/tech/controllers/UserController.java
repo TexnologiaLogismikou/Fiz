@@ -45,12 +45,13 @@ public class UserController extends BaseController {
      */
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     public HttpEntity<JSONObject> loadUserProfile(@PathVariable String username) {
-        Pair<Boolean,ResponseEntity> response = validate(username);
-        if(!response.getLeft()){
-            return response.getRight();
-        } 
-
         JSONObject json = new JSONObject();
+        
+        Pair<Boolean,ResponseEntity> response = validate(username);
+        if(!response.getLeft()){            
+            json.put("response", response.getRight().getBody());
+            return new ResponseEntity<>(json, HttpStatus.NOT_ACCEPTABLE);
+        }     
         
         if (!service.checkUsername(username)) {
             json.put("response", Responses.NOT_AVAILABLE.getData());

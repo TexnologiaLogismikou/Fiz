@@ -13,7 +13,6 @@ import com.tech.models.entities.user.UserRole;
 import com.tech.services.user.UserInfoService;
 import com.tech.services.user.UserRoleService;
 import com.tech.services.user.UserService;
-import java.util.Date;
 import javax.transaction.Transactional;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -30,7 +29,6 @@ import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -55,16 +53,16 @@ public class RegistrationControllerTest extends AbstractControllerTest{
     @InjectMocks
     private RegistrationController controller;
     
-     @BeforeClass
+    @BeforeClass
     public static void setUpClass()
     {
-        InitializeValidators.InitializeCustomValidators();
+        InitializeValidators.CleanCustomValidators();
     }
     
     @AfterClass
     public static void tearDownClass()
     {     
-        InitializeValidators.CleanCustomValidators();
+        InitializeValidators.InitializeCustomValidators();
     }    
     
     @Before

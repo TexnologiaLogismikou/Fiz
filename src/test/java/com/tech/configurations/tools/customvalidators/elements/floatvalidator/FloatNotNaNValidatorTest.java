@@ -51,7 +51,7 @@ public class FloatNotNaNValidatorTest {
         
         Assert.assertEquals("Failure - expected False but the answer was True",answer.getLeft(), Boolean.FALSE);
         Assert.assertEquals("Failure - expected '"+Responses.BAD_COORDINATES.getData()+"' but the answer was '"+answer.getRight().getBody()+"'",
-                answer.getRight(), new ResponseEntity<>(Responses.BAD_COORDINATES,HttpStatus.UNPROCESSABLE_ENTITY));
+                answer.getRight(), new ResponseEntity<>(Responses.BAD_COORDINATES.getData(),HttpStatus.UNPROCESSABLE_ENTITY));
     }  
     
     @Test
@@ -61,6 +61,6 @@ public class FloatNotNaNValidatorTest {
         
         Assert.assertEquals("Failure - expected True but the answer was FALSE",answer.getLeft(), Boolean.TRUE);
         Assert.assertEquals("Failure - expected '"+Responses.SUCCESS.getData()+"' but the answer was '"+answer.getRight().getBody()+"'",
-                answer.getRight(), new ResponseEntity<>(Responses.SUCCESS,HttpStatus.OK));
+                answer.getRight(), new ResponseEntity<>(Responses.SUCCESS.getData(),HttpStatus.OK));
     }     
 }

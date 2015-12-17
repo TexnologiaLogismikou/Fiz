@@ -56,13 +56,4 @@ public class UserResponseDTO
     public String getEmail() {
         return email;
     }
-
-    
-
-
-
-
-
-
-    
 }

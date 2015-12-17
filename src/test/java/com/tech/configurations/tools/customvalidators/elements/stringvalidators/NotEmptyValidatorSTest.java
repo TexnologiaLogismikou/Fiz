@@ -53,7 +53,7 @@ public class NotEmptyValidatorSTest {
         
         Assert.assertEquals("Failure - expected False but the answer was False",responce.getLeft(), Boolean.FALSE);
         Assert.assertEquals("failure - returned response was '" + responce.getRight() + " '",
-                responce.getRight(), new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE)); 
+                responce.getRight(), new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(), HttpStatus.NOT_ACCEPTABLE)); 
     }
     
     @Test
@@ -67,7 +67,7 @@ public class NotEmptyValidatorSTest {
         
         Assert.assertEquals("Failure - expected True but the answer was False",responce.getLeft(), Boolean.TRUE);
         Assert.assertEquals("Failure - expected '"+Responses.SUCCESS.getData()+"' but the answer was '"+responce.getRight().getBody()+"'",
-            responce.getRight(), new ResponseEntity<>(Responses.SUCCESS,HttpStatus.OK));
+            responce.getRight(), new ResponseEntity<>(Responses.SUCCESS.getData(),HttpStatus.OK));
     }
     
 }

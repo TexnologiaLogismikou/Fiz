@@ -34,7 +34,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -46,8 +45,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.mockito.Mockito.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 /**
  * @author KuroiTenshi
@@ -84,17 +81,17 @@ public class ChatroomControllerTest extends AbstractControllerTest {
     public ChatroomControllerTest() {
     }
 
-     @BeforeClass
+    @BeforeClass
     public static void setUpClass()
     {
-//        InitializeValidators.InitializeCustomValidators();
+        InitializeValidators.CleanCustomValidators();
     }
     
     @AfterClass
     public static void tearDownClass()
     {     
-//        InitializeValidators.CleanCustomValidators();
-    } 
+        InitializeValidators.InitializeCustomValidators();
+    }  
 
     @Before
     @Override

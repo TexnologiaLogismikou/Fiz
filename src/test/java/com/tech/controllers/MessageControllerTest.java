@@ -53,17 +53,17 @@ public class MessageControllerTest extends AbstractControllerTest {
     public MessageControllerTest() {
     }
     
-    @BeforeClass
+   @BeforeClass
     public static void setUpClass()
     {
-        InitializeValidators.InitializeCustomValidators();
+        InitializeValidators.CleanCustomValidators();
     }
     
     @AfterClass
     public static void tearDownClass()
     {     
-        InitializeValidators.CleanCustomValidators();
-    } 
+        InitializeValidators.InitializeCustomValidators();
+    }  
     
     @Before
     @Override

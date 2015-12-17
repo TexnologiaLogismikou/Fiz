@@ -24,7 +24,7 @@ import org.springframework.http.ResponseEntity;
  */
 public class MaxLengthValidatorTest
 {
-    private int length = 5;
+    private int length = 6;
     
     public MaxLengthValidatorTest() {
     }
@@ -54,7 +54,7 @@ public class MaxLengthValidatorTest
 
         Assert.assertEquals("Failure - expected true but the answer was false", Boolean.TRUE, answer.getLeft());
         Assert.assertEquals("Failure - expected '" + Responses.SUCCESS.getData() + "' but the answer was '" + answer.getRight().getBody() + "'",
-                answer.getRight(), new ResponseEntity<>(Responses.SUCCESS, HttpStatus.OK));
+                answer.getRight(), new ResponseEntity<>(Responses.SUCCESS.getData(), HttpStatus.OK));
     }
     
     @Test
@@ -66,7 +66,7 @@ public class MaxLengthValidatorTest
 
         Assert.assertEquals("Failure - expected false but the answer was true", Boolean.FALSE, answer.getLeft());
         Assert.assertEquals("Failure - expected '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "' but the answer was '" + answer.getRight().getBody() + "'",
-                answer.getRight(), new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT, HttpStatus.NOT_ACCEPTABLE));
+                answer.getRight(), new ResponseEntity<>(Responses.STRING_INAPPROPRIATE_FORMAT.getData(), HttpStatus.NOT_ACCEPTABLE));
         
     }
 }
