@@ -155,7 +155,7 @@ public class FriendControllerTest extends AbstractControllerTest
      */
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void testAddFriendFOrInAppropriateFormat() throws Exception 
+    public void testAddFriendForInAppropriateFormat() throws Exception 
     {
         json.put("username","5milena");
         json.put("friendname","!mixalis");
@@ -182,7 +182,7 @@ public class FriendControllerTest extends AbstractControllerTest
     
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void testDeleteFriendInAppropiateFormatFriendname() throws Exception 
+    public void testDeleteFriendInappropiateFormatFriendname() throws Exception 
     {
         json.put("username","milena");
         json.put("friendname","25mixalis");

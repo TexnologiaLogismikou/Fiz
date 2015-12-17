@@ -36,37 +36,4 @@ public class ChatroomQuitMemberDTOTest {
     @After
     public void tearDown() {
     }
-
-    @Test
-    public void testCleanValidator() {
-    }
-
-    @Test
-    public void testRegisterValidator() throws Exception {
-    }
-
-    @Test
-    public void testGetValidatorList() throws Exception {
-    }
-
-    @Test
-    public void testRemoveValidator() throws Exception {
-    }
-
-    @Test
-    public void testValidate() {
-    }
-
-    @Test
-    public void testGetDTOName() {
-    }
-
-    @Test
-    public void testGetRoom_name() {
-    }
-
-    @Test
-    public void testGetUser_name() {
-    }
-    
 }
