@@ -28,7 +28,7 @@ import org.springframework.http.ResponseEntity;
  */
 public class ChatroomLocationUpdateDTO extends BaseDTO {
     
-    private static final List<IStringValidator> USER_NAME_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
+    private static final List<IStringValidator> ROOM_NAME_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
     private static final List<IFloatValidator> LATITUDE_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyFloatValidator()));
     private static final List<IFloatValidator> LONGITUDE_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyFloatValidator()));
 
@@ -48,11 +48,11 @@ public class ChatroomLocationUpdateDTO extends BaseDTO {
     
     public static void cleanValidator(){
         
-        USER_NAME_VALIDATORS.clear();
+        ROOM_NAME_VALIDATORS.clear();
         LATITUDE_VALIDATORS.clear();
         LONGITUDE_VALIDATORS.clear();
         
-        USER_NAME_VALIDATORS.add(new EmptyStringValidator());
+        ROOM_NAME_VALIDATORS.add(new EmptyStringValidator());
         LATITUDE_VALIDATORS.add(new EmptyFloatValidator());
         LONGITUDE_VALIDATORS.add(new EmptyFloatValidator());
         
@@ -65,8 +65,8 @@ public class ChatroomLocationUpdateDTO extends BaseDTO {
         int i = 0;
         switch(scope)
         {
-            case USER_NAME:
-                for(ICustomValidator vLookUp:USER_NAME_VALIDATORS)
+            case ROOM_NAME:
+                for(ICustomValidator vLookUp:ROOM_NAME_VALIDATORS)
                 {
                     if(vLookUp.getName().equals("Empty")) { continue; }
                     i++;
@@ -102,10 +102,10 @@ public class ChatroomLocationUpdateDTO extends BaseDTO {
         }
         switch(scope)
         {
-            case USER_NAME:
-                if(USER_NAME_VALIDATORS.get(i) != null){
-                    USER_NAME_VALIDATORS.get(i-1).replaceNext(USER_NAME_VALIDATORS.get(i).getNext());
-                    USER_NAME_VALIDATORS.remove(i);
+            case ROOM_NAME:
+                if(ROOM_NAME_VALIDATORS.get(i) != null){
+                    ROOM_NAME_VALIDATORS.get(i-1).replaceNext(ROOM_NAME_VALIDATORS.get(i).getNext());
+                    ROOM_NAME_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
@@ -131,7 +131,7 @@ public class ChatroomLocationUpdateDTO extends BaseDTO {
     @Override
     public Pair<Boolean,ResponseEntity> validate() {  
         
-        Pair<Boolean,ResponseEntity> currentTest = USER_NAME_VALIDATORS.get(0).validate(room_name);
+        Pair<Boolean,ResponseEntity> currentTest = ROOM_NAME_VALIDATORS.get(0).validate(room_name);
         if(!currentTest.getLeft())
         {
             return currentTest;
@@ -155,9 +155,9 @@ public class ChatroomLocationUpdateDTO extends BaseDTO {
         
         switch(scope)
         {
-            case USER_NAME:
-                USER_NAME_VALIDATORS.add(strVal);
-                USER_NAME_VALIDATORS.get(0).setNext(strVal);
+            case ROOM_NAME:
+                ROOM_NAME_VALIDATORS.add(strVal);
+                ROOM_NAME_VALIDATORS.get(0).setNext(strVal);
                 break;
             default: 
                 throw new ValidatorNotListedException();   

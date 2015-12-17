@@ -8,6 +8,7 @@ package com.tech.configurations;
 import com.tech.configurations.tools.ValidationScopes;
 import com.tech.configurations.tools.customvalidators.elements.EmptyFloatValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.FloatNotNaNValidator;
+import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LatitudeValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LongitudeValidator;
 import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotEmptyValidatorN;
 import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotNegativeValidator;
@@ -93,7 +94,7 @@ public class InitializeValidators {
             MessageDTO.registerValidator(new LongitudeValidator(), ValidationScopes.LONGITUDE);
             MessageDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LONGITUDE);
 
-            MessageDTO.registerValidator(new LongitudeValidator(), ValidationScopes.LATITUDE);
+            MessageDTO.registerValidator(new LatitudeValidator(), ValidationScopes.LATITUDE);
             MessageDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LATITUDE);
 
             MessageDTO.registerValidator(new NotNegativeValidator(), ValidationScopes.TTL);
@@ -214,9 +215,27 @@ public class InitializeValidators {
             UserDTO.registerValidator(new MaxLengthValidator(1000), ValidationScopes.STATUS);
             UserDTO.registerValidator(new MinLenghtValidator(0), ValidationScopes.STATUS);
 
-            ChatroomUpdateDTO.registerValidator(new NotEmptyValidatorN(),ValidationScopes.NUMBER);
-            ChatroomUpdateDTO.registerValidator(new NotEmptyValidatorS(),ValidationScopes.STRING);
-            ChatroomUpdateDTO.registerValidator(new NoSpacesValidator(),ValidationScopes.STRING);
+            ChatroomUpdateDTO.registerValidator(new NotEmptyValidatorN(),ValidationScopes.RANGE);
+            
+            ChatroomUpdateDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.ROOM_NAME);
+            ChatroomUpdateDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.ROOM_NAME);
+            ChatroomUpdateDTO.registerValidator(new MaxLengthValidator(16), ValidationScopes.ROOM_NAME);
+            ChatroomUpdateDTO.registerValidator(new MinLenghtValidator(4), ValidationScopes.ROOM_NAME);
+            ChatroomUpdateDTO.registerValidator(new MatchValidator("[^A-Za-z0-9]"), ValidationScopes.ROOM_NAME);
+            ChatroomUpdateDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.ROOM_NAME);
+            
+            ChatroomUpdateDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.ROOM_ACCESS_METHOD);
+            ChatroomUpdateDTO.registerValidator(new MatchValidator("[^A-Za-z0-9]"), ValidationScopes.ROOM_ACCESS_METHOD);
+            ChatroomUpdateDTO.registerValidator(new MaxLengthValidator(6), ValidationScopes.ROOM_ACCESS_METHOD);
+            ChatroomUpdateDTO.registerValidator(new MinLenghtValidator(3), ValidationScopes.ROOM_ACCESS_METHOD);
+            ChatroomUpdateDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.ROOM_ACCESS_METHOD);
+            ChatroomUpdateDTO.registerValidator(new IncludeInListValidator(accessMethodList), ValidationScopes.ROOM_ACCESS_METHOD);
+            
+            ChatroomUpdateDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.ROOM_PRIVILEGE);
+            ChatroomUpdateDTO.registerValidator(new MatchValidator("[^A-Za-z0-9]"), ValidationScopes.ROOM_PRIVILEGE);
+            ChatroomUpdateDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.ROOM_PRIVILEGE);
+            ChatroomUpdateDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.ROOM_PRIVILEGE);
+            ChatroomUpdateDTO.registerValidator(new IncludeInListValidator(privilegeList), ValidationScopes.ROOM_PRIVILEGE);
             
             ChatroomBlacklistDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.ROOM_NAME);
             ChatroomBlacklistDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.ROOM_NAME);
@@ -232,11 +251,9 @@ public class InitializeValidators {
             ChatroomBlacklistDTO.registerValidator(new MatchValidator("[^A-Za-z0-9]"), ValidationScopes.USER_NAME);
             ChatroomBlacklistDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.USER_NAME);
             
-            ChatroomCheckInsideDTO.registerValidator(new NotEmptyValidatorN(), ValidationScopes.LONGITUDE);
             ChatroomCheckInsideDTO.registerValidator(new LongitudeValidator(), ValidationScopes.LONGITUDE);
             ChatroomCheckInsideDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LONGITUDE);
             
-            ChatroomCheckInsideDTO.registerValidator(new NotEmptyValidatorN(), ValidationScopes.LATITUDE);
             ChatroomCheckInsideDTO.registerValidator(new LongitudeValidator(), ValidationScopes.LATITUDE);
             ChatroomCheckInsideDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LATITUDE);
             
@@ -253,20 +270,13 @@ public class InitializeValidators {
             ChatroomCheckInsideDTO.registerValidator(new MinLenghtValidator(4), ValidationScopes.USER_NAME);
             ChatroomCheckInsideDTO.registerValidator(new MatchValidator("[^A-Za-z0-9]"), ValidationScopes.USER_NAME);
             ChatroomCheckInsideDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.USER_NAME);
-            
+                     
             ChatroomConnectionMemberDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.USER_NAME);
-            ChatroomConnectionMemberDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.USER_NAME);
             ChatroomConnectionMemberDTO.registerValidator(new MaxLengthValidator(16), ValidationScopes.USER_NAME);
             ChatroomConnectionMemberDTO.registerValidator(new MinLenghtValidator(4), ValidationScopes.USER_NAME);
             ChatroomConnectionMemberDTO.registerValidator(new MatchValidator("[^A-Za-z0-9]"), ValidationScopes.USER_NAME);
             ChatroomConnectionMemberDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.USER_NAME);
-            
-            ChatroomConnectionMemberDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.USER_NAME);
             ChatroomConnectionMemberDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.USER_NAME);
-            ChatroomConnectionMemberDTO.registerValidator(new MaxLengthValidator(16), ValidationScopes.USER_NAME);
-            ChatroomConnectionMemberDTO.registerValidator(new MinLenghtValidator(4), ValidationScopes.USER_NAME);
-            ChatroomConnectionMemberDTO.registerValidator(new MatchValidator("[^A-Za-z0-9]"), ValidationScopes.USER_NAME);
-            ChatroomConnectionMemberDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.USER_NAME);
             
             ChatroomConnectionMemberDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.PASSWORD);
             ChatroomConnectionMemberDTO.registerValidator(new MaxLengthValidator(15), ValidationScopes.PASSWORD);
@@ -280,11 +290,9 @@ public class InitializeValidators {
             ChatroomConnectionMemberDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.ROOM_ACCESS_METHOD);
             ChatroomConnectionMemberDTO.registerValidator(new IncludeInListValidator(accessMethodList), ValidationScopes.ROOM_ACCESS_METHOD);
             
-            ChatroomConnectionMemberDTO.registerValidator(new NotEmptyValidatorN(), ValidationScopes.LONGITUDE);
             ChatroomConnectionMemberDTO.registerValidator(new LongitudeValidator(), ValidationScopes.LONGITUDE);
             ChatroomConnectionMemberDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LONGITUDE);
             
-            ChatroomConnectionMemberDTO.registerValidator(new NotEmptyValidatorN(), ValidationScopes.LATITUDE);
             ChatroomConnectionMemberDTO.registerValidator(new LongitudeValidator(), ValidationScopes.LATITUDE);
             ChatroomConnectionMemberDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LATITUDE);
             
@@ -315,15 +323,13 @@ public class InitializeValidators {
             ChatroomCreationDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.ROOM_ACCESS_METHOD);
             ChatroomCreationDTO.registerValidator(new IncludeInListValidator(accessMethodList), ValidationScopes.ROOM_ACCESS_METHOD);
             
-            ChatroomCreationDTO.registerValidator(new NotEmptyValidatorN(), ValidationScopes.LONGITUDE);
             ChatroomCreationDTO.registerValidator(new LongitudeValidator(), ValidationScopes.LONGITUDE);
             ChatroomCreationDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LONGITUDE);
             
-            ChatroomCreationDTO.registerValidator(new NotEmptyValidatorN(), ValidationScopes.LATITUDE);
             ChatroomCreationDTO.registerValidator(new LongitudeValidator(), ValidationScopes.LATITUDE);
             ChatroomCreationDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LATITUDE);
             
-            ChatroomCreationDTO.registerValidator(new MaxLengthValidator(5000), ValidationScopes.RANGE);
+            //TODO Validation element for Max Min . Number
             ChatroomCreationDTO.registerValidator(new NotEmptyValidatorN(), ValidationScopes.RANGE);
             
             ChatroomCreationDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.PASSWORD);
@@ -367,19 +373,19 @@ public class InitializeValidators {
             MessageHistoryRequestDTO.registerValidator(new LongitudeValidator(), ValidationScopes.LONGITUDE);
             MessageHistoryRequestDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LONGITUDE);
 
-            MessageHistoryRequestDTO.registerValidator(new LongitudeValidator(), ValidationScopes.LATITUDE);
+            MessageHistoryRequestDTO.registerValidator(new LatitudeValidator(), ValidationScopes.LATITUDE);
             MessageHistoryRequestDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LATITUDE);
 
             ChatroomLocationDTO.registerValidator(new LongitudeValidator(), ValidationScopes.LONGITUDE);
             ChatroomLocationDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LONGITUDE);
 
-            ChatroomLocationDTO.registerValidator(new LongitudeValidator(), ValidationScopes.LATITUDE);
+            ChatroomLocationDTO.registerValidator(new LatitudeValidator(), ValidationScopes.LATITUDE);
             ChatroomLocationDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LATITUDE);
 
             ChatroomLocationUpdateDTO.registerValidator(new LongitudeValidator(), ValidationScopes.LONGITUDE);
             ChatroomLocationUpdateDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LONGITUDE);
 
-            ChatroomLocationUpdateDTO.registerValidator(new LongitudeValidator(), ValidationScopes.LATITUDE);
+            ChatroomLocationUpdateDTO.registerValidator(new LatitudeValidator(), ValidationScopes.LATITUDE);
             ChatroomLocationUpdateDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LATITUDE);
             
             ChatroomLocationUpdateDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.ROOM_NAME);

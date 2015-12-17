@@ -79,15 +79,23 @@ public class MessageDTO extends BaseDTO
                 LNG_VALIDATORS.add(strVal);    
                 LNG_VALIDATORS.get(0).setNext(strVal);
                 break;
+            default:
+                throw new ValidatorNotListedException();        
+        }       
+    }
+    private static void registerNumberValidator(INumberValidator strVal , ValidationScopes scope) throws ValidatorNotListedException, InappropriateValidatorException
+    {   
+        
+                switch(scope)
+        {
             case TTL:
-                LAT_VALIDATORS.add(strVal);    
+                TTL_VALIDATORS.add(strVal);    
                 TTL_VALIDATORS.get(0).setNext(strVal);
                 break;
             default:
                 throw new ValidatorNotListedException();        
         }       
     }
-    
     public static void registerValidator(ICustomValidator newValidator,ValidationScopes scope) throws InappropriateValidatorException, ValidatorNotListedException{
 
        if(newValidator instanceof IStringValidator)
@@ -97,7 +105,12 @@ public class MessageDTO extends BaseDTO
        else if (newValidator instanceof IFloatValidator)
        {
             registerFloatValidator((IFloatValidator)newValidator, scope);
-       } else
+       }  
+       else if (newValidator instanceof INumberValidator)
+       {
+            registerNumberValidator((INumberValidator)newValidator, scope);
+       }
+       else
        {
             throw new InappropriateValidatorException();
        }

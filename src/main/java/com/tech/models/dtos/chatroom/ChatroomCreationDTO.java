@@ -89,6 +89,7 @@ public class ChatroomCreationDTO extends BaseDTO {
                     i++;
                     list.add(i + ": " + vLookUp.getName());
                 }
+                return list;
             case ROOM_NAME:
                 for (ICustomValidator vLookUp : ROOM_NAME_VALIDATORS) {
                     if (vLookUp.getName().equals("Empty")) {
@@ -152,7 +153,6 @@ public class ChatroomCreationDTO extends BaseDTO {
                     i++;
                     list.add(i + ": " + vLookUp.getName());
                 }
-
                 return list;
             default:
                 throw new ValidatorNotListedException();
@@ -275,6 +275,7 @@ public class ChatroomCreationDTO extends BaseDTO {
             case USER_NAME:
                 USERNAME_VALIDATORS.add(newValidator);
                 USERNAME_VALIDATORS.get(0).setNext(newValidator);
+                break;
             case ROOM_NAME:
                 ROOM_NAME_VALIDATORS.add(newValidator);
                 ROOM_NAME_VALIDATORS.get(0).setNext(newValidator);
