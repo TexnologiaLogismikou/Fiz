@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tech.services;
+package com.tech.services.user;
 
 import com.tech.services.user.UserInfoService;
 import com.tech.AbstractTest;
@@ -11,6 +11,7 @@ import com.tech.configurations.tools.Attr;
 import com.tech.models.entities.user.UserInfo;
 import com.tech.repositories.IUserInfoRepository;
 import com.tech.services.interfaces.IUserInfoService;
+import java.util.ArrayList;
 import javax.transaction.Transactional;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -31,6 +32,7 @@ import static org.mockito.Mockito.verify;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -69,7 +71,7 @@ public class UserInfoServiceTest extends AbstractTest{
         userNotExist = new UserInfo(4L,"mixalis2@gmail.com",Attr.NO_IMAGE_ASSIGNED.getData(),
                 "status","mixailidis",new Date("23/01/1994"),"thessaloniki","mixalis");
         userExist = new UserInfo(2L,"iwanna@gmail.com",Attr.NO_IMAGE_ASSIGNED.getData(),
-                "Status","Fwtiadoy",new Date("23/01/1994"),"serres","serres");
+                "Status","Fwtiadou",new Date("23/01/1994"),"serres","Iwanna");
 
     }
 
@@ -127,5 +129,61 @@ public class UserInfoServiceTest extends AbstractTest{
     @Sql(scripts = "classpath:populateDB.sql")
     public void testGetUserInfoByUserId() {
         Assert.assertEquals("Fail get User By Id",userExist.getUserid(),service.getUserInfoByUserId(userExist.getUserid()).getUserid());
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetUserInfoByEmail(){
+        Assert.assertEquals("Fail to get userInfo by Email",userExist.getEmail(),service.getUserInfoByEmail(userExist.getEmail()).getEmail());
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testCheckMailTrue(){
+        Assert.assertTrue("Mail wasnt Found",service.checkMail(userExist.getEmail()));
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testCheckMailFalse(){
+        Assert.assertFalse("Mail was Found",service.checkMail("DoesntExist"));
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testfindByFirstName(){
+        
+        List<UserInfo> list = service.findByFirstName("Iwanna");
+       
+        Assert.assertEquals("Fail find by firstname",userExist.getFirstName(),list.get(0).getFirstName());
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void findByLastName(){
+        
+        List<UserInfo> list = service.findByLastName("Fwtiadou");
+        
+        Assert.assertEquals("Fail find by LastName",userExist.getLastName(),list.get(0).getLastName());
+    }
+    
+// TODO date
+//    @Test
+//    @Sql(scripts = "classpath:populateDB.sql")
+//    public void findByBirthDay(){
+//        
+//        List<UserInfo> list = service.findByBirthDay(java.sql.Date.valueOf("1994-01-23"));
+//               
+//        Assert.assertEquals("Fail find by Birthday",userExist.getBirthday(),list.get(0).getBirthday());
+//        
+//    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void findByHomeTown(){
+        
+        List<UserInfo> list = service.findByHomeTown("serres");
+        
+        Assert.assertEquals("Fail find by HomeTown",userExist.getHometown(),list.get(0).getHometown());
     }
 }

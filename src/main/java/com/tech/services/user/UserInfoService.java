@@ -8,9 +8,11 @@ package com.tech.services.user;
 import com.tech.services.interfaces.IUserInfoService;
 import com.tech.models.entities.user.UserInfo;
 import com.tech.repositories.IUserInfoRepository;
+import java.util.Date;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 /**
  *
@@ -41,5 +43,41 @@ public class UserInfoService implements IUserInfoService {
     public UserInfo getUserInfoByUserId(Long userId){
         return repository.findByUserid(userId);
     }
+    
+    @Override
+    @Transactional
+    public UserInfo getUserInfoByEmail(String mail){
+        return repository.findByEmail(mail);
+    }
+    
+    @Override
+    @Transactional
+    public boolean checkMail(String mail){
+        return repository.findByEmail(mail)!=null;
+    }
    
+    @Override
+    @Transactional
+    public List<UserInfo> findByFirstName(String first_name){
+        return repository.findByFirstName(first_name);
+    }
+    
+    @Override
+    @Transactional
+    public List<UserInfo> findByLastName(String last_name){
+        return repository.findByLastName(last_name);
+    }
+    
+    @Override
+    @Transactional
+    public List<UserInfo> findByBirthDay(Date birthday){
+        return repository.findByBirthDay(birthday);
+    }
+    
+    @Override
+    @Transactional
+    public List<UserInfo> findByHomeTown(String hometown){
+        return repository.findByHomeTown(hometown);
+    }
+    
 }
