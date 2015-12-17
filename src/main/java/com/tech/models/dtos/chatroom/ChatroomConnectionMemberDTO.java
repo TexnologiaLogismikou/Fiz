@@ -83,7 +83,7 @@ public class ChatroomConnectionMemberDTO extends BaseDTO{
     private String room_name;
     private String member_name;
     private String password;
-    private String method;
+    private String method;  //update,delete,add
     private float lat;
     private float lng;
     
