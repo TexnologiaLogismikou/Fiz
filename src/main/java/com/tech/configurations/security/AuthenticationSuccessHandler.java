@@ -1,5 +1,6 @@
 package com.tech.configurations.security;
 
+import org.json.simple.JSONObject;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,10 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
                                         Authentication authentication) throws ServletException, IOException {
 
 
-        response.getWriter().print(request.getSession().getId());
+        JSONObject json = new JSONObject();
+        json.put("username",authentication.getName());
+        json.put("roles",authentication.getAuthorities());
+        response.getWriter().print(json);
         clearAuthenticationAttributes(request);
     }
 }
