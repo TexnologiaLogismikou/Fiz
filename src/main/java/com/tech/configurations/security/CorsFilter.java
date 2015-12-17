@@ -1,5 +1,6 @@
 package com.tech.configurations.security;
 
+import com.tech.configurations.tools.Host;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -16,6 +17,7 @@ public class CorsFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
+        response.setHeader("Access-Control-Allow-Origin", Host.apache);
         response.setHeader("Access-Control-Allow-Headers", "X-Ajax-call");
         response.setHeader("Access-Control-Allow-Headers", "X-requested-with");
         response.setHeader("Access-Control-Expose-Headers", "x-requested-with");
