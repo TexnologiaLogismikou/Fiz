@@ -5,6 +5,7 @@
  */
 package com.tech.configurations;
 
+import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -44,6 +45,9 @@ public class InitializeValidatorsTest {
 
     @Test
     public void testCleanCustomValidators() {
+        System.out.println(new Date("23/01/1994"));
+        System.out.println(java.sql.Date.valueOf("1994-01-23"));
+        System.out.println("");
     }
     
 }
