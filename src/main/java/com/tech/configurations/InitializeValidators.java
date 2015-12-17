@@ -19,6 +19,8 @@ import com.tech.configurations.tools.customvalidators.elements.stringvalidators.
 import com.tech.models.dtos.chatroom.ChatroomUpdateDTO;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotEmptyValidatorS;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotMatchValidator;
+import com.tech.controllers.ImagesController;
+import com.tech.controllers.UserController;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
 import com.tech.models.dtos.FriendDTO;
@@ -168,6 +170,20 @@ public class InitializeValidators {
             UserDTO.registerValidator(new MinLenghtValidator(4), ValidationScopes.USER_NAME);
             UserDTO.registerValidator(new MatchValidator("[^A-Za-z0-9]"), ValidationScopes.USER_NAME);
             UserDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.USER_NAME);
+            
+            UserController.registerValidator(new NotEmptyValidatorS(), ValidationScopes.USER_NAME);
+            UserController.registerValidator(new NoSpacesValidator(), ValidationScopes.USER_NAME);
+            UserController.registerValidator(new MaxLengthValidator(16), ValidationScopes.USER_NAME);
+            UserController.registerValidator(new MinLenghtValidator(4), ValidationScopes.USER_NAME);
+            UserController.registerValidator(new MatchValidator("[^A-Za-z0-9]"), ValidationScopes.USER_NAME);
+            UserController.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.USER_NAME);
+
+            ImagesController.registerValidator(new NotEmptyValidatorS(), ValidationScopes.USER_NAME);
+            ImagesController.registerValidator(new NoSpacesValidator(), ValidationScopes.USER_NAME);
+            ImagesController.registerValidator(new MaxLengthValidator(16), ValidationScopes.USER_NAME);
+            ImagesController.registerValidator(new MinLenghtValidator(4), ValidationScopes.USER_NAME);
+            ImagesController.registerValidator(new MatchValidator("[^A-Za-z0-9]"), ValidationScopes.USER_NAME);
+            ImagesController.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.USER_NAME);
 
             UserDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.PASSWORD);
             UserDTO.registerValidator(new MaxLengthValidator(15), ValidationScopes.PASSWORD);
@@ -437,5 +453,7 @@ public class InitializeValidators {
         RegisteredUserDTO.cleanValidator();
         MessageDTO.cleanValidator();
         MessageHistoryRequestDTO.cleanValidator();
+        ImagesController.cleanValidator();
+        UserController.cleanValidator();
     }
 }

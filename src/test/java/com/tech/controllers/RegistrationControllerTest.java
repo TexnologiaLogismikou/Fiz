@@ -55,12 +55,16 @@ public class RegistrationControllerTest extends AbstractControllerTest{
     @InjectMocks
     private RegistrationController controller;
     
-    @BeforeClass
-    public static void setUpClass() {
+     @BeforeClass
+    public static void setUpClass()
+    {
+        InitializeValidators.InitializeCustomValidators();
     }
     
     @AfterClass
-    public static void tearDownClass() {
+    public static void tearDownClass()
+    {     
+        InitializeValidators.CleanCustomValidators();
     }    
     
     @Before

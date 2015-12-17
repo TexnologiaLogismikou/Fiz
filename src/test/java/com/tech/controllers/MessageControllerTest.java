@@ -6,6 +6,7 @@
 package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
+import com.tech.configurations.InitializeValidators;
 import com.tech.services.MessageService;
 import com.tech.services.chatroom.ChatroomEntitiesService;
 import com.tech.services.chatroom.ChatroomLocationService;
@@ -53,12 +54,16 @@ public class MessageControllerTest extends AbstractControllerTest {
     }
     
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass()
+    {
+        InitializeValidators.InitializeCustomValidators();
     }
     
     @AfterClass
-    public static void tearDownClass() {
-    }
+    public static void tearDownClass()
+    {     
+        InitializeValidators.CleanCustomValidators();
+    } 
     
     @Before
     @Override

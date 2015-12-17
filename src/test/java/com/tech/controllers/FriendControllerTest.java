@@ -6,6 +6,7 @@
 package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
+import com.tech.configurations.InitializeValidators;
 import com.tech.configurations.tools.Responses;
 import com.tech.models.entities.Friend;
 import com.tech.models.entities.user.User;
@@ -57,11 +58,15 @@ public class FriendControllerTest extends AbstractControllerTest
     private FriendController controller;
     
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass()
+    {
+        InitializeValidators.InitializeCustomValidators();
     }
     
     @AfterClass
-    public static void tearDownClass() {
+    public static void tearDownClass()
+    {     
+        InitializeValidators.CleanCustomValidators();
     }    
     
     @Before

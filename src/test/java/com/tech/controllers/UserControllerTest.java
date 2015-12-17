@@ -6,6 +6,7 @@
 package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
+import com.tech.configurations.InitializeValidators;
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.Validator;
 import com.tech.models.dtos.responses.UserResponseDTO;
@@ -65,12 +66,16 @@ public class UserControllerTest extends AbstractControllerTest
     }
     
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass()
+    {
+        InitializeValidators.InitializeCustomValidators();
     }
     
     @AfterClass
-    public static void tearDownClass() {
-    }
+    public static void tearDownClass()
+    {     
+        InitializeValidators.CleanCustomValidators();
+    } 
     
     @Before
     public void setUp()
