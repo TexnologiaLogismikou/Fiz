@@ -36,12 +36,12 @@ INSERT INTO friendlist VALUES (1, 2,TO_TIMESTAMP('16-05-2011 12:00:00', 'dd-mm-y
 INSERT INTO friendlist VALUES (1, 3,TO_TIMESTAMP('16-05-2011 13:00:00', 'dd-mm-yyyy hh24:mi:ss')); --table#5
 
 INSERT INTO chatrooms_entities VALUES (1,1,'first testing room','20/1/2010','7/12/2015'); --table#6.1
-INSERT INTO chatrooms_entities VALUES (2,1, 'second testing room','21/2/2011','7/12/2015'); --table#6.1
+INSERT INTO chatrooms_entities VALUES (2,2, 'second testing room','21/2/2011','7/12/2015'); --table#6.1
 INSERT INTO chatrooms_entities VALUES (3,3, 'third testing room','22/3/2012','7/12/2015'); --table#6.1
 
 INSERT INTO chatrooms_members VALUES (1,1,'15/12/2015'); --table#6.2
 INSERT INTO chatrooms_members VALUES (1,2,'14/9/2015'); --table#6.2
-INSERT INTO chatrooms_members VALUES (2,1,'14/9/2015'); --table#6.2
+INSERT INTO chatrooms_members VALUES (2,2,'14/9/2015'); --table#6.2
 INSERT INTO chatrooms_members VALUES (3,3,'13/10/2015'); --table#6.2
 INSERT INTO chatrooms_members VALUES (3,2,'12/11/2015'); --table#6.2
 
@@ -60,4 +60,6 @@ INSERT INTO messages VALUES (2, 2,'second message',TO_TIMESTAMP('16-05-2011 13:3
 INSERT INTO messages VALUES (3, 2,'third message',TO_TIMESTAMP('16-05-2011 14:30:00', 'dd-mm-yyyy hh24:mi:ss'),'1'); --table#7
 INSERT INTO messages VALUES (4, 3,'forth message',TO_TIMESTAMP('16-05-2011 13:30:00', 'dd-mm-yyyy hh24:mi:ss'),'2'); --table#7
 
-
+INSERT INTO chatroom_location VALUES (1,1,1,10000);
+-- INSERT INTO chatroom_location VALUES (2,2,2,10000);
+INSERT INTO chatroom_location VALUES (3,3,3,10000);
