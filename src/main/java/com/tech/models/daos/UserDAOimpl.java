@@ -39,7 +39,7 @@ public class UserDAOimpl implements IDAO{
     @Override
     public List<IDAO> list() {
         Session session = this.sessionFactory.openSession();
-        List<IDAO> userList = session.createQuery("from user").list();//takes a list of User IDAOs from the session
+        List<IDAO> userList = session.createQuery("from usersdata").list();//takes a list of User IDAOs from the session
         session.close();
         return userList;
     }

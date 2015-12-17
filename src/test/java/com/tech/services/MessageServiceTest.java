@@ -54,8 +54,8 @@ public class MessageServiceTest extends AbstractTest
     @Before
     public void setUp() 
     {
-        messageToAdd = new Message(5L,3L,testTextMessage,1L);
-        messageToModify = new Message(1L,1L,testModifiedTextMessage,1L);
+        messageToAdd = new Message(5L,3L,testTextMessage,1L,10);
+        messageToModify = new Message(1L,1L,testModifiedTextMessage,1L,10);
     }
     
     @After

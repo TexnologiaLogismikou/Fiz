@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.web.WebAppConfiguration;
+import static org.mockito.Mockito.verify;
 
 /**
  *
@@ -97,7 +98,7 @@ public class UserServiceTest extends AbstractTest{
         
         verify(repository, times(1)).findByUserid(anyLong());
         verify(repository, times(1)).setUserInfoById(mockedModifyUser.getUsername(), mockedModifyUser.getPassword(),
-                mockedModifyUser.isEnabled(), mockedModifyUser.getId());
+                mockedModifyUser.isEnabled(),mockedModifyUser.hasRoom(), mockedModifyUser.getId());
         
         Assert.assertNotEquals("Failure expected changed username",
                 userOrigin.getUsername(), user.getUsername());
@@ -125,7 +126,7 @@ public class UserServiceTest extends AbstractTest{
         
         verify(repository, times(1)).findByUserid(anyLong());
         verify(repository, times(1)).setUserInfoById(mockedModifyUser.getUsername(), mockedModifyUser.getPassword(),
-                mockedModifyUser.isEnabled(), mockedModifyUser.getId());
+                mockedModifyUser.isEnabled(),mockedModifyUser.hasRoom(), mockedModifyUser.getId());
         
         Assert.assertNotEquals("Failure expected changed password",
                 userOrigin.getPassword(), user.getPassword());
@@ -153,7 +154,7 @@ public class UserServiceTest extends AbstractTest{
         
         verify(repository, times(1)).findByUserid(anyLong());
         verify(repository, times(1)).setUserInfoById(mockedModifyUser.getUsername(), mockedModifyUser.getPassword(),
-                mockedModifyUser.isEnabled(), mockedModifyUser.getId());
+                mockedModifyUser.isEnabled(),mockedModifyUser.hasRoom(), mockedModifyUser.getId());
         
         Assert.assertNotEquals("Failure expected changed status",
                 userOrigin.isEnabled(), user.isEnabled());
@@ -181,7 +182,7 @@ public class UserServiceTest extends AbstractTest{
         
         verify(repository, times(1)).findByUserid(anyLong());
         verify(repository, times(1)).setUserInfoById(mockedModifyUser.getUsername(), mockedModifyUser.getPassword(),
-                mockedModifyUser.isEnabled(), mockedModifyUser.getId());
+                mockedModifyUser.isEnabled(),mockedModifyUser.hasRoom(), mockedModifyUser.getId());
         
         Assert.assertNotEquals("Failure expected changed password",
                 userOrigin.getPassword(), user.getPassword());
@@ -212,7 +213,7 @@ public class UserServiceTest extends AbstractTest{
         
         verify(repository, times(1)).findByUserid(anyLong());
         verify(repository, times(1)).setUserInfoById(mockedModifyUser.getUsername(), mockedModifyUser.getPassword(),
-                mockedModifyUser.isEnabled(), mockedModifyUser.getId());
+                mockedModifyUser.isEnabled(),mockedModifyUser.hasRoom(), mockedModifyUser.getId());
         
         Assert.assertNotEquals("Failure expected changed username",
                 userOrigin.getUsername(), user.getUsername());
@@ -245,7 +246,7 @@ public class UserServiceTest extends AbstractTest{
         
         verify(repository, times(1)).findByUserid(anyLong());
         verify(repository, times(1)).setUserInfoById(mockedModifyUser.getUsername(), mockedModifyUser.getPassword(),
-                mockedModifyUser.isEnabled(), mockedModifyUser.getId());
+                mockedModifyUser.isEnabled(),mockedModifyUser.hasRoom(), mockedModifyUser.getId());
         
         Assert.assertEquals("Failure expected changed username",
                 userOrigin.getUsername(), user.getUsername());
@@ -278,7 +279,7 @@ public class UserServiceTest extends AbstractTest{
         
         verify(repository, times(1)).findByUserid(anyLong());
         verify(repository, times(1)).setUserInfoById(mockedModifyUser.getUsername(), mockedModifyUser.getPassword(),
-                mockedModifyUser.isEnabled(), mockedModifyUser.getId());
+                mockedModifyUser.isEnabled(),mockedModifyUser.hasRoom(), mockedModifyUser.getId());
         
         Assert.assertNotEquals("Failure expected changed username",
                 userOrigin.getUsername(), user.getUsername());
@@ -383,6 +384,18 @@ public class UserServiceTest extends AbstractTest{
     @Sql(scripts = "classpath:populateDB.sql")
     public void testGetNextID(){
         Assert.assertEquals("Counting was wrong",4,service.getNextID());        
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetLastRecord(){
+        
+        User user = new User (4L,"vasilis","vasilis",true);
+        service.addUser(user);
+        
+        Assert.assertEquals("Id is good",user.getId(), service.getLastRecord().getId());
+        Assert.assertEquals("Username is good",user.getUsername(), service.getLastRecord().getUsername());
+        Assert.assertEquals("Password is good",user.getPassword(), service.getLastRecord().getPassword());
     }
     
 }

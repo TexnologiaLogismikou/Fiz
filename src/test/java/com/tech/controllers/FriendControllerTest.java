@@ -6,12 +6,19 @@
 package com.tech.controllers;
 
 import com.tech.AbstractControllerTest;
+import com.tech.configurations.InitializeValidators;
 import com.tech.configurations.tools.Responses;
-import com.tech.configurations.tools.Validator;
+import com.tech.configurations.tools.ValidationScopes;
+import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotMatchValidator;
+import com.tech.exceptions.customexceptions.InappropriateValidatorException;
+import com.tech.exceptions.customexceptions.ValidatorNotListedException;
+import com.tech.models.dtos.FriendDTO;
 import com.tech.models.entities.Friend;
 import com.tech.models.entities.user.User;
 import com.tech.services.FriendService;
 import com.tech.services.user.UserService;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.transaction.Transactional;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -20,13 +27,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import org.mockito.Mock;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
@@ -34,6 +39,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 
 /**
  *
@@ -56,11 +63,15 @@ public class FriendControllerTest extends AbstractControllerTest
     private FriendController controller;
     
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass()
+    {
+        InitializeValidators.CleanCustomValidators();
     }
     
     @AfterClass
-    public static void tearDownClass() {
+    public static void tearDownClass()
+    {     
+        InitializeValidators.InitializeCustomValidators();
     }    
     
     @Before
@@ -154,8 +165,18 @@ public class FriendControllerTest extends AbstractControllerTest
      */
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void testAddFriendFOrInAppropriateFormat() throws Exception 
+    public void testAddFriendForInappropriateFormat() throws Exception 
     {
+        try 
+        {
+            FriendDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.USER_NAME);
+        } 
+        catch (InappropriateValidatorException | ValidatorNotListedException ex) 
+        {
+            Logger.getLogger(ImagesController.class.getName()).log(Level.SEVERE, null, ex);
+            Assert.fail("something went wrong while registering");
+        } 
+        
         json.put("username","5milena");
         json.put("friendname","!mixalis");
         
@@ -177,14 +198,25 @@ public class FriendControllerTest extends AbstractControllerTest
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
                     content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
         
+        FriendDTO.cleanValidator();
     }
     
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void testDeleteFriendInAppropiateFormatFriendname() throws Exception 
+    public void testDeleteFriendInappropiateFormatFriendname() throws Exception 
     {
+        try 
+        {
+            FriendDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.USER_NAME);
+        } 
+        catch (InappropriateValidatorException | ValidatorNotListedException ex) 
+        {
+            Logger.getLogger(ImagesController.class.getName()).log(Level.SEVERE, null, ex);
+            Assert.fail("something went wrong while registering");
+        } 
+        
         json.put("username","milena");
-        json.put("friendname","25mixalis");
+        json.put("friendname","@mixalis");
         
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/deletefriend")
                 .content(json.toString())
@@ -203,6 +235,8 @@ public class FriendControllerTest extends AbstractControllerTest
         
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.STRING_INAPPROPRIATE_FORMAT.getData() + "'",
                     content.equals(Responses.STRING_INAPPROPRIATE_FORMAT.getData()));
+        
+        FriendDTO.cleanValidator();
     }  
     
     @Test
@@ -352,5 +386,32 @@ public class FriendControllerTest extends AbstractControllerTest
         
         Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.FRIEND_ALREADY_EXIST.getData() + "'",
                     content.equals(Responses.FRIEND_ALREADY_EXIST.getData()));
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testUsernameNotFound() throws Exception {
+        
+        json.put("username","milena");
+        json.put("friendname","vasilis"); 
+       
+       when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","milena",true));
+       //when(userService.getUserByUsername("iwanna")).thenReturn(new User(2L,"iwanna","iwanna",true));
+       when(userService.checkUsername("vasilis")).thenReturn(false);
+       
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(uri + "/addfriend")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        
+      String content = result.getResponse().getContentAsString();
+        int status = result.getResponse().getStatus();
+        
+        verify(userService,times(1)).checkUsername(anyString());
+        
+        Assert.assertEquals("failure - expected HTTP status to be '404'", 404, status); 
+        
+        Assert.assertTrue("failure - expected HTTP response body to be '" + Responses.NOT_AVAILABLE.getData() + "'",
+                    content.equals(Responses.NOT_AVAILABLE.getData()));
     }
 }
