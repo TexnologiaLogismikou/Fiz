@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tech.services;
+package com.tech.services.chatroom;
 
 import com.tech.AbstractTest;
 import com.tech.models.entities.chatroom.ChatroomEntities;
@@ -91,7 +91,7 @@ public class ChatroomMembersServiceTest extends AbstractTest {
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testFindByRoomMember() {
-        Assert.assertTrue("Failed to find members by room id",service.findByRoomMember(1L).size()==2);
+        Assert.assertTrue("Failed to find members by room id",service.findByRoomMember(2L).size()==3);
 
     }
 
@@ -113,7 +113,8 @@ public class ChatroomMembersServiceTest extends AbstractTest {
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testCountRecordsOfMember() {
-        Assert.assertTrue("Failed to count members",service.countRecordsOfMember(1L)==2);
+        Assert.assertTrue("Failed to count members",service.countRecordsOfMember(1L)==1);
+        Assert.assertTrue("Failed to count members",service.countRecordsOfMember(2L)==3);
 
     }
 

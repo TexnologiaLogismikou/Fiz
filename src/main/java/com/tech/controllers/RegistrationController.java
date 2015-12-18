@@ -49,6 +49,10 @@ public class RegistrationController extends BaseController{
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.FOUND);            
         }
         
+        if(infoService.checkMail(userDTO.getEmail())){
+            return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.FOUND);              
+        }
+        
         User user = new User(service.getNextID(),userDTO);
         UserInfo userInfo = new UserInfo(user.getId(),userDTO);
         UserRole userRole = new UserRole(user.getId(),AvailableRoles.ROLE_USER.getData());        
