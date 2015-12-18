@@ -17,12 +17,11 @@ public class CorsFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        response.addHeader("Access-Control-Allow-Origin", Host.apache);
-        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Origin", Host.apache);
         response.setHeader("Access-Control-Allow-Headers", "X-Ajax-call");
         response.setHeader("Access-Control-Allow-Headers", "X-requested-with");
-        response.setHeader("Access-Control-Expose-Headers", "x-requested-with");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
         filterChain.doFilter(request, response);
     }
 }
