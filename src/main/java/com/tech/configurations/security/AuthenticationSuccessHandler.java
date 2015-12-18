@@ -20,7 +20,7 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
 
         JSONObject json = new JSONObject();
         json.put("username",authentication.getName());
-        json.put("roles",authentication.getAuthorities());
+        //json.put("roles",authentication.getAuthorities()); TODO
         response.getWriter().print(json);
         clearAuthenticationAttributes(request);
     }
