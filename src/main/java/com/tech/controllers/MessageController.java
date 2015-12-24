@@ -46,38 +46,38 @@ public class MessageController extends BaseController {
     @SendTo("/topic/chat")
     public JSONObject incomingMessage(MessageDTO messageDTO){
         JSONObject json = new JSONObject();
+        System.out.println("something");
+        Pair<Boolean,ResponseEntity> response = messageDTO.validate();
+        if(!response.getLeft()){
+            json.put("response",Responses.STRING_INAPPROPRIATE_FORMAT.getData());
+            return json;
+        }
 
-//        Pair<Boolean,ResponseEntity> response = messageDTO.validate();
-//        if(!response.getLeft()){
-//            json.put("response",Responses.STRING_INAPPROPRIATE_FORMAT.getData());
-//            return json;
-//        }
-//
-//        if(!userService.checkUsername(messageDTO.getUsername())){
-//            json.put("response",Responses.NOT_AUTHORIZED.getData());
-//            return json;
-//        }
-//
-//        if(!chatroomEntitieService.validateRoomnameExistance(messageDTO.getChatroom_name())){
-//            json.put("response",Responses.NOT_AUTHORIZED.getData());
-//            return json;
-//        }
-//
-//        Long userID = userService.getUserByUsername(messageDTO.getUsername()).getId();
-//        Long roomID = chatroomEntitieService.getRoomByName(messageDTO.getChatroom_name()).getRoom_id();
-//
-//        if(!memberService.checkIfMemberExistsInChatroom(userID, roomID)){
-//            json.put("response",Responses.NOT_AUTHORIZED.getData());
-//            return json;
-//        }
-//
-//        if(!locationService.checkIfStillInside(roomID, messageDTO.getLng(), messageDTO.getLat())){
-//            json.put("response",Responses.OUTSIDE_RANGE.getData());
-//            return json;
-//        } //mexri edw elenxw ta paidia pou pira apo to DTO an einai swsta
+        if(!userService.checkUsername(messageDTO.getUsername())){
+            json.put("response",Responses.NOT_AUTHORIZED.getData());
+            return json;
+        }
+
+        if(!chatroomEntitieService.validateRoomnameExistance(messageDTO.getChatroom_name())){
+            json.put("response",Responses.NOT_AUTHORIZED.getData());
+            return json;
+        }
+
+        Long userID = userService.getUserByUsername(messageDTO.getUsername()).getId();
+        Long roomID = chatroomEntitieService.getRoomByName(messageDTO.getChatroom_name()).getRoom_id();
+
+        if(!memberService.checkIfMemberExistsInChatroom(userID, roomID)){
+            json.put("response",Responses.NOT_AUTHORIZED.getData());
+            return json;
+        }
+
+        if(!locationService.checkIfStillInside(roomID, messageDTO.getLng(), messageDTO.getLat())){
+            json.put("response",Responses.OUTSIDE_RANGE.getData());
+            return json;
+        } //mexri edw elenxw ta paidia pou pira apo to DTO an einai swsta
         
-//        Message message = new Message(messageService.getNextId(),userID,roomID,messageDTO);
-//        messageService.addMessage(message); //pernaw to minima mesa sti basi
+        Message message = new Message(messageService.getNextId(),userID,roomID,messageDTO);
+        messageService.addMessage(message); //pernaw to minima mesa sti basi
         
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm"); 
         
