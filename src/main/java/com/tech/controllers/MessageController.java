@@ -46,7 +46,7 @@ public class MessageController extends BaseController {
     @SendTo("/topic/chat")
     public JSONObject incomingMessage(MessageDTO messageDTO){
         JSONObject json = new JSONObject();
-        System.out.println("something");
+        
         Pair<Boolean,ResponseEntity> response = messageDTO.validate();
         if(!response.getLeft()){
             json.put("response",Responses.STRING_INAPPROPRIATE_FORMAT.getData());
