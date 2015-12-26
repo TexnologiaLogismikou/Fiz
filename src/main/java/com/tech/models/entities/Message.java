@@ -53,47 +53,47 @@ public class Message implements Serializable{
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+//    public void setMessage(String message) {
+//        this.message = message;
+//    }
 
     public Long getUserid() {
         return userid;
     }
 
-    public void setUserid(Long userid) {
-        this.userid = userid;
-    }
+//    public void setUserid(Long userid) {
+//        this.userid = userid;
+//    }
 
     public Date getDate() {
         return dateSent;
     }
 
-    public void setDate() {
-        this.dateSent = new Date();
-    }
+//    public void setDate() {
+//        this.dateSent = new Date();
+//    }
 
     public Long getChatroom() {
         return chatroom_id;
     }
 
-    public void setChatroom(Long chatroom) {
-        this.chatroom_id = chatroom;
-    }
+//    public void setChatroom(Long chatroom) {
+//        this.chatroom_id = chatroom;
+//    }
 
     public Integer getTtl() {
         return ttl;
     }
 
-    public void setTtl(Integer ttl) {
-        this.ttl = ttl;
-    }
+//    public void setTtl(Integer ttl) {
+//        this.ttl = ttl;
+//    }
 }

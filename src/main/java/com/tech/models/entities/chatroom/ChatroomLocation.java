@@ -64,31 +64,31 @@ public class ChatroomLocation implements Serializable {
         return room_id;
     }
 
-    public void setRoom_id(Long room_id) {
-        this.room_id = room_id;
-    }
+//    public void setRoom_id(Long room_id) {
+//        this.room_id = room_id;
+//    }
 
     public float getRoom_lat() {
         return room_lat;
     }
 
-    public void setRoom_lat(float room_lat) {
-        this.room_lat = room_lat;
-    }
+//    public void setRoom_lat(float room_lat) {
+//        this.room_lat = room_lat;
+//    }
 
     public float getRoom_lng() {
         return room_lng;
     }
 
-    public void setRoom_lng(float room_lng) {
-        this.room_lng = room_lng;
-    }
+//    public void setRoom_lng(float room_lng) {
+//        this.room_lng = room_lng;
+//    }
 
     public int getRoom_max_range() {
         return room_max_range;
     }
 
-    public void setRoom_max_range(int room_max_range) {
-        this.room_max_range = room_max_range;
-    }
+//    public void setRoom_max_range(int room_max_range) {
+//        this.room_max_range = room_max_range;
+//    }
 }

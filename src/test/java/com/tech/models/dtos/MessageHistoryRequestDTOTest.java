@@ -5,23 +5,18 @@
  */
 package com.tech.models.dtos;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tech.configurations.InitializeValidators;
 import com.tech.configurations.tools.JSONToolConverter;
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.ValidationScopes;
-import com.tech.configurations.tools.customvalidators.elements.EmptyStringValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.FloatNotNaNValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LongitudeValidator;
-import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotEmptyValidatorN;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.MatchValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.MaxLengthValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.MinLenghtValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NoSpacesValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotEmptyValidatorS;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotMatchValidator;
-import java.io.IOException;
 import java.util.List;
 import junit.framework.Assert;
 import net.minidev.json.JSONObject;
@@ -30,7 +25,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -45,10 +39,12 @@ public class MessageHistoryRequestDTOTest {
     @BeforeClass
     public static void setUpClass() {
         MessageHistoryRequestDTO.cleanValidator();        
+        InitializeValidators.CleanCustomValidators();
     }
     
     @AfterClass
     public static void tearDownClass() {
+        InitializeValidators.InitializeCustomValidators();
     }
     
     @Before
@@ -110,8 +106,9 @@ public class MessageHistoryRequestDTOTest {
     }
 
     @Test
-    public void testValidate() throws Exception {
-        initializeMessageHistoryRequestDTO();
+    public void testValidateSuccess() throws Exception {
+        InitializeValidators.InitializeCustomValidators();
+        
         JSONObject json = new JSONObject();
         
         json.put("room_name","teicm");
@@ -123,8 +120,76 @@ public class MessageHistoryRequestDTOTest {
         
         Pair<Boolean,ResponseEntity> r = MHRDTO.validate();
         
-        System.out.println("");
+        Assert.assertTrue("Failure expected true",r.getLeft());
     }    
+    
+    @Test
+    public void testValidateFailRoomName() throws Exception {
+        InitializeValidators.InitializeCustomValidators();
+        JSONObject json = new JSONObject();
+        
+        json.put("room_name","@teicm");
+        json.put("member_name","mixalis");
+        json.put("lat","50");
+        json.put("lng","40");
+        
+        MessageHistoryRequestDTO MHRDTO = JSONToolConverter.mapFromJson(json.toJSONString(),MessageHistoryRequestDTO.class);
+        
+        Pair<Boolean,ResponseEntity> r = MHRDTO.validate();
+        
+        Assert.assertFalse("Failure expected true",r.getLeft());
+    }   
+    
+    @Test
+    public void testValidateFailMemberName() throws Exception {
+        InitializeValidators.InitializeCustomValidators();
+        JSONObject json = new JSONObject();
+        
+        json.put("room_name","teicm");
+        json.put("member_name","%mixalis");
+        json.put("lat","50");
+        json.put("lng","40");
+        
+        MessageHistoryRequestDTO MHRDTO = JSONToolConverter.mapFromJson(json.toJSONString(),MessageHistoryRequestDTO.class);
+        
+        Pair<Boolean,ResponseEntity> r = MHRDTO.validate();
+        
+        Assert.assertFalse("Failure expected false",r.getLeft());
+    }   
+    
+    @Test
+    public void testValidateFailLatitude() throws Exception {
+        InitializeValidators.InitializeCustomValidators();
+        JSONObject json = new JSONObject();
+        
+        json.put("room_name","teicm");
+        json.put("member_name","mixalis");
+        json.put("lat","250");
+        json.put("lng","40");
+        
+        MessageHistoryRequestDTO MHRDTO = JSONToolConverter.mapFromJson(json.toJSONString(),MessageHistoryRequestDTO.class);
+        
+        Pair<Boolean,ResponseEntity> r = MHRDTO.validate();
+        
+        Assert.assertFalse("Failure expected true",r.getLeft());
+    }
+    
+    @Test
+    public void testValidateFailLongitude() throws Exception {
+        InitializeValidators.InitializeCustomValidators();
+        JSONObject json = new JSONObject();
+        
+        json.put("room_name","teicm");
+        json.put("member_name","@mixalis");
+        json.put("lat","50");
+        json.put("lng","540");
+        
+        MessageHistoryRequestDTO MHRDTO = JSONToolConverter.mapFromJson(json.toJSONString(),MessageHistoryRequestDTO.class);
+        
+        Pair<Boolean,ResponseEntity> r = MHRDTO.validate();
+        
+        Assert.assertFalse("Failure expected true",r.getLeft());
+    }
     
     private void initializeMessageHistoryRequestDTO() throws Exception{
             MessageHistoryRequestDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.ROOM_NAME);

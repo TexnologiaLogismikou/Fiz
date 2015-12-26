@@ -173,4 +173,12 @@ public class MessageServiceTest extends AbstractTest
     {
         Assert.assertTrue(Responses.ERROR.getData(),service.getNextId().compareTo(5L)==0);
     }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testDeleteMessate(){
+        Long i = service.getCount();
+        service.delete(service.getAllMessages().get(0));
+        Assert.assertTrue("Failure.. exptected one less message", service.getCount() == i - 1);
+    }
 }

@@ -65,40 +65,40 @@ public class ChatroomPrivileges implements Serializable {
         return room_id;
     }
 
-    public void setRoom_id(Long room_id) {
-        this.room_id = room_id;
-    }
+//    public void setRoom_id(Long room_id) {
+//        this.room_id = room_id;
+//    }
 
     public String getRoom_privileges() {
         return room_privileges;
     }
 
-    public void setRoom_privileges(String room_privileges) {
-        this.room_privileges = room_privileges;
-    }
+//    public void setRoom_privileges(String room_privileges) {
+//        this.room_privileges = room_privileges;
+//    }
 
     public boolean isRoom_password_protected() {
         return room_password_protected;
     }
 
-    public void setRoom_password_protected(boolean room_password_protected) {
-        this.room_password_protected = room_password_protected;
-    }
+//    public void setRoom_password_protected(boolean room_password_protected) {
+//        this.room_password_protected = room_password_protected;
+//    }
 
     public String getRoom_password() {
         return room_password;
     }
 
-    public void setRoom_password(String room_password) {
-        this.room_password = room_password;
-    }
+//    public void setRoom_password(String room_password) {
+//        this.room_password = room_password;
+//    }
 
     public String getRoom_access_method() {
         return room_access_method;
     }
 
-    public void setRoom_access_method(String room_access_method) {
-        this.room_access_method = room_access_method;
-    }
+//    public void setRoom_access_method(String room_access_method) {
+//        this.room_access_method = room_access_method;
+//    }
     
 }

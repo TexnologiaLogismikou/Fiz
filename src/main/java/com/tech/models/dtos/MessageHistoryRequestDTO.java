@@ -179,8 +179,8 @@ public class MessageHistoryRequestDTO extends BaseDTO{
                 break;
                
             case USER_NAME:
-                ROOM_NAME_VALIDATORS.add(strVal);
-                ROOM_NAME_VALIDATORS.get(0).setNext(strVal);
+                MEMBER_NAME_VALIDATORS.add(strVal);
+                MEMBER_NAME_VALIDATORS.get(0).setNext(strVal);
                 break;
             default: 
                 throw new ValidatorNotListedException();
