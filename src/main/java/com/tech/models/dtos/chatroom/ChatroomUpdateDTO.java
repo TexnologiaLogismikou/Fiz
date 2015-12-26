@@ -17,7 +17,6 @@ import com.tech.configurations.tools.customvalidators.interfaces.IStringValidato
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
 import com.tech.configurations.tools.customvalidators.interfaces.INumberValidator;
-import com.tech.exceptions.customexceptions.NoValidatorsAssignedException;
 import java.util.Arrays;
 import org.springframework.http.ResponseEntity;
 

@@ -5,9 +5,7 @@
  */
 package com.tech.models.dtos.chatroom;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tech.configurations.tools.JSONToolConverter;
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.ValidationScopes;
@@ -16,7 +14,6 @@ import com.tech.configurations.tools.customvalidators.elements.stringvalidators.
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.MinLenghtValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotMatchValidator;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
-import com.tech.exceptions.customexceptions.NoValidatorsAssignedException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
 import java.io.IOException;
 import java.util.List;
@@ -54,7 +51,7 @@ public class ChatroomUpdateDTOTest {
     }
 
     @Test
-    public void testSomething() throws InappropriateValidatorException, ValidatorNotListedException, JsonMappingException, IOException, NoValidatorsAssignedException {
+    public void testSomething() throws InappropriateValidatorException, ValidatorNotListedException, JsonMappingException, IOException {
         ChatroomUpdateDTO.registerValidator(new MinLenghtValidator(3), ValidationScopes.ROOM_NAME);
         ChatroomUpdateDTO.registerValidator(new MinLenghtValidator(3), ValidationScopes.PASSWORD);
         ChatroomUpdateDTO.registerValidator(new MaxLengthValidator(16), ValidationScopes.ROOM_NAME);
