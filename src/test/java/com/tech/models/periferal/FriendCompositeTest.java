@@ -66,4 +66,19 @@ public class FriendCompositeTest {
         
         Assert.assertEquals(x, i);
     }
+    
+    @Test
+    public void testNullEquals(){
+        Assert.assertFalse(FC.equals(null));
+    }
+    
+    @Test
+    public void testWrongEquals(){
+        Assert.assertFalse(FC.equals(this));
+    }
+    
+    @Test
+    public void testEqualsSameObject(){
+        Assert.assertTrue(FC.equals(FC));
+    }
 }

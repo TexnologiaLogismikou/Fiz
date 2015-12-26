@@ -69,4 +69,19 @@ public class ImageCompositeTest {
         
         Assert.assertEquals(x, i);
     }
+    
+    @Test
+    public void testNullEquals(){
+        Assert.assertFalse(IC.equals(null));
+    }
+    
+    @Test
+    public void testWrongEquals(){
+        Assert.assertFalse(IC.equals(this));
+    }
+    
+    @Test
+    public void testEqualsSameObject(){
+        Assert.assertTrue(IC.equals(IC));
+    }
 }

@@ -66,4 +66,19 @@ public class ChatroomEntitiesCompositeTest {
         
         Assert.assertEquals(x, i);
     }
+    
+    @Test
+    public void testNullEquals(){
+        Assert.assertFalse(CEC.equals(null));
+    }
+    
+    @Test
+    public void testWrongEquals(){
+        Assert.assertFalse(CEC.equals(this));
+    }
+    
+    @Test
+    public void testEqualsSameObject(){
+        Assert.assertTrue(CEC.equals(CEC));
+    }
 }

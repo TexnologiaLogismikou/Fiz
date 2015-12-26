@@ -66,4 +66,19 @@ public class ChatroomMembersCompositeTest {
         
         Assert.assertEquals(x, i);
     }
+    
+    @Test
+    public void testNullEquals(){
+        Assert.assertFalse(CMC.equals(null));
+    }
+    
+    @Test
+    public void testWrongEquals(){
+        Assert.assertFalse(CMC.equals(this));
+    }
+    
+    @Test
+    public void testEqualsSameObject(){
+        Assert.assertTrue(CMC.equals(CMC));
+    }
 }

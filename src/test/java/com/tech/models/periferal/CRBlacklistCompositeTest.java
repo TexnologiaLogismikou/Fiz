@@ -66,4 +66,19 @@ public class CRBlacklistCompositeTest {
         
         Assert.assertEquals(x, i);
     }
+    
+    @Test
+    public void testNullEquals(){
+        Assert.assertFalse(CRB.equals(null));
+    }
+    
+    @Test
+    public void testWrongEquals(){
+        Assert.assertFalse(CRB.equals(this));
+    }
+    
+    @Test
+    public void testEqualsSameObject(){
+        Assert.assertTrue(CRB.equals(CRB));
+    }
 }

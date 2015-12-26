@@ -8,11 +8,9 @@ package com.tech.models.dtos;
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.ValidationScopes;
 import com.tech.configurations.tools.customvalidators.elements.EmptyFloatValidator;
-import com.tech.configurations.tools.customvalidators.elements.EmptyNumberValidator;
 import com.tech.configurations.tools.customvalidators.elements.EmptyStringValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.ICustomValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.IFloatValidator;
-import com.tech.configurations.tools.customvalidators.interfaces.INumberValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.IStringValidator;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
@@ -102,6 +100,7 @@ public class MessageHistoryRequestDTO extends BaseDTO{
                 throw new ValidatorNotListedException();                    
         }       
     }  
+    
     public static boolean removeValidator(ValidationScopes scope, int i) 
             throws ValidatorNotListedException, InappropriateValidatorException{
         
@@ -110,28 +109,28 @@ public class MessageHistoryRequestDTO extends BaseDTO{
         }
         switch(scope){
             case ROOM_NAME:
-                if(ROOM_NAME_VALIDATORS.get(i) != null){
+                if(ROOM_NAME_VALIDATORS.size() >= i + 1 ){
                     ROOM_NAME_VALIDATORS.get(i-1).replaceNext(ROOM_NAME_VALIDATORS.get(i).getNext());
                     ROOM_NAME_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case USER_NAME:
-                if(MEMBER_NAME_VALIDATORS.get(i) != null){
+                if(MEMBER_NAME_VALIDATORS.size() >= i + 1){
                     MEMBER_NAME_VALIDATORS.get(i-1).replaceNext(MEMBER_NAME_VALIDATORS.get(i).getNext());
                     MEMBER_NAME_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case LATITUDE:
-                if(LAT_VALIDATORS.get(i) != null){
+                if(LAT_VALIDATORS.size() >= i + 1){
                     LAT_VALIDATORS.get(i-1).replaceNext(LAT_VALIDATORS.get(i).getNext());
                     LAT_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case LONGITUDE: 
-                if(LNG_VALIDATORS.get(i) != null){
+                if(LNG_VALIDATORS.size() >= i + 1){
                     LNG_VALIDATORS.get(i-1).replaceNext(LNG_VALIDATORS.get(i).getNext());
                     LNG_VALIDATORS.remove(i);
                     return true;
