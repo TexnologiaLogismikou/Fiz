@@ -315,17 +315,17 @@ public class UserDTO extends BaseDTO
     public String getPassword(){
         return password;
     }
-    
-    public boolean getEnabled(){
+
+    public boolean isEnabled() {
         return enabled;
     }
-    
-    public String getFirstName(){
+
+    public boolean isHasRoom() {
+        return hasRoom;
+    }
+
+    public String getFirstname() {
         return firstname;
     }
     
-    public boolean getHasRoom(){
-        return hasRoom;
-    }
-            
 }

@@ -62,7 +62,7 @@ public class UserInfo implements Serializable {
      */
     public UserInfo(Long userid,UserDTO userDTO){
         this(userid,userDTO.getEmail(),userDTO.getProfile_photo(),userDTO.getStatus(),
-                userDTO.getLast_name(),userDTO.getBirthday(),userDTO.getHometown(),userDTO.getFirstName());
+                userDTO.getLast_name(),userDTO.getBirthday(),userDTO.getHometown(),userDTO.getFirstname());
     }
 
     public UserInfo(Long userid,RegisteredUserDTO userDTO){

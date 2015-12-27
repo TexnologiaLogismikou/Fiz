@@ -42,7 +42,7 @@ public class User implements Serializable{
     
     public User(Long id,UserDTO userDTO){
         this(id,userDTO.getUsername(),
-                userDTO.getPassword(),userDTO.getEnabled(),userDTO.getHasRoom());
+                userDTO.getPassword(),userDTO.isEnabled(),userDTO.isHasRoom());
     }
     
     public User(Long id,RegisteredUserDTO userDTO) {
