@@ -217,7 +217,7 @@ public class RegisteredUserDTO extends BaseDTO
     private String email;
     private String last_name;
     private String firstname;
-    private Date birthday;
+    //private Date birthday;
       
     @Override
     public String getDTOName() {
@@ -235,9 +235,9 @@ public class RegisteredUserDTO extends BaseDTO
         return last_name;
     }
 
-    public Date getBirthday() {
-        return birthday;
-    }
+//    public Date getBirthday() {
+//        return birthday;
+//    }
     
     public String getUsername(){
         return username;
