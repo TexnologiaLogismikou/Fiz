@@ -47,55 +47,35 @@ public class MessageController extends BaseController {
     public JSONObject incomingMessage(MessageDTO messageDTO){
         JSONObject json = new JSONObject();
         
-        System.out.println(messageDTO.getChatroom_name());
-        System.out.println(messageDTO.getLat());
-        System.out.println(messageDTO.getLng());
-        System.out.println(messageDTO.getMessage());
-        System.out.println(messageDTO.getUsername());
-        System.out.println(messageDTO.getTtl());
-        
         Pair<Boolean,ResponseEntity> response = messageDTO.validate();
         if(!response.getLeft()){
             json.put("response",Responses.STRING_INAPPROPRIATE_FORMAT.getData());
             return json;
         }
         
-        System.out.println("Validations passed");
-        
         if(!userService.checkUsername(messageDTO.getUsername())){
             json.put("response",Responses.NOT_AUTHORIZED.getData());
             return json;
         }
-
-        System.out.println("Username exists");
         
         if(!chatroomEntitieService.validateRoomnameExistance(messageDTO.getChatroom_name())){
             json.put("response",Responses.NOT_AUTHORIZED.getData());
             return json;
-        }
-        
-        System.err.println("Room Entitie exists");
+        }        
 
         Long userID = userService.getUserByUsername(messageDTO.getUsername()).getId();
         Long roomID = chatroomEntitieService.getRoomByName(messageDTO.getChatroom_name()).getRoom_id();
-
-        System.out.println("UserID : " + userID);
-        System.out.println("RoomID : " + roomID);
         
         if(!memberService.checkIfMemberExistsInChatroom(userID, roomID)){
             json.put("response",Responses.NOT_AUTHORIZED.getData());
             return json;
         }
-
-        System.out.println("He is a member");
         
         if(!locationService.checkIfStillInside(roomID, messageDTO.getLng(), messageDTO.getLat())){
             json.put("response",Responses.OUTSIDE_RANGE.getData());
             return json;
         } //mexri edw elenxw ta paidia pou pira apo to DTO an einai swsta
-        
-        System.out.println("He is inside the location");
-        
+                
         Message message = new Message(messageService.getNextId(),userID,roomID,messageDTO);
         messageService.addMessage(message); //pernaw to minima mesa sti basi
         
@@ -106,9 +86,7 @@ public class MessageController extends BaseController {
         json.put("date",dateFormat.format(new Date()));
         json.put("chatroom",messageDTO.getChatroom_name());
         json.put("response",Responses.SUCCESS.getData());
-        
-        System.out.println(json.toJSONString());
-        
+                
         return json;
     }
     
