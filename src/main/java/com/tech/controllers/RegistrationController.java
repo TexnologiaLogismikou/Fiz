@@ -40,15 +40,11 @@ public class RegistrationController extends BaseController{
      */
     @RequestMapping(method = RequestMethod.POST)
     public HttpEntity<String> register(@RequestBody RegisteredUserDTO userDTO) {
-
-        System.out.println(userDTO.getFirstname());
-
         Pair<Boolean,ResponseEntity> response = userDTO.validate();
         if(!response.getLeft()){
             System.out.println(userDTO.getLast_name());
             return response.getRight();
         }
-        System.out.println(userDTO.getPassword());
 
         if(service.checkUsername(userDTO.getUsername())) {
             return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.FOUND);            

@@ -75,7 +75,7 @@ public class InitializeValidators {
             FriendDTO.registerValidator(new MatchValidator("[^A-Za-z0-9]"), ValidationScopes.USER_NAME);
             FriendDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.USER_NAME);
 
-            MessageDTO.registerValidator(new MaxLengthValidator(16), ValidationScopes.STRING);
+            MessageDTO.registerValidator(new MaxLengthValidator(160), ValidationScopes.STRING);
 
             MessageDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.USER_NAME);
             MessageDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.USER_NAME);

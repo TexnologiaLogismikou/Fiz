@@ -47,6 +47,13 @@ public class MessageController extends BaseController {
     public JSONObject incomingMessage(MessageDTO messageDTO){
         JSONObject json = new JSONObject();
         
+        System.out.println(messageDTO.getChatroom_name());
+        System.out.println(messageDTO.getLat());
+        System.out.println(messageDTO.getLng());
+        System.out.println(messageDTO.getMessage());
+        System.out.println(messageDTO.getUsername());
+        System.out.println(messageDTO.getTtl());
+        
         Pair<Boolean,ResponseEntity> response = messageDTO.validate();
         if(!response.getLeft()){
             json.put("response",Responses.STRING_INAPPROPRIATE_FORMAT.getData());
