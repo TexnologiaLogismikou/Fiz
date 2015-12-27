@@ -64,7 +64,7 @@ public class ChatroomMembersServiceTest extends AbstractTest {
     @Sql(scripts = "classpath:populateDB.sql")
     public void testAddChatroomMember() {
         service.add(new ChatroomMembers(3L, 1L));
-        Assert.assertTrue("Could not add member", service.checkIfMemberExistsInChatroom(3L, 1L));
+        Assert.assertTrue("Could not add member", service.checkIfMemberExistsInChatroom(1L, 3L));
     }
 
 

@@ -52,13 +52,13 @@ public class ChatroomMembersService implements IChatroomMembersService {
     @Transactional
     @Override
     public boolean checkIfMemberExistsInChatroom(Long member_id, Long room_id) {
-        return repository.findByRoomIdAndMember(member_id, room_id) != null;
+        return repository.findByRoomIdAndMember(room_id,member_id) != null; //kapios ta ebale anapoda :D
     }
 
     @Transactional
     @Override
     public ChatroomMembers findByRoomIdAndMember(Long member_id, Long room_id) {
-        return repository.findByRoomIdAndMember(member_id, room_id);
+        return repository.findByRoomIdAndMember(room_id,member_id);
     }
 
 
