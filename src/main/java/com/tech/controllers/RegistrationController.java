@@ -38,8 +38,7 @@ public class RegistrationController extends BaseController{
      * @return because it expects the validation on front end the data posted on this function will
      *         be registered without further validation. Returns only "Success" , HttpStatus.OK
      */
-    @RequestMapping(method = RequestMethod.POST,
-            consumes = "application/x-www-form-urlencoded")
+    @RequestMapping(method = RequestMethod.POST)
     public HttpEntity<String> register(@RequestBody RegisteredUserDTO userDTO) {
         Pair<Boolean,ResponseEntity> response = userDTO.validate();
         if(!response.getLeft()){
