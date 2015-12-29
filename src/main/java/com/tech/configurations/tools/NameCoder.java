@@ -23,8 +23,9 @@ public class NameCoder {
         char firstChar = str.charAt(0);
         if (str.length() > 1 ) {
             String otherChars = str.substring(1);
-            if (otherChars.length() > 9) {
-                finalString = firstChar + otherChars.length() + Integer.toString(hashCodeValidator(tmstamp)) + otherChars;                
+            if (otherChars.length() > 7) {
+//                finalString = firstChar + Integer.toString(otherChars.length()) + Integer.toString(hashCodeValidator(tmstamp)) + otherChars;  
+                  throw new NumberFormatException("Number was too big");
             } else {
                 finalString = firstChar + "0" + otherChars.length() + Integer.toString(hashCodeValidator(tmstamp)) + otherChars;                
             }            
@@ -43,6 +44,17 @@ public class NameCoder {
         String finalPath = Attr.IMAGES_OUTPUT_FOLDER.getData() + "\\" + userid + "\\" + hsTag + ".jpg";
         
         return finalPath;        
+    }
+    
+    /**
+     * When the encoded name is invalid this converter should be used
+     * @param hsTag
+     * @return 
+     */
+    public static String invalidPathConvertrer(Long hsTag){
+        String finalPath = Attr.IMAGES_OUTPUT_FOLDER.getData() + "\\" + "WrongName" + "\\" + hsTag + ".jpg";
+        
+        return finalPath; 
     }
     
     private static int hashCodeValidator(int hash){
