@@ -9,12 +9,18 @@ import com.tech.AbstractControllerTest;
 import com.tech.configurations.InitializeValidators;
 import com.tech.configurations.tools.Attr;
 import com.tech.configurations.tools.FileTools;
+import com.tech.configurations.tools.JSONToolConverter;
+import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.ValidationScopes;
+import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotEmptyValidatorN;
+import com.tech.configurations.tools.customvalidators.elements.stringvalidators.MaxLengthValidator;
+import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NoSpacesValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotMatchValidator;
 import com.tech.controllers.methodcontainer.FileWorkAround;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
+import com.tech.models.dtos.chatroom.ChatroomDeleteDTO;
 import com.tech.models.entities.ImagesMod;
 import com.tech.models.entities.user.User;
 import com.tech.services.ImagesService;
@@ -23,9 +29,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.transaction.Transactional;
+import net.minidev.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -48,6 +56,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import org.springframework.http.ResponseEntity;
 
 /**
  *
@@ -71,6 +80,7 @@ public class ImagesControllerTest extends AbstractControllerTest{
     @BeforeClass
     public static void setUpClass()
     {
+        ImagesController.cleanValidator();
         InitializeValidators.CleanCustomValidators();
     }
     
@@ -101,6 +111,8 @@ public class ImagesControllerTest extends AbstractControllerTest{
         } catch (IOException ex) {
             Logger.getLogger(ImagesControllerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        ImagesController.cleanValidator();
     }
     
     @Test
@@ -367,4 +379,167 @@ public class ImagesControllerTest extends AbstractControllerTest{
             Assert.assertTrue("Fail expected Response Body to be '" + Responses.FILE_ERROR.getData() + "'",
                 content.equals(Responses.FILE_ERROR.getData()));           
     }  
+    
+    @Test
+    public void testRegisterUserNameValidator() throws Exception 
+    {
+        List<String> str = ImagesController.getValidatorList(ValidationScopes.USER_NAME);
+        junit.framework.Assert.assertEquals("Failure - expected validatorList size to be 0", 0, str.size());
+        ImagesController.registerValidator(new NoSpacesValidator(), ValidationScopes.USER_NAME);
+        
+        str = ImagesController.getValidatorList(ValidationScopes.USER_NAME);
+        junit.framework.Assert.assertEquals("Failure - expected validatorList size to be 1", 1, str.size()); 
+        junit.framework.Assert.assertEquals("Failure - expected validatorList's first element to be NoSpacesValidator", "1: NoSpacesValidator", str.get(0));   
+    }
+    
+    @Test
+    public void testRegisterNotListedStringValidator() 
+    {
+        try 
+        {
+            List<String> str = ImagesController.getValidatorList(ValidationScopes.USER_NAME);
+            junit.framework.Assert.assertEquals("Failure - expected validatorList size to be 0", 0, str.size());
+            ImagesController.registerValidator(new NoSpacesValidator(), ValidationScopes.MODE);
+        } 
+        catch (ValidatorNotListedException ex) 
+        {
+            junit.framework.Assert.assertTrue("Exception should be ValidatorNotListedException",
+                    ex.getMessage().equals(new ValidatorNotListedException().getMessage()));
+        } 
+        catch (InappropriateValidatorException ex) 
+        {
+            junit.framework.Assert.fail("Exception should be ValidatorNotListedException not InappropriateValidatorException");
+        }     
+    }
+    
+    @Test
+    public void testRegisterInappropriateValidator()
+    {
+        try 
+        {
+            List<String> str = ImagesController.getValidatorList(ValidationScopes.USER_NAME);
+            junit.framework.Assert.assertEquals("Failure - expected validatorList size to be 0", 0, str.size());
+            ImagesController.registerValidator(new NotEmptyValidatorN(), ValidationScopes.USER_NAME);
+        } 
+        catch(ValidatorNotListedException ex) 
+        {
+            junit.framework.Assert.fail("Exception should be InappropriateValidatorException not ValidatorNotListedException");
+        } 
+        catch (InappropriateValidatorException ex) 
+        {
+            junit.framework.Assert.assertTrue("Exception should be InappropriateValidatorException",
+                    ex.getMessage().equals(new InappropriateValidatorException().getMessage()));
+        } 
+    }
+    
+    @Test
+    public void testCleanValidator() throws Exception 
+    {
+        ImagesController.registerValidator(new MaxLengthValidator(2), ValidationScopes.USER_NAME);
+        ImagesController.registerValidator(new NoSpacesValidator(), ValidationScopes.USER_NAME);
+        List<String> str = ImagesController.getValidatorList(ValidationScopes.USER_NAME);
+        
+        junit.framework.Assert.assertEquals("Failure - expected validatorList size to be 2", 2, str.size()); 
+        
+        ImagesController.cleanValidator();
+        str = ImagesController.getValidatorList(ValidationScopes.USER_NAME);
+        
+        junit.framework.Assert.assertEquals("Failure - expected validatorList size to be 0", 0, str.size()); 
+    }
+    
+    @Test
+    public void testGetValidatorList() throws Exception 
+    {
+        ImagesController.registerValidator(new MaxLengthValidator(2), ValidationScopes.USER_NAME);
+        ImagesController.registerValidator(new NoSpacesValidator(), ValidationScopes.USER_NAME);
+        List<String> str = ImagesController.getValidatorList(ValidationScopes.USER_NAME);
+        
+        junit.framework.Assert.assertEquals("Failure - expected validatorList size to be 2", 2, str.size()); 
+    }
+    
+    @Test
+    public void testRemoveUserNameValidator() throws Exception 
+    {
+        ImagesController.registerValidator(new MaxLengthValidator(2), ValidationScopes.USER_NAME);
+        ImagesController.registerValidator(new NoSpacesValidator(), ValidationScopes.USER_NAME);
+        List<String> str = ImagesController.getValidatorList(ValidationScopes.USER_NAME);
+        
+        junit.framework.Assert.assertEquals("Failure - expected validatorList size to be 2", 2, str.size()); 
+        
+        ImagesController.removeValidator(ValidationScopes.USER_NAME, 1);
+        
+        str = ImagesController.getValidatorList(ValidationScopes.USER_NAME);
+        
+        junit.framework.Assert.assertEquals("Failure - expected validatorList size to be 1", 1, str.size()); 
+    }
+    
+    @Test
+    public void testRemoveValidatorOnZeroSpot() throws Exception
+    {
+        junit.framework.Assert.assertFalse(ImagesController.removeValidator(ValidationScopes.USER_NAME, 0));
+    }
+    
+    @Test
+    public void testRemoveValidatorUsernameNonExist() throws Exception
+    {
+        junit.framework.Assert.assertFalse(ImagesController.removeValidator(ValidationScopes.USER_NAME, 110));
+    }
+    
+    @Test
+    public void testRemoveValidatorNotListed()
+    {
+        try 
+        {
+            ImagesController.removeValidator(ValidationScopes.PROFILE_PHOTO,1);            
+        } 
+        catch (ValidatorNotListedException ex) 
+        {
+            junit.framework.Assert.assertTrue("Expected ValidatorNotListedException",
+                    ex.getMessage().equals(new ValidatorNotListedException().getMessage()));
+        } 
+        catch (InappropriateValidatorException ex) 
+        {
+            junit.framework.Assert.fail("InappropriateValidatorException should not rise here");
+        }
+    }
+    
+    @Test 
+    public void testGetValidatorListNotListed()
+    {
+        try 
+        {
+            ImagesController.getValidatorList(ValidationScopes.PROFILE_PHOTO);            
+        } 
+        catch (ValidatorNotListedException ex) 
+        {
+            junit.framework.Assert.assertTrue("Expected ValidatorNotListedException",
+                    ex.getMessage().equals(new ValidatorNotListedException().getMessage()));
+        }   
+    }
+    
+    @Test
+    public void testValidateSuccess() throws Exception 
+    {
+        InitializeValidators.InitializeCustomValidators();
+        
+        JSONObject json = new JSONObject();
+        
+        ImagesController MHRDTO = new ImagesController(); 
+        
+        Pair<Boolean,ResponseEntity> r = MHRDTO.validate("mixalis");
+        
+        junit.framework.Assert.assertTrue("Failure expected true",r.getLeft());
+    }
+    
+    @Test
+    public void testValidateFailUserName() throws Exception 
+    {
+        InitializeValidators.InitializeCustomValidators();
+        
+        ImagesController MHRDTO = new ImagesController();  
+        
+        Pair<Boolean,ResponseEntity> r = MHRDTO.validate("mix");
+        
+        junit.framework.Assert.assertFalse("Failure expected true",r.getLeft());
+    }    
 }
