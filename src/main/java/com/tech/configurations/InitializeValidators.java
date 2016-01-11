@@ -421,12 +421,12 @@ public class InitializeValidators {
             ChatroomMemberDTO.registerValidator(new MinLenghtValidator(5), ValidationScopes.PASSWORD);
             ChatroomMemberDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.PASSWORD);
             
-            ChatroomMemberDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.ROOM_ACCESS_METHOD);
-            ChatroomMemberDTO.registerValidator(new IncludeInListValidator(accessMethodList), ValidationScopes.ROOM_ACCESS_METHOD);
-            ChatroomMemberDTO.registerValidator(new MatchValidator("[^A-Za-z0-9]"), ValidationScopes.ROOM_ACCESS_METHOD);
-            ChatroomMemberDTO.registerValidator(new MaxLengthValidator(10), ValidationScopes.ROOM_ACCESS_METHOD);
-            ChatroomMemberDTO.registerValidator(new MinLenghtValidator(3), ValidationScopes.ROOM_ACCESS_METHOD);
-            ChatroomMemberDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.ROOM_ACCESS_METHOD);
+            ChatroomMemberDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.MODE);
+            ChatroomMemberDTO.registerValidator(new IncludeInListValidator(modeList), ValidationScopes.MODE);
+            ChatroomMemberDTO.registerValidator(new MatchValidator("[^A-Za-z0-9]"), ValidationScopes.MODE);
+            ChatroomMemberDTO.registerValidator(new MaxLengthValidator(10), ValidationScopes.MODE);
+            ChatroomMemberDTO.registerValidator(new MinLenghtValidator(3), ValidationScopes.MODE);
+            ChatroomMemberDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.MODE);
 
             ChatroomQuitMemberDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.ROOM_NAME);
             ChatroomQuitMemberDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.ROOM_NAME);
