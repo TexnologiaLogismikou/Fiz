@@ -37,8 +37,7 @@ public class MessageHistoryRequestDTOTest {
     }
     
     @BeforeClass
-    public static void setUpClass() {
-        MessageHistoryRequestDTO.cleanValidator();        
+    public static void setUpClass() {    
         InitializeValidators.CleanCustomValidators();
     }
     
