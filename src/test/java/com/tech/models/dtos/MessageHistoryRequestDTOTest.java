@@ -13,17 +13,11 @@ import com.tech.configurations.tools.customvalidators.elements.floatvalidator.Fl
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LatitudeValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LongitudeValidator;
 import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotEmptyValidatorN;
-import com.tech.configurations.tools.customvalidators.elements.stringvalidators.MatchValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.MaxLengthValidator;
-import com.tech.configurations.tools.customvalidators.elements.stringvalidators.MinLenghtValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NoSpacesValidator;
-import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotEmptyValidatorS;
-import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotMatchValidator;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import junit.framework.Assert;
 import net.minidev.json.JSONObject;
 import org.junit.After;

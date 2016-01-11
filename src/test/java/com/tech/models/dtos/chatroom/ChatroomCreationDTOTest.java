@@ -12,6 +12,7 @@ import com.tech.configurations.tools.ValidationScopes;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.FloatNotNaNValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LatitudeValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LongitudeValidator;
+import com.tech.configurations.tools.customvalidators.elements.numbervalidators.MaxNumberAllowed;
 import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotEmptyValidatorN;
 import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotNegativeValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.MaxLengthValidator;
@@ -53,6 +54,7 @@ public class ChatroomCreationDTOTest
     
     @Before
     public void setUp() {
+        
     }
     
     @After
@@ -645,27 +647,27 @@ public class ChatroomCreationDTOTest
         Assert.assertFalse("Failure expected false",r.getLeft());
     }
     
-//    @Test
-//    public void testValidateFailRoomMaxRange() throws Exception 
-//    {
-//        InitializeValidators.InitializeCustomValidators();
-//        JSONObject json = new JSONObject();
-//        
-//        json.put("username","mixalis");
-//        json.put("room_name","teicm");
-//        json.put("room_privilege","PUBLIC");
-//        json.put("access_method","blacklist");
-//        json.put("room_lat","50");
-//        json.put("room_lng","40");
-//        json.put("room_max_range","");
-//        json.put("password","12345");
-//        
-//        ChatroomCreationDTO MHRDTO = JSONToolConverter.mapFromJson(json.toJSONString(),ChatroomCreationDTO.class);
-//        
-//        Pair<Boolean,ResponseEntity> r = MHRDTO.validate();
-//        
-//        Assert.assertFalse("Failure expected false",r.getLeft());
-//    }
+    @Test
+    public void testValidateFailRoomMaxRange() throws Exception 
+    {
+        InitializeValidators.InitializeCustomValidators();
+        ChatroomCreationDTO.registerValidator(new MaxNumberAllowed(10), ValidationScopes.RANGE);
+        JSONObject json = new JSONObject();
+        
+        json.put("username","mixalis");
+        json.put("room_name","teicm");
+        json.put("room_privilege","PUBLIC");
+        json.put("access_method","blacklist");
+        json.put("room_lat","50");
+        json.put("room_lng","40");
+        json.put("room_max_range","30");
+        json.put("password","12345");
+        
+        ChatroomCreationDTO MHRDTO = JSONToolConverter.mapFromJson(json.toJSONString(),ChatroomCreationDTO.class);
+        Pair<Boolean,ResponseEntity> r = MHRDTO.validate();
+        
+        Assert.assertFalse("Failure expected false",r.getLeft());
+    }
     
     @Test
     public void testValidateFailRoomPassword() throws Exception 
