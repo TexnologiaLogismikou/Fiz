@@ -9,13 +9,11 @@ import com.tech.configurations.InitializeValidators;
 import com.tech.configurations.tools.JSONToolConverter;
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.ValidationScopes;
-import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LongitudeValidator;
 import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotEmptyValidatorN;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.MaxLengthValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NoSpacesValidator;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
-import com.tech.models.dtos.MessageHistoryRequestDTO;
 import java.util.List;
 import junit.framework.Assert;
 import net.minidev.json.JSONObject;
@@ -24,7 +22,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -163,15 +160,15 @@ public class ChatroomBlacklistDTOTest {
         Assert.assertFalse(ChatroomBlacklistDTO.removeValidator(ValidationScopes.USER_NAME, 0));
     }
     
-//    @Test
-//    public void testRemoveValidatorUsernameNonExist() throws Exception{
-//        Assert.assertFalse(ChatroomBlacklistDTO.removeValidator(ValidationScopes.USER_NAME, 110));
-//    }
-//    
-//    @Test
-//    public void testRemoveValidatorRoomnameNonExist() throws Exception{
-//        Assert.assertFalse(ChatroomBlacklistDTO.removeValidator(ValidationScopes.ROOM_NAME, 20));
-//    }
+    @Test
+    public void testRemoveValidatorUsernameNonExist() throws Exception{
+        Assert.assertFalse(ChatroomBlacklistDTO.removeValidator(ValidationScopes.USER_NAME, 110));
+    }
+    
+    @Test
+    public void testRemoveValidatorRoomnameNonExist() throws Exception{
+        Assert.assertFalse(ChatroomBlacklistDTO.removeValidator(ValidationScopes.ROOM_NAME, 20));
+    }
     
     @Test
     public void testRemoveValidatorNotListed(){
@@ -201,13 +198,13 @@ public class ChatroomBlacklistDTOTest {
         Assert.assertEquals("Failure expected the name to be the same","ChatroomBlacklistDTO",MHRDTO.getDTOName());
     }
     
-    @Test/*!!!!!!!!!!!!!!!!!*/
+    @Test
     public void testValidateSuccess() throws Exception {
         InitializeValidators.InitializeCustomValidators();
         
         JSONObject json = new JSONObject();
         
-        json.put("room_name","teicm");
+        json.put("room_name","teicm");//room_name && member_name einai akribws i anomasia pou ta exoume dilwsei mesa st dto
         json.put("member_name","mixalis");
                 
         ChatroomBlacklistDTO MHRDTO = JSONToolConverter.mapFromJson(json.toJSONString(),ChatroomBlacklistDTO.class);
@@ -222,7 +219,7 @@ public class ChatroomBlacklistDTOTest {
         InitializeValidators.InitializeCustomValidators();
         JSONObject json = new JSONObject();
         
-        json.put("room_name","@teicm");
+        json.put("room_name","@teicm");//einai lathos gt exoume balei parametro na mn pernei tetoios xaraktires
         json.put("member_name","mixalis");
                
         ChatroomBlacklistDTO MHRDTO = JSONToolConverter.mapFromJson(json.toJSONString(),ChatroomBlacklistDTO.class);

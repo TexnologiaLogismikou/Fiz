@@ -116,7 +116,7 @@ public class InitializeValidators {
 
             ChatroomWhitelistDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.MODE);
             ChatroomWhitelistDTO.registerValidator(new MatchValidator("[^A-Za-z0-9]"), ValidationScopes.MODE);
-            ChatroomWhitelistDTO.registerValidator(new MaxLengthValidator(6), ValidationScopes.MODE);
+            ChatroomWhitelistDTO.registerValidator(new MaxLengthValidator(7), ValidationScopes.MODE);
             ChatroomWhitelistDTO.registerValidator(new MinLenghtValidator(3), ValidationScopes.MODE);
             ChatroomWhitelistDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.MODE);
             ChatroomWhitelistDTO.registerValidator(new IncludeInListValidator(modeList), ValidationScopes.MODE);
