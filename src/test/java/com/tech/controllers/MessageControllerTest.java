@@ -132,7 +132,210 @@ public class MessageControllerTest extends AbstractTest {
         InitializeValidators.CleanCustomValidators();
         uri = null;
     }
+    
+    @Test
+    public void testIncomingMessageWrongValidator() {
+        JSONObject json = new JSONObject();
+        json.put("username","milena");
+        json.put("message","something");
+        json.put("chatroom_name","hello");
+        json.put("lat","5000000");
+        json.put("lng","1");
+        json.put("ttl","20");
+        
+        StompHeaderAccessor headers = StompHeaderAccessor.create(StompCommand.SEND);
+        headers.setDestination("/chat");
+        
+//        headers.setUser(new Principal() {
+//            @Override
+//            public String getName() {
+//                return "milena";
+//            }
+//        });
+        headers.setUser(() -> "milena"); //apla op Lamba
+        headers.setSessionId("0");
+	headers.setSessionAttributes(new HashMap<>());
+        
+        Message<JSONObject> message = MessageBuilder.withPayload(json).setHeaders(headers).build();//kanei to message me ts timespou t dosame     
+            
+        this.annotationMethodHandler.handleMessage(message);
+        
+        verify(userService,times(0)).checkUsername(anyString());
+        verify(chatroomEntitieService,times(0)).validateRoomnameExistance(anyString());
+        verify(userService,times(0)).getUserByUsername(anyString());
+        verify(chatroomEntitieService,times(0)).getRoomByName(anyString());
+        verify(memberService,times(0)).checkIfMemberExistsInChatroom(anyLong(),anyLong());
+        verify(locationService,times(0)).checkIfStillInside(anyLong(),anyFloat(),anyFloat());
+        verify(messageService,times(0)).getNextId();
+        verify(messageService,times(0)).addMessage(any(com.tech.models.entities.Message.class));   
+    }
+    
+    @Test
+    public void testIncomingMessageWrongUserName() {
+        JSONObject json = new JSONObject();
+        json.put("username","milena");
+        json.put("message","something");
+        json.put("chatroom_name","hello");
+        json.put("lat","1");
+        json.put("lng","1");
+        json.put("ttl","20");
+        
+        StompHeaderAccessor headers = StompHeaderAccessor.create(StompCommand.SEND);
+        headers.setDestination("/chat");
+        
+//        headers.setUser(new Principal() {
+//            @Override
+//            public String getName() {
+//                return "milena";
+//            }
+//        });
+        headers.setUser(() -> "milena"); //apla op Lamba
+        headers.setSessionId("0");
+	headers.setSessionAttributes(new HashMap<>());
+        
+        Message<JSONObject> message = MessageBuilder.withPayload(json).setHeaders(headers).build();//kanei to message me ts timespou t dosame     
+        
+        when(userService.checkUsername("milena")).thenReturn(false);
+             
+        this.annotationMethodHandler.handleMessage(message);
+        
+        verify(userService,times(1)).checkUsername("milena");
+        verify(chatroomEntitieService,times(0)).validateRoomnameExistance("hello");
+        verify(userService,times(0)).getUserByUsername(anyString());
+        verify(chatroomEntitieService,times(0)).getRoomByName(anyString());
+        verify(memberService,times(0)).checkIfMemberExistsInChatroom(anyLong(),anyLong());
+        verify(locationService,times(0)).checkIfStillInside(anyLong(),anyFloat(),anyFloat());
+        verify(messageService,times(0)).getNextId();
+        verify(messageService,times(0)).addMessage(any(com.tech.models.entities.Message.class));   
+    }
+    
+    @Test
+    public void testIncomingMessageRoomNameNotExistance() {
+        JSONObject json = new JSONObject();
+        json.put("username","milena");
+        json.put("message","something");
+        json.put("chatroom_name","hello");
+        json.put("lat","1");
+        json.put("lng","1");
+        json.put("ttl","20");
+        
+        StompHeaderAccessor headers = StompHeaderAccessor.create(StompCommand.SEND);
+        headers.setDestination("/chat");
+        
+//        headers.setUser(new Principal() {
+//            @Override
+//            public String getName() {
+//                return "milena";
+//            }
+//        });
+        headers.setUser(() -> "milena"); //apla op Lamba
+        headers.setSessionId("0");
+	headers.setSessionAttributes(new HashMap<>());
+        
+        Message<JSONObject> message = MessageBuilder.withPayload(json).setHeaders(headers).build();//kanei to message me ts timespou t dosame     
+        
+        when(userService.checkUsername("milena")).thenReturn(true);
+        when(chatroomEntitieService.validateRoomnameExistance("hello")).thenReturn(false);
+            
+        this.annotationMethodHandler.handleMessage(message);
+        
+        verify(userService,times(1)).checkUsername("milena");
+        verify(chatroomEntitieService,times(1)).validateRoomnameExistance("hello");
+        verify(userService,times(0)).getUserByUsername(anyString());
+        verify(chatroomEntitieService,times(0)).getRoomByName(anyString());
+        verify(memberService,times(0)).checkIfMemberExistsInChatroom(anyLong(),anyLong());
+        verify(locationService,times(0)).checkIfStillInside(anyLong(),anyFloat(),anyFloat());
+        verify(messageService,times(0)).getNextId();
+        verify(messageService,times(0)).addMessage(any(com.tech.models.entities.Message.class));   
+    }
+    
+    @Test
+    public void testIncomingMessageMemberDoesNotExistInChatroom() {
+        JSONObject json = new JSONObject();
+        json.put("username","milena");
+        json.put("message","something");
+        json.put("chatroom_name","hello");
+        json.put("lat","1");
+        json.put("lng","1");
+        json.put("ttl","20");
+        
+        StompHeaderAccessor headers = StompHeaderAccessor.create(StompCommand.SEND);
+        headers.setDestination("/chat");
+        
+//        headers.setUser(new Principal() {
+//            @Override
+//            public String getName() {
+//                return "milena";
+//            }
+//        });
+        headers.setUser(() -> "milena"); //apla op Lamba
+        headers.setSessionId("0");
+	headers.setSessionAttributes(new HashMap<>());
+        
+        Message<JSONObject> message = MessageBuilder.withPayload(json).setHeaders(headers).build();//kanei to message me ts timespou t dosame     
+        
+        when(userService.checkUsername("milena")).thenReturn(true);
+        when(chatroomEntitieService.validateRoomnameExistance("hello")).thenReturn(true);
+        when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","something",true));
+        when(chatroomEntitieService.getRoomByName("hello")).thenReturn(new ChatroomEntities(1L,2L,"hello"));
+        when(memberService.checkIfMemberExistsInChatroom(1L, 1L)).thenReturn(false);
+              
+        this.annotationMethodHandler.handleMessage(message);
+        
+        verify(userService,times(1)).checkUsername("milena");
+        verify(userService,times(1)).getUserByUsername("milena");
+        verify(chatroomEntitieService,times(1)).validateRoomnameExistance("hello");
+        verify(chatroomEntitieService,times(1)).getRoomByName("hello");
+        verify(memberService,times(1)).checkIfMemberExistsInChatroom(1L,1L);
+        verify(locationService,times(0)).checkIfStillInside(anyLong(),anyFloat(),anyFloat());
+        verify(messageService,times(0)).getNextId();
+        verify(messageService,times(0)).addMessage(any(com.tech.models.entities.Message.class));   
+    }
 
+    @Test
+    public void testIncomingMessageWrongLocation() {
+        JSONObject json = new JSONObject();
+        json.put("username","milena");
+        json.put("message","something");
+        json.put("chatroom_name","hello");
+        json.put("lat","50");
+        json.put("lng","1");
+        json.put("ttl","20");
+        
+        StompHeaderAccessor headers = StompHeaderAccessor.create(StompCommand.SEND);
+        headers.setDestination("/chat");
+        
+//        headers.setUser(new Principal() {
+//            @Override
+//            public String getName() {
+//                return "milena";
+//            }
+//        });
+        headers.setUser(() -> "milena"); //apla op Lamba
+        headers.setSessionId("0");
+	headers.setSessionAttributes(new HashMap<>());
+        
+        Message<JSONObject> message = MessageBuilder.withPayload(json).setHeaders(headers).build();//kanei to message me ts timespou t dosame     
+        
+        when(userService.checkUsername("milena")).thenReturn(true);
+        when(chatroomEntitieService.validateRoomnameExistance("hello")).thenReturn(true);
+        when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","something",true));
+        when(chatroomEntitieService.getRoomByName("hello")).thenReturn(new ChatroomEntities(1L,2L,"hello"));
+        when(memberService.checkIfMemberExistsInChatroom(1L, 1L)).thenReturn(true);
+        when(locationService.checkIfStillInside(1L, 50, 1)).thenReturn(false);
+
+        
+        this.annotationMethodHandler.handleMessage(message);
+        
+        verify(userService,times(1)).checkUsername("milena");
+        verify(userService,times(1)).getUserByUsername("milena");
+        verify(chatroomEntitieService,times(1)).validateRoomnameExistance("hello");
+        verify(chatroomEntitieService,times(1)).getRoomByName("hello");
+        verify(memberService,times(1)).checkIfMemberExistsInChatroom(1L,1L);
+        verify(locationService,times(1)).checkIfStillInside(1L,1,50);
+        verify(messageService,times(0)).getNextId();
+        verify(messageService,times(0)).addMessage(any(com.tech.models.entities.Message.class));   
+    }
     @Test
     public void testIncomingMessageSuccess() {
         JSONObject json = new JSONObject();
