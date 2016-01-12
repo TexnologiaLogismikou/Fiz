@@ -181,7 +181,7 @@ public class MessageDTO extends BaseDTO
         switch(scope)
         {
             case ROOM_NAME:
-                if(CHATROOM_NAME_VALIDATORS.get(i) != null)
+                if(CHATROOM_NAME_VALIDATORS.size() >= i + 1)
                 {
                     CHATROOM_NAME_VALIDATORS.get(i-1).replaceNext(CHATROOM_NAME_VALIDATORS.get(i).getNext());
                     CHATROOM_NAME_VALIDATORS.remove(i);
@@ -189,7 +189,7 @@ public class MessageDTO extends BaseDTO
                 }
                 return false;
             case LATITUDE:
-                if(LAT_VALIDATORS.get(i) != null)
+                if(LAT_VALIDATORS.size() >= i + 1)
                 {
                     LAT_VALIDATORS.get(i-1).replaceNext(LAT_VALIDATORS.get(i).getNext());
                     LAT_VALIDATORS.remove(i);
@@ -197,7 +197,7 @@ public class MessageDTO extends BaseDTO
                 }
                 return false;
             case LONGITUDE:
-                if(LNG_VALIDATORS.get(i) != null)
+                if(LNG_VALIDATORS.size() >= i + 1)
                 {
                     LNG_VALIDATORS.get(i-1).replaceNext(LNG_VALIDATORS.get(i).getNext());
                     LNG_VALIDATORS.remove(i);
@@ -205,7 +205,7 @@ public class MessageDTO extends BaseDTO
                 }
                 return false;
             case STRING: 
-                if(MESSAGE_VALIDATORS.get(i) != null)
+                if(MESSAGE_VALIDATORS.size() >= i + 1)
                 {
                     MESSAGE_VALIDATORS.get(i-1).replaceNext(MESSAGE_VALIDATORS.get(i).getNext());
                     MESSAGE_VALIDATORS.remove(i);
@@ -213,14 +213,14 @@ public class MessageDTO extends BaseDTO
                 }
                 return false;
             case TTL:
-                if(TTL_VALIDATORS.get(i) != null)
+                if(TTL_VALIDATORS.size() >= i + 1)
                 {
                     TTL_VALIDATORS.get(i-1).replaceNext(TTL_VALIDATORS.get(i).getNext());
                     TTL_VALIDATORS.remove(i);
                     return true;
                 }
             case USER_NAME:
-                if(USERNAME_VALIDATORS.get(i) != null)
+                if(USERNAME_VALIDATORS.size() >= i + 1)
                 {
                     USERNAME_VALIDATORS.get(i-1).replaceNext(USERNAME_VALIDATORS.get(i).getNext());
                     USERNAME_VALIDATORS.remove(i);
