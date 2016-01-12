@@ -11,7 +11,6 @@ import com.tech.configurations.tools.customvalidators.elements.EmptyStringValida
 import com.tech.configurations.tools.customvalidators.interfaces.ICustomValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.IStringValidator;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
-import com.tech.exceptions.customexceptions.NoValidatorsAssignedException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
 import com.tech.models.dtos.superclass.BaseDTO;
 import java.util.ArrayList;
@@ -88,21 +87,21 @@ public class ChatroomWhitelistDTO extends BaseDTO{
         }
         switch(scope){
             case ROOM_NAME:
-                if(ROOM_NAME_VALIDATORS.get(i) != null){
+                if(ROOM_NAME_VALIDATORS.size() >= i + 1){
                     ROOM_NAME_VALIDATORS.get(i-1).replaceNext(ROOM_NAME_VALIDATORS.get(i).getNext());
                     ROOM_NAME_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case MODE:
-                if(ROOM_MODE_VALIDATORS.get(i) != null){
+                if(ROOM_MODE_VALIDATORS.size() >= i + 1){
                     ROOM_MODE_VALIDATORS.get(i-1).replaceNext(ROOM_MODE_VALIDATORS.get(i).getNext());
                     ROOM_MODE_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case USER_NAME:
-                if(MEMBER_NAME_VALIDATORS.get(i) != null){
+                if(MEMBER_NAME_VALIDATORS.size() >= i + 1){
                     MEMBER_NAME_VALIDATORS.get(i-1).replaceNext(MEMBER_NAME_VALIDATORS.get(i).getNext());
                     MEMBER_NAME_VALIDATORS.remove(i);
                     return true;

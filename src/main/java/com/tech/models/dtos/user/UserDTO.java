@@ -11,7 +11,6 @@ import com.tech.configurations.tools.customvalidators.elements.EmptyStringValida
 import com.tech.configurations.tools.customvalidators.interfaces.ICustomValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.IStringValidator;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
-import com.tech.exceptions.customexceptions.NoValidatorsAssignedException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
 import com.tech.models.dtos.superclass.BaseDTO;
 import java.util.ArrayList;
@@ -316,17 +315,17 @@ public class UserDTO extends BaseDTO
     public String getPassword(){
         return password;
     }
-    
-    public boolean getEnabled(){
+
+    public boolean isEnabled() {
         return enabled;
     }
-    
-    public String getFirstName(){
+
+    public boolean isHasRoom() {
+        return hasRoom;
+    }
+
+    public String getFirstname() {
         return firstname;
     }
     
-    public boolean getHasRoom(){
-        return hasRoom;
-    }
-            
 }

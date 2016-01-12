@@ -5,7 +5,6 @@
  */
 package com.tech.repositories;
 
-import com.tech.models.entities.user.User;
 import com.tech.models.entities.user.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

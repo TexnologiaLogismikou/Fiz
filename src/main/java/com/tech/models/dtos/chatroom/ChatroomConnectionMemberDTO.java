@@ -11,10 +11,8 @@ import com.tech.configurations.tools.customvalidators.elements.EmptyFloatValidat
 import com.tech.configurations.tools.customvalidators.elements.EmptyStringValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.ICustomValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.IFloatValidator;
-import com.tech.configurations.tools.customvalidators.interfaces.INumberValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.IStringValidator;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
-import com.tech.exceptions.customexceptions.NoValidatorsAssignedException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
 import com.tech.models.dtos.superclass.BaseDTO;
 
@@ -138,42 +136,42 @@ public class ChatroomConnectionMemberDTO extends BaseDTO {
         }
         switch (scope) {
             case USER_NAME:
-                if (MEMBERNAME_VALIDATORS.get(i) != null) {
+                if (MEMBERNAME_VALIDATORS.size() >= i + 1 ) {
                     MEMBERNAME_VALIDATORS.get(i - 1).replaceNext(MEMBERNAME_VALIDATORS.get(i).getNext());
                     MEMBERNAME_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case ROOM_NAME:
-                if (ROOM_NAME_VALIDATORS.get(i) != null) {
+                if (ROOM_NAME_VALIDATORS.size() >= i + 1 ) {
                     ROOM_NAME_VALIDATORS.get(i - 1).replaceNext(ROOM_NAME_VALIDATORS.get(i).getNext());
                     ROOM_NAME_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case PASSWORD:
-                if (PASSWORD_VALIDATORS.get(i) != null) {
+                if (PASSWORD_VALIDATORS.size() >= i + 1 ) {
                     PASSWORD_VALIDATORS.get(i - 1).replaceNext(PASSWORD_VALIDATORS.get(i).getNext());
                     PASSWORD_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case MODE:
-                if (MODE_VALIDATORS.get(i) != null) {
+                if (MODE_VALIDATORS.size() >= i + 1 ) {
                     MODE_VALIDATORS.get(i - 1).replaceNext(MODE_VALIDATORS.get(i).getNext());
                     MODE_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case LATITUDE:
-                if (LAT_VALIDATORS.get(i) != null) {
+                if (LAT_VALIDATORS.size() >= i + 1 ) {
                     LAT_VALIDATORS.get(i - 1).replaceNext(LAT_VALIDATORS.get(i).getNext());
                     LAT_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case LONGITUDE:
-                if (LNG_VALIDATORS.get(i) != null) {
+                if (LNG_VALIDATORS.size() >= i + 1 ) {
                     LNG_VALIDATORS.get(i - 1).replaceNext(LNG_VALIDATORS.get(i).getNext());
                     LNG_VALIDATORS.remove(i);
                     return true;

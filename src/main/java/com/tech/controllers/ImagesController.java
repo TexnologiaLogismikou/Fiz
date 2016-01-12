@@ -165,7 +165,7 @@ public class ImagesController extends BaseController{
         switch(scope)
         {
             case USER_NAME:
-                if(USER_NAME_VALIDATORS.get(i) != null)
+                if(USER_NAME_VALIDATORS.size() >= i + 1 )
                 {
                     USER_NAME_VALIDATORS.get(i-1).replaceNext(USER_NAME_VALIDATORS.get(i).getNext());
                     USER_NAME_VALIDATORS.remove(i);
@@ -178,7 +178,8 @@ public class ImagesController extends BaseController{
              
     }     
     
-    private Pair<Boolean,ResponseEntity> validate(String username)        
+    // Changed from private to public - causing error in testings, Arxa
+    public Pair<Boolean,ResponseEntity> validate(String username)        
     {  
         return USER_NAME_VALIDATORS.get(0).validate(username);
     }

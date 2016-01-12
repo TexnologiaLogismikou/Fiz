@@ -78,20 +78,20 @@ public class ImagesMod implements Serializable {
         return hashtag;
     }
     
-    public void setUserid(long userid){
-        this.userid = userid;
-    }
+//    public void setUserid(long userid){
+//        this.userid = userid;
+//    }
     
-    public void setName(Date tmstamp){
-        this.tmstamp = tmstamp;
-    }
+//    public void setName(Date tmstamp){
+//        this.tmstamp = tmstamp;
+//    }
     
     public void setImagePath(String data){
         this.images = data;
     }
     
-    public void setHashtag(long hashtag){
-        this.hashtag = hashtag;
-    }
+//    public void setHashtag(long hashtag){
+//        this.hashtag = hashtag;
+//    }
     
 }

@@ -27,7 +27,7 @@ public class ChatroomMemberDTO extends BaseDTO{
     private static final List<IStringValidator> USER_NAME_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
     private static final List<IStringValidator> PASSWORD_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
     private static final List<IStringValidator> ROOM_NAME_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
-    private static final List<IStringValidator> ROOM_ACCESS_METHOD_VALIDATORS = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
+    private static final List<IStringValidator> ROOM_METHOD = new ArrayList<>(Arrays.asList(new EmptyStringValidator()));
     
     public static void registerValidator(ICustomValidator newValidator,ValidationScopes scope) 
             throws InappropriateValidatorException, ValidatorNotListedException{
@@ -46,12 +46,12 @@ public class ChatroomMemberDTO extends BaseDTO{
         USER_NAME_VALIDATORS.clear();
         PASSWORD_VALIDATORS.clear();
         ROOM_NAME_VALIDATORS.clear();
-        ROOM_ACCESS_METHOD_VALIDATORS.clear();
+        ROOM_METHOD.clear();
         
         USER_NAME_VALIDATORS.add(new EmptyStringValidator());
         PASSWORD_VALIDATORS.add(new EmptyStringValidator());
         ROOM_NAME_VALIDATORS.add(new EmptyStringValidator());
-        ROOM_ACCESS_METHOD_VALIDATORS.add(new EmptyStringValidator());
+        ROOM_METHOD.add(new EmptyStringValidator());
         
     }
     
@@ -86,8 +86,8 @@ public class ChatroomMemberDTO extends BaseDTO{
                     list.add(i + ": " + vLookUp.getName());
                 }
                 return list;
-            case ROOM_ACCESS_METHOD: 
-                for(ICustomValidator vLookUp:ROOM_ACCESS_METHOD_VALIDATORS)
+            case MODE: 
+                for(ICustomValidator vLookUp:ROOM_METHOD)
                 {
                     if(vLookUp.getName().equals("Empty")) { continue; }
                     i++;
@@ -108,30 +108,30 @@ public class ChatroomMemberDTO extends BaseDTO{
         switch(scope)
         {
             case USER_NAME:
-                if(USER_NAME_VALIDATORS.get(i) != null){
+                if(USER_NAME_VALIDATORS.size() >= i + 1){
                     USER_NAME_VALIDATORS.get(i-1).replaceNext(USER_NAME_VALIDATORS.get(i).getNext());
                     USER_NAME_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case PASSWORD:
-                if(PASSWORD_VALIDATORS.get(i) != null){
+                if(PASSWORD_VALIDATORS.size() >= i + 1){
                     PASSWORD_VALIDATORS.get(i-1).replaceNext(PASSWORD_VALIDATORS.get(i).getNext());
                     PASSWORD_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case ROOM_NAME:
-                if(ROOM_NAME_VALIDATORS.get(i) != null){
+                if(ROOM_NAME_VALIDATORS.size() >= i + 1){
                     ROOM_NAME_VALIDATORS.get(i-1).replaceNext(ROOM_NAME_VALIDATORS.get(i).getNext());
                     ROOM_NAME_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
-            case ROOM_ACCESS_METHOD: 
-                if(ROOM_ACCESS_METHOD_VALIDATORS.get(i) != null){
-                    ROOM_ACCESS_METHOD_VALIDATORS.get(i-1).replaceNext(ROOM_ACCESS_METHOD_VALIDATORS.get(i).getNext());
-                    ROOM_ACCESS_METHOD_VALIDATORS.remove(i);
+            case MODE: 
+                if(ROOM_METHOD.size() >= i + 1){
+                    ROOM_METHOD.get(i-1).replaceNext(ROOM_METHOD.get(i).getNext());
+                    ROOM_METHOD.remove(i);
                     return true;
                 }
                 return false;
@@ -161,7 +161,7 @@ public class ChatroomMemberDTO extends BaseDTO{
             return currentTest;
         }
         
-        currentTest = ROOM_ACCESS_METHOD_VALIDATORS.get(0).validate(method);
+        currentTest = ROOM_METHOD.get(0).validate(method);
             return currentTest;     
     }
     
@@ -182,9 +182,9 @@ public class ChatroomMemberDTO extends BaseDTO{
                 ROOM_NAME_VALIDATORS.add(strVal);
                 ROOM_NAME_VALIDATORS.get(0).setNext(strVal);
                 break;
-            case ROOM_ACCESS_METHOD:   
-                ROOM_ACCESS_METHOD_VALIDATORS.add(strVal);             
-                ROOM_ACCESS_METHOD_VALIDATORS.get(0).setNext(strVal);
+            case MODE:   
+                ROOM_METHOD.add(strVal);             
+                ROOM_METHOD.get(0).setNext(strVal);
                 break;
             default: 
                 throw new ValidatorNotListedException();                    

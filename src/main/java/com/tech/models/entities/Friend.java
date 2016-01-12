@@ -66,13 +66,13 @@ public class Friend implements Serializable
         return tmstamp;
     }
 
-    public void setUserid(Long userid)
-    {
-       this.userid = userid;
-    }
+//    public void setUserid(Long userid)
+//    {
+//       this.userid = userid;
+//    }
 
-    public void setFriendid(Long friendid)
-    {
-       this.friendid = friendid;
-    }
+//    public void setFriendid(Long friendid)
+//    {
+//       this.friendid = friendid;
+//    }
 }

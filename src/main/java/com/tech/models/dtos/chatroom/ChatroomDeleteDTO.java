@@ -9,11 +9,8 @@ import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.ValidationScopes;
 import com.tech.configurations.tools.customvalidators.elements.EmptyStringValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.ICustomValidator;
-import com.tech.configurations.tools.customvalidators.interfaces.IFloatValidator;
-import com.tech.configurations.tools.customvalidators.interfaces.INumberValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.IStringValidator;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
-import com.tech.exceptions.customexceptions.NoValidatorsAssignedException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
 import com.tech.models.dtos.superclass.BaseDTO;
 
@@ -89,23 +86,26 @@ public class ChatroomDeleteDTO extends BaseDTO {
 
     public static boolean removeValidator(ValidationScopes scope, int i) throws ValidatorNotListedException, InappropriateValidatorException {
 
+        if (i == 0) {
+            return false; // I believe you had forgotten that - Arxa
+        }
         switch (scope) {
             case USER_NAME:
-                if (USERNAME_VALIDATORS.get(i) != null) {
+                if (USERNAME_VALIDATORS.size() >= i + 1 ) {
                     USERNAME_VALIDATORS.get(i - 1).replaceNext(USERNAME_VALIDATORS.get(i).getNext());
                     USERNAME_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case ROOM_NAME:
-                if (ROOM_NAME_VALIDATORS.get(i) != null) {
+                if (ROOM_NAME_VALIDATORS.size() >= i + 1 ) {
                     ROOM_NAME_VALIDATORS.get(i - 1).replaceNext(ROOM_NAME_VALIDATORS.get(i).getNext());
                     ROOM_NAME_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case PASSWORD:
-                if (ROOM_PASSWORD.get(i) != null) {
+                if (ROOM_PASSWORD.size() >= i + 1 ) {
                     ROOM_PASSWORD.get(i - 1).replaceNext(ROOM_PASSWORD.get(i).getNext());
                     ROOM_PASSWORD.remove(i);
                     return true;
