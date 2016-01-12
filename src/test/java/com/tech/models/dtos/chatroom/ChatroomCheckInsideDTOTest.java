@@ -26,7 +26,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
- * @author KuroiTenshi
+ * @author Aenaos
  */
 public class ChatroomCheckInsideDTOTest {
 
@@ -301,40 +301,6 @@ public class ChatroomCheckInsideDTOTest {
     }
 
 
-    @Test
-    public void testValidateFailLatitude() throws Exception {
-
-        InitializeValidators.InitializeCustomValidators();
-        JSONObject json = new JSONObject();
-
-        json.put("room_name", "teicm");
-        json.put("user_name", "mixalis");
-        json.put("lng",0.0);
-        json.put("lat",250);
-
-        ChatroomCheckInsideDTO MHRDTO = JSONToolConverter.mapFromJson(json.toJSONString(), ChatroomCheckInsideDTO.class);
-
-        Pair<Boolean, ResponseEntity> r = MHRDTO.validate();
-
-        Assert.assertFalse("Failure expected true", r.getLeft());
-    }
-    @Test
-    public void testValidateFailLongtitude() throws Exception {
-
-        InitializeValidators.InitializeCustomValidators();
-        JSONObject json = new JSONObject();
-
-        json.put("room_name", "teicm");
-        json.put("user_name", "mixalis");
-        json.put("lng",250);
-        json.put("lat",0.0);
-
-        ChatroomCheckInsideDTO MHRDTO = JSONToolConverter.mapFromJson(json.toJSONString(), ChatroomCheckInsideDTO.class);
-
-        Pair<Boolean, ResponseEntity> r = MHRDTO.validate();
-
-        Assert.assertFalse("Failure expected true", r.getLeft());
-    }
 
     @Test
     public void testValidateFailUserName() throws Exception {

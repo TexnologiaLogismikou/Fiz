@@ -23,7 +23,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
- * @author KuroiTenshi
+ * @author Aenaos
  */
 public class ChatroomQuitMemberDTOTest {
 
