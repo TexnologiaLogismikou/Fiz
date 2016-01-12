@@ -9,6 +9,8 @@ import com.tech.configurations.InitializeValidators;
 import com.tech.configurations.tools.JSONToolConverter;
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.ValidationScopes;
+import com.tech.configurations.tools.customvalidators.elements.EmptyFloatValidator;
+import com.tech.configurations.tools.customvalidators.elements.EmptyValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.FloatNotNaNValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LatitudeValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LongitudeValidator;
@@ -17,6 +19,7 @@ import com.tech.configurations.tools.customvalidators.elements.stringvalidators.
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NoSpacesValidator;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
+import com.tech.models.dtos.MessageDTO;
 import org.json.simple.JSONObject;
 import org.junit.*;
 import org.springframework.http.ResponseEntity;
@@ -97,11 +100,9 @@ public class ChatroomCheckInsideDTOTest {
     }
 
     @Test
-    public void testRegisterWrongValidator() {
+    public void testRegisterNotListedStringValidator() {
         try {
-            List<String> str = ChatroomCheckInsideDTO.getValidatorList(ValidationScopes.USER_NAME);
-            Assert.assertEquals("Failure - expected validatorList size to be 0", 0, str.size());
-            ChatroomCheckInsideDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.STRING);
+            ChatroomCheckInsideDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.EMAIL);
         } catch (ValidatorNotListedException ex) {
             Assert.assertTrue("Exception should be ValidatorNotListedException",
                     ex.getMessage().equals(new ValidatorNotListedException().getMessage()));
@@ -112,13 +113,25 @@ public class ChatroomCheckInsideDTOTest {
     }
 
     @Test
+    public void testRegisterNotListedFloatValidator() {
+        try {
+            ChatroomCheckInsideDTO.registerValidator(new EmptyFloatValidator(), ValidationScopes.EMAIL);
+        } catch (ValidatorNotListedException ex) {
+            Assert.assertTrue("Exception should be ValidatorNotListedException",
+                    ex.getMessage().equals(new ValidatorNotListedException().getMessage()));
+        } catch (InappropriateValidatorException ex) {
+            Assert.fail("Validator should be appropriate should exist");
+        }
+
+    }
+
+
+    @Test
     public void testRegisterInappropriateValidator() {
         try {
-            List<String> str = ChatroomCheckInsideDTO.getValidatorList(ValidationScopes.USER_NAME);
-            Assert.assertEquals("Failure - expected validatorList size to be 0", 0, str.size());
-            ChatroomCheckInsideDTO.registerValidator(new NotEmptyValidatorN(), ValidationScopes.USER_NAME);
+            ChatroomCheckInsideDTO.registerValidator(new EmptyValidator(), ValidationScopes.EMAIL);
         } catch (ValidatorNotListedException ex) {
-            Assert.fail("Should not reach this");
+            Assert.fail("Should get InappropriateValidatorException");
         } catch (InappropriateValidatorException ex) {
             Assert.assertTrue("Exception should be InappropriateValidatorException",
                     ex.getMessage().equals(new InappropriateValidatorException().getMessage()));
@@ -233,6 +246,20 @@ public class ChatroomCheckInsideDTOTest {
         Assert.assertFalse(ChatroomCheckInsideDTO.removeValidator(ValidationScopes.ROOM_NAME, 20));
     }
 
+
+    @Test
+    public void testRemoveValidatorLongitudeNonExist() throws Exception {
+        Assert.assertFalse(ChatroomCheckInsideDTO.removeValidator(ValidationScopes.LONGITUDE, 20));
+    }
+
+
+    @Test
+    public void testRemoveValidatorLatitudeNonExist() throws Exception {
+        Assert.assertFalse(ChatroomCheckInsideDTO.removeValidator(ValidationScopes.LATITUDE, 20));
+    }
+
+
+
     @Test
     public void testRemoveValidatorNotListed() {
         try {
@@ -301,6 +328,40 @@ public class ChatroomCheckInsideDTOTest {
     }
 
 
+
+    @Test
+    public void testValidateFailLongitude() throws Exception {
+        InitializeValidators.InitializeCustomValidators();
+        JSONObject json = new JSONObject();
+
+        json.put("room_name", "teicm");
+        json.put("user_name", "mixalis");
+        json.put("lng", 70000);
+        json.put("lat", 0.0);
+
+        ChatroomCheckInsideDTO MHRDTO = JSONToolConverter.mapFromJson(json.toJSONString(), ChatroomCheckInsideDTO.class);
+
+        Pair<Boolean, ResponseEntity> r = MHRDTO.validate();
+
+        Assert.assertFalse("Failure expected true", r.getLeft());
+    }
+
+    @Test
+    public void testValidateFailLatitude() throws Exception {
+        InitializeValidators.InitializeCustomValidators();
+        JSONObject json = new JSONObject();
+
+        json.put("room_name", "teicm");
+        json.put("user_name", "mixalis");
+        json.put("lng", 0.0);
+        json.put("lat", 70000);
+
+        ChatroomCheckInsideDTO MHRDTO = JSONToolConverter.mapFromJson(json.toJSONString(), ChatroomCheckInsideDTO.class);
+
+        Pair<Boolean, ResponseEntity> r = MHRDTO.validate();
+
+        Assert.assertFalse("Failure expected true", r.getLeft());
+    }
 
     @Test
     public void testValidateFailUserName() throws Exception {

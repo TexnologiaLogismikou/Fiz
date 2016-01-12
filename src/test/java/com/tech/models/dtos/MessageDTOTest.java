@@ -9,18 +9,23 @@ import com.tech.configurations.InitializeValidators;
 import com.tech.configurations.tools.JSONToolConverter;
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.ValidationScopes;
+import com.tech.configurations.tools.customvalidators.elements.EmptyFloatValidator;
 import com.tech.configurations.tools.customvalidators.elements.EmptyNumberValidator;
+import com.tech.configurations.tools.customvalidators.elements.EmptyValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.FloatNotNaNValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LatitudeValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LongitudeValidator;
+import com.tech.configurations.tools.customvalidators.elements.numbervalidators.MaxNumberAllowed;
 import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotEmptyValidatorN;
 import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotNegativeValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.MaxLengthValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NoSpacesValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotEmptyValidatorS;
+import com.tech.configurations.tools.customvalidators.interfaces.ICustomValidator;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
 import com.tech.models.dtos.chatroom.ChatroomCheckInsideDTO;
+import com.tech.models.dtos.chatroom.ChatroomUpdateDTO;
 import org.json.simple.JSONObject;
 import org.junit.*;
 import org.springframework.http.ResponseEntity;
@@ -123,12 +128,9 @@ public class MessageDTOTest {
         Assert.assertEquals("Failure - expected validatorList size to be NoSpacesValidator", "1: NotEmptyValidatorN", str.get(0));
     }
 
-
     @Test
-    public void testRegisterWrongValidator() {
+    public void testRegisterNotListedStringValidator() {
         try {
-            List<String> str = ChatroomCheckInsideDTO.getValidatorList(ValidationScopes.EMAIL);
-            Assert.assertEquals("Failure - expected validatorList size to be 0", 0, str.size());
             MessageDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.EMAIL);
         } catch (ValidatorNotListedException ex) {
             Assert.assertTrue("Exception should be ValidatorNotListedException",
@@ -140,13 +142,38 @@ public class MessageDTOTest {
     }
 
     @Test
+    public void testRegisterNotListedFloatValidator() {
+        try {
+            MessageDTO.registerValidator(new EmptyFloatValidator(), ValidationScopes.EMAIL);
+        } catch (ValidatorNotListedException ex) {
+            Assert.assertTrue("Exception should be ValidatorNotListedException",
+                    ex.getMessage().equals(new ValidatorNotListedException().getMessage()));
+        } catch (InappropriateValidatorException ex) {
+            Assert.fail("Validator should be appropriate should exist");
+        }
+
+    }
+
+    @Test
+    public void testRegisterNotListedNumberValidator() {
+        try {
+            MessageDTO.registerValidator(new EmptyNumberValidator(), ValidationScopes.EMAIL);
+        } catch (ValidatorNotListedException ex) {
+            Assert.assertTrue("Exception should be ValidatorNotListedException",
+                    ex.getMessage().equals(new ValidatorNotListedException().getMessage()));
+        } catch (InappropriateValidatorException ex) {
+            Assert.fail("Validator should be appropriate should exist");
+        }
+
+    }
+
+
+    @Test
     public void testRegisterInappropriateValidator() {
         try {
-            List<String> str = MessageDTO.getValidatorList(ValidationScopes.USER_NAME);
-            Assert.assertEquals("Failure - expected validatorList size to be 0", 0, str.size());
-            MessageDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.USER_NAME);
+            MessageDTO.registerValidator(new EmptyValidator(), ValidationScopes.EMAIL);
         } catch (ValidatorNotListedException ex) {
-            Assert.fail("Should not reach this");
+            Assert.fail("Should get InappropriateValidatorException");
         } catch (InappropriateValidatorException ex) {
             Assert.assertTrue("Exception should be InappropriateValidatorException",
                     ex.getMessage().equals(new InappropriateValidatorException().getMessage()));
@@ -191,6 +218,22 @@ public class MessageDTOTest {
         MessageDTO.removeValidator(ValidationScopes.LONGITUDE, 1);
 
         str = MessageDTO.getValidatorList(ValidationScopes.LONGITUDE);
+
+        Assert.assertEquals("Failure - expected validatorList size to be 1", 1, str.size());
+
+    }
+
+    @Test
+    public void testRemoveUserNameValidator() throws Exception {
+        MessageDTO.registerValidator(new MaxLengthValidator(2), ValidationScopes.USER_NAME);
+        MessageDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.USER_NAME);
+        List<String> str = MessageDTO.getValidatorList(ValidationScopes.USER_NAME);
+
+        Assert.assertEquals("Failure - expected validatorList size to be 2", 2, str.size());
+
+        MessageDTO.removeValidator(ValidationScopes.USER_NAME, 1);
+
+        str = MessageDTO.getValidatorList(ValidationScopes.USER_NAME);
 
         Assert.assertEquals("Failure - expected validatorList size to be 1", 1, str.size());
 
@@ -272,9 +315,31 @@ public class MessageDTOTest {
         Assert.assertFalse(MessageDTO.removeValidator(ValidationScopes.USER_NAME, 20));
     }
 
+
     @Test
-    public void testRemoveValidatorRoomnameNonExist() throws Exception {
-        Assert.assertFalse(MessageDTO.removeValidator(ValidationScopes.ROOM_NAME, 10));
+    public void testRemoveValidatorRoomNameNonExist() throws Exception {
+        Assert.assertFalse(MessageDTO.removeValidator(ValidationScopes.ROOM_NAME, 20));
+    }
+
+    @Test
+    public void testRemoveValidatorLatitudeNonExist() throws Exception {
+        Assert.assertFalse(MessageDTO.removeValidator(ValidationScopes.LATITUDE, 20));
+    }
+
+    @Test
+    public void testRemoveValidatorLongitudeNonExist() throws Exception {
+        Assert.assertFalse(MessageDTO.removeValidator(ValidationScopes.LONGITUDE, 10));
+    }
+
+    @Test
+    public void testRemoveValidatorStringNonExist() throws Exception {
+        Assert.assertFalse(MessageDTO.removeValidator(ValidationScopes.STRING, 10));
+    }
+
+
+    @Test
+    public void testRemoveValidatorTTLNonExist() throws Exception {
+        Assert.assertFalse(MessageDTO.removeValidator(ValidationScopes.TTL, 10));
     }
 
     @Test
@@ -408,14 +473,16 @@ public class MessageDTOTest {
     @Test
     public void testValidateFailMessage() throws Exception {
 
+
         InitializeValidators.InitializeCustomValidators();
+        MessageDTO.registerValidator(new MaxLengthValidator(10), ValidationScopes.STRING);
         JSONObject json = new JSONObject();
 
         json.put("chatroom_name", "teicm");
         json.put("username", "mixalis");
         json.put("lng", 0.0);
         json.put("lat", 0.0);
-        json.put("message", "!$%%$#@shdkgjhsdlgjds");
+        json.put("message", "abcdefghijkl");
         json.put("ttl", 15);
 
         MessageDTO MHRDTO = JSONToolConverter.mapFromJson(json.toJSONString(), MessageDTO.class);

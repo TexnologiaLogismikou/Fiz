@@ -5,28 +5,26 @@
  */
 package com.tech.models.dtos.chatroom;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tech.configurations.InitializeValidators;
 import com.tech.configurations.tools.JSONToolConverter;
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.ValidationScopes;
-import com.tech.configurations.tools.customvalidators.elements.floatvalidator.FloatNotNaNValidator;
-import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LatitudeValidator;
-import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LongitudeValidator;
+import com.tech.configurations.tools.customvalidators.elements.EmptyNumberValidator;
+import com.tech.configurations.tools.customvalidators.elements.EmptyValidator;
+import com.tech.configurations.tools.customvalidators.elements.numbervalidators.MaxNumberAllowed;
 import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotEmptyValidatorN;
 import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotNegativeValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.*;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
-import com.tech.exceptions.customexceptions.NoValidatorsAssignedException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
-
-import java.io.IOException;
-import java.util.List;
-
+import com.tech.models.dtos.MessageDTO;
 import net.minidev.json.JSONObject;
 import org.junit.*;
 import org.springframework.http.ResponseEntity;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * @author Aenaos
@@ -56,7 +54,7 @@ public class ChatroomUpdateDTOTest {
     }
 
     @Test
-    public void testSomething() throws InappropriateValidatorException, ValidatorNotListedException, JsonMappingException, IOException, NoValidatorsAssignedException {
+    public void testSomething() throws InappropriateValidatorException, ValidatorNotListedException, JsonMappingException, IOException {
         ChatroomUpdateDTO.registerValidator(new MinLenghtValidator(3), ValidationScopes.ROOM_NAME);
         ChatroomUpdateDTO.registerValidator(new MinLenghtValidator(3), ValidationScopes.PASSWORD);
         ChatroomUpdateDTO.registerValidator(new MaxLengthValidator(16), ValidationScopes.ROOM_NAME);
@@ -164,11 +162,22 @@ public class ChatroomUpdateDTOTest {
     }
 
     @Test
-    public void testRegisterWrongValidator() {
+    public void testRegisterNotListedStringValidator() {
         try {
-            List<String> str = ChatroomUpdateDTO.getValidatorList(ValidationScopes.USER_NAME);
-            Assert.assertEquals("Failure - expected validatorList size to be 0", 0, str.size());
-            ChatroomUpdateDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.STRING);
+            ChatroomUpdateDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.EMAIL);
+        } catch (ValidatorNotListedException ex) {
+            Assert.assertTrue("Exception should be ValidatorNotListedException",
+                    ex.getMessage().equals(new ValidatorNotListedException().getMessage()));
+        } catch (InappropriateValidatorException ex) {
+            Assert.fail("Validator should be appropriate should exist");
+        }
+
+    }
+
+    @Test
+    public void testRegisterNotListedNumberValidator() {
+        try {
+            ChatroomUpdateDTO.registerValidator(new EmptyNumberValidator(), ValidationScopes.EMAIL);
         } catch (ValidatorNotListedException ex) {
             Assert.assertTrue("Exception should be ValidatorNotListedException",
                     ex.getMessage().equals(new ValidatorNotListedException().getMessage()));
@@ -181,15 +190,14 @@ public class ChatroomUpdateDTOTest {
     @Test
     public void testRegisterInappropriateValidator() {
         try {
-            List<String> str = ChatroomUpdateDTO.getValidatorList(ValidationScopes.ROOM_NAME);
-            Assert.assertEquals("Failure - expected validatorList size to be 0", 0, str.size());
-            ChatroomUpdateDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.ROOM_NAME);
+            ChatroomUpdateDTO.registerValidator(new EmptyValidator(), ValidationScopes.EMAIL);
         } catch (ValidatorNotListedException ex) {
-            Assert.fail("Should not reach this");
+            Assert.fail("Should get InappropriateValidatorException");
         } catch (InappropriateValidatorException ex) {
             Assert.assertTrue("Exception should be InappropriateValidatorException",
                     ex.getMessage().equals(new InappropriateValidatorException().getMessage()));
         }
+
     }
 
     @Test
@@ -298,6 +306,7 @@ public class ChatroomUpdateDTOTest {
 
     }
 
+
     @Test
     public void testRemoveValidatorOnZeroSpot() throws Exception {
         Assert.assertFalse(ChatroomUpdateDTO.removeValidator(ValidationScopes.USER_NAME, 0));
@@ -310,8 +319,25 @@ public class ChatroomUpdateDTOTest {
     }
 
     @Test
+    public void testRemoveValidatorPrivilegeNonExist() throws Exception {
+        Assert.assertFalse(ChatroomUpdateDTO.removeValidator(ValidationScopes.ROOM_PRIVILEGE, 20));
+    }
+
+
+    @Test
+    public void testRemoveValidatorRangeNonExist() throws Exception {
+        Assert.assertFalse(ChatroomUpdateDTO.removeValidator(ValidationScopes.RANGE, 20));
+    }
+
+    @Test
     public void testRemoveValidatorRoomnameNonExist() throws Exception {
         Assert.assertFalse(ChatroomUpdateDTO.removeValidator(ValidationScopes.ROOM_NAME, 20));
+    }
+
+
+    @Test
+    public void testRemoveValidatorPasswordNonExist() throws Exception {
+        Assert.assertFalse(ChatroomUpdateDTO.removeValidator(ValidationScopes.PASSWORD, 20));
     }
 
     @Test
@@ -388,7 +414,7 @@ public class ChatroomUpdateDTOTest {
     }
 
     @Test
-    public void testValidateNewRoomName() throws Exception {
+    public void testValidateFailNewRoomName() throws Exception {
 
         InitializeValidators.InitializeCustomValidators();
         org.json.simple.JSONObject json = new org.json.simple.JSONObject();
@@ -495,16 +521,18 @@ public class ChatroomUpdateDTOTest {
     @Test
     public void testValidateFailRange() throws Exception {
 
+
         InitializeValidators.InitializeCustomValidators();
-        org.json.simple.JSONObject json = new org.json.simple.JSONObject();
+        ChatroomUpdateDTO.registerValidator(new MaxNumberAllowed(10), ValidationScopes.RANGE);
+        JSONObject json = new JSONObject();
 
         json.put("room_name", "room");
         json.put("new_room_name", "room1");
         json.put("room_privilege", "PUBLIC");
         json.put("access_method", "Blacklist");
-        json.put("passwordProtection", "");
+        json.put("passwordProtection", "true");
         json.put("password", "enaduo");
-        json.put("max_range", "60000");
+        json.put("max_range",30);
 
         ChatroomUpdateDTO MHRDTO = JSONToolConverter.mapFromJson(json.toJSONString(), ChatroomUpdateDTO.class);
 
