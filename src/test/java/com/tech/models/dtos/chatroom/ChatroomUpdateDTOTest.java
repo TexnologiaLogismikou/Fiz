@@ -282,6 +282,7 @@ public class ChatroomUpdateDTOTest {
         Assert.assertEquals("Failure - expected validatorList size to be 1", 1, str.size());
 
     }
+
     @Test
     public void testRemovePrivilegeValidator() throws Exception {
         ChatroomUpdateDTO.registerValidator(new MaxLengthValidator(2), ValidationScopes.ROOM_PRIVILEGE);
@@ -306,7 +307,7 @@ public class ChatroomUpdateDTOTest {
 
     @Test
     public void testRemoveValidatorUsernameNonExist() throws Exception {
-        Assert.assertFalse(ChatroomUpdateDTO.removeValidator(ValidationScopes.USER_NAME, 110));
+        Assert.assertFalse(ChatroomUpdateDTO.removeValidator(ValidationScopes.ROOM_ACCESS_METHOD, 20));
     }
 
     @Test
