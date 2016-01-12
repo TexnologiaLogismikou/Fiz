@@ -31,7 +31,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author KuroiTenshi
+ * @author Aenaos
  */
 public class MessageDTOTest {
     
@@ -269,12 +269,12 @@ public class MessageDTOTest {
 
     @Test
     public void testRemoveValidatorUsernameNonExist() throws Exception {
-        Assert.assertFalse(MessageDTO.removeValidator(ValidationScopes.USER_NAME, 110));
+        Assert.assertFalse(MessageDTO.removeValidator(ValidationScopes.USER_NAME, 20));
     }
 
     @Test
     public void testRemoveValidatorRoomnameNonExist() throws Exception {
-        Assert.assertFalse(MessageDTO.removeValidator(ValidationScopes.ROOM_NAME, 20));
+        Assert.assertFalse(MessageDTO.removeValidator(ValidationScopes.ROOM_NAME, 10));
     }
 
     @Test
