@@ -129,7 +129,7 @@ public class MessageDTOTest {
         try {
             List<String> str = ChatroomCheckInsideDTO.getValidatorList(ValidationScopes.USER_NAME);
             Assert.assertEquals("Failure - expected validatorList size to be 0", 0, str.size());
-            ChatroomCheckInsideDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.STRING);
+            MessageDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.STRING);
         } catch (ValidatorNotListedException ex) {
             Assert.assertTrue("Exception should be ValidatorNotListedException",
                     ex.getMessage().equals(new ValidatorNotListedException().getMessage()));

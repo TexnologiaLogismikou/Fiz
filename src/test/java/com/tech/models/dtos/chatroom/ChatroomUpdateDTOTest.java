@@ -53,7 +53,7 @@ public class ChatroomUpdateDTOTest {
 
     @After
     public void tearDown() {
-        ChatroomCheckInsideDTO.cleanValidator();
+        ChatroomUpdateDTO.cleanValidator();
     }
 
     @Test
