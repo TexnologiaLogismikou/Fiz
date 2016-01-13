@@ -101,21 +101,21 @@ public class ChatroomLocationUpdateDTO extends BaseDTO {
         switch(scope)
         {
             case ROOM_NAME:
-                if(ROOM_NAME_VALIDATORS.get(i) != null){
+                if(ROOM_NAME_VALIDATORS.size() >= i + 1 ){
                     ROOM_NAME_VALIDATORS.get(i-1).replaceNext(ROOM_NAME_VALIDATORS.get(i).getNext());
                     ROOM_NAME_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case LATITUDE:
-                if(LATITUDE_VALIDATORS.get(i) != null){
+                if(LATITUDE_VALIDATORS.size() >= i + 1 ){
                     LATITUDE_VALIDATORS.get(i-1).replaceNext(LATITUDE_VALIDATORS.get(i).getNext());
                     LATITUDE_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case LONGITUDE:
-                if(LONGITUDE_VALIDATORS.get(i) != null){
+                if(LONGITUDE_VALIDATORS.size() >= i + 1 ){
                     LONGITUDE_VALIDATORS.get(i-1).replaceNext(LONGITUDE_VALIDATORS.get(i).getNext());
                     LONGITUDE_VALIDATORS.remove(i);
                     return true;

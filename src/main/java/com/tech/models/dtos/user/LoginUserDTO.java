@@ -84,7 +84,7 @@ public class LoginUserDTO extends BaseDTO
         switch(scope)
         {
             case USER_NAME:
-                if(USER_NAME_VALIDATORS.get(i) != null)
+                if(USER_NAME_VALIDATORS.size() >= i + 1 )
                 {
                     USER_NAME_VALIDATORS.get(i-1).replaceNext(USER_NAME_VALIDATORS.get(i).getNext());
                     USER_NAME_VALIDATORS.remove(i);
@@ -92,7 +92,7 @@ public class LoginUserDTO extends BaseDTO
                 }
                 return false;
             case PASSWORD:
-                if(PASSWORD_VALIDATORS.get(i) != null)
+                if(PASSWORD_VALIDATORS.size() >= i + 1)
                 {
                     PASSWORD_VALIDATORS.get(i-1).replaceNext(PASSWORD_VALIDATORS.get(i).getNext());
                     PASSWORD_VALIDATORS.remove(i);
