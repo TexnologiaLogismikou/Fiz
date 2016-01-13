@@ -211,7 +211,7 @@ public class InitializeValidators {
             UserDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.PROFILE_PHOTO);
 
             UserDTO.registerValidator(new NotEmptyValidatorS(), ValidationScopes.STATUS);
-            UserDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.STATUS);
+   //TODO WHY?         UserDTO.registerValidator(new NoSpacesValidator(), ValidationScopes.STATUS);
             UserDTO.registerValidator(new MaxLengthValidator(1000), ValidationScopes.STATUS);
             UserDTO.registerValidator(new MinLenghtValidator(0), ValidationScopes.STATUS);
 
