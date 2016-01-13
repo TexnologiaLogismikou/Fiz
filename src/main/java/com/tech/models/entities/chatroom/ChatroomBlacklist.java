@@ -60,25 +60,25 @@ public class ChatroomBlacklist implements Serializable {
         return room_id;
     }
 
-    public void setRoom_id(Long room_id) {
-        this.room_id = room_id;
-    }
+//    public void setRoom_id(Long room_id) {
+//        this.room_id = room_id;
+//    }
 
     public Long getRoom_member() {
         return room_member;
     }
 
-    public void setRoom_member(Long room_member) {
-        this.room_member = room_member;
-    }
+//    public void setRoom_member(Long room_member) {
+//        this.room_member = room_member;
+//    }
 
     public Date getRoom_ban_time() {
         return room_ban_time;
     }
 
-    public void setRoom_ban_time(Date room_ban_time) {
-        this.room_ban_time = room_ban_time;
-    }
+//    public void setRoom_ban_time(Date room_ban_time) {
+//        this.room_ban_time = room_ban_time;
+//    }
 
     public Date getRoom_expiration_time() {
         return room_expiration_time;

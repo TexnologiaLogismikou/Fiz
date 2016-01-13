@@ -20,7 +20,7 @@ DELETE FROM "chatroom_location";
 DELETE FROM "chatrooms_entities"; --table#6.1
 DELETE FROM "usersdata"; --table#1
 
-INSERT INTO usersdata  VALUES (1,'milenaAz','milena',TRUE,TRUE); --table#1
+INSERT INTO usersdata VALUES (1,'milenaAz','milena',TRUE,TRUE); --table#1
 INSERT INTO usersdata VALUES (2,'iwannaFot','iwanna',TRUE,TRUE); --table#1
 INSERT INTO usersdata VALUES (3,'mixalisMix','mixalis',TRUE,TRUE); --table#1
 

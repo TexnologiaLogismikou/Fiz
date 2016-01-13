@@ -51,25 +51,25 @@ public class ChatroomWhitelist implements Serializable {
         return room_id;
     }
 
-    public void setRoom_id(Long room_id) {
-        this.room_id = room_id;
-    }
+//    public void setRoom_id(Long room_id) {
+//        this.room_id = room_id;
+//    }
 
     public Long getRoom_member() {
         return room_member;
     }
 
-    public void setRoom_member(Long room_member) {
-        this.room_member = room_member;
-    }
+//    public void setRoom_member(Long room_member) {
+//        this.room_member = room_member;
+//    }
 
     public Date getRoom_invitation_time() {
         return room_invitation_time;
     }
 
-    public void setRoom_invitation_time(Date room_invitation_time) {
-        this.room_invitation_time = room_invitation_time;
-    }
+//    public void setRoom_invitation_time(Date room_invitation_time) {
+//        this.room_invitation_time = room_invitation_time;
+//    }
     
 }
 

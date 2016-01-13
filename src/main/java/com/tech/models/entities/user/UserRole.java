@@ -33,15 +33,15 @@ public class UserRole implements Serializable {
         return user_role_userid;
     }
 
-    public void setUsername(Long username) {
-        this.user_role_userid = username;
-    }
+//    public void setUsername(Long username) {
+//        this.user_role_userid = username;
+//    }
 
     public String getRole() {
         return user_role_role;
     }
 
-    public void setRole(String role) {
-        this.user_role_role = role;
-    }
+//    public void setRole(String role) {
+//        this.user_role_role = role;
+//    }
 }

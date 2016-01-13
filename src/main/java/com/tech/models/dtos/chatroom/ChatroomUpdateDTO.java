@@ -17,7 +17,6 @@ import com.tech.configurations.tools.customvalidators.interfaces.IStringValidato
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
 import com.tech.configurations.tools.customvalidators.interfaces.INumberValidator;
-import com.tech.exceptions.customexceptions.NoValidatorsAssignedException;
 import java.util.Arrays;
 import org.springframework.http.ResponseEntity;
 
@@ -146,35 +145,35 @@ public class ChatroomUpdateDTO extends BaseDTO{
         }
         switch(scope){
             case ROOM_NAME:
-                if(ROOM_NAME_VALIDATORS.get(i) != null){
+                if(ROOM_NAME_VALIDATORS.size() >= i + 1){
                     ROOM_NAME_VALIDATORS.get(i-1).replaceNext(ROOM_NAME_VALIDATORS.get(i).getNext());
                     ROOM_NAME_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case PASSWORD:
-                if(PASSWORD_VALIDATORS.get(i) != null){
+                if(PASSWORD_VALIDATORS.size() >= i + 1){
                     PASSWORD_VALIDATORS.get(i-1).replaceNext(PASSWORD_VALIDATORS.get(i).getNext());
                     PASSWORD_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case ROOM_PRIVILEGE:
-                if(ROOM_PRIVILEGE_VALIDATORS.get(i) != null){
+                if(ROOM_PRIVILEGE_VALIDATORS.size() >= i + 1){
                     ROOM_PRIVILEGE_VALIDATORS.get(i-1).replaceNext(ROOM_PRIVILEGE_VALIDATORS.get(i).getNext());
                     ROOM_PRIVILEGE_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case ROOM_ACCESS_METHOD: 
-                if(ROOM_ACCESS_METHOD_VALIDATORS.get(i) != null){
+                if(ROOM_ACCESS_METHOD_VALIDATORS.size() >= i + 1){
                     ROOM_ACCESS_METHOD_VALIDATORS.get(i-1).replaceNext(ROOM_ACCESS_METHOD_VALIDATORS.get(i).getNext());
                     ROOM_ACCESS_METHOD_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case RANGE:
-                if(RANGE_VALIDATORS.get(i) != null){
+                if(RANGE_VALIDATORS.size() >= i + 1){
                     RANGE_VALIDATORS.get(i-1).replaceNext(RANGE_VALIDATORS.get(i).getNext());
                     RANGE_VALIDATORS.remove(i);
                     return true;

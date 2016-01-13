@@ -62,12 +62,12 @@ public class UserInfo implements Serializable {
      */
     public UserInfo(Long userid,UserDTO userDTO){
         this(userid,userDTO.getEmail(),userDTO.getProfile_photo(),userDTO.getStatus(),
-                userDTO.getLast_name(),userDTO.getBirthday(),userDTO.getHometown(),userDTO.getFirstName());
+                userDTO.getLast_name(),userDTO.getBirthday(),userDTO.getHometown(),userDTO.getFirstname());
     }
 
     public UserInfo(Long userid,RegisteredUserDTO userDTO){
         this(userid,userDTO.getEmail(),Attr.NO_IMAGE_ASSIGNED.getData(),null,
-                userDTO.getLast_name(),userDTO.getBirthday(),null,userDTO.getFirstname());
+                userDTO.getLast_name(),userDTO.getBirthday(),null,userDTO.getFirstname()); //TODO userDTO.getBirthday() stin 8esi tou new Date()
 
     }
 
@@ -87,63 +87,63 @@ public class UserInfo implements Serializable {
         return userid;
     }
 
-    public void setUserid(Long userid) {
-        this.userid = userid;
-    }
+//    public void setUserid(Long userid) {
+//        this.userid = userid;
+//    }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
 
     public String getProfilePhoto() {
         return profile_photo;
     }
 
-    public void setProfilePhoto(String profile_photo) {
-        this.profile_photo = profile_photo;
-    }
+//    public void setProfilePhoto(String profile_photo) {
+//        this.profile_photo = profile_photo;
+//    }
 
     public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+//    public void setStatus(String status) {
+//        this.status = status;
+//    }
 
     public String getLastName() {
         return last_name;
     }
 
-    public void setLastName(String last_name) {
-        this.last_name = last_name;
-    }
+//    public void setLastName(String last_name) {
+//        this.last_name = last_name;
+//    }
 
     public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
+//    public void setBirthday(Date birthday) {
+//        this.birthday = birthday;
+//    }
 
     public String getHometown() {
         return hometown;
     }
 
-    public void setHometown(String hometown) {
-        this.hometown = hometown;
-    }
+//    public void setHometown(String hometown) {
+//        this.hometown = hometown;
+//    }
 
     public String getFirstName() {
         return firstname;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstname = firstName;
-    }
+//    public void setFirstName(String firstName) {
+//        this.firstname = firstName;
+//    }
 }

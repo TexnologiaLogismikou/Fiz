@@ -11,7 +11,6 @@ import com.tech.configurations.tools.customvalidators.elements.EmptyStringValida
 import com.tech.configurations.tools.customvalidators.interfaces.ICustomValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.IStringValidator;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
-import com.tech.exceptions.customexceptions.NoValidatorsAssignedException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
 import com.tech.models.dtos.superclass.BaseDTO;
 import java.util.ArrayList;
@@ -100,7 +99,7 @@ public class ChatroomQuitMemberDTO extends BaseDTO{
         switch(scope)
         {
             case ROOM_NAME:
-                if(ROOM_NAME_VALIDATORS.get(i) != null)
+                if(ROOM_NAME_VALIDATORS.size() >= i + 1)
                 {
                     ROOM_NAME_VALIDATORS.get(i-1).replaceNext(ROOM_NAME_VALIDATORS.get(i).getNext());
                     ROOM_NAME_VALIDATORS.remove(i);
@@ -108,12 +107,13 @@ public class ChatroomQuitMemberDTO extends BaseDTO{
                 }
                 return false;
             case USER_NAME:
-                if(USER_NAME_VALIDATORS.get(i) != null)
+                if(USER_NAME_VALIDATORS.size() >= i + 1)
                 {
                     USER_NAME_VALIDATORS.get(i-1).replaceNext(USER_NAME_VALIDATORS.get(i).getNext());
                     USER_NAME_VALIDATORS.remove(i);
                     return true;
                 }
+                return false;
             default:
                 throw new ValidatorNotListedException();                    
         }

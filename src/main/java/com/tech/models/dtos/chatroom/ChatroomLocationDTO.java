@@ -82,16 +82,17 @@ public class ChatroomLocationDTO extends BaseDTO{
         if(i==0){
             return false;
         }
+        
         switch(scope){
             case LATITUDE:
-                if(LATITUDE_VALIDATORS.get(i) != null){
+                if(LATITUDE_VALIDATORS.size() >= i + 1){
                     LATITUDE_VALIDATORS.get(i-1).replaceNext(LATITUDE_VALIDATORS.get(i).getNext());
                     LATITUDE_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case LONGITUDE:
-                if(LONGITUDE_VALIDATORS.get(i) != null){
+                if(LONGITUDE_VALIDATORS.size() >= i + 1){
                     LONGITUDE_VALIDATORS.get(i-1).replaceNext(LONGITUDE_VALIDATORS.get(i).getNext());
                     LONGITUDE_VALIDATORS.remove(i);
                     return true;

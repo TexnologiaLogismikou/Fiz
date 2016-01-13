@@ -104,22 +104,13 @@ public class ChatroomEntitiesServiceTest extends AbstractTest {
         Assert.assertTrue("Failed to count rooms",service.countRecords()==3);
 
     }
-
-
-//    @Test
-//    @Sql(scripts = "classpath:populateDB.sql")
-//    public void testCountRecordsOfMember() {
-//        Long l = service.countRecordsOfMember(1L);
-//        Assert.assertTrue("Failed to count rooms created by user",l==1);
-//
-//    }
     
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
     public void testGetNextID() 
     {
         Long l = service.getNextID();
-        Assert.assertTrue(Responses.ERROR.getData(),2>1);
+        Assert.assertTrue(Responses.ERROR.getData(),l==4);
     }
     
     @Test
@@ -155,4 +146,14 @@ public class ChatroomEntitiesServiceTest extends AbstractTest {
         Assert.assertTrue(Responses.ERROR.getData(),service.findByRoomID(1L).getRoom_last_activity().compareTo(testDate)==0);
     }
 
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetNextIDMiddleNumber() 
+    {
+        ChatroomEntities testRoom = chatroomEntitiesList.get(1);
+        service.delete(testRoom);
+        Long l = service.getNextID();
+        Assert.assertTrue(Responses.ERROR.getData(),l==2);
+    }
+    
 }
