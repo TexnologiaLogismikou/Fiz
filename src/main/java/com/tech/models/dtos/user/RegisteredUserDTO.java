@@ -110,7 +110,7 @@ public class RegisteredUserDTO extends BaseDTO
         switch(scope)
         {
             case USER_NAME:
-                if(USER_NAME_VALIDATORS.get(i) != null)
+                if(USER_NAME_VALIDATORS.size() >= i + 1)
                 {
                     USER_NAME_VALIDATORS.get(i-1).replaceNext(USER_NAME_VALIDATORS.get(i).getNext());
                     USER_NAME_VALIDATORS.remove(i);
@@ -118,7 +118,7 @@ public class RegisteredUserDTO extends BaseDTO
                 }
                 return false;
             case PASSWORD:
-                if(PASSWORD_VALIDATORS.get(i) != null)
+                if(PASSWORD_VALIDATORS.size() >= i + 1)
                 {
                     PASSWORD_VALIDATORS.get(i-1).replaceNext(PASSWORD_VALIDATORS.get(i).getNext());
                     PASSWORD_VALIDATORS.remove(i);
@@ -126,7 +126,7 @@ public class RegisteredUserDTO extends BaseDTO
                 }
                 return false;
             case EMAIL:
-                if(EMAIL_VALIDATORS.get(i) != null)
+                if(EMAIL_VALIDATORS.size() >= i + 1)
                 {
                     EMAIL_VALIDATORS.get(i-1).replaceNext(EMAIL_VALIDATORS.get(i).getNext());
                     EMAIL_VALIDATORS.remove(i);
