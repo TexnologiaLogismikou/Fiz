@@ -133,42 +133,42 @@ public class UserDTO extends BaseDTO
         switch(scope)
         {
             case USER_NAME:
-                if(USER_NAME_VALIDATORS.get(i) != null){
+                if(USER_NAME_VALIDATORS.size() >= i + 1 ){
                     USER_NAME_VALIDATORS.get(i-1).replaceNext(USER_NAME_VALIDATORS.get(i).getNext());
                     USER_NAME_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case PASSWORD:
-                if(PASSWORD_VALIDATORS.get(i) != null){
+                if(PASSWORD_VALIDATORS.size() >= i + 1 ){
                     PASSWORD_VALIDATORS.get(i-1).replaceNext(PASSWORD_VALIDATORS.get(i).getNext());
                     PASSWORD_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case EMAIL:
-                if(EMAIL_VALIDATORS.get(i) != null){
+                if(EMAIL_VALIDATORS.size() >= i + 1 ){
                     EMAIL_VALIDATORS.get(i-1).replaceNext(EMAIL_VALIDATORS.get(i).getNext());
                     EMAIL_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case STRING: 
-                if(STRING_VALIDATORS.get(i) != null){
+                if(STRING_VALIDATORS.size() >= i + 1 ){
                     STRING_VALIDATORS.get(i-1).replaceNext(STRING_VALIDATORS.get(i).getNext());
                     STRING_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case PROFILE_PHOTO:
-                if(PROFILE_PHOTO_VALIDATORS.get(i) != null){
+                if(PROFILE_PHOTO_VALIDATORS.size() >= i + 1 ){
                     PROFILE_PHOTO_VALIDATORS.get(i-1).replaceNext(PROFILE_PHOTO_VALIDATORS.get(i).getNext());
                     PROFILE_PHOTO_VALIDATORS.remove(i);
                     return true;
                 }
                 return false;
             case STATUS:
-                if(STATUS_VALIDATORS.get(i) != null){
+                if(STATUS_VALIDATORS.size() >= i + 1 ){
                     STATUS_VALIDATORS.get(i-1).replaceNext(STATUS_VALIDATORS.get(i).getNext());
                     STATUS_VALIDATORS.remove(i);
                     return true;
