@@ -386,8 +386,6 @@ public class UserDTOTest {
         Pair<Boolean,ResponseEntity> r = UDTO.validate();
         
         Assert.assertFalse("Failure expected true",r.getLeft());
-        
-        
     }
     
     @Test
@@ -413,8 +411,6 @@ public class UserDTOTest {
         Pair<Boolean,ResponseEntity> r = UDTO.validate();
         
         Assert.assertFalse("Failure expected true",r.getLeft());
-        
-        
     }
     
     @Test
@@ -440,8 +436,6 @@ public class UserDTOTest {
         Pair<Boolean,ResponseEntity> r = UDTO.validate();
         
         Assert.assertFalse("Failure expected true",r.getLeft());
-        
-        
     }
     
     @Test
@@ -467,8 +461,6 @@ public class UserDTOTest {
         Pair<Boolean,ResponseEntity> r = UDTO.validate();
         
         Assert.assertFalse("Failure expected true",r.getLeft());
-        
-        
     }
     
         @Test
@@ -494,8 +486,6 @@ public class UserDTOTest {
         Pair<Boolean,ResponseEntity> r = UDTO.validate();
         
         Assert.assertFalse("Failure expected true",r.getLeft());
-        
-        
     }
     
     @Test
@@ -521,11 +511,9 @@ public class UserDTOTest {
         Pair<Boolean,ResponseEntity> r = UDTO.validate();
         
         Assert.assertFalse("Failure expected true",r.getLeft());
-        
-        
     }
     
-        @Test
+    @Test
     public void testValidateFailStatus() throws Exception {
         InitializeValidators.InitializeCustomValidators();
         
@@ -548,7 +536,5 @@ public class UserDTOTest {
         Pair<Boolean,ResponseEntity> r = UDTO.validate();
         
         Assert.assertFalse("Failure expected true",r.getLeft());
-        
-        
     }
 }
