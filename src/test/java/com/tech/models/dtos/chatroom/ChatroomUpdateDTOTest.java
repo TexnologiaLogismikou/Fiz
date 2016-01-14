@@ -12,7 +12,7 @@ import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.ValidationScopes;
 import com.tech.configurations.tools.customvalidators.elements.EmptyNumberValidator;
 import com.tech.configurations.tools.customvalidators.elements.EmptyValidator;
-import com.tech.configurations.tools.customvalidators.elements.numbervalidators.MaxNumberAllowed;
+import com.tech.configurations.tools.customvalidators.elements.numbervalidators.MaxNumberAllowedValidator;
 import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotEmptyValidatorN;
 import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotNegativeValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.*;
@@ -523,7 +523,7 @@ public class ChatroomUpdateDTOTest {
 
 
         InitializeValidators.InitializeCustomValidators();
-        ChatroomUpdateDTO.registerValidator(new MaxNumberAllowed(10), ValidationScopes.RANGE);
+        ChatroomUpdateDTO.registerValidator(new MaxNumberAllowedValidator(10), ValidationScopes.RANGE);
         JSONObject json = new JSONObject();
 
         json.put("room_name", "room");

@@ -50,7 +50,7 @@ import java.util.logging.Logger;
  */
 public class InitializeValidators {
     public static void InitializeCustomValidators(){
- 
+        
         List<String> accessMethodList = new ArrayList<>();
         List<String> privilegeList = new ArrayList<>();
         List<String> modeList = new ArrayList<>();

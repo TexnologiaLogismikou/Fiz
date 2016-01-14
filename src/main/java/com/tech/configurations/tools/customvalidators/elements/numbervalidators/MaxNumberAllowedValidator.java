@@ -16,9 +16,9 @@ import org.springframework.http.ResponseEntity;
  *
  * @author KuroiTenshi
  */
-public class MaxNumberAllowed extends NumberValidator implements INumberValidator{
+public class MaxNumberAllowedValidator extends NumberValidator implements INumberValidator{
     private final int L;
-    public MaxNumberAllowed(int L) {
+    public MaxNumberAllowedValidator(int L) {
         super( new ResponseEntity<>(Responses.ID_INAPPROPRIATE_FORMAT.getData(),HttpStatus.UNPROCESSABLE_ENTITY), "MaxNumberAllowed");
         this.L = L;
     }    
