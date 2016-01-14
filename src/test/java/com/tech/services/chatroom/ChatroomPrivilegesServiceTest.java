@@ -134,4 +134,12 @@ public class ChatroomPrivilegesServiceTest extends AbstractTest
         Assert.assertTrue(Responses.ERROR.getData(),service.countRecordsOfPrivileges("PUBLIC")==2);
     }
     
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testSetChatroomPrivileges() 
+    {
+        service.setChatroomPrivileges("PUBLIC", false, "milena", "blacklist", 1L);
+        Assert.assertTrue(Responses.ERROR.getData(),service.findByRoomId(1L).getRoom_privileges().equals("PUBLIC"));
+    }
+    
 }
