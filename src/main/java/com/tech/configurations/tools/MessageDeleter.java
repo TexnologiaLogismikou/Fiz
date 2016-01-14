@@ -10,23 +10,17 @@ import com.tech.services.MessageService;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author KuroiTenshi
  */
+@Component
 public class MessageDeleter{
     private final int minuteInMillis = 60000;
-    /*
-    if (CB.getRoom_expiration_time().after(new Date())){// if CB is later than Today
-                        return new ResponseEntity<>(Responses.NOT_AUTHORIZED.getData(),HttpStatus.UNAUTHORIZED);
-                    }
-    */
+    
     @Autowired
     MessageService MS;
     
@@ -44,7 +38,6 @@ public class MessageDeleter{
         return true;
     }
 
-//    @Async
     @Scheduled(fixedRate = 5000)
     public void run() {
         executeCleaning();            
