@@ -398,4 +398,12 @@ public class UserServiceTest extends AbstractTest{
         Assert.assertEquals("Password is good",user.getPassword(), service.getLastRecord().getPassword());
     }
     
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testUpdateUserRoom()
+    {
+        service.updateUserRoom(true, 2L);
+        Assert.assertTrue("user 2L doesnt have room",service.getUserById(2L).hasRoom());
+    }
+    
 }
