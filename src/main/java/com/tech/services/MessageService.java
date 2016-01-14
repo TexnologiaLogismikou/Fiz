@@ -80,11 +80,18 @@ public class MessageService implements IMessageService
     
     @Override
     @Transactional
-    public Long getNextId()
-    {
-        Long i = getCount();
-        Long x = repository.getOne(i).getId();
-        return x + 1L ;
+    public Long getNextId(){
+        Long lastID = 0L;    
+        
+        for(Message vLookUp:repository.findAll()){
+            if((vLookUp.getId()- lastID) == 1){
+                lastID = vLookUp.getId();
+            }else{
+                return lastID + 1;
+            }            
+        }
+        
+        return lastID + 1L ;       
     }
     
     @Override
