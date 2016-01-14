@@ -30,6 +30,7 @@ public class MessageDeleter implements Runnable {
     public boolean executeCleaning(){        
         try { 
             Thread.sleep(10);
+            System.out.println("Deleting Started!");
             List<Message> messageList = MS.getAllMessages();
             
             for(Message vLookUp:messageList){
