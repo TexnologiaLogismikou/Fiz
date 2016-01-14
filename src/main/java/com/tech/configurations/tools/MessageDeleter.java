@@ -24,8 +24,7 @@ public class MessageDeleter{
     @Autowired
     IMessageService MS;
     
-    public boolean executeCleaning(){        
-        System.out.println("Deleting Started!");
+    private void executeCleaning(){        
         List<Message> messageList = MS.getAllMessages();
 
         for(Message vLookUp:messageList){
@@ -34,8 +33,6 @@ public class MessageDeleter{
                 MS.delete(vLookUp);
             }
         }
-
-        return true;
     }
 
     @Scheduled(fixedRate = 5000)

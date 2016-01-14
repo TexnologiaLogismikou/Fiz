@@ -90,6 +90,6 @@ public class MessageService implements IMessageService
     @Override
     @Transactional
     public void delete(Message message){
-        repository.deleteById(message.getId());
+        repository.delete(message);
     }
 }
