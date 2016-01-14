@@ -12,8 +12,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@ComponentScan("com.auth0")
-@ImportResource("classpath:auth0-security-context.xml")
+//@ComponentScan("com.auth0")
+//@ImportResource("classpath:auth0-security-context.xml")
 @PropertySource("classpath:auth0.properties")
 public class Application extends SpringBootServletInitializer {
 
