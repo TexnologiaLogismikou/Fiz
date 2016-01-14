@@ -6,7 +6,7 @@
 package com.tech.configurations.tools;
 
 import com.tech.models.entities.Message;
-import com.tech.services.MessageService;
+import com.tech.services.interfaces.IMessageService;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class MessageDeleter{
     private final int minuteInMillis = 60000;
     
     @Autowired
-    MessageService MS;
+    IMessageService MS;
     
     public boolean executeCleaning(){        
         System.out.println("Deleting Started!");
