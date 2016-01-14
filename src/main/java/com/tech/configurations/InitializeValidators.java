@@ -5,6 +5,7 @@
  */
 package com.tech.configurations;
 
+import com.tech.configurations.tools.MessageDeleter;
 import com.tech.configurations.tools.ValidationScopes;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.FloatNotNaNValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LatitudeValidator;
@@ -50,7 +51,10 @@ import java.util.logging.Logger;
  */
 public class InitializeValidators {
     public static void InitializeCustomValidators(){
- 
+    
+        Thread tmp = new Thread(new MessageDeleter());
+        tmp.start();
+        
         List<String> accessMethodList = new ArrayList<>();
         List<String> privilegeList = new ArrayList<>();
         List<String> modeList = new ArrayList<>();

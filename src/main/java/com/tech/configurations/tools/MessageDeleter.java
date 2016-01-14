@@ -29,7 +29,7 @@ public class MessageDeleter implements Runnable {
     
     public boolean executeCleaning(){        
         try { 
-            Thread.sleep(10);
+            Thread.sleep(5000);
             System.out.println("Deleting Started!");
             List<Message> messageList = MS.getAllMessages();
             

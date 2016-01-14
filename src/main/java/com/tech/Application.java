@@ -1,7 +1,6 @@
 package com.tech;
 
 import com.tech.configurations.InitializeValidators;
-import com.tech.configurations.tools.MessageDeleter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -17,10 +16,7 @@ public class Application extends SpringBootServletInitializer {
      */
     public static void main(String[] args) throws Exception {
         InitializeValidators.InitializeCustomValidators();
-        
-        Thread tmp = new Thread(new MessageDeleter());
-        tmp.start();
-        
+ 
         SpringApplication.run(Application.class, args);
     }
 
