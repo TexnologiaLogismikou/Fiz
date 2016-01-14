@@ -51,9 +51,6 @@ import java.util.logging.Logger;
  */
 public class InitializeValidators {
     public static void InitializeCustomValidators(){
-    
-        Thread tmp = new Thread(new MessageDeleter());
-        tmp.start();
         
         List<String> accessMethodList = new ArrayList<>();
         List<String> privilegeList = new ArrayList<>();
