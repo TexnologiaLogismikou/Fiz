@@ -24,7 +24,7 @@ public class MessageService implements IMessageService
 
     @Override
     @Transactional
-    public void addMessage(Message message) {
+    public synchronized void addMessage(Message message) {
         repository.save(message);
     }
 
@@ -98,7 +98,7 @@ public class MessageService implements IMessageService
     
     @Override
     @Transactional
-    public void delete(Message message){
+    public synchronized void delete(Message message){
         repository.delete(message);
     }
 }
