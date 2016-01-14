@@ -84,6 +84,7 @@ public class MessageService implements IMessageService
         Long lastID = 0L;    
         
         for(Message vLookUp:repository.findAll()){
+            System.out.println(lastID);
             if((vLookUp.getId()- lastID) == 1){
                 lastID = vLookUp.getId();
             }else{
@@ -91,6 +92,7 @@ public class MessageService implements IMessageService
             }            
         }
         
+        System.out.println("Finale : " + lastID);
         return lastID + 1L ;       
     }
     
