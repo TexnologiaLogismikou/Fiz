@@ -49,6 +49,7 @@ public class MessageDeleter implements Runnable {
 
     @Override
     public void run() {
+            System.out.println("Deleting initialized!");
         long i = 0;
         boolean flag;
         while(true){

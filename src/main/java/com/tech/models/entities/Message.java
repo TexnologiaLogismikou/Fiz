@@ -9,8 +9,7 @@ import java.util.Date;
 @NamedQueries({
         @NamedQuery(name = "Message.findByMessageId", query = "SELECT p FROM Message p WHERE p.id = ?1"),
         @NamedQuery(name = "Message.findBySenderId", query = "SELECT p FROM Message p WHERE p.userid = ?1"),
-        @NamedQuery(name = "Message.findByChatRoom", query = "SELECT p FROM Message p WHERE p.chatroom_id = ?1"),
-        @NamedQuery(name = "Message.deleteById", query = "DELETE FROM Message p WHERE p.id = ?1")
+        @NamedQuery(name = "Message.findByChatRoom", query = "SELECT p FROM Message p WHERE p.chatroom_id = ?1")
 //    @NamedQuery(named = "Message.FindByDateOfSend", query = "SELECT p FROM Message p WHERE p.dateSent = ?1")
 })
 @Table (name = "messages")
