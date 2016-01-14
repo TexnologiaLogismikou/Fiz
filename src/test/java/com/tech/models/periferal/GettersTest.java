@@ -5,8 +5,14 @@
  */
 package com.tech.models.periferal;
 
+import com.tech.Application;
+import com.tech.configurations.InitializeValidators;
+import com.tech.configurations.tools.Host;
 import com.tech.configurations.tools.NameCoder;
+import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.ValidationScopes;
+import com.tech.configurations.tools.customvalidators.elements.EmptyValidator;
+import com.tech.exceptions.customexceptions.InappropriateValidatorException;
 import com.tech.models.entities.ImagesMod;
 import java.util.Date;
 import org.junit.After;
@@ -85,6 +91,32 @@ public class GettersTest {
     @Test
     public void testInvalidImageName(){
         ImagesMod IM = new ImagesMod(212324569L);
+        
+    }
+    
+    @Test
+    public void testInitializeClass(){
+        NameCoder NC = new NameCoder();
+        InitializeValidators IV = new InitializeValidators();
+        Host H = new Host();
+    }
+    
+    @Test
+    public void testForEmptyValidator() throws Exception{
+        EmptyValidator EV = new EmptyValidator();
+        EV.setNext(null);
+        EV.replaceNext(null);
+        EV.getNext();
+        EV.getName();
+    }
+    
+    @Test
+    public void testForPair(){
+        Pair<Integer,Integer> P = Pair.of(1, 1);
+        Pair<Integer,Integer> P2 = Pair.of(1, 1);
+        P.hashCode();
+        Assert.assertTrue(P.equals(P2));
+        Assert.assertFalse(P.equals("hi"));
         
     }
 }

@@ -15,7 +15,7 @@ import com.tech.configurations.tools.customvalidators.elements.EmptyValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.FloatNotNaNValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LatitudeValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LongitudeValidator;
-import com.tech.configurations.tools.customvalidators.elements.numbervalidators.MaxNumberAllowed;
+import com.tech.configurations.tools.customvalidators.elements.numbervalidators.MaxNumberAllowedValidator;
 import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotEmptyValidatorN;
 import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotNegativeValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.MaxLengthValidator;

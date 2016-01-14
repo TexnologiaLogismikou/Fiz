@@ -12,7 +12,7 @@ import com.tech.configurations.tools.ValidationScopes;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.FloatNotNaNValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LatitudeValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LongitudeValidator;
-import com.tech.configurations.tools.customvalidators.elements.numbervalidators.MaxNumberAllowed;
+import com.tech.configurations.tools.customvalidators.elements.numbervalidators.MaxNumberAllowedValidator;
 import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotEmptyValidatorN;
 import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotNegativeValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.MaxLengthValidator;
@@ -651,7 +651,7 @@ public class ChatroomCreationDTOTest
     public void testValidateFailRoomMaxRange() throws Exception 
     {
         InitializeValidators.InitializeCustomValidators();
-        ChatroomCreationDTO.registerValidator(new MaxNumberAllowed(10), ValidationScopes.RANGE);
+        ChatroomCreationDTO.registerValidator(new MaxNumberAllowedValidator(10), ValidationScopes.RANGE);
         JSONObject json = new JSONObject();
         
         json.put("username","mixalis");
