@@ -5,7 +5,6 @@
  */
 package com.tech.configurations;
 
-import com.tech.configurations.tools.MessageDeleter;
 import com.tech.configurations.tools.ValidationScopes;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.FloatNotNaNValidator;
 import com.tech.configurations.tools.customvalidators.elements.floatvalidator.LatitudeValidator;

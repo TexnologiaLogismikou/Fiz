@@ -28,8 +28,8 @@ public class MessageDeleter{
         List<Message> messageList = MS.getAllMessages();
 
         for(Message vLookUp:messageList){
-        Date deletionDate = new Date(vLookUp.getDate().getTime() + (vLookUp.getTtl() * minuteInMillis));
-            if(deletionDate.after(new Date())){
+            Date deletionDate = new Date(vLookUp.getDate().getTime() + (vLookUp.getTtl() * minuteInMillis));
+            if(deletionDate.before(new Date())){
                 MS.delete(vLookUp);
             }
         }
