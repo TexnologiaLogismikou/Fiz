@@ -59,9 +59,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/chatroom")
 public class ChatroomController extends BaseController{
     
-    @Autowired
-    IUserService userService;
-    
     @Autowired 
     IChatroomEntitiesService chatroomEntitesService;
     

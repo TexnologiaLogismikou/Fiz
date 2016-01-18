@@ -115,7 +115,9 @@ public class FriendDTO extends BaseDTO{
     /* Start of DTO */
     
     private String username;
+    private String user_id;
     private String friendname;
+    private String friend_id;
 
     @Override
     public String getDTOName() {
@@ -131,5 +133,12 @@ public class FriendDTO extends BaseDTO{
     {
         return friendname;
     }
-    
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public String getFriend_id() {
+        return friend_id;
+    }    
 }

@@ -77,7 +77,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
 
     @InjectMocks
     ChatroomController controller;
-
+    
     public ChatroomControllerTest() {
     }
 
@@ -113,7 +113,6 @@ public class ChatroomControllerTest extends AbstractControllerTest {
 
     @Test
     public void testHandleNewChatroomUsernameDoesNotExist() throws Exception {
-
         String uri = this.uri+"/newChatroom";
         
         json.put("username","user");

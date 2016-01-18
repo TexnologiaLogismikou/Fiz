@@ -213,6 +213,7 @@ public class ChatroomCheckInsideDTO extends BaseDTO
     private float lat;
     private String room_name;
     private String user_name;
+    private String user_id;
     
     public ChatroomCheckInsideDTO(){        
     }
@@ -237,4 +238,8 @@ public class ChatroomCheckInsideDTO extends BaseDTO
     public String getUser_name() {
         return user_name;
     }    
+
+    public String getUser_id() {
+        return user_id;
+    }
 }

@@ -275,6 +275,7 @@ public class MessageDTO extends BaseDTO
     
     private String message;
     private String username;
+    private String user_id;
     private String chatroom_name;
     private float lng;
     private float lat;
@@ -310,5 +311,9 @@ public class MessageDTO extends BaseDTO
 
     public int getTtl() {
         return ttl;
+    }
+
+    public String getUser_id() {
+        return user_id;
     }
 }

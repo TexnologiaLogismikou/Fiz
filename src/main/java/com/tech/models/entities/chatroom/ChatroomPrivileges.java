@@ -48,7 +48,7 @@ public class ChatroomPrivileges implements Serializable {
     }
 
     public ChatroomPrivileges(Long room_id,ChatroomCreationDTO DTO) {
-        this(room_id,DTO.getRoom_privilege(),DTO.hasPassword(),
+        this(room_id,DTO.getRoom_privilege(),DTO.isHasPassword(),
                 DTO.getPassword(),DTO.getAccess_method());
     }
     

@@ -153,6 +153,7 @@ public class ChatroomWhitelistDTO extends BaseDTO{
     
     private String room_name;
     private String member_name;
+    private String user_id;
     private String mode;//ADD or DELETE
     
     @Override
@@ -170,5 +171,9 @@ public class ChatroomWhitelistDTO extends BaseDTO{
     
     public String getMode(){
         return mode;
+    }
+
+    public String getUser_id() {
+        return user_id;
     }
 }

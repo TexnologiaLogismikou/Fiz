@@ -208,6 +208,7 @@ public class MessageHistoryRequestDTO extends BaseDTO{
     
     private String room_name;
     private String member_name;
+    private String user_id;
     private Long lat;
     private Long lng;
 
@@ -233,5 +234,9 @@ public class MessageHistoryRequestDTO extends BaseDTO{
 
     public String getMember_name() {
         return member_name;
+    }
+
+    public String getUser_id() {
+        return user_id;
     }
 }

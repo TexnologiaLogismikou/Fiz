@@ -261,6 +261,7 @@ public class ChatroomConnectionMemberDTO extends BaseDTO {
 
     private String room_name;
     private String member_name;
+    private String user_id;
     private String password;
     private String mode;  //update,delete,add
     private float lat;
@@ -293,5 +294,9 @@ public class ChatroomConnectionMemberDTO extends BaseDTO {
 
     public float getLng() {
         return lng;
+    }
+
+    public String getUser_id() {
+        return user_id;
     }
 }

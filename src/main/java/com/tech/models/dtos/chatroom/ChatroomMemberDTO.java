@@ -195,6 +195,7 @@ public class ChatroomMemberDTO extends BaseDTO{
     
     private String room_name;
     private String member_name;
+    private String user_id;
     private String password;
     private String method;//should accept only "ADD" "DELETE" and maybe "UPDATE"?
     
@@ -217,5 +218,9 @@ public class ChatroomMemberDTO extends BaseDTO{
 
     public String getPassword() {
         return password;
+    }
+
+    public String getUser_id() {
+        return user_id;
     }
 }

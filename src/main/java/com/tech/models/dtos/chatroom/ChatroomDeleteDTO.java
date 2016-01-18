@@ -159,6 +159,7 @@ public class ChatroomDeleteDTO extends BaseDTO {
     /* Start of DTO */
 
     private String creator_name;
+    private String user_id;
     private String room_name;
     private String room_password;
 
@@ -177,5 +178,9 @@ public class ChatroomDeleteDTO extends BaseDTO {
 
     public String getRoom_password() {
         return room_password;
+    }
+
+    public String getUser_id() {
+        return user_id;
     }
 }

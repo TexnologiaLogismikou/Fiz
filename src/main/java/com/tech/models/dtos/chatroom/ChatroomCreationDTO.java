@@ -330,6 +330,7 @@ public class ChatroomCreationDTO extends BaseDTO {
     /* Start of DTO */
 
     private String username;
+    private String user_id;
     private String room_name;
     private String room_privilege;
     private String access_method;
@@ -355,8 +356,8 @@ public class ChatroomCreationDTO extends BaseDTO {
     public String getAccess_method() {
         return access_method;
     }
-
-    public boolean hasPassword() {
+    
+    public boolean isHasPassword() {
         return hasPassword;
     }
 
@@ -378,5 +379,9 @@ public class ChatroomCreationDTO extends BaseDTO {
 
     public int getRoom_max_range() {
         return room_max_range;
+    }
+
+    public String getUser_id() {
+        return user_id;
     }
 }

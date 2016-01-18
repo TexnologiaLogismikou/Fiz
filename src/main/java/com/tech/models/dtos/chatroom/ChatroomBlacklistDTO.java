@@ -137,6 +137,7 @@ public class ChatroomBlacklistDTO extends BaseDTO
     
     private String room_name;
     private String member_name;
+    private String user_id;
     private Date expiration_date;
     
     @Override
@@ -154,5 +155,9 @@ public class ChatroomBlacklistDTO extends BaseDTO
 
     public Date getExpiration_date() {
         return expiration_date;
+    }
+
+    public String getUser_id() {
+        return user_id;
     }
 }
