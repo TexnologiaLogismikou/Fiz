@@ -25,6 +25,6 @@ public class TestController {
     public HttpEntity aController(LoginDTO LDTO){
         System.out.println("Username : " + LDTO.getUsername());
         System.out.println("Password : " + LDTO.getPassword());
-        return new ResponseEntity(HttpStatus.I_AM_A_TEAPOT);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
