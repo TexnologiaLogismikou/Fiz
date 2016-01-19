@@ -18,7 +18,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addMapping("/**")
                 .allowedOrigins(Host.apache)
                 .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
-                .allowedHeaders("Origin","X-Requested-With", "Content-Type", "accept", "X-Ajax-Call","Access-Control-Request-Method","Access-Control-Request-Headers")
+                .allowedHeaders("Origin","X-Requested-With", "Content-Type", "accept", "X-Ajax-Call","Access-Control-Request-Method","Access-Control-Request-Headers", "Authorization")
                 .allowCredentials(true)
                 .exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials");
     }
