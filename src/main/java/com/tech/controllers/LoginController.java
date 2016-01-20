@@ -38,6 +38,7 @@ public class LoginController {
             user.put("username", userIdentity.getUsername());
             user.put("fname", userInfo.getFirstName());
             user.put("lname", userInfo.getLastName());
+            user.put("birthday", userInfo.getBirthday());
             user.put("email", userInfo.getEmail());
             user.put("photo", userInfo.getProfilePhoto());
             user.put("town", userInfo.getHometown());
