@@ -5,7 +5,6 @@
  */
 package com.tech.controllers;
 
-import com.tech.configurations.tools.Host;
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
 import com.tech.controllers.superclass.BaseController;
@@ -34,7 +33,6 @@ import com.tech.services.interfaces.IChatroomPrivilegesService;
 import com.tech.services.interfaces.IChatroomWhitelistService;
 import com.tech.services.interfaces.IUserService;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -44,7 +42,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -479,15 +476,12 @@ public class ChatroomController extends BaseController{
         }
         
         int i = 0;
-        List<String> list = new ArrayList<>();
         for(ChatroomLocation vLookUp:CL){
             i++;
-            list.add(chatroomEntitesService.findByRoomID(vLookUp.getRoom_id()).getRoom_name());
-
-        }
+            json.put("chatroom_" + i, chatroomEntitesService.findByRoomID(vLookUp.getRoom_id()).getRoom_name());
+        }        
         
         json.put("size", i);
-        json.put("list", list);
         json.put("error","no errors");
         
         return new ResponseEntity<>(json,HttpStatus.OK);

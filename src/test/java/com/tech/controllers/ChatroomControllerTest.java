@@ -1764,7 +1764,7 @@ public class ChatroomControllerTest extends AbstractControllerTest {
 
         AvailableChatroomResponseDTO chatroomResponseDTO = super.mapFromJson(content,AvailableChatroomResponseDTO.class);
 
-        verify(chatroomLocationService, times(1)).findIfNear(50,40);
+        verify(chatroomLocationService,times(1)).findIfNear(50,40);
         verify(chatroomEntitesService,times(1)).findByRoomID(1L);
         verify(chatroomEntitesService,times(1)).findByRoomID(2L);
 
