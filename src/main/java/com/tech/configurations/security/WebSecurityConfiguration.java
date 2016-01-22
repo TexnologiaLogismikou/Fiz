@@ -17,60 +17,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    DataSource dataSource;
-
-    @Autowired
-    AuthenticationSuccessHandler authenticationSuccessHandler;
-
-    @Autowired
-    AuthenticationEntryPoint restAuthenticationEntryPoint;
-
-    @Autowired
     CorsFilter corsFilter;
-
-    @Autowired
-    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery(
-                        "select username,password,enabled from usersdata where username=?")
-                .authoritiesByUsernameQuery("SELECT usersdata.username, user_roles.user_role_role\n" +
-                        "FROM usersdata\n" +
-                        "INNER JOIN user_roles\n" +
-                        "ON usersdata.id = user_roles.user_role_userid\n" +
-                        "WHERE usersdata.username = ?");
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeRequests()
-                    .antMatchers("/topic**", "/topic/**").permitAll()
-                    .antMatchers("/app**", "/app/**").permitAll()
-                    .antMatchers("/chat**", "/chat/**").permitAll()
-                    .antMatchers("/register**", "/register/**").permitAll()
-                    .anyRequest().authenticated()
-                .and()
-                    .formLogin()
-                        .permitAll()
-                        .usernameParameter("j_username")
-                        .passwordParameter("j_password")
-                        .defaultSuccessUrl("/", true)
-                        .successHandler(authenticationSuccessHandler)
-                        .loginProcessingUrl("/login")
-                        .failureHandler(new SimpleUrlAuthenticationFailureHandler())
-                .and()
-                    .logout()
-//                TODO fix logout
-                        .permitAll()
-                        .logoutUrl("/logout")
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .and()
-                    .csrf().disable()
-                .exceptionHandling()
-                    .authenticationEntryPoint(restAuthenticationEntryPoint);
+        http .addFilter(corsFilter).csrf().disable();
     }
 }
 
