@@ -47,28 +47,6 @@ public class LoginController {
 
         user.put("error", "unauthorized");
 
-//        Pair<Boolean,ResponseEntity> response = userDTO.validate();
-//        if(!response.getLeft()){
-//            System.out.println(userDTO.getLast_name());
-//            return response.getRight();
-//        }
-//
-//        if(service.checkUsername(userDTO.getUsername())) {
-//            return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(), HttpStatus.FOUND);
-//        }
-//
-//        if(infoService.checkMail(userDTO.getEmail())){
-//            return new ResponseEntity<>(Responses.NOT_AVAILABLE.getData(),HttpStatus.FOUND);
-//        }
-//
-//        User user = new User(service.getNextID(),userDTO);
-//        UserInfo userInfo = new UserInfo(user.getId(),userDTO);
-//        UserRole userRole = new UserRole(user.getId(), AvailableRoles.ROLE_USER.getData());
-//
-//        service.addUser(user);
-//        infoService.addUserInfo(userInfo);
-//        roleService.addUserRole(userRole);
-
         return new ResponseEntity<>(user, HttpStatus.UNAUTHORIZED);
     }
 }

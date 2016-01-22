@@ -1,4 +1,4 @@
-package com.auth0.spring.security.auth0;
+package com.tech.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
