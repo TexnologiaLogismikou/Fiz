@@ -1,6 +1,7 @@
 package com.tech.controllers;
 
 import com.tech.configurations.tools.Host;
+import com.tech.controllers.superclass.BaseController;
 import com.tech.models.dtos.user.LoginUserDTO;
 import com.tech.models.entities.user.User;
 import com.tech.models.entities.user.UserInfo;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/login")
-public class LoginController {
+public class LoginController extends BaseController{
     @Autowired
     IUserService service;
 
