@@ -10,22 +10,18 @@ import com.tech.configurations.InitializeValidators;
 import com.tech.configurations.tools.Responses;
 import com.tech.configurations.tools.ValidationScopes;
 import com.tech.configurations.tools.customvalidators.elements.numbervalidators.MaxNumberAllowedValidator;
-import com.tech.configurations.tools.customvalidators.elements.numbervalidators.NotEmptyValidatorN;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.MaxLengthValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NoSpacesValidator;
 import com.tech.configurations.tools.customvalidators.elements.stringvalidators.NotMatchValidator;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
 import com.tech.exceptions.customexceptions.ValidatorNotListedException;
-import com.tech.models.dtos.FriendDTO;
 import com.tech.models.dtos.chatroom.ChatroomLocationUpdateDTO;
 import com.tech.models.dtos.responses.UserResponseDTO;
-import com.tech.models.dtos.user.RegisteredUserDTO;
 import com.tech.models.entities.user.User;
 import com.tech.models.entities.user.UserInfo;
 import com.tech.services.user.UserInfoService;
 import com.tech.services.user.UserService;
 import java.sql.Date;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
@@ -42,7 +38,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
@@ -369,6 +364,19 @@ public class UserControllerTest extends AbstractControllerTest
         try 
         {
             UserController.registerValidator(new NoSpacesValidator(),ValidationScopes.PASSWORD);
+            junit.framework.Assert.fail("Failure - was supposed to reach this");
+        } catch (ValidatorNotListedException ex)
+        {
+            junit.framework.Assert.assertTrue("Exception should be ValidatorNotListedException",
+                    ex.getMessage().equals(new ValidatorNotListedException().getMessage()));
+        }  
+    }
+    
+    @Test
+    public void testRegisterGetValidatorNotListed() throws Exception {
+        try 
+        {
+            UserController.getValidatorList(ValidationScopes.PASSWORD);
             junit.framework.Assert.fail("Failure - was supposed to reach this");
         } catch (ValidatorNotListedException ex)
         {
