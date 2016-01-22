@@ -67,39 +67,39 @@ public class ChatroomEntities implements Serializable {
         return room_id;
     }
 
-    public void setRoom_id(Long room_id) {
-        this.room_id = room_id;
-    }
+//    public void setRoom_id(Long room_id) {
+//        this.room_id = room_id;
+//    }
 
     public Long getRoom_creator() {
         return room_creator;
     }
 
-    public void setRoom_creator(Long room_creator) {
-        this.room_creator = room_creator;
-    }
+//    public void setRoom_creator(Long room_creator) {
+//        this.room_creator = room_creator;
+//    }
 
     public String getRoom_name() {
         return room_name;
     }
 
-    public void setRoom_name(String room_name) {
-        this.room_name = room_name;
-    }
+//    public void setRoom_name(String room_name) {
+//        this.room_name = room_name;
+//    }
 
     public Date getRoom_creation_date() {
         return room_creation_date;
     }
 
-    public void setRoom_creation_date(Date room_creation_date) {
-        this.room_creation_date = room_creation_date;
-    }
+//    public void setRoom_creation_date(Date room_creation_date) {
+//        this.room_creation_date = room_creation_date;
+//    }
 
     public Date getRoom_last_activity() {
         return room_last_activity;
     }
 
-    public void setRoom_last_activity(Date room_last_activity) {
-        this.room_last_activity = room_last_activity;
-    }   
+//    public void setRoom_last_activity(Date room_last_activity) {
+//        this.room_last_activity = room_last_activity;
+//    }   
 }

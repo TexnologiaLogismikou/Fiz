@@ -84,7 +84,7 @@ public class FriendDTO extends BaseDTO{
         switch(scope)
         {
             case USER_NAME:
-                if(USERNAME_VALIDATORS.get(i) != null)
+                if(USERNAME_VALIDATORS.size() >= i + 1)
                 {
                     USERNAME_VALIDATORS.get(i-1).replaceNext(USERNAME_VALIDATORS.get(i).getNext());
                     USERNAME_VALIDATORS.remove(i);

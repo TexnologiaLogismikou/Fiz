@@ -1,22 +1,13 @@
 package com.tech.models.dtos.responses;
 
-import com.tech.configurations.tools.Pair;
-
-import java.util.Dictionary;
-import java.util.List;
-import java.util.Objects;
-
 /**
  * Created by Andreas on 16/12/2015.
  */
 public class AvailableChatroomResponseDTO {
-    private List<String> list;
     private String error;
     private String size;
-
-    public List<String> getList() {
-        return list;
-    }
+    private String chatroom_1;
+    private String chatroom_2;
 
     public String getError() {
         return error;
@@ -24,5 +15,13 @@ public class AvailableChatroomResponseDTO {
 
     public String getSize() {
         return size;
+    }
+
+    public String getChatroom_1() {
+        return chatroom_1;
+    }
+
+    public String getChatroom_2() {
+        return chatroom_2;
     }
 }

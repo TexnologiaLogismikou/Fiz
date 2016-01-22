@@ -58,8 +58,13 @@ public class ImagesMod implements Serializable {
     public ImagesMod(Long userid) {
         this.userid = userid;
         this.tmstamp = new Date();
-        this.hashtag = NameCoder.nameConverter(userid, tmstamp.hashCode());
-        this.images = NameCoder.pathConverter(this.hashtag);
+        try{
+            this.hashtag = NameCoder.nameConverter(userid, tmstamp.hashCode());  
+            this.images = NameCoder.pathConverter(this.hashtag);          
+        } catch (NumberFormatException ex){
+            this.hashtag = tmstamp.hashCode();
+            this.images = NameCoder.invalidPathConvertrer(this.hashtag);          
+        }
     }
     
     public long getUserID(){
@@ -78,20 +83,20 @@ public class ImagesMod implements Serializable {
         return hashtag;
     }
     
-    public void setUserid(long userid){
-        this.userid = userid;
-    }
+//    public void setUserid(long userid){
+//        this.userid = userid;
+//    }
     
-    public void setName(Date tmstamp){
-        this.tmstamp = tmstamp;
-    }
+//    public void setName(Date tmstamp){
+//        this.tmstamp = tmstamp;
+//    }
     
     public void setImagePath(String data){
         this.images = data;
     }
     
-    public void setHashtag(long hashtag){
-        this.hashtag = hashtag;
-    }
+//    public void setHashtag(long hashtag){
+//        this.hashtag = hashtag;
+//    }
     
 }

@@ -151,7 +151,7 @@ public class UserInfoServiceTest extends AbstractTest{
     
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void testfindByFirstName(){
+    public void testFindByFirstName(){
         
         List<UserInfo> list = service.findByFirstName("Iwanna");
        
@@ -160,27 +160,28 @@ public class UserInfoServiceTest extends AbstractTest{
     
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void findByLastName(){
+    public void testFindByLastName(){
         
         List<UserInfo> list = service.findByLastName("Fwtiadou");
         
         Assert.assertEquals("Fail find by LastName",userExist.getLastName(),list.get(0).getLastName());
     }
     
-// TODO date
-//    @Test
-//    @Sql(scripts = "classpath:populateDB.sql")
-//    public void findByBirthDay(){
-//        
-//        List<UserInfo> list = service.findByBirthDay(java.sql.Date.valueOf("1994-01-23"));
-//               
-//        Assert.assertEquals("Fail find by Birthday",userExist.getBirthday(),list.get(0).getBirthday());
-//        
-//    }
+
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testFindByBirthDay()
+    {
+        
+        List<UserInfo> list = service.findByBirthDay(new java.util.Date(java.sql.Date.valueOf("1994-01-23").getTime()));
+        System.out.println(list.get(0).getBirthday());      
+        Assert.assertEquals("Fail find by Birthday",1,list.size());
+        
+    }
     
     @Test
     @Sql(scripts = "classpath:populateDB.sql")
-    public void findByHomeTown(){
+    public void testFindByHomeTown(){
         
         List<UserInfo> list = service.findByHomeTown("serres");
         

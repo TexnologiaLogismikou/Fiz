@@ -5,9 +5,14 @@
  */
 package com.tech.configurations.tools.customvalidators.elements.floatvalidator;
 
+import com.tech.configurations.tools.JSONToolConverter;
 import com.tech.configurations.tools.Pair;
 import com.tech.configurations.tools.Responses;
+import com.tech.configurations.tools.ValidationScopes;
+import com.tech.configurations.tools.customvalidators.elements.numbervalidators.MaxNumberAllowedValidator;
 import com.tech.configurations.tools.customvalidators.interfaces.IFloatValidator;
+import com.tech.models.dtos.MessageDTO;
+import net.minidev.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -62,5 +67,25 @@ public class FloatNotNaNValidatorTest {
         Assert.assertEquals("Failure - expected True but the answer was FALSE",answer.getLeft(), Boolean.TRUE);
         Assert.assertEquals("Failure - expected '"+Responses.SUCCESS.getData()+"' but the answer was '"+answer.getRight().getBody()+"'",
                 answer.getRight(), new ResponseEntity<>(Responses.SUCCESS.getData(),HttpStatus.OK));
-    }     
+    }   
+    
+    @Test
+    public void testLastValidator() throws Exception {
+        MessageDTO.cleanValidator();
+        JSONObject json = new JSONObject();
+        
+        MessageDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LATITUDE);
+        MessageDTO.registerValidator(new LatitudeValidator(), ValidationScopes.LATITUDE);
+        
+        json.put("message", "somemessage");
+        json.put("username", "somemessage");
+        json.put("chatroom_name", "somemessage");
+        json.put("lng", 5);
+        json.put("lat", 522);
+        json.put("ttl", 4);        
+         
+        MessageDTO MDTO = JSONToolConverter.mapFromJson(json.toJSONString(),MessageDTO.class);
+        
+        Assert.assertFalse("Failure - expected to be false", MDTO.validate().getLeft());
+    }
 }

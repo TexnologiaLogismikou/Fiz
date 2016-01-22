@@ -42,6 +42,7 @@ public class RegistrationController extends BaseController{
     public HttpEntity<String> register(@RequestBody RegisteredUserDTO userDTO) {
         Pair<Boolean,ResponseEntity> response = userDTO.validate();
         if(!response.getLeft()){
+            System.out.println(userDTO.getLast_name());
             return response.getRight();
         }
 

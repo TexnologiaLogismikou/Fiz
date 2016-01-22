@@ -101,4 +101,29 @@ public class ChatroomLocationServiceTest extends AbstractTest
         Assert.assertTrue(Responses.ERROR.getData(), service.findIfNear(6,6).isEmpty());
     }
     
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testSetNewMaxRange() 
+    {
+        service.setNewMaxRange(10, 1L);
+        Assert.assertTrue(Responses.ERROR.getData(),service.findByRoomID(1L).get(0).getRoom_max_range() == 10);
+
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testSetNewLngLat() 
+    {
+        service.setNewLngLat(100, 100,1L);
+        Assert.assertTrue(Responses.ERROR.getData(),service.findByRoomID(1L).size()== 1);      
+    }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testCheckIfStillInside() 
+    {
+       Assert.assertTrue(Responses.ERROR.getData(),service.checkIfStillInside(1L, 1, 1));       
+    }
+    
+    
 }

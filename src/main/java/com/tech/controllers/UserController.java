@@ -82,7 +82,7 @@ public class UserController extends BaseController {
      * @param userDTO
      * @return
      */
-    @RequestMapping(value = "/{username}/modify", method = RequestMethod.POST)
+    @RequestMapping(value = "/{username}/modify", method = RequestMethod.GET)
     public HttpEntity<String> deactivateUser(@PathVariable String username, @RequestBody UserDTO userDTO) {
         Pair<Boolean, ResponseEntity> response = userDTO.validate();
         if (!response.getLeft()) {
@@ -150,7 +150,7 @@ public class UserController extends BaseController {
         switch(scope)
         {
             case USER_NAME:
-                if(USER_NAME_VALIDATORS.get(i) != null)
+                if(USER_NAME_VALIDATORS.size()  >= i + 1)
                 {
                     USER_NAME_VALIDATORS.get(i-1).replaceNext(USER_NAME_VALIDATORS.get(i).getNext());
                     USER_NAME_VALIDATORS.remove(i);

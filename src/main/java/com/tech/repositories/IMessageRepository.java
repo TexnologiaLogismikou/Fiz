@@ -14,8 +14,8 @@ public interface IMessageRepository extends JpaRepository<Message, Long> {
     Message findByMessageId(Long id);
     List<Message> findBySenderId(Long userid);
     List<Message> findByChatRoom(Long chatroom_id);
+    
     @Modifying
     @Query("update Message u set u.userid = ?1, u.message = ?2, u.dateSent = ?3, u.chatroom_id = ?4 where u.id = ?5")
-    void setMessageById(Long userid,String message,Date datesent,Long chatroom_id,Long id);
-      
+    void setMessageById(Long userid,String message,Date datesent,Long chatroom_id,Long id);      
 }

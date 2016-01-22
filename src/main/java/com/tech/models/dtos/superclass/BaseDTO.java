@@ -7,7 +7,6 @@ package com.tech.models.dtos.superclass;
 
 import com.tech.configurations.tools.Pair;
 import com.tech.exceptions.customexceptions.InappropriateValidatorException;
-import com.tech.exceptions.customexceptions.NoValidatorsAssignedException;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -16,5 +15,5 @@ import org.springframework.http.ResponseEntity;
  */
 public abstract class BaseDTO {
     public abstract String getDTOName();
-    public abstract Pair<Boolean,ResponseEntity> validate() throws InappropriateValidatorException, NoValidatorsAssignedException;
+    public abstract Pair<Boolean,ResponseEntity> validate() throws InappropriateValidatorException;
 }
