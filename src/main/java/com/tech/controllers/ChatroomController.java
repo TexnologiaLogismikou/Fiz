@@ -50,8 +50,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  *
  * @author KuroiTenshi
-// */
-//@CrossOrigin(origins = Host.apache)
+ */
+
 @RestController
 @RequestMapping("/chatroom")
 public class ChatroomController extends BaseController{
