@@ -181,4 +181,16 @@ public class MessageServiceTest extends AbstractTest
         service.delete(service.getAllMessages().get(0));
         Assert.assertTrue("Failure.. exptected one less message", service.getCount() == i - 1);
     }
+    
+    @Test
+    @Sql(scripts = "classpath:populateDB.sql")
+    public void testGetMessageIDInTheMiddle(){
+        Message m = service.getMessageById(2L);
+        service.delete(m);
+        
+        Long i = service.getNextId();
+        
+        Assert.assertTrue("Failure - expected to be true",i == 2);
+        
+    }
 }

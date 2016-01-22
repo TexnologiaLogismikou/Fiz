@@ -336,6 +336,7 @@ public class MessageControllerTest extends AbstractTest {
         verify(messageService,times(0)).getNextId();
         verify(messageService,times(0)).addMessage(any(com.tech.models.entities.Message.class));   
     }
+    
     @Test
     public void testIncomingMessageSuccess() {
         JSONObject json = new JSONObject();
@@ -381,7 +382,56 @@ public class MessageControllerTest extends AbstractTest {
         verify(messageService,times(1)).getNextId();
         verify(messageService,times(1)).addMessage(any(com.tech.models.entities.Message.class));   
     }
-
+    
+    /*
+        Made this test to fix a bug we tho we have
+    */
+    @Test
+    public void testIncomingMessageTestLatLngAsFloat() {
+        JSONObject json = new JSONObject();
+        json.put("username","milena");
+        json.put("message","something");
+        json.put("chatroom_name","hello");
+        json.put("lat","40");
+        json.put("lng","22.12345");
+        json.put("ttl","20");
+        
+        StompHeaderAccessor headers = StompHeaderAccessor.create(StompCommand.SEND);
+        headers.setDestination("/chat");
+        
+//        headers.setUser(new Principal() {
+//            @Override
+//            public String getName() {
+//                return "milena";
+//            }
+//        });
+        headers.setUser(() -> "milena"); //apla op Lamba
+        headers.setSessionId("0");
+	headers.setSessionAttributes(new HashMap<>());
+        
+        Message<JSONObject> message = MessageBuilder.withPayload(json).setHeaders(headers).build();     
+        
+        when(userService.checkUsername("milena")).thenReturn(true);
+        when(chatroomEntitieService.validateRoomnameExistance("hello")).thenReturn(true);
+        when(userService.getUserByUsername("milena")).thenReturn(new User(1L,"milena","something",true));
+        when(chatroomEntitieService.getRoomByName("hello")).thenReturn(new ChatroomEntities(1L,2L,"hello"));
+        when(memberService.checkIfMemberExistsInChatroom(1L, 1L)).thenReturn(true);
+        when(locationService.checkIfStillInside(1L,  22.12345F,40)).thenReturn(true);
+        when(messageService.getNextId()).thenReturn(2L);
+        doNothing().when(messageService).addMessage(any(com.tech.models.entities.Message.class));
+        
+        this.annotationMethodHandler.handleMessage(message);
+        
+        verify(userService,times(1)).checkUsername("milena");
+        verify(userService,times(1)).getUserByUsername("milena");
+        verify(chatroomEntitieService,times(1)).validateRoomnameExistance("hello");
+        verify(chatroomEntitieService,times(1)).getRoomByName("hello");
+        verify(memberService,times(1)).checkIfMemberExistsInChatroom(1L,1L);
+        verify(locationService,times(1)).checkIfStillInside(1L, 22.12345F,40);
+        verify(messageService,times(1)).getNextId();
+        verify(messageService,times(1)).addMessage(any(com.tech.models.entities.Message.class));   
+    }
+    
     @Test
     public void testMessageHistorySuccess() {
         JSONObject json = new JSONObject();
