@@ -91,11 +91,11 @@ public class InitializeValidators {
             MessageDTO.registerValidator(new MatchValidator("[^A-Za-z0-9]"), ValidationScopes.ROOM_NAME);
             MessageDTO.registerValidator(new NotMatchValidator("^[A-Za-z]"), ValidationScopes.ROOM_NAME);
 
-            //MessageDTO.registerValidator(new LongitudeValidator(), ValidationScopes.LONGITUDE);
-            //MessageDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LONGITUDE);
+            MessageDTO.registerValidator(new LongitudeValidator(), ValidationScopes.LONGITUDE);
+            MessageDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LONGITUDE);
 
-           // MessageDTO.registerValidator(new LatitudeValidator(), ValidationScopes.LATITUDE);
-            //MessageDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LATITUDE);
+            MessageDTO.registerValidator(new LatitudeValidator(), ValidationScopes.LATITUDE);
+            MessageDTO.registerValidator(new FloatNotNaNValidator(), ValidationScopes.LATITUDE);
 
             MessageDTO.registerValidator(new NotNegativeValidator(), ValidationScopes.TTL);
             MessageDTO.registerValidator(new NotEmptyValidatorN(), ValidationScopes.TTL);
